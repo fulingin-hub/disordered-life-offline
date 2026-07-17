@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260717-special-outfit-narration-1",
+  buildId: "20260717-web-narration-fix-1",
   version: 4,
   eventRevision: 2026071606,
   stateKey: "disordered-life-state-v1",

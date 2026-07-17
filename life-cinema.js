@@ -120,7 +120,7 @@
     ));
     el.power.addEventListener("click", () => unlock(
       "unlockAllCollections",
-      "确定永久解锁全部道具、角色房间、画廊CG，并将两国黑市实际下跪记录提升至50次？",
+      "确定永久解锁全部道具、角色房间、画廊CG与影狱入口，并将两国黑市实际下跪记录提升至50次？",
     ));
     LG.authority.subscribe(() => {
       if (!el.achievementPanel.hidden) renderAchievements();

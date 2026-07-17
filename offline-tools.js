@@ -1,5 +1,6 @@
 (function () {
   let installPrompt = null;
+  const languageKey = "disordered-life-language-v1";
 
   function node(tag, className, text) {
     const item = document.createElement(tag);
@@ -33,6 +34,7 @@
   }
 
   async function importSave(file, status) {
+    const language = localStorage.getItem(languageKey);
     const payload = JSON.parse(await file.text());
     if (payload?.product !== "disordered-life-offline" || !payload.database) {
       throw new Error("这不是有效的失序人生离线存档。");
@@ -42,22 +44,46 @@
     Object.entries(payload.localStorage || {}).forEach(([key, value]) => {
       localStorage.setItem(key, String(value));
     });
+    if (language) localStorage.setItem(languageKey, language);
     status.textContent = "存档导入完成，正在重新载入。";
     window.setTimeout(() => location.reload(), 400);
   }
 
   async function reset(status) {
     if (!window.confirm("确定删除本机全部离线存档？此操作无法撤销。")) return;
+    const language = localStorage.getItem(languageKey);
     await OfflineDB.clear();
     localStorage.clear();
+    if (language) localStorage.setItem(languageKey, language);
     status.textContent = "离线存档已经清除。";
     window.setTimeout(() => location.reload(), 400);
+  }
+
+  function languageSelect() {
+    const select = node("select", "offline-language-select");
+    select.setAttribute("aria-label", "语言");
+    [
+      ["zh-CN", "简体中文"],
+      ["ja", "日本語"],
+      ["en", "English"],
+    ].forEach(([value, label]) => {
+      const option = node("option", "", label);
+      option.value = value;
+      select.append(option);
+    });
+    select.value = window.OfflineI18n?.locale?.() || "zh-CN";
+    select.addEventListener("change", () => {
+      window.OfflineI18n?.setLocale?.(select.value);
+    });
+    return select;
   }
 
   function buildDialog() {
     const dialog = node("dialog", "offline-dialog");
     const title = node("h2", "", "离线管理");
     const status = node("p", "offline-status", "存档只保存在当前设备。");
+    const languageRow = node("label", "offline-language-row", "语言");
+    languageRow.append(languageSelect());
     const actions = node("div", "offline-actions");
     const exportButton = node("button", "", "导出存档");
     const importButton = node("button", "", "导入存档");
@@ -97,7 +123,7 @@
       dialog.close();
     });
     actions.append(exportButton, importButton, installButton, resetButton);
-    dialog.append(title, status, actions, closeButton, input);
+    dialog.append(title, languageRow, status, actions, closeButton, input);
     document.body.append(dialog);
     return dialog;
   }
@@ -107,7 +133,12 @@
     const button = node("button", "quiet-button", "离线管理");
     button.type = "button";
     button.addEventListener("click", () => dialog.showModal());
-    document.querySelector(".top-actions")?.append(button);
+    const topActions = document.querySelector(".top-actions");
+    topActions?.prepend(languageSelect());
+    topActions?.append(button);
+    const gateLanguage = languageSelect();
+    gateLanguage.classList.add("offline-language-gate");
+    document.querySelector(".gender-panel")?.append(gateLanguage);
     document.querySelector(".gender-panel")?.append(button.cloneNode(true));
     const gateButton = document.querySelector(".gender-panel .quiet-button:last-child");
     gateButton?.addEventListener("click", () => dialog.showModal());

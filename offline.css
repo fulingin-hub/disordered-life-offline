@@ -44,6 +44,35 @@
   color: #aaa79f;
 }
 
+.offline-language-row {
+  display: grid;
+  grid-template-columns: auto minmax(150px, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 16px;
+  color: #aaa79f;
+}
+
+.offline-language-select {
+  min-width: 112px;
+  min-height: 44px;
+  border: 1px solid rgba(243, 239, 230, 0.22);
+  border-radius: 6px;
+  padding: 0 34px 0 10px;
+  background: #242b36;
+  color: #f3efe6;
+  font: inherit;
+}
+
+.offline-language-row .offline-language-select {
+  width: 100%;
+}
+
+.offline-language-gate {
+  width: 100%;
+  margin-top: 10px;
+}
+
 .offline-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
