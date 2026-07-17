@@ -85,7 +85,7 @@
     "shen-college": { character: "shen", location: "学院教务室", opener: "沈静秋把代管书放在你面前，要求你逐条读完。" },
     "shen-company": { character: "shen", location: "合作公司面谈室", opener: "沈静秋用红笔圈出合同签名处，却没有替你落笔。" },
     "shen-final": { character: "shen", location: "沈静秋的备课室", opener: "她把多年计划叠在一起，最上面是那份终身指导协议。" },
-    "reina-guidance": { character: "reina", location: "日本语言学校", opener: "高桥玲奈划掉你练习册上的一句话，要求你重新说明自己的立场。" },
+    "reina-guidance": { character: "reina", location: "岛国语言学校", opener: "高桥玲奈划掉你练习册上的一句话，要求你重新说明自己的立场。" },
     "reina-exam": { character: "reina", location: "语言学校考务室", opener: "高桥玲奈把监考记录翻到你面前，没有替你解释上面的时间。" },
     "reina-final": { character: "reina", location: "语言学校办公室", opener: "长期身份规划文件已经排好顺序，高桥玲奈等你自己翻开。" },
     "miki-house": { character: "miki", location: "管理公寓客厅", opener: "佐藤美纪把本月账目放到桌上，钥匙在她指间轻响。" },

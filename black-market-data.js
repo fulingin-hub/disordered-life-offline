@@ -12,7 +12,7 @@
       id: "japanOfficial",
       country: "japan",
       name: "白石绫华",
-      role: "虚构日本女高官",
+      role: "虚构岛国女高官",
       location: "白石绫华的地下陈列室",
       title: "白发高官的神秘黑市",
     },
@@ -20,14 +20,14 @@
       id: "usaOfficial",
       country: "usa",
       name: "玛格丽特·凯恩",
-      role: "虚构美国女高官",
+      role: "虚构米国女高官",
       location: "玛格丽特·凯恩的封闭仓库",
       title: "红发高官的神秘黑市",
     },
   };
   const japanPrefixes = [
-    { id: "soldier", label: "日本女兵", price: 20 },
-    { id: "prime", label: "日本女首相", price: 40 },
+    { id: "soldier", label: "岛国女兵", price: 20 },
+    { id: "prime", label: "岛国女首相", price: 40 },
   ];
   const japanEquipment = {
     head: ["旧军帽", "制服发带"],

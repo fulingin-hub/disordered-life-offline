@@ -1,5 +1,5 @@
 (function (LG) {
-  const origin = (country) => country === "japan" ? "日本" : "美国";
+  const origin = (country) => country === "japan" ? "岛国" : "米国";
   const effectText = (amount) => `健康${amount}`;
   const kindFrom = (item) => {
     if (item?.specialKind === "water" || item?.name?.includes("美味圣水")) return "water";

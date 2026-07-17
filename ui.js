@@ -56,8 +56,8 @@
     el.eventType.textContent = "人生事件";
     el.routeLabel.textContent = state.route === "university"
       ? "大学路线" : state.route === "work" ? "工作路线"
-        : state.route === "japan" ? `${state.studyAbroad?.city || "日本"}留学线`
-          : state.route === "usa" ? `${state.studyAbroad?.city || "美国"}留学线`
+        : state.route === "japan" ? `${state.studyAbroad?.city || "岛国"}留学线`
+          : state.route === "usa" ? `${state.studyAbroad?.city || "米国"}留学线`
             : state.route === "sanctuary" ? "虚构机构路线"
               : state.route === "teacher" ? "沈静秋路线" : "尚未分流";
     el.eventTitle.textContent = event.title;

@@ -69,7 +69,7 @@
     },
     galleryHint(character) {
       if (LG.blackMarket?.isCharacter(character)) {
-        const place = LG.blackMarket.country(character) === "japan" ? "日本" : "美国";
+        const place = LG.blackMarket.country(character) === "japan" ? "岛国" : "米国";
         return `需在${place}女高官引荐事件中选择特殊足底选项解锁。`;
       }
       if (LG.tribute?.isCharacter(character)) {

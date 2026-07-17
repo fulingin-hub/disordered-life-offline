@@ -1,6 +1,6 @@
 importScripts("./offline-assets.js");
 
-const VERSION = "disordered-life-offline-v2";
+const VERSION = "disordered-life-offline-v3";
 const CORE_CACHE = `${VERSION}-core`;
 const ASSET_CACHE = `${VERSION}-assets`;
 const CORE = [
@@ -16,7 +16,13 @@ const CORE = [
   "./offline-dialogue-engine.js",
   "./offline-runtime.js",
   "./offline-tools.js",
-  "./offline-pwa.js"
+  "./offline-pwa.js",
+  "./world-areas.js",
+  "./room-entry-copy.js",
+  "./room-cards.js",
+  "./room-lobby-ui.js",
+  "./rooms-ui.js",
+  "./rooms.css"
 ];
 
 self.addEventListener("install", (event) => {

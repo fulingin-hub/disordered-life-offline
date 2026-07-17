@@ -154,7 +154,7 @@
     },
     progressMessage(result) {
       if (!result) return "";
-      const place = result.country === "japan" ? "日本" : "美国";
+      const place = result.country === "japan" ? "岛国" : "米国";
       if (result.galleryUnlocked) return `${place}女高官角色画廊已永久解锁。`;
       return result.milestone
         ? `勋章激活：${result.milestone.label}（${result.milestone.benefit}）`

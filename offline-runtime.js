@@ -10,7 +10,7 @@
     qinghe: "清和", ciyun: "慈云", agnes: "艾格尼丝",
     kaori: "黑田香织", victoria: "维多利亚",
     streetThug: "街头恶女", beggar: "流浪女",
-    japanOfficial: "日本女高官", usaOfficial: "美国女高官",
+    japanOfficial: "岛国女高官", usaOfficial: "米国女高官",
     casinoBunny: "伊琳娜", casinoLead: "叶卡捷琳娜",
     casinoManager: "韩智妍", casinoOwner: "尹瑞英",
   };

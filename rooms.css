@@ -31,6 +31,37 @@
   gap: 12px;
 }
 
+.room-area-toolbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+}
+
+.room-area-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.room-area-tabs button {
+  min-width: 88px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.room-area-tabs button.active {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: #17130b;
+}
+
+.area-room-card > img {
+  background: linear-gradient(180deg, rgba(28, 31, 38, 0.5), rgba(8, 10, 14, 0.94));
+}
+
 .room-card {
   position: relative;
   min-width: 0;
@@ -153,6 +184,27 @@
   .room-card {
     display: grid;
     grid-template-columns: 108px minmax(0, 1fr);
+  }
+
+  .room-area-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    flex-wrap: wrap;
+    background: #171b22;
+  }
+
+  .room-area-back {
+    flex: 1 1 100%;
+  }
+
+  .room-area-tabs {
+    width: 100%;
+  }
+
+  .room-area-tabs button {
+    flex: 1;
+    min-width: 0;
   }
 
   .room-card > img {

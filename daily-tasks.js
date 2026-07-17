@@ -44,7 +44,7 @@
 
   function travelTask(country) {
     return {
-      id: `travel-${country === "日本" ? "japan" : "usa"}`,
+      id: `travel-${country === "岛国" ? "japan" : "usa"}`,
       type: "travel",
       country,
       title: `爱上${country}生活`,
@@ -58,7 +58,7 @@
 
   function createDaily(date) {
     const ids = shuffled(Object.keys(LG.COLLECTIBLE_CHARACTERS), seedValue(date)).slice(0, 18);
-    return { version: 1, date, tasks: [...ids.map(characterTask), travelTask("日本"), travelTask("美国")] };
+    return { version: 1, date, tasks: [...ids.map(characterTask), travelTask("岛国"), travelTask("米国")] };
   }
 
   function normalize(saved) {

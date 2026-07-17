@@ -21,8 +21,8 @@
     base: "常规装束",
     character: "角色收藏套装",
     tribute: "贡金角色套装",
-    japan: "日本黑市套装",
-    usa: "美国黑市套装",
+    japan: "岛国黑市套装",
+    usa: "米国黑市套装",
     trait: "属性套装",
   };
   let wrap;

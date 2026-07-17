@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260717-offline-1",
+  buildId: "20260717-offline-world-areas-1",
   version: 3,
   eventRevision: 2026071606,
   stateKey: "disordered-life-state-v1",
