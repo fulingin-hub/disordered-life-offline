@@ -1,6 +1,6 @@
 importScripts("./offline-assets.js");
 
-const VERSION = "disordered-life-offline-v3";
+const VERSION = `disordered-life-offline-${self.OFFLINE_BUILD_ID || "v4"}`;
 const CORE_CACHE = `${VERSION}-core`;
 const ASSET_CACHE = `${VERSION}-assets`;
 const CORE = [

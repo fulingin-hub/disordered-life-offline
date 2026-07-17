@@ -13,6 +13,11 @@
     japanOfficial: "岛国女高官", usaOfficial: "米国女高官",
     casinoBunny: "伊琳娜", casinoLead: "叶卡捷琳娜",
     casinoManager: "韩智妍", casinoOwner: "尹瑞英",
+    edenChef: "塞拉菲娜", edenFashion: "奥蕾莉亚",
+    penitentiarySupervisor: "顾寒霜", penitentiaryManager: "北条绫",
+    penitentiaryInstructor: "维拉·科瓦奇",
+    penitentiaryWarden: "塞西莉亚·格兰特",
+    penitentiaryOwner: "伊莎贝拉·诺克斯",
   };
 
   const replies = {
@@ -36,17 +41,31 @@
       "你可以下注，也可以离开，但别把冲动当成勇气。",
       "牌面不会同情任何人，决定之前先想清楚代价。",
     ],
+    paradise: [
+      "这里按收藏和消费记录说话。先确认你已经付清代价。",
+      "伊甸园不会催促客人，但每项服务都留下永久记录。",
+      "影狱只承认完成的任务，空泛的承诺没有赎罪卷。",
+    ],
   };
 
   function category(id) {
     if (id === "streetThug" || id === "beggar") return "tribute";
     if (id === "japanOfficial" || id === "usaOfficial") return "market";
     if (String(id).startsWith("casino")) return "casino";
+    if (String(id).startsWith("eden")
+      || String(id).startsWith("penitentiary")) return "paradise";
     return "regular";
   }
 
   function localReply(body) {
     const id = body?.characterId;
+    const themed = window.OfflineDialogueText?.reply?.({
+      characterId: id,
+      userText: body?.userText,
+    });
+    if (themed?.text) {
+      return `${names[id] || "她"}看着你。${themed.text}`;
+    }
     const text = String(body?.userText || "");
     let hash = 0;
     for (const char of `${id}:${text}`) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
@@ -171,6 +190,10 @@
       }
       return { url, shared: false };
     },
+  };
+  window.OfflineDialogueRuntime = {
+    characterIds: Object.keys(names),
+    localReply,
   };
   window.dispatchEvent(new Event("dzmm:ready"));
 })();

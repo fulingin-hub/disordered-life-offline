@@ -10,6 +10,7 @@
     return {
       version: 3,
       points: 0,
+      lifetimePoints: 0,
       values: Object.fromEntries(Object.keys(definitions).map((id) => [id, 0])),
       equipped: null,
       rewardedRuns: [],
@@ -47,6 +48,8 @@
     const next = emptyData();
     if (!saved || typeof saved !== "object") return next;
     next.points = Math.max(0, Math.floor(Number(saved.points) || 0));
+    next.lifetimePoints = Math.max(next.points,
+      Math.floor(Number(saved.lifetimePoints) || 0));
     Object.keys(definitions).forEach((id) => {
       next.values[id] = Math.max(0, Math.min(threshold,
         Math.floor(Number(saved.values?.[id]) || 0)));
@@ -104,6 +107,9 @@
     points() {
       return data.points;
     },
+    lifetimePoints() {
+      return data.lifetimePoints;
+    },
     value(id) {
       return data.values[id] || 0;
     },
@@ -129,6 +135,7 @@
         || data.rewardedRuns.includes(state.runId)) return null;
       state.traitRewardRecorded = true;
       data.points += 10;
+      data.lifetimePoints += 10;
       data.rewardedRuns.push(state.runId);
       data.rewardedRuns = data.rewardedRuns.slice(-200);
       return { points: 10, total: data.points };
@@ -139,6 +146,7 @@
     addPoints(amount) {
       const value = Math.max(0, Math.floor(Number(amount) || 0));
       data.points += value;
+      data.lifetimePoints += value;
       return data.points;
     },
     spendPoints(amount) {

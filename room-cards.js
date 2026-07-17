@@ -70,7 +70,7 @@
     const card = document.createElement("article");
     card.className = "room-card area-room-card unlocked";
     const image = document.createElement("img");
-    image.src = LG.CONFIG.assets[area.image];
+    image.src = LG.CONFIG.assets[area.cardImage || area.image];
     image.alt = area.name;
     image.loading = "lazy";
     image.decoding = "async";
@@ -102,5 +102,27 @@
     return card;
   }
 
-  LG.roomCards = { standard, player, area };
+  function scene(area, section) {
+    const banner = document.createElement("section");
+    banner.className = "area-scene-banner";
+    const image = document.createElement("img");
+    image.src = LG.CONFIG.assets[section.image];
+    image.alt = `${area.name}${section.label}场景`;
+    image.loading = "lazy";
+    image.decoding = "async";
+    const copy = document.createElement("div");
+    copy.className = "area-scene-copy";
+    const label = document.createElement("span");
+    label.className = "event-type";
+    label.textContent = area.name;
+    const title = document.createElement("h3");
+    title.textContent = `${section.label}场景`;
+    const description = document.createElement("p");
+    description.textContent = section.description;
+    copy.append(label, title, description);
+    banner.append(image, copy);
+    return banner;
+  }
+
+  LG.roomCards = { standard, player, area, scene };
 })(window.LifeGame);

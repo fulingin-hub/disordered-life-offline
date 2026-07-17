@@ -2,7 +2,7 @@
   LG.TRIBUTE_DIALOGUE = {
     characters: {
       streetThug: {
-        name: "街头女混混",
+        name: "女混混",
         fallback: [
           "傻逼，账本上的数字比你的辩解可靠，先想清楚你还准备交出多少。",
           "傻逼，别把主动贡金说成被迫，你每次按下确认时都看得很清楚。",

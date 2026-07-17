@@ -1,0 +1,116 @@
+.eden-character-panel {
+  padding: 14px 0 18px;
+  border-bottom: 1px solid #4b3c22;
+}
+
+.eden-character-toolbar,
+.eden-character-toolbar > div,
+.eden-character-item-actions,
+.eden-character-chat-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.eden-character-toolbar {
+  justify-content: space-between;
+  padding: 0 0 12px;
+}
+
+.eden-character-toolbar > div {
+  flex-wrap: wrap;
+}
+
+.eden-character-toolbar span {
+  color: #b9aa8b;
+  font-size: 12px;
+}
+
+.eden-character-toolbar strong {
+  color: #f0ce78;
+}
+
+.eden-character-items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.eden-character-hint {
+  margin: 0 0 12px;
+  color: #aaa08b;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.eden-character-item {
+  display: flex;
+  min-width: 0;
+  min-height: 178px;
+  flex-direction: column;
+  padding: 14px;
+  border: 1px solid #4b3c22;
+  border-radius: 6px;
+  background: #18140e;
+}
+
+.eden-character-item.owned {
+  border-color: #a18343;
+  background: #211b11;
+}
+
+.eden-character-item strong {
+  margin: 7px 0;
+  color: #f0dec0;
+}
+
+.eden-character-item p {
+  flex: 1;
+  margin: 0 0 9px;
+  color: #aaa08b;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.eden-character-item small {
+  margin-bottom: 11px;
+  color: #c6b994;
+}
+
+.eden-character-item-actions button {
+  flex: 1;
+  min-height: 44px;
+}
+
+.eden-character-chat {
+  padding: 16px 0 18px;
+}
+
+.eden-character-chat-heading {
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.eden-character-chat-heading h3 {
+  margin: 4px 0 0;
+  color: #f0dec0;
+}
+
+.eden-character-messages {
+  height: min(30dvh, 240px);
+}
+
+@media (max-width: 720px) {
+  .eden-character-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .eden-character-toolbar > div:last-child button {
+    flex: 1;
+  }
+
+  .eden-character-items {
+    grid-template-columns: 1fr;
+  }
+}

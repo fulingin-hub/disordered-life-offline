@@ -24,7 +24,7 @@
 
   LG.TRAIT_DEFINITIONS = {
     feet: {
-      label: "恋脚",
+      label: "媚脚",
       description: "偏好鞋履、丝袜与足边的地位暗示。",
       titles: { 30: "足边好奇者", 60: "鞋下低头者", 90: "足下受训者", 100: "无可救药的足下信徒" },
     },

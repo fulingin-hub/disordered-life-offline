@@ -7,8 +7,8 @@
     if (!item) return;
     el.image.src = item.src;
     el.image.alt = item.alt;
-    el.image.style.objectFit = "contain";
-    el.image.style.objectPosition = "center";
+    el.image.style.objectFit = item.fit || "cover";
+    el.image.style.objectPosition = item.position || "center";
     el.featureTitle.textContent = item.title;
     el.caption.textContent = item.caption;
     el.thumbs.querySelectorAll("button").forEach((button, buttonIndex) => {
@@ -52,8 +52,10 @@
   LG.galleryUI = {
     open(character) {
       const gallery = LG.GALLERY_ASSETS[character];
-      const unlocked = LG.casino?.isCharacter(character)
-        ? LG.casino.galleryUnlocked(character) : LG.collectibles.galleryUnlocked(character);
+      const unlocked = LG.edenCharacters?.galleryUnlocked(character)
+        || LG.penitentiary?.galleryUnlocked(character)
+        || (LG.casino?.isCharacter(character)
+          ? LG.casino.galleryUnlocked(character) : LG.collectibles.galleryUnlocked(character));
       if (!gallery?.items.length || !unlocked) return false;
       currentItems = [...new Map(gallery.items.map((item) => [item.src, item])).values()];
       el.title.textContent = `${gallery.name} · CG画廊`;

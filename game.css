@@ -307,17 +307,8 @@
 }
 
 .outcome-toast {
-  position: absolute;
-  z-index: 8;
-  right: clamp(14px, 4vw, 62px);
-  bottom: 18px;
-  width: min(44vw, 570px);
-  border-left: 3px solid var(--gold);
-  padding: 12px 15px;
-  background: rgba(10, 12, 16, 0.94);
-  color: var(--paper);
-  font-size: 13px;
-  line-height: 1.5;
+  position: static;
+  margin: 0 0 12px;
   animation: toast-in 260ms ease-out both;
 }
 
@@ -421,11 +412,6 @@
     min-height: 50px;
   }
 
-  .outcome-toast {
-    right: 10px;
-    bottom: calc(10px + env(safe-area-inset-bottom));
-    width: calc(100% - 20px);
-  }
 }
 
 @media (max-height: 620px) and (min-width: 821px) {

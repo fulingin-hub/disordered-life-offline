@@ -1,0 +1,51 @@
+.penitentiary-control-dialog {
+  width: min(92vw, 620px);
+  max-height: min(88dvh, 720px);
+  padding: 0;
+  border: 1px solid rgba(203, 169, 92, 0.45);
+  background: #101114;
+  color: #f5f0e6;
+}
+
+.penitentiary-control-panel {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+}
+
+.penitentiary-control-panel h2,
+.penitentiary-control-panel p {
+  margin: 0;
+}
+
+.penitentiary-control-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.penitentiary-control-summary div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.penitentiary-control-summary span {
+  color: #b9b4aa;
+  font-size: 0.78rem;
+}
+
+.penitentiary-control-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 540px) {
+  .penitentiary-control-summary,
+  .penitentiary-control-actions {
+    grid-template-columns: 1fr;
+  }
+}

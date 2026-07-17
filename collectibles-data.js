@@ -1,12 +1,12 @@
 (function (LG) {
   const characters = [
-    ["qin", "秦玫"], ["lin", "林岚"], ["su", "苏绯"], ["shen", "沈静秋"],
-    ["reina", "高桥玲奈"], ["miki", "佐藤美纪"], ["mari", "神崎真理"],
+    ["qin", "秦牧"], ["lin", "林岚"], ["su", "苏菲"], ["shen", "沈静秋"],
+    ["reina", "高桥玲奈"], ["miki", "佐藤美纪"], ["mari", "沈崎真理"],
     ["evelyn", "伊芙琳·哈特"], ["claire", "克莱尔·摩根"],
     ["ruth", "露丝·卡特"], ["qinghe", "清和"], ["ciyun", "慈云"],
     ["agnes", "艾格尼丝"], ["restaurantCouple", "周启明与罗雯"],
     ["agencyCouple", "杜衡与许曼"], ["kaori", "黑田香织"],
-    ["victoria", "维多利亚·海斯"], ["streetThug", "街头女混混"],
+    ["victoria", "维多利亚·海斯"], ["streetThug", "女混混"],
     ["beggar", "女乞丐"],
   ];
   const templates = [

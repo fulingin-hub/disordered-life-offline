@@ -3,6 +3,25 @@
   let callbacks;
   let currentArea = null;
   let currentSection = null;
+  const paradiseId = "paradise";
+  const paradiseArea = {
+    id: paradiseId,
+    name: "终产者的乐园",
+    sections: [
+      {
+        id: "eden",
+        label: "伊甸园",
+        image: "edenGoldenDistrict",
+        description: "黄金餐厅与高定服装店分列大道两侧，属性点在这里决定服务与身份。",
+      },
+      {
+        id: "shadow",
+        label: "影狱",
+        image: "shadowPrisonComplex",
+        description: "封闭任务区以赎罪卷记录服从、消费与角色认可，五级权限依次开放。",
+      },
+    ],
+  };
 
   function standardMap() {
     return Object.fromEntries(LG.achievements.all().map((item) => [item.id, item]));
@@ -40,7 +59,8 @@
         button.className = item.id === section.id ? "active" : "";
         button.textContent = item.label;
         button.setAttribute("aria-pressed", String(item.id === section.id));
-        button.addEventListener("click", () => renderArea(area.id, item.id));
+        button.addEventListener("click", () => area.id === paradiseId
+          ? renderParadise(item.id) : renderArea(area.id, item.id));
         tabs.append(button);
       });
       bar.append(tabs);
@@ -48,17 +68,73 @@
     return bar;
   }
 
+  function paradiseCard() {
+    const access = LG.blackPrison.access();
+    const prison = LG.penitentiary.access();
+    const card = document.createElement("article");
+    card.className = `room-card area-room-card paradise-area-card${
+      access.allowed ? " unlocked" : ""}`;
+    const image = document.createElement("img");
+    image.src = LG.CONFIG.assets.paradiseDistantView;
+    image.alt = "终产者的乐园";
+    image.loading = "lazy";
+    image.decoding = "async";
+    const body = document.createElement("div");
+    body.className = "room-card-body";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.disabled = !access.allowed;
+    button.textContent = access.allowed ? "进入终产者的乐园" : "尚未获得终产者资格";
+    button.addEventListener("click", () => renderParadise("eden"));
+    body.append(
+      Object.assign(document.createElement("span"), {
+        className: "event-type",
+        textContent: access.allowed ? "终产者专属 · 已开放" : "终产者专属 · 未达门槛",
+      }),
+      Object.assign(document.createElement("h3"), { textContent: paradiseArea.name }),
+      Object.assign(document.createElement("p"), {
+        textContent: access.allowed
+          ? `已开放场景 ${1 + Number(prison.allowed)}/2`
+          : `人生 ${access.lives}/100 · 累计属性点 ${access.points}/2000`,
+      }),
+      LG.roomEntryCopy.node("area-paradise"),
+      button,
+    );
+    card.append(image, body);
+    return card;
+  }
+
   function renderWorld() {
+    LG.audio.scene("world");
     currentArea = null;
     currentSection = null;
     el.title.textContent = "世界区域";
-    el.intro.textContent = "选择场景区域后，再进入校园、社会或特殊园区中的角色房间。异域赌场累计完成50次人生解锁。";
+    el.intro.textContent = "选择场景区域或特殊功能场所。异域赌场需50次人生；终产者的乐园需100次人生与累计2000属性点。";
     const areaCards = LG.worldAreas.all()
       .map((area) => LG.roomCards.area(area, renderArea));
     el.cards.replaceChildren(
       LG.roomCards.player(callbacks.onEnterPlayer),
       LG.casinoUI.roomCard(callbacks.onEnterCasino),
+      paradiseCard(),
       ...areaCards,
+    );
+  }
+
+  function renderParadise(sectionId = "eden") {
+    if (!LG.blackPrison.access().allowed) return renderWorld();
+    const section = paradiseArea.sections.find((item) => item.id === sectionId)
+      || paradiseArea.sections[0];
+    LG.audio.scene(section.id);
+    currentArea = paradiseId;
+    currentSection = section.id;
+    el.title.textContent = `${paradiseArea.name} · ${section.label}`;
+    el.intro.textContent = "在这里属性点代表一切；伊甸园负责消费，影狱负责赎罪与角色进阶。";
+    el.cards.replaceChildren(
+      toolbar(paradiseArea, section),
+      LG.roomCards.scene(paradiseArea, section),
+      section.id === "eden"
+        ? LG.blackPrisonUI.roomCard(callbacks.onEnterBlackPrison)
+        : LG.penitentiaryUI.roomCard(callbacks.onEnterPenitentiary),
     );
   }
 
@@ -67,12 +143,14 @@
     if (!area) return renderWorld();
     const section = area.sections.find((item) => item.id === sectionId)
       || area.sections[0];
+    LG.audio.scene(`area:${area.id}:${section.id}`);
     currentArea = area.id;
     currentSection = section.id;
     el.title.textContent = `${area.name} · ${section.label}`;
     el.intro.textContent = area.description;
     el.cards.replaceChildren(
       toolbar(area, section),
+      LG.roomCards.scene(area, section),
       ...characterCards(section.characters),
     );
   }
@@ -83,8 +161,10 @@
       callbacks = nextCallbacks;
     },
     renderWorld,
+    renderParadise,
     restore() {
-      if (currentArea) renderArea(currentArea, currentSection);
+      if (currentArea === paradiseId) renderParadise(currentSection);
+      else if (currentArea) renderArea(currentArea, currentSection);
       else renderWorld();
     },
   };

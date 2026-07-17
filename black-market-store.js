@@ -5,7 +5,7 @@
 
   function emptyData() {
     return {
-      version: 10,
+      version: 12,
       kneels: { japan: 0, usa: 0 },
       recordedRuns: { japan: [], usa: [] },
       conversations: { japanOfficial: [], usaOfficial: [] },
@@ -13,6 +13,8 @@
       equipment: [],
       potions: [],
       uses: {},
+      bonusPotionUses: {},
+      potionRuns: [],
       usageTotals: {
         holyWater: 0, goldenSacrament: 0, usaDrugs: 0, healthZeroFromSpecials: 0,
       },
@@ -67,12 +69,20 @@
       quantity: Math.max(0, Math.floor(Number(savedItem.quantity) || 0)),
     }));
     next.uses = saved.uses && typeof saved.uses === "object" ? saved.uses : {};
+    Object.entries(saved.bonusPotionUses || {}).slice(-2500).forEach(([runId, uses]) => {
+      if (typeof runId !== "string") return;
+      next.bonusPotionUses[runId] = Math.max(0, Math.min(10,
+        Math.floor(Number(uses) || 0)));
+    });
+    next.potionRuns = [...new Set(Array.isArray(saved.potionRuns)
+      ? saved.potionRuns : [])]
+      .filter((id) => typeof id === "string").slice(-2500);
     Object.keys(next.usageTotals).forEach((key) => {
       next.usageTotals[key] = Math.max(0, Math.floor(Number(saved.usageTotals?.[key]) || 0));
     });
-    Object.keys(LG.COLLECTIBLE_CHARACTERS || {}).forEach((id) => {
-      const usage = saved.roomUsage?.[id];
-      if (!usage) return;
+    Object.entries(saved.roomUsage || {}).slice(0, 80).forEach(([id, usage]) => {
+      if (!/^[A-Za-z][A-Za-z0-9-]{0,39}$/.test(id)
+        || !usage || typeof usage !== "object") return;
       next.roomUsage[id] = {
         water: Math.max(0, Math.floor(Number(usage.water) || 0)),
         gold: Math.max(0, Math.floor(Number(usage.gold) || 0)),

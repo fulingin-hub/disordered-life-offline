@@ -59,7 +59,41 @@
 }
 
 .area-room-card > img {
-  background: linear-gradient(180deg, rgba(28, 31, 38, 0.5), rgba(8, 10, 14, 0.94));
+  object-fit: cover;
+  object-position: center;
+  background: #0b0d11;
+}
+
+.area-scene-banner {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #101319;
+}
+
+.area-scene-banner > img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.area-scene-copy {
+  padding: 13px 15px 15px;
+}
+
+.area-scene-copy h3 {
+  min-height: 0;
+  margin: 5px 0 7px;
+}
+
+.area-scene-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .room-card {
@@ -184,6 +218,10 @@
   .room-card {
     display: grid;
     grid-template-columns: 108px minmax(0, 1fr);
+  }
+
+  .area-scene-banner > img {
+    height: 150px;
   }
 
   .room-area-toolbar {

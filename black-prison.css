@@ -1,0 +1,413 @@
+.black-prison-dialog {
+  width: min(1060px, calc(100vw - 28px));
+  height: min(900px, calc(100dvh - 28px));
+  max-height: min(900px, calc(100dvh - 28px));
+  padding: 0;
+  overflow: hidden;
+  color: #f4ead5;
+  border: 1px solid #755d2d;
+  background: #0e0d0b;
+}
+
+.black-prison-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.black-prison-dialog .dialog-heading {
+  flex: 0 0 auto;
+  border-bottom-color: #58451f;
+  background: #13110d;
+}
+
+.black-prison-scroll {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.black-prison-hero {
+  position: relative;
+  min-height: 210px;
+  display: flex;
+  align-items: flex-end;
+  padding: 26px;
+  background:
+    linear-gradient(90deg, rgba(8, 7, 5, .12), rgba(8, 7, 5, .82)),
+    url("./assets/generated/eden-golden-district.1e333955.webp") center / cover;
+}
+
+.black-prison-hero-copy {
+  width: min(570px, 100%);
+  padding: 18px;
+  border-left: 3px solid #d0a950;
+  background: rgba(10, 9, 7, .82);
+}
+
+.black-prison-hero h3 {
+  margin: 4px 0 8px;
+  font-size: 26px;
+}
+
+.black-prison-hero p {
+  margin: 0;
+  color: #d8c9ab;
+  line-height: 1.65;
+}
+
+.black-prison-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: #3b301b;
+  border-block: 1px solid #3b301b;
+}
+
+.black-prison-summary div {
+  min-width: 0;
+  padding: 14px 16px;
+  background: #17140f;
+}
+
+.black-prison-summary span,
+.black-prison-summary strong {
+  display: block;
+}
+
+.black-prison-summary span {
+  color: #aa9a7a;
+  font-size: 12px;
+}
+
+.black-prison-summary strong {
+  margin-top: 4px;
+  color: #f0ce78;
+  font-size: 20px;
+}
+
+.eden-store-lobby {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 18px;
+}
+
+.eden-store-card {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  border-color: #5c4827;
+  background: #17130d;
+}
+
+.eden-store-card > img {
+  height: 250px;
+  object-fit: contain;
+  object-position: center top;
+  background: #0d0b08;
+}
+
+.eden-store-card h3 {
+  color: #f1d99e;
+}
+
+.eden-store-card p {
+  min-height: 58px;
+  color: #aa9d85;
+  line-height: 1.55;
+}
+
+.eden-market-card {
+  border-color: #665739;
+  background: #121316;
+}
+
+.eden-store-room {
+  padding: 18px;
+}
+
+.eden-store-heading {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid #4b3c22;
+  padding: 0 0 14px;
+}
+
+.eden-store-heading img {
+  width: 92px;
+  height: 112px;
+  object-fit: contain;
+  object-position: center top;
+  background: #0b0a08;
+}
+
+.eden-store-heading h3 {
+  margin: 4px 0;
+  color: #f0dec0;
+  font-size: 22px;
+}
+
+.eden-store-heading p {
+  margin: 0;
+  color: #a99d86;
+  font-size: 12px;
+}
+
+.black-prison-status {
+  margin: 0;
+  padding: 13px 20px;
+  color: #d7c6a5;
+  border-bottom: 1px solid #30281a;
+  background: #15120d;
+}
+
+.black-prison-view {
+  padding: 18px 0 0;
+}
+
+.black-prison-section + .black-prison-section {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid #3a3020;
+}
+
+.black-prison-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.black-prison-section-heading h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.black-prison-section-heading span {
+  color: #b9a77f;
+  font-size: 13px;
+}
+
+.black-prison-section > p {
+  margin: -4px 0 14px;
+  color: #9f947e;
+  line-height: 1.55;
+}
+
+.black-prison-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.black-prison-command {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #3f3424;
+  background: #12100c;
+}
+
+.black-prison-command + .black-prison-command {
+  margin-top: 12px;
+}
+
+.black-prison-command-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.black-prison-command-heading h4 {
+  margin: 0;
+  color: #ead5ae;
+  font-size: 15px;
+}
+
+.black-prison-command-heading span {
+  color: #a99d86;
+  font-size: 12px;
+  text-align: right;
+}
+
+.black-prison-grid > .black-prison-command {
+  grid-column: 1 / -1;
+}
+
+.black-prison-item {
+  display: flex;
+  min-width: 0;
+  min-height: 166px;
+  flex-direction: column;
+  padding: 14px;
+  border: 1px solid #4b3c22;
+  border-radius: 6px;
+  background: #18140e;
+}
+
+.black-prison-item.owned {
+  border-color: #6d5c38;
+  background: #201b12;
+}
+
+.black-prison-item-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.black-prison-item-heading strong {
+  min-width: 0;
+  color: #f0dec0;
+}
+
+.black-prison-item-heading span {
+  flex: 0 0 auto;
+  color: #d0a950;
+  font-size: 12px;
+}
+
+.black-prison-item p {
+  flex: 1;
+  margin: 10px 0 14px;
+  color: #a99d86;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.black-prison-item button {
+  width: 100%;
+  min-height: 44px;
+  border-color: #81652d;
+  background: #4c3714;
+}
+
+.black-prison-item button:disabled {
+  color: #756d60;
+  border-color: #39342b;
+  background: #24211c;
+}
+
+.black-prison-outfit-action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid #4b3c22;
+  background: #15120d;
+}
+
+.black-prison-outfit-action span {
+  margin-right: auto;
+  color: #b9a77f;
+  font-size: 13px;
+}
+
+.black-prison-outfit-action button {
+  min-width: 132px;
+  min-height: 44px;
+  border-color: #81652d;
+  background: #4c3714;
+}
+
+.black-prison-outfit-action[data-equipped="true"] {
+  border-color: #b8923d;
+  background: #211a0e;
+}
+
+.black-prison-access-tracks {
+  display: grid;
+  gap: 6px;
+}
+
+@media (max-width: 760px) {
+  .black-prison-dialog {
+    width: calc(100vw - 12px);
+    height: calc(100dvh - 12px);
+    max-height: calc(100dvh - 12px);
+  }
+
+  .black-prison-hero {
+    min-height: 180px;
+    padding: 16px;
+  }
+
+  .black-prison-hero h3 {
+    font-size: 21px;
+  }
+
+  .black-prison-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .eden-store-lobby {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .eden-store-card {
+    grid-template-columns: 112px minmax(0, 1fr);
+  }
+
+  .eden-store-card > img {
+    height: 100%;
+    min-height: 190px;
+  }
+
+  .eden-store-room {
+    padding: 14px;
+  }
+
+  .eden-store-heading {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .eden-store-heading img {
+    width: 64px;
+    height: 78px;
+  }
+
+  .eden-store-heading button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .black-prison-view {
+    padding: 14px;
+  }
+
+  .black-prison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .black-prison-item {
+    min-height: 0;
+  }
+
+  .black-prison-command-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .black-prison-command-heading span {
+    text-align: left;
+  }
+
+  .black-prison-outfit-action {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .black-prison-outfit-action button {
+    width: 100%;
+  }
+}

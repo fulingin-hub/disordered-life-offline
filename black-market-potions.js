@@ -4,6 +4,7 @@
   const kindFrom = (item) => {
     if (item?.specialKind === "water" || item?.name?.includes("美味圣水")) return "water";
     if (item?.specialKind === "gold" || item?.name?.includes("美味黄金")) return "gold";
+    if (item?.specialKind === "despair" || item?.name?.includes("丧志药物")) return "despair";
     return null;
   };
   const defaultPrice = (country, kind) => country === "japan"
@@ -11,17 +12,19 @@
 
   function normalizeRoom(item) {
     const kind = kindFrom(item);
-    const amount = kind === "water" ? -10 : -20;
+    const amount = kind === "water" ? -10 : kind === "gold" ? -20 : -15;
+    const stat = kind === "despair" ? "autonomy" : "health";
     return {
       ...item,
       country: "room",
       source: "room",
       type: "potion",
       specialKind: kind,
-      stat: "health",
+      stat,
       amount,
       effectKey: item.effectKey || `room-${item.roomCharacter}-${kind}`,
-      description: item.description || `${effectText(amount)}；库存充足时可重复食用。`,
+      description: item.description || `${stat === "health" ? "健康" : "自主"}${
+        amount}；库存充足时可重复使用。`,
     };
   }
 
@@ -51,7 +54,8 @@
   LG.blackMarketPotions = {
     normalize(item, country) {
       if (item?.source === "room" || item?.roomCharacter) return normalizeRoom(item);
-      return kindFrom(item) ? normalizeSpecial(item, country) : item;
+      return ["water", "gold"].includes(kindFrom(item))
+        ? normalizeSpecial(item, country) : item;
     },
     roomPrice(kind) {
       return defaultPrice("japan", kind);

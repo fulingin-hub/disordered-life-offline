@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="theme-color" content="#101319">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -85,18 +88,22 @@
   <script>
     (() => {
       let settled = false;
-      const report = () => {
+      let timer = 0;
+      let heartbeat = 0;
+      const report = (message = "Loading game code") => {
         try {
-          window.dzmm?.loading?.progress?.({
+          const result = window.dzmm?.loading?.progress?.({
             phase: "start",
-            message: "Loading game code",
+            message,
           });
+          Promise.resolve(result).catch(() => {});
         } catch (_) {}
       };
       const stop = () => {
         if (settled) return;
         settled = true;
         window.clearTimeout(timer);
+        window.clearInterval(heartbeat);
         document.getElementById("bootSplash")?.remove();
       };
       const fail = (message) => {
@@ -108,11 +115,14 @@
         if (label) label.textContent = text;
         if (panel) panel.hidden = false;
         try {
-          window.dzmm?.loading?.error?.("BOOT_SCRIPT_FAILED", text);
+          const result = window.dzmm?.loading?.error?.("BOOT_SCRIPT_FAILED", text);
+          Promise.resolve(result).catch(() => {});
         } catch (_) {}
       };
-      const timer = window.setTimeout(
-        () => fail("游戏启动超时，请刷新后重试。"), 30000);
+      timer = window.setTimeout(
+        () => fail("游戏启动超时，请退出后重新进入。"), 90000);
+      heartbeat = window.setInterval(
+        () => report("Loading game files"), 4000);
       window.LifeGameBoot = { ready: stop, stop, fail };
       window.addEventListener("dzmm:ready", report, { once: true });
       window.addEventListener("error", (event) => {
@@ -130,11 +140,15 @@
     })();
   </script>
   <link rel="stylesheet" href="./base.css">
-  <link rel="stylesheet" href="./game.css">
-  <link rel="stylesheet" href="./dialogue.css?v=20260717-2">
+  <link rel="stylesheet" href="./game.css?v=20260717-1">
+  <link rel="stylesheet" href="./dialogue.css?v=20260717-3">
   <link rel="stylesheet" href="./cg.css">
-  <link rel="stylesheet" href="./rooms.css?v=20260717-1">
+  <link rel="stylesheet" href="./rooms.css?v=20260717-2">
   <link rel="stylesheet" href="./casino.css?v=20260717-1">
+  <link rel="stylesheet" href="./black-prison.css?v=20260717-3">
+  <link rel="stylesheet" href="./eden-character.css?v=20260717-1">
+  <link rel="stylesheet" href="./penitentiary.css?v=20260717-3">
+  <link rel="stylesheet" href="./penitentiary-control.css?v=20260717-1">
   <link rel="stylesheet" href="./tribute.css">
   <link rel="stylesheet" href="./gallery.css">
   <link rel="stylesheet" href="./traits.css">
@@ -221,7 +235,6 @@
         </div>
         <h1 id="eventTitle">正在载入人生</h1>
         <p id="eventText" class="event-text"></p>
-        <blockquote id="eventQuote" class="event-quote" hidden></blockquote>
         <button id="talkButton" class="location-button" type="button" hidden></button>
         <section id="chatPanel" class="chat-panel" hidden>
           <div class="chat-heading">
@@ -238,10 +251,12 @@
             <button id="chatSendButton" type="submit">发送</button>
           </form>
         </section>
+        <blockquote id="eventQuote"
+          class="event-quote dialogue-tribute-rule event-character-notice" hidden></blockquote>
+        <div id="outcomeToast"
+          class="outcome-toast dialogue-tribute-rule" role="status" hidden></div>
         <div id="choiceList" class="choice-list"></div>
       </section>
-
-      <div id="outcomeToast" class="outcome-toast" role="status" hidden></div>
     </main>
   </div>
 
@@ -447,6 +462,259 @@
     </section>
   </dialog>
 
+  <dialog id="blackPrisonDialog" class="black-prison-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">终产者的乐园 · 场景 1</span>
+        <h2>伊甸园</h2>
+      </div>
+      <button id="closeBlackPrisonButton" class="quiet-button" type="button">离开伊甸园</button>
+    </div>
+    <div id="blackPrisonScroll" class="black-prison-scroll">
+      <section class="black-prison-hero">
+        <div class="black-prison-hero-copy">
+          <span class="event-type">场景 1 · 金碧辉煌的伊甸园</span>
+          <h3>属性点代表一切</h3>
+          <p>黄金打造的建筑奢华而精致，无休止地催生消费欲。这里只对终产者开放，而进入这里本身，就是值得炫耀的资格。</p>
+        </div>
+      </section>
+      <div class="black-prison-summary">
+        <div><span>人生经历</span><strong id="blackPrisonLives">0</strong></div>
+        <div><span>累计获得属性点</span><strong id="blackPrisonLifetime">0</strong></div>
+        <div><span>可用属性点</span><strong id="blackPrisonPoints">0</strong></div>
+        <div><span id="blackPrisonHealthLabel">当前健康</span><strong id="blackPrisonHealth">0</strong></div>
+      </div>
+      <section id="blackPrisonStoreLobby" class="eden-store-lobby">
+        <article class="room-card eden-store-card unlocked">
+          <img id="edenDiningCardPortrait" alt="神明餐饮店女厨师店员">
+          <div class="room-card-body">
+            <span class="event-type">常规角色房间</span>
+            <h3>神明餐饮店</h3>
+            <p>由女厨师店员接待，命令服务与餐饮菜单在同一房间结算。</p>
+            <button type="button" data-black-prison-view="dining">进入餐饮店</button>
+          </div>
+        </article>
+        <article class="room-card eden-store-card eden-market-card unlocked">
+          <img id="edenClothingCardPortrait" alt="神明服装店女店员">
+          <div class="room-card-body">
+            <span class="event-type">黑市陈列房间</span>
+            <h3>神明服装店</h3>
+            <p>由女店员管理两套高定陈列，购买与穿戴状态分开记录。</p>
+            <button type="button" data-black-prison-view="clothing">进入服装店</button>
+          </div>
+        </article>
+      </section>
+      <section id="blackPrisonStoreRoom" class="eden-store-room" hidden>
+        <div class="eden-store-heading">
+          <img id="blackPrisonStorePortrait" alt="">
+          <div>
+            <span id="blackPrisonStoreRole" class="event-type"></span>
+            <h3 id="blackPrisonStoreTitle"></h3>
+            <p id="blackPrisonStoreLocation"></p>
+          </div>
+          <button id="blackPrisonStoreBack" class="quiet-button" type="button">
+            返回伊甸园
+          </button>
+        </div>
+        <section id="edenCharacterPanel" class="eden-character-panel">
+          <div class="eden-character-toolbar">
+            <div>
+              <span>可用属性点 <strong id="edenCharacterPoints">0</strong></span>
+              <span id="edenCharacterProgress">装备图鉴 0/2</span>
+            </div>
+            <div>
+              <button id="edenCharacterChatButton" type="button" disabled>AI对话</button>
+              <button id="edenCharacterGalleryButton" type="button" disabled>角色画廊</button>
+            </div>
+          </div>
+          <p id="edenCharacterHint" class="eden-character-hint"></p>
+          <div id="edenCharacterItems" class="eden-character-items"></div>
+        </section>
+        <section id="edenCharacterChat" class="eden-character-chat" hidden>
+          <div class="eden-character-chat-heading">
+            <div>
+              <span id="edenCharacterChatLocation" class="event-type"></span>
+              <h3 id="edenCharacterChatName"></h3>
+            </div>
+            <button id="edenCharacterChatBack" class="quiet-button" type="button">
+              返回商店
+            </button>
+          </div>
+          <div id="edenCharacterChatMessages"
+            class="chat-messages eden-character-messages"></div>
+          <p id="edenCharacterChatStatus" class="chat-status"></p>
+          <form id="edenCharacterChatForm" class="chat-form">
+            <input id="edenCharacterChatInput" maxlength="160" autocomplete="off"
+              placeholder="输入你想说的话">
+            <button id="edenCharacterChatSend" type="submit">服侍</button>
+          </form>
+        </section>
+        <p id="blackPrisonStatus" class="black-prison-status" role="status"
+          aria-live="polite"></p>
+        <section id="blackPrisonDining" class="black-prison-view">
+        <section class="black-prison-section">
+          <div class="black-prison-section-heading">
+            <h3>大厅命令</h3>
+            <span>支付后永久生效</span>
+          </div>
+          <p>依次命令侍者、厨师与原料管家。三项侍者服务全部完成解锁“支配者”；命令2和命令3共同开放三国恶魔餐饮菜单。</p>
+          <div id="blackPrisonServices" class="black-prison-grid"></div>
+        </section>
+        <section class="black-prison-section">
+          <div class="black-prison-section-heading">
+            <h3>奇珍餐饮</h3>
+            <span id="blackPrisonRareProgress">0/5</span>
+          </div>
+          <p>每道 500 属性点；首次食用使当前人生健康 +10。全部完成解锁“山珍海味”。</p>
+          <div id="blackPrisonRare" class="black-prison-grid"></div>
+        </section>
+        <section class="black-prison-section">
+          <div class="black-prison-section-heading">
+            <h3>恶魔餐饮</h3>
+            <span id="blackPrisonDemonProgress">0/6</span>
+          </div>
+          <p>按国家与成年人物类型挑选神秘原料。任意完成一次解锁“站在食物链顶端”；六项全部完成解锁坏结局“似恶魔般痴狂”。</p>
+          <div id="blackPrisonDemon" class="black-prison-grid"></div>
+        </section>
+        </section>
+      <section id="blackPrisonClothing" class="black-prison-view" hidden>
+        <section class="black-prison-section">
+          <div class="black-prison-section-heading">
+            <h3>权贵的奢华套装</h3>
+            <span id="blackPrisonLuxuryProgress">0/5</span>
+          </div>
+          <p>每件 1000 属性点。集齐后开放穿戴；首次装备解锁“顶奢人生”；穿戴后套装跨人生显示。来自财富的累积：每次人生重新开始时增加100点属性点。</p>
+          <div id="blackPrisonLuxury" class="black-prison-grid"></div>
+          <div id="blackPrisonLuxuryOutfit" class="black-prison-outfit-action">
+            <span id="blackPrisonLuxuryOutfitStatus">集齐五件后开放穿戴</span>
+            <button id="blackPrisonLuxuryOutfitButton" type="button" disabled>
+              穿戴套装
+            </button>
+          </div>
+        </section>
+        <section class="black-prison-section">
+          <div class="black-prison-section-heading">
+            <h3>恶魔的神秘套装</h3>
+            <span id="blackPrisonInfernalProgress">0/5</span>
+          </div>
+          <p>每件 2000 属性点。集齐后开放穿戴；首次装备解锁“似来自地狱的恶魔”；穿戴后套装跨人生显示。来自恶魔的馈赠：每轮人生可额外使用药剂10次。</p>
+          <div id="blackPrisonInfernal" class="black-prison-grid"></div>
+          <div id="blackPrisonInfernalOutfit" class="black-prison-outfit-action">
+            <span id="blackPrisonInfernalOutfitStatus">集齐五件后开放穿戴</span>
+            <button id="blackPrisonInfernalOutfitButton" type="button" disabled>
+              穿戴套装
+            </button>
+          </div>
+        </section>
+      </section>
+      </section>
+    </div>
+  </dialog>
+
+  <dialog id="penitentiaryDialog" class="penitentiary-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">终产者的乐园 · 场景 2</span>
+        <h2>影狱</h2>
+      </div>
+      <button id="closePenitentiaryButton" class="quiet-button" type="button">离开影狱</button>
+    </div>
+    <div id="penitentiaryScroll" class="penitentiary-scroll">
+      <section class="penitentiary-hero">
+        <div>
+          <span class="event-type">赎罪劳动区</span>
+          <h3>在这里，你将被支配，从而获得救赎</h3>
+          <p>领取任务、服从影狱规则并换取赎罪卷。累计获得500点前无法离开影狱；之后每达到新的500点里程碑，都必须决定离开或继续接受管制。</p>
+        </div>
+      </section>
+      <div class="penitentiary-summary">
+        <div><span>可用赎罪卷</span><strong id="penitentiaryCoupons">0</strong></div>
+        <div><span>累计获得</span><strong id="penitentiaryLifetime">0</strong></div>
+        <div><span>累计消费</span><strong id="penitentiarySpent">0</strong></div>
+        <div><span>人格值</span><strong id="penitentiaryPersonality">0</strong></div>
+        <div><span>属性点清零</span><strong id="penitentiaryZeroes">0/50</strong></div>
+        <div><span>伊甸园消费</span><strong id="penitentiaryEden">0/10</strong></div>
+      </div>
+      <div class="penitentiary-tabs" role="tablist">
+        <button class="active" type="button" data-penitentiary-view="tasks">每日劳作</button>
+        <button type="button" data-penitentiary-view="shop">影狱牢房</button>
+      </div>
+      <p id="penitentiaryStatus" class="penitentiary-status" role="status"></p>
+      <section id="penitentiaryTasksView" class="penitentiary-view">
+        <div id="penitentiaryStages" class="penitentiary-stages" role="tablist"></div>
+        <div class="penitentiary-view-heading">
+          <div><span class="event-type">当前任务发布者</span><h3 id="penitentiaryTaskRole"></h3></div>
+          <span id="penitentiaryRound"></span>
+        </div>
+        <div id="penitentiaryTaskList" class="penitentiary-task-list"></div>
+      </section>
+      <section id="penitentiaryShopView" class="penitentiary-view" hidden>
+        <div id="penitentiaryCharacterList" class="penitentiary-character-list"></div>
+        <section id="penitentiaryShopDetail" hidden>
+          <div class="penitentiary-shop-heading">
+            <img id="penitentiaryPortrait" alt="">
+            <div><span id="penitentiaryRole" class="event-type"></span>
+              <h3 id="penitentiaryName"></h3></div>
+            <button id="penitentiaryShopBack" class="quiet-button" type="button">
+              返回牢房
+            </button>
+          </div>
+          <div class="penitentiary-shop-meta">
+            <span>可用赎罪卷 <strong id="penitentiaryShopCoupons">0</strong></span>
+            <span id="penitentiaryShopProgress"></span>
+          </div>
+          <div id="penitentiaryShopItems" class="penitentiary-shop-items"></div>
+          <div id="penitentiaryOutfitAction" class="penitentiary-outfit-action">
+            <span id="penitentiaryOutfitStatus">集齐五件后开放穿戴</span>
+            <button id="penitentiaryOutfitButton" type="button" disabled>
+              穿戴套装
+            </button>
+          </div>
+          <div class="penitentiary-shop-actions">
+            <button id="penitentiaryChatButton" type="button">AI对话</button>
+            <button id="penitentiaryGalleryButton" type="button">人物画廊</button>
+          </div>
+        </section>
+        <section id="penitentiaryChatView" hidden>
+          <div class="penitentiary-chat-heading">
+            <img id="penitentiaryChatPortrait" alt="">
+            <div><span id="penitentiaryChatRole" class="event-type"></span>
+              <h3 id="penitentiaryChatName"></h3></div>
+            <button id="backPenitentiaryShopButton" class="quiet-button" type="button">
+              返回牢房
+            </button>
+          </div>
+          <div id="penitentiaryChatMessages"
+            class="chat-messages penitentiary-messages"></div>
+          <form id="penitentiaryChatForm" class="chat-form">
+            <input id="penitentiaryChatInput" maxlength="160" autocomplete="off"
+              placeholder="获得当前角色奖状后可开始对话">
+            <button id="penitentiaryChatSend" type="submit">发送</button>
+          </form>
+        </section>
+      </section>
+    </div>
+  </dialog>
+
+  <dialog id="penitentiaryControlDialog" class="penitentiary-control-dialog">
+    <section class="penitentiary-control-panel">
+      <span class="event-type">影狱管制人生 · 强制选择</span>
+      <h2>赎罪卷达到500点里程碑</h2>
+      <p id="penitentiaryControlMessage" role="status"></p>
+      <div class="penitentiary-control-summary">
+        <div><span>累计获得</span><strong id="penitentiaryControlLifetime">0</strong></div>
+        <div><span>可用赎罪卷</span><strong id="penitentiaryControlCoupons">0</strong></div>
+        <div><span>继续管制</span><strong id="penitentiaryControlAcceptances">0/10</strong></div>
+      </div>
+      <div class="penitentiary-control-actions">
+        <button id="penitentiaryControlLeave" type="button">支付500赎罪卷离开</button>
+        <button id="penitentiaryControlContinue" class="quiet-button" type="button">
+          继续接受管制
+        </button>
+      </div>
+    </section>
+  </dialog>
+
   <dialog id="galleryDialog" class="gallery-dialog">
     <div class="dialog-heading">
       <div>
@@ -510,10 +778,20 @@
       </div>
     </section>
     <section id="equipmentPage" hidden>
+      <div class="special-outfit-picker">
+        <div class="special-outfit-heading">
+          <strong>特殊套装选择</strong>
+        </div>
+        <div id="specialOutfitButtons" class="special-outfit-buttons"></div>
+      </div>
       <div class="equipment-summary">
         <div><span>当前羞耻</span><strong id="equipmentShame">0</strong></div>
         <div><span>门槛减免</span><strong id="equipmentReduction">0点</strong></div>
         <div><span>套装状态</span><strong id="equipmentSet">未激活</strong></div>
+      </div>
+      <div class="equipment-effect">
+        <span>套装效果</span>
+        <strong id="equipmentEffect">无套装效果</strong>
       </div>
       <p id="equipmentStatus" class="traits-status"></p>
       <div id="equipmentSlots" class="equipment-grid"></div>
@@ -565,6 +843,17 @@
     <div id="collectionItems" class="collectible-grid"></div>
   </dialog>
 
+  <dialog id="achievementDialog" class="system-dialog achievement-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">成就完成</span>
+        <h2>新的成就</h2>
+      </div>
+      <button id="closeAchievementButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <p id="achievementMessage" class="system-status"></p>
+  </dialog>
+
   <dialog id="recoveryDialog" class="system-dialog recovery-dialog">
     <div class="dialog-heading">
       <div>
@@ -576,7 +865,7 @@
     <div class="life-cinema-options" aria-label="人生电影院功能">
       <button id="pastLifeButton" class="life-cinema-option" type="button">
         <strong>前世今生</strong>
-        <span>检测并恢复旧版云存档</span>
+        <span>检测并恢复旧存档，或删除当前存档</span>
       </button>
       <button id="cinemaEndingsButton" class="life-cinema-option" type="button">
         <strong>人生结局</strong>
@@ -588,7 +877,7 @@
       </button>
       <button id="tasteLifeButton" class="life-cinema-option" type="button">
         <strong>品味人生</strong>
-        <span>解锁常规结局；特殊结局需先完成成就</span>
+        <span>解锁常规结局；真结局只能在人生流程中触发</span>
       </button>
       <button id="powerLifeButton" class="life-cinema-option" type="button">
         <strong>爽文人生</strong>
@@ -607,7 +896,7 @@
     </section>
     <section id="recoveryPanel" class="recovery-panel" hidden>
       <p class="recovery-copy">
-        请从原来的正式版或测试版游戏会话进入后检测。恢复会读取存储升级前的云存档，不会自动覆盖当前进度。
+        选择前世可检测并恢复旧版云存档；放弃今生会删除当前存档、重新载入新存档并让一切重新开始。
       </p>
       <div id="recoverySummary" class="recovery-summary" hidden></div>
       <p id="recoveryStatus" class="system-status" role="status">
@@ -622,7 +911,10 @@
           aria-labelledby="recoveryProgressLabel recoveryProgressPercent">0%</progress>
       </div>
       <div class="recovery-actions">
-        <button id="scanRecoveryButton" type="button">检测旧存档</button>
+        <button id="scanRecoveryButton" type="button">选择前世</button>
+        <button id="deleteSaveButton" class="recovery-danger" type="button">
+          放弃今生
+        </button>
         <button id="applyRecoveryButton" class="recovery-danger" type="button" hidden>
           覆盖当前存档并恢复
         </button>
@@ -635,44 +927,58 @@
     <p id="bootErrorText">资源加载失败，请刷新重试。</p>
     <button id="bootRetryButton" type="button">重试</button>
   </div>
-
   <script src="./offline-db.js"></script>
   <script src="./offline-game-state.js"></script>
   <script src="./offline-dialogue-engine.js"></script>
+  <script src="./offline-dialogue-feet.js"></script>
+  <script src="./offline-dialogue-humiliation.js"></script>
+  <script src="./offline-dialogue-control.js"></script>
+  <script src="./offline-dialogue-tribute.js"></script>
+  <script src="./offline-dialogue-foreign.js"></script>
+  <script src="./offline-dialogue-despair.js"></script>
+  <script src="./offline-dialogue-text.js"></script>
   <script src="./offline-runtime.js"></script>
   <script src="./offline-tools.js"></script>
   <script src="./offline-pwa.js"></script>
-  <script src="./config.js?v=offline-1"></script>
-  <script src="./test-mode.js?v=20260716-2"></script>
+  <script src="./config.js"></script>
+  <script src="./test-mode.js"></script>
   <script src="./equipment-data.js"></script>
-  <script src="./black-market-data.js?v=20260717-4"></script>
+  <script src="./black-market-data.js"></script>
   <script src="./casino-data.js"></script>
+  <script src="./black-prison-data.js"></script>
+  <script src="./eden-character-data.js"></script>
+  <script src="./penitentiary-data.js"></script>
+  <script src="./penitentiary-dialogue.js"></script>
+  <script src="./eden-character-dialogue.js"></script>
   <script src="./black-market-usa-equipment.js"></script>
   <script src="./equipment.js"></script>
   <script src="./collectibles-data.js"></script>
   <script src="./cg-assets.js"></script>
-  <script src="./ending-gender-assets.js?v=20260716-4"></script>
-  <script src="./ending-fixed-assets.js?v=20260717-1"></script>
+  <script src="./ending-gender-assets.js"></script>
+  <script src="./ending-fixed-assets.js"></script>
   <script src="./ending-archive.js"></script>
   <script src="./dialogue-usa.js"></script>
   <script src="./dialogue-sanctuary.js"></script>
   <script src="./dialogue-corporate.js"></script>
   <script src="./dialogue-tribute.js"></script>
   <script src="./dialogue-scenes.js"></script>
-  <script src="./world-areas.js?v=20260717-1"></script>
-  <script src="./room-entry-copy.js?v=20260717-1"></script>
-  <script src="./storage-chat.js?v=20260716-8"></script>
-  <script src="./storage.js?v=20260716-9"></script>
-  <script src="./save-recovery-data.js?v=20260717-1"></script>
-  <script src="./save-recovery-transaction.js?v=20260716-1"></script>
-  <script src="./save-recovery.js?v=20260716-4"></script>
-  <script src="./casino-store.js?v=20260717-1"></script>
+  <script src="./world-areas.js"></script>
+  <script src="./room-entry-copy.js"></script>
+  <script src="./storage-chat.js"></script>
+  <script src="./storage.js"></script>
+  <script src="./save-recovery-data.js"></script>
+  <script src="./save-recovery-transaction.js"></script>
+  <script src="./save-recovery.js"></script>
+  <script src="./casino-store.js"></script>
+  <script src="./black-prison-store.js"></script>
+  <script src="./eden-character-store.js"></script>
+  <script src="./penitentiary-store.js"></script>
   <script src="./casino-rules.js"></script>
   <script src="./black-market-potions.js"></script>
-  <script src="./black-market-store.js?v=20260717-3"></script>
+  <script src="./black-market-store.js"></script>
   <script src="./black-market.js"></script>
   <script src="./black-market-refresh.js"></script>
-  <script src="./achievements.js?v=20260717-1"></script>
+  <script src="./achievements.js"></script>
   <script src="./traits-data.js"></script>
   <script src="./traits.js"></script>
   <script src="./trait-requirements.js"></script>
@@ -680,39 +986,56 @@
   <script src="./tribute.js"></script>
   <script src="./room-consumables.js"></script>
   <script src="./daily-tasks.js"></script>
+  <script src="./ambient-music.js"></script>
   <script src="./audio.js"></script>
+  <script src="./narration.js"></script>
+  <script src="./achievement-feedback.js"></script>
   <script src="./casino-temptations.js"></script>
   <script src="./casino-game.js"></script>
-  <script src="./authority.js?v=20260717-2"></script>
-  <script src="./life-cinema.js?v=20260717-2"></script>
-  <script src="./engine.js?v=20260716-7"></script>
+  <script src="./authority.js"></script>
+  <script src="./life-cinema.js"></script>
+  <script src="./engine.js"></script>
   <script src="./casino-access.js"></script>
-  <script src="./loader.js?v=20260717-3"></script>
-  <script src="./dialogue-ai.js?v=20260717-6"></script>
+  <script src="./loader.js"></script>
+  <script src="./dialogue-ai.js"></script>
   <script src="./dialogue-ui.js"></script>
-  <script src="./gallery-assets.js?v=20260717-2"></script>
-  <script src="./casino-gallery.js?v=20260717-1"></script>
+  <script src="./gallery-assets.js"></script>
+  <script src="./casino-gallery.js"></script>
+  <script src="./eden-character-gallery.js"></script>
+  <script src="./penitentiary-gallery.js"></script>
   <script src="./gallery-ui.js"></script>
   <script src="./gender-ui.js"></script>
   <script src="./player-gallery-ui.js"></script>
   <script src="./black-market-refresh-ui.js"></script>
-  <script src="./black-market-ui.js?v=20260717-6"></script>
+  <script src="./black-market-ui.js"></script>
   <script src="./room-consumables-ui.js"></script>
-  <script src="./casino-chat-ui.js?v=20260717-2"></script>
-  <script src="./casino-shop-ui.js?v=20260717-5"></script>
-  <script src="./casino-ui.js?v=20260717-2"></script>
-  <script src="./room-cards.js?v=20260717-1"></script>
-  <script src="./room-lobby-ui.js?v=20260717-1"></script>
-  <script src="./rooms-ui.js?v=20260717-5"></script>
-  <script src="./tribute-ui.js?v=20260717-3"></script>
-  <script src="./rooms.js?v=20260717-2"></script>
+  <script src="./casino-chat-ui.js"></script>
+  <script src="./casino-shop-ui.js"></script>
+  <script src="./casino-ui.js"></script>
+  <script src="./black-prison-outfit-ui.js"></script>
+  <script src="./eden-character-chat-ui.js"></script>
+  <script src="./eden-character-ui.js"></script>
+  <script src="./eden-store-ui.js"></script>
+  <script src="./black-prison-ui.js"></script>
+  <script src="./penitentiary-tasks-ui.js"></script>
+  <script src="./penitentiary-item-ui.js"></script>
+  <script src="./penitentiary-shop-ui.js"></script>
+  <script src="./penitentiary-control-ui.js"></script>
+  <script src="./penitentiary-chat-ui.js"></script>
+  <script src="./penitentiary-ui.js"></script>
+  <script src="./room-cards.js"></script>
+  <script src="./room-lobby-ui.js"></script>
+  <script src="./rooms-ui.js"></script>
+  <script src="./tribute-ui.js"></script>
+  <script src="./rooms.js"></script>
   <script src="./traits-ui.js"></script>
+  <script src="./special-outfit-ui.js"></script>
   <script src="./equipment-ui.js"></script>
-  <script src="./protagonist-portrait.js?v=20260716-4"></script>
+  <script src="./protagonist-portrait.js"></script>
   <script src="./collectibles-ui.js"></script>
   <script src="./daily-tasks-ui.js"></script>
   <script src="./cg-ui.js"></script>
-  <script src="./ui.js?v=20260717-1"></script>
-  <script src="./game.js?v=20260717-1"></script>
+  <script src="./ui.js"></script>
+  <script src="./game.js"></script>
 </body>
 </html>

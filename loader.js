@@ -1,5 +1,5 @@
 (function (LG) {
-  const SDK_WAIT = 1200;
+  const SDK_WAIT = 8000;
   const IMAGE_TIMEOUT = 8000;
   const CRITICAL_KEYS = new Set(["background"]);
   const loadedSources = new Set();
@@ -16,7 +16,9 @@
       status.textContent = labels[payload?.phase] || "正在载入人生";
     }
     try {
-      window.dzmm?.loading?.progress?.(payload);
+      Promise.resolve(window.dzmm?.loading?.progress?.(payload)).catch((err) => {
+        console.warn("加载状态上报失败:", err?.message, err?.stack);
+      });
     } catch (err) {
       console.warn("加载状态上报失败:", err.message, err.stack);
     }
@@ -82,17 +84,23 @@
     },
     waitForSdk() {
       if (window.dzmm) return Promise.resolve();
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         let settled = false;
-        const finish = () => {
+        const finish = (ready) => {
           if (settled) return;
           settled = true;
           window.removeEventListener("dzmm:ready", onReady);
           window.clearTimeout(timer);
-          resolve();
+          if (ready || window.dzmm) {
+            resolve();
+            return;
+          }
+          const error = new Error("平台 SDK 连接超时。");
+          error.code = "SDK_UNAVAILABLE";
+          reject(error);
         };
-        const onReady = () => finish();
-        const timer = window.setTimeout(finish, SDK_WAIT);
+        const onReady = () => finish(true);
+        const timer = window.setTimeout(() => finish(false), SDK_WAIT);
         window.addEventListener("dzmm:ready", onReady);
       });
     },
@@ -144,7 +152,6 @@
       };
       window.setTimeout(notify, 0);
       requestAnimationFrame(notify);
-      this.defer(() => LG.saveRecoveryData?.commitPending?.());
     },
     defer(task) {
       window.setTimeout(() => Promise.resolve().then(task).catch((err) => {
@@ -153,16 +160,10 @@
     },
     error(err) {
       console.error("游戏启动失败:", err.message, err.stack);
-      Promise.resolve(LG.saveRecoveryData?.rollbackPending?.()).then((rolledBack) => {
-        if (!rolledBack) return;
-        const text = document.getElementById("bootErrorText");
-        if (text) text.textContent = "恢复存档不兼容，已自动回滚。请点击重试。";
-      }).catch((rollbackErr) => {
-        console.error("启动失败后的存档回滚失败:", rollbackErr?.code,
-          rollbackErr?.message, rollbackErr?.stack);
-      });
       try {
-        window.dzmm?.loading?.error?.("BOOT_FAILED", err.message || "Boot failed");
+        Promise.resolve(window.dzmm?.loading?.error?.(
+          "BOOT_FAILED", err.message || "Boot failed",
+        )).catch(() => {});
       } catch (_) {
         // Keep the in-game error visible even if SDK reporting fails.
       }

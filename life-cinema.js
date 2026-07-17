@@ -23,7 +23,7 @@
   function showRecovery() {
     if (busy) return;
     showSection("recovery");
-    el.status.textContent = "前世今生已展开，可检测旧版云存档。";
+    el.status.textContent = "前世今生已展开，可选择前世恢复旧存档，或放弃今生重新开始。";
     el.recovery.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
@@ -116,7 +116,7 @@
     el.achievements.addEventListener("click", showAchievements);
     el.taste.addEventListener("click", () => unlock(
       "unlockAllEndings",
-      "确定永久解锁常规人生结局？六项特殊结局仅在对应人生成就完成后补齐。",
+      "确定永久解锁常规人生结局？真结局只能在人生流程中触发，其余特殊结局需完成对应成就。",
     ));
     el.power.addEventListener("click", () => unlock(
       "unlockAllCollections",

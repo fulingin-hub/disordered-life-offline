@@ -2,7 +2,6 @@
   const el = {};
   let busy = false, saveBlocked = false;
   let feed = [];
-
   function node(tag, className, text) {
     const item = document.createElement(tag);
     if (className) item.className = className;
@@ -102,6 +101,7 @@
     LG.casinoGame.leave();
     feed = [];
     el.dialog.close();
+    LG.audio.scene("world");
   }
 
   LG.casinoUI = {
@@ -162,7 +162,7 @@
       const access = LG.casinoAccess.status();
       const card = node("article", `room-card casino-room-card${access.allowed ? " unlocked" : ""}`);
       const image = node("img");
-      image.src = LG.CONFIG.assets.background; image.alt = "异域赌场";
+      image.src = LG.CONFIG.assets.roomCasino; image.alt = "异域赌场角色群像";
       const body = node("div", "room-card-body");
       body.append(
         node("span", "event-type", access.allowed ? "功能场所 · 可进入" : "功能场所 · 尚不可进入"),
@@ -182,6 +182,7 @@
     },
     open() {
       if (!LG.casinoAccess.status().allowed) return;
+      LG.audio.scene("casino");
       switchView("game");
       render();
       el.dialog.showModal();

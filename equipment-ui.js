@@ -64,9 +64,13 @@
       el.status.textContent = "";
     }
     const current = LG.equipment.summary(state);
-    el.shame.textContent = String(current.total);
-    el.reduction.textContent = `${current.reduction}点`;
-    el.set.textContent = current.set ? `${current.set.prefix}套装 +100` : "未激活";
+    const special = LG.specialOutfitUI.current();
+    el.shame.textContent = String(state.stats.shame);
+    el.reduction.textContent = `${LG.equipment.requirementReduction(state)}点`;
+    el.set.textContent = special === "normal"
+      ? current.set ? `${current.set.prefix}套装` : "未激活"
+      : LG.specialOutfitUI.outfit().fullName;
+    LG.specialOutfitUI.render(state, current);
     el.slots.replaceChildren(...LG.EQUIPMENT_SLOTS.map((slot) => slotCard(slot, state)));
   }
 

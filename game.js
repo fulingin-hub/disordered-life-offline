@@ -8,6 +8,12 @@
     if (err?.code === "function_not_published") {
       return "权威结算服务尚未发布，请先保存游戏。";
     }
+    if (String(err?.code || "").toLowerCase().includes("forbidden_dev_mode")) {
+      return "平台结算模式暂不可用，请退出后重新进入游戏。";
+    }
+    if (err?.code === "SDK_UNAVAILABLE" || err?.code === "FUNCTION_UNAVAILABLE") {
+      return "平台连接尚未就绪，请退出后重新进入游戏。";
+    }
     if (err?.code === "TIMEOUT") return "读取权威存档超时，请点击重试。";
     if (err?.code === "function_error") return err.message || "服务端拒绝了这次操作。";
     return "网络或结算服务暂时不可用，请稍后重试。";
@@ -129,6 +135,9 @@
       onArchive: openArchive,
       onSound: toggleSound,
     });
+    LG.audio.init();
+    LG.narration.init();
+    LG.achievementFeedback.init();
     LG.dialogueUI.init({
       onSend: sendDialogue,
       onClose: () => LG.dialogueAI.cancel(),
@@ -139,8 +148,14 @@
     LG.tributeUI.init();
     LG.blackMarketUI.init(() => state);
     LG.casinoUI.init(() => state);
+    LG.edenCharacterChatUI.init();
+    LG.edenCharacterUI.init();
+    LG.blackPrisonUI.init();
+    LG.blackPrisonOutfitUI.init();
+    LG.penitentiaryUI.init(() => state);
     LG.rooms.init(() => state);
     LG.traitsUI.init();
+    LG.specialOutfitUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
     LG.equipmentUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
     LG.collectiblesUI.init();
     LG.dailyTasksUI.init();

@@ -31,9 +31,10 @@
   function setBusy(next, label) {
     busy = next;
     el.scan.disabled = next;
+    el.deleteSave.disabled = next;
     el.apply.disabled = next;
     if (label) el.scan.textContent = label;
-    if (!next) el.scan.textContent = "重新检测";
+    if (!next) el.scan.textContent = "重新选择前世";
   }
 
   async function scan() {
@@ -92,6 +93,8 @@
       wroteSnapshot = true;
       setProgress(75, "正在回读并核对恢复快照");
       await Data.verifySnapshot(receipt, transaction);
+      setProgress(90, "正在提交恢复事务");
+      await Data.commitPending();
       setProgress(95, "正在同步本地安全副本");
       Data.updateLocalFallback(recovered);
       setProgress(100, "恢复完成，准备重新载入", "success");
@@ -120,6 +123,28 @@
     }
   }
 
+  async function deleteSave() {
+    if (busy || !window.confirm(
+      "放弃今生会永久删除当前人生及全部跨周目进度，确定一切重新开始？",
+    )) return;
+    setBusy(true);
+    el.deleteSave.textContent = "正在删除...";
+    setProgress(10, "正在删除当前权威存档");
+    try {
+      const result = await LG.authority.mutate("deleteSave");
+      Data.updateLocalFallback({});
+      setProgress(100, "当前存档已删除，准备重新载入", "success");
+      el.status.textContent = result.message || "当前存档已删除，一切将重新开始。";
+      window.setTimeout(() => window.location.reload(), 700);
+    } catch (err) {
+      console.error("当前存档删除失败:", err?.code, err?.message, err?.stack);
+      el.status.textContent = err?.message || "当前存档删除失败，请稍后重试。";
+      setProgress(100, "删除未完成，当前存档未改变", "error");
+      el.deleteSave.textContent = "放弃今生";
+      setBusy(false);
+    }
+  }
+
   function open() {
     if (!el.dialog.open) el.dialog.showModal();
   }
@@ -133,12 +158,14 @@
     el.progressLabel = document.getElementById("recoveryProgressLabel");
     el.progressPercent = document.getElementById("recoveryProgressPercent");
     el.scan = document.getElementById("scanRecoveryButton");
+    el.deleteSave = document.getElementById("deleteSaveButton");
     el.apply = document.getElementById("applyRecoveryButton");
     document.getElementById("recoveryButton").addEventListener("click", open);
     document.getElementById("recoveryGateButton").addEventListener("click", open);
     document.getElementById("closeRecoveryButton")
       .addEventListener("click", () => el.dialog.close());
     el.scan.addEventListener("click", scan);
+    el.deleteSave.addEventListener("click", deleteSave);
     el.apply.addEventListener("click", applyRecovery);
   }
 

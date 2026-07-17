@@ -28,6 +28,10 @@
 
   async function put(key, value) {
     const localSaved = localPut(key, value);
+    if (authoritative.has(key)) {
+      authoritative.set(key, value);
+      return { localSaved, remoteSaved: true };
+    }
     let remoteSaved = false;
     try {
       remoteSaved = Boolean(await LG.storageChat?.put(key, value));
@@ -71,6 +75,8 @@
         [LG.CONFIG.dailyTaskKey, economy.dailyTasks],
         [LG.CONFIG.blackMarketKey, economy.blackMarket],
         [LG.CONFIG.casinoKey, economy.casino],
+        [LG.CONFIG.blackPrisonKey, economy.blackPrison],
+        [LG.CONFIG.penitentiaryKey, economy.penitentiary],
       ].forEach(([key, value]) => {
         if (key && value !== undefined) {
           memory.set(key, value);
@@ -146,6 +152,18 @@
     },
     saveCasino(data) {
       return put(LG.CONFIG.casinoKey, data);
+    },
+    loadBlackPrison() {
+      return get(LG.CONFIG.blackPrisonKey);
+    },
+    saveBlackPrison(data) {
+      return put(LG.CONFIG.blackPrisonKey, data);
+    },
+    loadPenitentiary() {
+      return get(LG.CONFIG.penitentiaryKey);
+    },
+    savePenitentiary(data) {
+      return put(LG.CONFIG.penitentiaryKey, data);
     },
   };
 })(window.LifeGame);

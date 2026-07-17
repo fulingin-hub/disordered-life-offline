@@ -1,0 +1,454 @@
+.penitentiary-dialog {
+  width: min(1040px, calc(100vw - 24px));
+  height: min(900px, calc(100dvh - 24px));
+  max-height: min(900px, calc(100dvh - 24px));
+  padding: 0;
+  overflow: hidden;
+  color: #f0ede7;
+  border: 1px solid #645945;
+  background: #111211;
+}
+
+.penitentiary-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.penitentiary-dialog .dialog-heading {
+  flex: 0 0 auto;
+  border-bottom-color: #4d4435;
+  background: #171612;
+}
+
+.penitentiary-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.penitentiary-hero {
+  min-height: 210px;
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+  background:
+    linear-gradient(90deg, rgba(7, 8, 8, .2), rgba(7, 8, 8, .9)),
+    url("./assets/generated/shadow-prison-complex.4913e4d3.webp") center / cover;
+}
+
+.penitentiary-hero > div {
+  width: min(610px, 100%);
+  border-left: 3px solid #b49a62;
+  padding: 18px;
+  background: rgba(12, 12, 11, .86);
+}
+
+.penitentiary-hero h3 {
+  margin: 5px 0 8px;
+  font-size: 24px;
+}
+
+.penitentiary-hero p {
+  margin: 0;
+  color: #c6c0b5;
+  line-height: 1.6;
+}
+
+.penitentiary-summary {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  border-block: 1px solid #403a30;
+  background: #403a30;
+}
+
+.penitentiary-summary div {
+  min-width: 0;
+  padding: 13px 14px;
+  background: #191917;
+}
+
+.penitentiary-summary span,
+.penitentiary-summary strong {
+  display: block;
+}
+
+.penitentiary-summary span {
+  color: #aaa397;
+  font-size: 11px;
+}
+
+.penitentiary-summary strong {
+  margin-top: 4px;
+  color: #ddc98e;
+  font-size: 19px;
+}
+
+.penitentiary-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 16px 18px 0;
+}
+
+.penitentiary-tabs button {
+  min-height: 46px;
+  border: 1px solid #4a4438;
+  background: #1c1d1b;
+  color: #aaa499;
+  font-weight: 700;
+}
+
+.penitentiary-tabs button.active {
+  border-color: #b49a62;
+  background: rgba(180, 154, 98, .12);
+  color: #ead9ad;
+}
+
+.penitentiary-status {
+  min-height: 42px;
+  margin: 0;
+  padding: 12px 18px;
+  border-bottom: 1px solid #3d382f;
+  background: #151512;
+  color: #c5beb1;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.penitentiary-view {
+  padding: 18px;
+}
+
+.penitentiary-stages {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.penitentiary-stages button {
+  min-height: 48px;
+  border-color: #454139;
+  background: #1b1c1a;
+  color: #aaa59c;
+  font-size: 11px;
+}
+
+.penitentiary-stages button.active {
+  border-color: #b49a62;
+  background: #3a3428;
+  color: #fff1ca;
+}
+
+.penitentiary-view-heading,
+.penitentiary-task-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.penitentiary-view-heading {
+  margin-bottom: 12px;
+}
+
+.penitentiary-view-heading h3 {
+  margin: 4px 0 0;
+}
+
+.penitentiary-task-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.penitentiary-task {
+  display: flex;
+  min-width: 0;
+  min-height: 156px;
+  flex-direction: column;
+  border: 1px solid #454139;
+  border-radius: 6px;
+  padding: 14px;
+  background: #1a1b19;
+}
+
+.penitentiary-task.claimed {
+  border-color: #9a8355;
+  background: #242118;
+}
+
+.penitentiary-task.completed {
+  opacity: .7;
+}
+
+.penitentiary-task p {
+  flex: 1;
+  margin: 9px 0 13px;
+  color: #aaa49a;
+  font-size: 12px;
+}
+
+.penitentiary-task-heading span {
+  color: #d1ba7d;
+  font-size: 12px;
+}
+
+.penitentiary-task button {
+  width: 100%;
+  background: #6f2830;
+  font-weight: 700;
+}
+
+.penitentiary-character-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.penitentiary-character-card {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 126px minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid #454139;
+  border-radius: 6px;
+  background: #191a18;
+}
+
+.penitentiary-character-card > img {
+  width: 100%;
+  height: 100%;
+  min-height: 208px;
+  object-fit: contain;
+  object-position: center top;
+  background: #0b0c0b;
+  filter: grayscale(.85);
+  opacity: .55;
+}
+
+.penitentiary-character-card.unlocked > img {
+  filter: none;
+  opacity: 1;
+}
+
+.penitentiary-character-body {
+  min-width: 0;
+  padding: 12px;
+}
+
+.penitentiary-character-body strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 18px;
+}
+
+.penitentiary-character-body p,
+.penitentiary-character-body small {
+  color: #aaa49a;
+  font-size: 11px;
+}
+
+.penitentiary-character-body p {
+  margin: 4px 0 10px;
+}
+
+.penitentiary-character-body small {
+  display: block;
+  margin: 7px 0 9px;
+}
+
+.penitentiary-character-body button {
+  width: 100%;
+  background: #6f2830;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.penitentiary-progress {
+  height: 5px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .09);
+}
+
+.penitentiary-progress span {
+  display: block;
+  height: 100%;
+  background: #b49a62;
+}
+
+.penitentiary-shop-heading,
+.penitentiary-chat-heading {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #454139;
+  padding-bottom: 12px;
+}
+
+.penitentiary-shop-heading img,
+.penitentiary-chat-heading img {
+  width: 82px;
+  height: 92px;
+  object-fit: contain;
+  object-position: center top;
+  background: #0b0c0b;
+}
+
+.penitentiary-shop-heading h3,
+.penitentiary-chat-heading h3 {
+  margin: 4px 0 0;
+  font-size: 21px;
+}
+
+.penitentiary-shop-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0;
+  color: #aaa49a;
+  font-size: 12px;
+}
+
+.penitentiary-shop-meta strong {
+  color: #ddc98e;
+}
+
+.penitentiary-shop-items {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.penitentiary-shop-item {
+  display: flex;
+  min-width: 0;
+  min-height: 176px;
+  flex-direction: column;
+  border: 1px solid #454139;
+  border-radius: 6px;
+  padding: 12px;
+  background: #1a1b19;
+}
+
+.penitentiary-shop-item.owned {
+  border-color: #887548;
+  background: #242118;
+}
+
+.penitentiary-shop-item > span {
+  color: #d1ba7d;
+  font-size: 11px;
+}
+
+.penitentiary-shop-item strong {
+  margin-top: 7px;
+}
+
+.penitentiary-shop-item p {
+  flex: 1;
+  margin: 8px 0 12px;
+  color: #aaa49a;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.penitentiary-shop-item button,
+.penitentiary-shop-actions button {
+  background: #6f2830;
+  font-weight: 700;
+}
+
+.penitentiary-outfit-action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  border: 1px solid #454139;
+  padding: 12px;
+  background: #171815;
+}
+
+.penitentiary-outfit-action span {
+  margin-right: auto;
+  color: #b9b1a3;
+  font-size: 12px;
+}
+
+.penitentiary-outfit-action[data-equipped="true"] {
+  border-color: #b49a62;
+  background: #292419;
+}
+
+.penitentiary-shop-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.penitentiary-messages {
+  height: min(42dvh, 340px);
+  min-height: 220px;
+  overflow-y: auto;
+}
+
+.penitentiary-empty {
+  color: #aaa49a;
+}
+
+@media (max-width: 760px) {
+  .penitentiary-dialog {
+    width: calc(100vw - 10px);
+    height: calc(100dvh - 10px);
+    max-height: calc(100dvh - 10px);
+  }
+
+  .penitentiary-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .penitentiary-stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .penitentiary-task-list,
+  .penitentiary-character-list,
+  .penitentiary-shop-items {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .penitentiary-task,
+  .penitentiary-shop-item {
+    min-height: 0;
+  }
+
+  .penitentiary-character-card {
+    grid-template-columns: 112px minmax(0, 1fr);
+  }
+
+  .penitentiary-shop-heading,
+  .penitentiary-chat-heading {
+    grid-template-columns: 62px minmax(0, 1fr);
+  }
+
+  .penitentiary-shop-heading img,
+  .penitentiary-chat-heading img {
+    width: 62px;
+    height: 72px;
+  }
+
+  .penitentiary-shop-heading button,
+  .penitentiary-chat-heading button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .penitentiary-outfit-action {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

@@ -6,6 +6,7 @@
   let currentState = null;
   let pendingMessage = null;
   let pendingInput = "";
+  let eventQuoteHidden = null;
 
   function message(role, content, extraClass) {
     const item = document.createElement("div");
@@ -53,6 +54,7 @@
       el.input = document.getElementById("chatInput");
       el.send = document.getElementById("chatSendButton");
       el.eventText = document.getElementById("eventText");
+      el.eventQuote = document.getElementById("eventQuote");
       el.choiceList = document.getElementById("choiceList");
       el.talk.addEventListener("click", () => this.open());
       document.getElementById("closeChatButton").addEventListener("click", () => this.close());
@@ -82,6 +84,8 @@
     open() {
       if (!currentScene) return;
       el.eventText.hidden = true;
+      eventQuoteHidden = el.eventQuote.hidden;
+      el.eventQuote.hidden = true;
       el.choiceList.hidden = true;
       el.talk.hidden = true;
       el.panel.hidden = false;
@@ -93,6 +97,10 @@
       if (!el.panel) return;
       el.panel.hidden = true;
       el.eventText.hidden = false;
+      if (eventQuoteHidden !== null) {
+        el.eventQuote.hidden = eventQuoteHidden;
+        eventQuoteHidden = null;
+      }
       el.choiceList.hidden = false;
       el.talk.hidden = !currentScene;
       pendingMessage = null;

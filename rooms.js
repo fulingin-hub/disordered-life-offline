@@ -73,6 +73,14 @@
           LG.roomsUI.close();
           LG.casinoUI.open();
         },
+        onEnterBlackPrison: () => {
+          LG.roomsUI.close();
+          LG.blackPrisonUI.open();
+        },
+        onEnterPenitentiary: () => {
+          LG.roomsUI.close();
+          LG.penitentiaryUI.open();
+        },
         onSend: send,
         onLeave: leave,
       });

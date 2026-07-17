@@ -103,6 +103,19 @@
   line-height: 1.55;
 }
 
+.event-character-notice,
+.outcome-toast.dialogue-tribute-rule {
+  position: static;
+  top: auto;
+  margin: 0 0 12px;
+}
+
+.event-character-notice {
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 13px;
+  font-style: normal;
+}
+
 .chat-form {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 76px;

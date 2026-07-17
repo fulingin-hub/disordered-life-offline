@@ -20,7 +20,8 @@
       heading.append(node("span", "", label), node("b", "", String(value)));
       const track = node("div", "stat-track");
       const fill = node("span");
-      fill.style.width = `${Math.min(100, key === "shame" ? value / 2 : value)}%`;
+      const maximum = Math.max(1, Number(LG.CONFIG.statMaximums?.[key]) || 100);
+      fill.style.width = `${Math.min(100, value / maximum * 100)}%`;
       track.append(fill);
       stat.append(heading, track);
       el.stats.append(stat);
@@ -64,6 +65,7 @@
     el.eventText.textContent = typeof event.text === "function" ? event.text(state) : event.text;
     el.eventQuote.textContent = event.quote || "";
     el.eventQuote.hidden = !event.quote;
+    LG.narration?.speakEvent?.(event, state);
     el.progressFill.style.width = `${Math.min(96, Math.round(event.age / 28 * 100))}%`;
     el.choiceList.replaceChildren();
     event.choices.forEach((choice, index) => addChoice(choice, index, state));
@@ -132,6 +134,7 @@
     },
     render(state) {
       el.app.dataset.gender = state.gender || "";
+      LG.audio.scene(state.endingId ? "ending" : "story");
       renderStats(state);
       if (state.endingId) renderEnding(state);
       else renderEvent(state);

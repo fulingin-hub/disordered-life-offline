@@ -160,6 +160,8 @@
           return err?.message || "房间对话条件尚未满足。";
         case "INSUFFICIENT_POINTS":
           return err?.message || "属性点不足，贡金50点可开启20轮房间对话。";
+        case "INSUFFICIENT_COUPONS":
+          return err?.message || "赎罪卷不足，完成影狱任务后再开启对话。";
         case "REQUEST_PENDING":
           return "该对话请求仍在处理中，请稍后再试。";
         case "BILLING_FAILED":

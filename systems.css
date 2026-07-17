@@ -18,6 +18,18 @@
   font-size: 25px;
 }
 
+.achievement-dialog {
+  width: min(440px, calc(100vw - 28px));
+}
+
+.achievement-dialog .system-status {
+  min-height: 0;
+  margin-bottom: 0;
+  color: var(--paper);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
 .system-status {
   min-height: 20px;
   margin: 14px 0 12px;

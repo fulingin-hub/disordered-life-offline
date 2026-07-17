@@ -4,6 +4,7 @@
     ...LG.EQUIPMENT_ITEMS,
     ...(LG.blackMarket?.equipmentItems?.() || []),
     ...(LG.collectibles?.equipmentItems?.() || []),
+    ...(LG.edenCharacters?.equipmentItems?.() || []),
   ];
   const itemMap = () => new Map(allItems().map((item) => [item.id, item]));
   const acquired = (item) => !item?.unlockTrait
@@ -28,9 +29,9 @@
       count: equipped.length,
       itemShame,
       setBonus,
-      total: itemShame + setBonus,
+      total: Math.min(250, itemShame + setBonus),
       set,
-      reduction: Math.floor((itemShame + setBonus) / 20) * 5,
+      reduction: Math.floor(Math.min(250, itemShame + setBonus) / 20) * 5,
     };
   }
 

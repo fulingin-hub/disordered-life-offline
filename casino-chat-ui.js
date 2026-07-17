@@ -11,6 +11,9 @@
     item.className = `chat-message ${role}${extraClass ? ` ${extraClass}` : ""}`;
     item.textContent = content;
     el.messages.append(item);
+    while (el.messages.children.length > 42) {
+      el.messages.firstElementChild.remove();
+    }
     el.messages.scrollTop = el.messages.scrollHeight;
     return item;
   }

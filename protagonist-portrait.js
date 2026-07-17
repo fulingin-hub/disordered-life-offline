@@ -7,6 +7,9 @@
       japan: "protagonistMaleJapanSet",
       usa: "protagonistMaleUSASet",
       trait: "protagonistMaleTraitSet",
+      luxury: "protagonistMaleLuxurySet",
+      infernal: "protagonistMaleInfernalSet",
+      penitentiary: "protagonistMalePenitentiarySet",
     },
     female: {
       base: "protagonistFemaleBase",
@@ -15,6 +18,9 @@
       japan: "protagonistFemaleJapanSet",
       usa: "protagonistFemaleUSASet",
       trait: "protagonistFemaleTraitSet",
+      luxury: "protagonistFemaleLuxurySet",
+      infernal: "protagonistFemaleInfernalSet",
+      penitentiary: "protagonistFemalePenitentiarySet",
     },
   };
   const labels = {
@@ -24,6 +30,9 @@
     japan: "岛国黑市套装",
     usa: "米国黑市套装",
     trait: "属性套装",
+    luxury: "权贵奢华套装",
+    infernal: "乐园王袍套装",
+    penitentiary: "影狱人格丧志套装",
   };
   let wrap;
   let image;
@@ -55,7 +64,8 @@
       "collection-beggar",
     ]);
     if (items.every((item) => tributeSetIds.has(item.setId))) return "tribute";
-    if (items.every((item) => item.source === "collection")) return "character";
+    if (items.every((item) =>
+      ["collection", "eden"].includes(item.source))) return "character";
     if (items.every((item) =>
       item.source === "blackMarket" && item.country === "japan")) return "japan";
     if (items.every((item) =>
@@ -65,11 +75,17 @@
     return null;
   }
 
+  function category(state) {
+    return (LG.penitentiary?.outfitEquipped?.() ? "penitentiary" : null)
+      || LG.blackPrison?.outfitCategory?.()
+      || setCategory(state) || "base";
+  }
+
   function source(state) {
     const gender = state?.gender === "female" ? "female"
       : state?.gender === "male" ? "male" : null;
     if (!gender || currentAge(state) < 18) return null;
-    return LG.CONFIG.assets[assetKeys[gender][setCategory(state) || "base"]];
+    return LG.CONFIG.assets[assetKeys[gender][category(state)]];
   }
 
   LG.protagonistPortrait = {
@@ -77,7 +93,7 @@
       wrap = document.getElementById("protagonistWrap");
       image = document.getElementById("protagonistPortrait");
     },
-    category: setCategory,
+    category,
     currentAge,
     source,
     render(state) {
@@ -90,10 +106,10 @@
         image.removeAttribute("src");
         return;
       }
-      const category = setCategory(state) || "base";
+      const outfit = category(state);
       image.src = src;
-      image.alt = `${gender === "female" ? "女" : "男"}主角·${labels[category]}`;
-      wrap.dataset.category = category;
+      image.alt = `${gender === "female" ? "女" : "男"}主角·${labels[outfit]}`;
+      wrap.dataset.category = outfit;
       wrap.hidden = false;
     },
   };

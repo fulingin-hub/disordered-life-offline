@@ -1,8 +1,8 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260717-offline-world-areas-1",
-  version: 3,
+  buildId: "20260717-special-outfit-narration-1",
+  version: 4,
   eventRevision: 2026071606,
   stateKey: "disordered-life-state-v1",
   archiveKey: "disordered-life-archive-v1",
@@ -14,6 +14,8 @@ window.LifeGame.CONFIG = {
   hiddenEndingKey: "disordered-life-hidden-ending-v1",
   blackMarketKey: "disordered-life-black-market-v1",
   casinoKey: "disordered-life-casino-v1",
+  blackPrisonKey: "disordered-life-black-prison-v1",
+  penitentiaryKey: "disordered-life-penitentiary-v1",
   assets: {
     background: "./assets/generated/life-crossroads-bg.6dc93a1f.webp",
     lin: "./assets/generated/lin-lan-boss.8adf43cd.webp",
@@ -38,6 +40,63 @@ window.LifeGame.CONFIG = {
     japanOfficial: "./assets/generated/japanese-female-official.12246494.webp",
     usaOfficial: "./assets/generated/american-female-official.1091ce78.webp",
     playerRoom: "./assets/generated/player-room-protagonists.8e05e60f.webp",
+    roomXiaFlag: "./assets/generated/room-flag-xia.dae44deb.webp",
+    roomIslandFlag: "./assets/generated/room-flag-island.a99422fd.webp",
+    roomRiceFlag: "./assets/generated/room-flag-rice.d41a6d65.webp",
+    roomCasino: "./assets/generated/room-casino-ensemble.2fce8260.webp",
+    paradiseGate: "./assets/generated/paradise-gate-scene.97d3951d.webp",
+    paradiseDistantView:
+      "./assets/generated/paradise-distant-view.d681e1f7.webp",
+    edenGoldenDistrict: "./assets/generated/eden-golden-district.1e333955.webp",
+    edenRestaurantDistantEntry:
+      "./assets/generated/eden-restaurant-distant-entry.b37a620a.webp",
+    edenFashionDistantEntry:
+      "./assets/generated/eden-fashion-distant-entry.04daa4f1.webp",
+    shadowPrisonComplex: "./assets/generated/shadow-prison-complex.4913e4d3.webp",
+    shadowPrisonGateGuards:
+      "./assets/generated/shadow-prison-gate-guards.76106af5.webp",
+    edenChefClerk: "./assets/generated/eden-chef-clerk.f59b33c6.webp",
+    edenFashionClerk: "./assets/generated/eden-fashion-clerk.fc8fbee9.webp",
+    galleryEdenChefBarefoot:
+      "./assets/generated/gallery-eden-chef-barefoot-command.14eec5e7.webp",
+    galleryEdenChefKneeling:
+      "./assets/generated/gallery-eden-chef-tights-kneeling.44ff3014.webp",
+    galleryEdenFashionBarefoot:
+      "./assets/generated/gallery-eden-fashion-barefoot-command.7fced8e0.webp",
+    galleryEdenFashionKneeling:
+      "./assets/generated/gallery-eden-fashion-tights-kneeling.04db8001.webp",
+    shadowPrisonSupervisor:
+      "./assets/generated/shadow-prison-supervisor-whitehair.85f59176.webp",
+    shadowPrisonManager:
+      "./assets/generated/shadow-prison-manager-whitehair.12e10c9d.webp",
+    shadowPrisonInstructor:
+      "./assets/generated/shadow-prison-instructor-whitehair.b840f33e.webp",
+    shadowPrisonWarden:
+      "./assets/generated/shadow-prison-warden-whitehair.e8e0c145.webp",
+    shadowPrisonOwner:
+      "./assets/generated/shadow-prison-owner-whitehair.b4147a48.webp",
+    galleryShadowPrisonSupervisor:
+      "./assets/generated/gallery-shadow-prison-supervisor-patrol.ba0374ec.webp",
+    galleryShadowPrisonManager:
+      "./assets/generated/gallery-shadow-prison-manager-patrol.0b476cb4.webp",
+    galleryShadowPrisonInstructor:
+      "./assets/generated/gallery-shadow-prison-instructor-patrol.a99ea6f6.webp",
+    galleryShadowPrisonWarden:
+      "./assets/generated/gallery-shadow-prison-warden-patrol.42c1bb09.webp",
+    galleryShadowPrisonOwner:
+      "./assets/generated/gallery-shadow-prison-owner-office-rest.1ece4a88.webp",
+    edenWelcomeGate: "./assets/generated/eden-welcome-gate.98e82a62.webp",
+    blackPrisonStreet: "./assets/generated/black-prison-golden-street.a1e972a4.webp",
+    roomBlackStreet: "./assets/generated/room-black-street.e37ab187.webp",
+    roomSanctuaryCampus: "./assets/generated/room-sanctuary-campus.87998322.webp",
+    worldXiaCampus: "./assets/generated/world-xia-campus.6dd7254d.webp",
+    worldXiaSociety: "./assets/generated/world-xia-society.acf667d0.webp",
+    worldIslandCampus: "./assets/generated/world-island-campus.9ecfa4fb.webp",
+    worldIslandSociety: "./assets/generated/world-island-society.7209ea71.webp",
+    worldRiceCampus: "./assets/generated/world-rice-campus.3ca0f342.webp",
+    worldRiceSociety: "./assets/generated/world-rice-society.a4eae2dd.webp",
+    worldBlackStreet: "./assets/generated/world-black-street.a63aa792.webp",
+    worldSanctuaryCampus: "./assets/generated/world-sanctuary-campus.e27d12b4.webp",
     protagonistMaleBase: "./assets/generated/protagonist-male-base.15d3eb1b.webp",
     protagonistFemaleBase: "./assets/generated/protagonist-female-base.055bb894.webp",
     protagonistMaleCharacterSet: "./assets/generated/protagonist-male-character-set-v2.10e1268e.webp",
@@ -50,6 +109,14 @@ window.LifeGame.CONFIG = {
     protagonistFemaleUSASet: "./assets/generated/protagonist-female-usa-set-v2.7fe713d6.webp",
     protagonistMaleTraitSet: "./assets/generated/protagonist-male-trait-set-v2.32aa0a2c.webp",
     protagonistFemaleTraitSet: "./assets/generated/protagonist-female-trait-set-v2.e173c78c.webp",
+    protagonistMaleLuxurySet: "./assets/generated/protagonist-male-luxury-set.31723302.webp",
+    protagonistFemaleLuxurySet: "./assets/generated/protagonist-female-luxury-set.22e88363.webp",
+    protagonistMaleInfernalSet: "./assets/generated/protagonist-male-infernal-set.00703f80.webp",
+    protagonistFemaleInfernalSet: "./assets/generated/protagonist-female-infernal-set.77399fe3.webp",
+    protagonistMalePenitentiarySet:
+      "./assets/generated/protagonist-male-penitentiary-set.6822ef9d.webp",
+    protagonistFemalePenitentiarySet:
+      "./assets/generated/protagonist-female-penitentiary-set.e547b5ea.webp",
   },
   initialStats: {
     knowledge: 40,
@@ -70,5 +137,8 @@ window.LifeGame.CONFIG = {
     dependence: "依赖",
     dignity: "尊严",
     shame: "羞耻",
+  },
+  statMaximums: {
+    shame: 250,
   },
 };

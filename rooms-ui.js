@@ -8,6 +8,9 @@
     item.className = `chat-message ${role}${extraClass ? ` ${extraClass}` : ""}`;
     item.textContent = content;
     el.messages.append(item);
+    while (el.messages.children.length > 42) {
+      el.messages.firstElementChild.remove();
+    }
     el.messages.scrollTop = el.messages.scrollHeight;
     return item;
   }
@@ -69,15 +72,25 @@
       activeCharacter = null;
       el.dialog.showModal();
     },
+    openParadise(section) {
+      this.refresh();
+      LG.roomLobbyUI.renderParadise(section);
+      el.lobby.hidden = false;
+      el.chat.hidden = true;
+      activeCharacter = null;
+      if (!el.dialog.open) el.dialog.showModal();
+    },
     close() {
       callbacks.onLeave();
       el.dialog.close();
       activeCharacter = null;
+      LG.audio.scene("story");
     },
     enter(character) {
       const market = LG.blackMarket.isCharacter(character);
       if (market ? !LG.blackMarket.roomUnlocked(character) : !LG.achievements.isUnlocked(character)) return;
       const scene = LG.dialogueScenes.room(character);
+      LG.audio.scene(`room:${character}`);
       activeCharacter = character;
       el.lobby.hidden = true;
       el.chat.hidden = false;
@@ -145,7 +158,9 @@
     refresh() {
       if (!el.button) return;
       const unlocked = LG.achievements.all().filter((item) => item.unlocked).length, markets = LG.blackMarket.characters().filter((item) => LG.blackMarket.roomUnlocked(item.id)).length;
-      el.button.textContent = `世界·${unlocked + markets + 1 + Number(LG.casino.accessUnlocked())}`;
+      el.button.textContent = `世界·${unlocked + markets + 1
+        + Number(LG.casino.accessUnlocked()) + Number(LG.blackPrison.access().allowed)
+        + Number(LG.penitentiary.access().allowed)}`;
     },
   };
 })(window.LifeGame);
