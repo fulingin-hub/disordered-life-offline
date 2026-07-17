@@ -1,9 +1,9 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260717-web-narration-fix-1",
+  buildId: "20260717-release-audit-i18n-1",
   version: 4,
-  eventRevision: 2026071606,
+  eventRevision: 2026071607,
   stateKey: "disordered-life-state-v1",
   archiveKey: "disordered-life-archive-v1",
   achievementKey: "disordered-life-achievements-v1",

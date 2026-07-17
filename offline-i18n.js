@@ -2,6 +2,10 @@
   const key = "disordered-life-language-v1";
   const supported = new Set(["zh-CN", "ja", "en"]);
   const attributes = ["alt", "aria-label", "placeholder", "title"];
+  const originalText = new WeakMap();
+  const translatedText = new WeakMap();
+  const originalAttributes = new WeakMap();
+  const translatedAttributes = new WeakMap();
   let locale = "zh-CN";
   let dictionary = {};
   let observer;
@@ -30,17 +34,40 @@
 
   function translateText(node) {
     if (ignored(node)) return;
-    const next = translate(node.nodeValue);
-    if (next !== node.nodeValue) node.nodeValue = next;
+    const current = node.nodeValue;
+    const expected = translatedText.get(node);
+    let source = originalText.get(node);
+    if (source === undefined || (current !== expected && current !== source)) {
+      source = current;
+      originalText.set(node, source);
+    }
+    const next = translate(source);
+    translatedText.set(node, next);
+    if (next !== current) node.nodeValue = next;
+  }
+
+  function translateAttribute(element, name) {
+    const originals = originalAttributes.get(element) || {};
+    const translations = translatedAttributes.get(element) || {};
+    const current = element.getAttribute(name);
+    let source = originals[name];
+    if (source === undefined ||
+        (current !== translations[name] && current !== source)) {
+      source = current;
+      originals[name] = source;
+    }
+    const next = translate(source);
+    translations[name] = next;
+    originalAttributes.set(element, originals);
+    translatedAttributes.set(element, translations);
+    if (next !== current) element.setAttribute(name, next);
   }
 
   function translateElement(element) {
     if (!(element instanceof Element) || ignored(element)) return;
     for (const name of attributes) {
       if (!element.hasAttribute(name)) continue;
-      const current = element.getAttribute(name);
-      const next = translate(current);
-      if (next !== current) element.setAttribute(name, next);
+      translateAttribute(element, name);
     }
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
     while (walker.nextNode()) translateText(walker.currentNode);
@@ -49,7 +76,6 @@
   function observe() {
     if (locale === "zh-CN") return;
     translateElement(document.documentElement);
-    document.title = translate(document.title);
     observer = new MutationObserver((records) => {
       for (const record of records) {
         if (record.type === "characterData") translateText(record.target);
