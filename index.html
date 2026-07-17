@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content, user-scalable=no">
+  <meta name="theme-color" content="#101319">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="失序人生">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon"
+    href="./assets/generated/protagonist-male-character-set-v2.10e1268e.webp">
+  <title>失序人生 · 离线版</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: #101319;
+      color-scheme: dark;
+    }
+
+    .boot-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      background: #101319;
+      color: #f2eadb;
+      font-family: "Noto Serif SC", "Songti SC", serif;
+    }
+
+    .boot-splash__content {
+      width: min(72vw, 320px);
+      text-align: center;
+    }
+
+    .boot-splash__title {
+      display: block;
+      margin-bottom: 10px;
+      font-size: clamp(24px, 7vw, 40px);
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .boot-splash__status {
+      margin: 0 0 20px;
+      color: #b8ae9e;
+      font-size: 14px;
+    }
+
+    .boot-splash__track {
+      height: 2px;
+      overflow: hidden;
+      background: #34322f;
+    }
+
+    .boot-splash__bar {
+      display: block;
+      width: 38%;
+      height: 100%;
+      background: #c6a66b;
+      animation: boot-progress 1.2s ease-in-out infinite;
+    }
+
+    @keyframes boot-progress {
+      from {
+        transform: translateX(-110%);
+      }
+      to {
+        transform: translateX(290%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .boot-splash__bar {
+        width: 100%;
+        animation: none;
+      }
+    }
+  </style>
+  <script>
+    (() => {
+      let settled = false;
+      const report = () => {
+        try {
+          window.dzmm?.loading?.progress?.({
+            phase: "start",
+            message: "Loading game code",
+          });
+        } catch (_) {}
+      };
+      const stop = () => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timer);
+        document.getElementById("bootSplash")?.remove();
+      };
+      const fail = (message) => {
+        if (settled) return;
+        stop();
+        const text = String(message || "游戏启动失败，请刷新重试。").slice(0, 240);
+        const panel = document.getElementById("bootError");
+        const label = document.getElementById("bootErrorText");
+        if (label) label.textContent = text;
+        if (panel) panel.hidden = false;
+        try {
+          window.dzmm?.loading?.error?.("BOOT_SCRIPT_FAILED", text);
+        } catch (_) {}
+      };
+      const timer = window.setTimeout(
+        () => fail("游戏启动超时，请刷新后重试。"), 30000);
+      window.LifeGameBoot = { ready: stop, stop, fail };
+      window.addEventListener("dzmm:ready", report, { once: true });
+      window.addEventListener("error", (event) => {
+        if (settled) return;
+        if (event.target instanceof HTMLScriptElement) {
+          fail(`脚本加载失败：${event.target.src.split("/").pop() || "unknown"}`);
+        } else if (event.target === window && event.message) {
+          fail(event.message);
+        }
+      }, true);
+      window.addEventListener("unhandledrejection", (event) => {
+        if (!settled) fail(event.reason?.message || "启动任务执行失败。");
+      });
+      report();
+    })();
+  </script>
+  <link rel="stylesheet" href="./base.css">
+  <link rel="stylesheet" href="./game.css">
+  <link rel="stylesheet" href="./dialogue.css?v=20260717-2">
+  <link rel="stylesheet" href="./cg.css">
+  <link rel="stylesheet" href="./rooms.css?v=20260717-1">
+  <link rel="stylesheet" href="./casino.css?v=20260717-1">
+  <link rel="stylesheet" href="./tribute.css">
+  <link rel="stylesheet" href="./gallery.css">
+  <link rel="stylesheet" href="./traits.css">
+  <link rel="stylesheet" href="./equipment.css">
+  <link rel="stylesheet" href="./protagonist.css?v=20260716-2">
+  <link rel="stylesheet" href="./black-market.css">
+  <link rel="stylesheet" href="./room-consumables.css">
+  <link rel="stylesheet" href="./gender.css">
+  <link rel="stylesheet" href="./player-room.css">
+  <link rel="stylesheet" href="./systems.css">
+  <link rel="stylesheet" href="./save-recovery.css?v=20260717-1">
+  <link rel="stylesheet" href="./responsive.css">
+  <link rel="stylesheet" href="./offline.css">
+</head>
+<body>
+  <div id="bootSplash" class="boot-splash" role="status" aria-live="polite">
+    <div class="boot-splash__content">
+      <strong class="boot-splash__title">失序人生</strong>
+      <p id="bootSplashStatus" class="boot-splash__status">正在载入人生</p>
+      <div class="boot-splash__track" aria-hidden="true">
+        <span class="boot-splash__bar"></span>
+      </div>
+    </div>
+  </div>
+
+  <section id="genderGate" class="gender-gate" hidden aria-labelledby="genderTitle">
+    <div class="gender-panel">
+      <span class="event-type">新的人生</span>
+      <h1 id="genderTitle">选择主角性别</h1>
+      <div class="gender-options">
+        <button type="button" data-gender="male">
+          <strong>男主角</strong>
+          <span>进入男性人生结局</span>
+        </button>
+        <button type="button" data-gender="female">
+          <strong>女主角</strong>
+          <span>进入女性人生结局</span>
+        </button>
+      </div>
+      <button id="recoveryGateButton" class="quiet-button recovery-gate-button"
+        type="button">打开人生电影院</button>
+      <p id="genderStatus" class="gender-status" role="status"></p>
+    </div>
+  </section>
+
+  <div id="app" class="game-shell" data-chapter="降生">
+    <div class="backdrop" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <strong>失序人生</strong>
+        <span id="chapterLabel">降生 · 0岁</span>
+      </div>
+      <div class="top-actions">
+        <button id="soundButton" class="quiet-button" type="button">声音：开</button>
+        <button id="traitsButton" class="quiet-button" type="button">属性</button>
+        <button id="tasksButton" class="quiet-button" type="button">任务</button>
+        <button id="shopButton" class="quiet-button" type="button">商城·锁</button>
+        <button id="roomsButton" class="quiet-button" type="button">世界</button>
+        <button id="recoveryButton" class="quiet-button" type="button">人生电影院</button>
+        <button id="restartButton" class="quiet-button danger" type="button">重新出生</button>
+      </div>
+      <div class="life-progress" aria-label="人生进度">
+        <span id="progressFill"></span>
+      </div>
+    </header>
+
+    <section id="stats" class="stats" aria-label="人生属性"></section>
+
+    <main class="stage">
+      <div id="protagonistWrap" class="protagonist-wrap" hidden>
+        <img id="protagonistPortrait" alt="">
+      </div>
+
+      <div id="portraitWrap" class="portrait-wrap" hidden>
+        <img id="portrait" alt="">
+        <div id="portraitName" class="portrait-name"></div>
+      </div>
+
+      <section id="eventPanel" class="event-panel" aria-live="polite">
+        <div class="event-heading">
+          <span id="eventType" class="event-type">人生事件</span>
+          <span id="routeLabel" class="route-label">尚未分流</span>
+        </div>
+        <h1 id="eventTitle">正在载入人生</h1>
+        <p id="eventText" class="event-text"></p>
+        <blockquote id="eventQuote" class="event-quote" hidden></blockquote>
+        <button id="talkButton" class="location-button" type="button" hidden></button>
+        <section id="chatPanel" class="chat-panel" hidden>
+          <div class="chat-heading">
+            <div>
+              <span id="chatLocation" class="event-type"></span>
+              <strong id="chatCharacter"></strong>
+            </div>
+            <button id="closeChatButton" class="quiet-button" type="button">返回事件</button>
+          </div>
+          <div id="chatMessages" class="chat-messages" aria-live="polite"></div>
+          <p id="chatStatus" class="chat-status"></p>
+          <form id="chatForm" class="chat-form">
+            <input id="chatInput" maxlength="160" autocomplete="off" placeholder="输入你想说的话">
+            <button id="chatSendButton" type="submit">发送</button>
+          </form>
+        </section>
+        <div id="choiceList" class="choice-list"></div>
+      </section>
+
+      <div id="outcomeToast" class="outcome-toast" role="status" hidden></div>
+    </main>
+  </div>
+
+  <dialog id="archiveDialog" class="archive-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">人生记录</span>
+        <h2>人生结局</h2>
+      </div>
+      <button id="closeArchiveButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <p id="archiveCount" class="archive-count"></p>
+    <div id="archiveList" class="archive-list"></div>
+  </dialog>
+
+  <dialog id="cgDialog" class="cg-dialog">
+    <div class="cg-dialog-heading">
+      <div>
+        <span class="event-type">已解锁 CG</span>
+        <h2 id="cgDialogTitle"></h2>
+      </div>
+      <button id="closeCgButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <img id="cgDialogImage" alt="">
+  </dialog>
+
+  <dialog id="roomsDialog" class="rooms-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">跨周目成就</span>
+        <h2 id="roomsTitle">世界区域</h2>
+      </div>
+      <button id="closeRoomsButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <section id="roomsLobby">
+      <p class="rooms-intro">异域赌场累计完成50次人生解锁；常规角色完成路线10次解锁；贡金角色需要100点贡金属性；神秘黑市需要30点媚外属性。</p>
+      <div id="roomCards" class="room-cards"></div>
+    </section>
+    <section id="roomChat" class="room-chat" hidden>
+      <div class="room-scene">
+        <img id="roomPortrait" alt="">
+        <div>
+          <span id="roomLocation" class="event-type"></span>
+          <h3 id="roomCharacter"></h3>
+        </div>
+        <div class="room-actions">
+          <button id="roomItemsButton" class="quiet-button" type="button">道具图鉴</button>
+          <button id="roomGalleryButton" class="quiet-button" type="button">CG画廊</button>
+          <button id="backRoomsButton" class="quiet-button" type="button">返回世界区域</button>
+        </div>
+      </div>
+      <p id="roomStatus" class="chat-status dialogue-tribute-rule" role="status"
+        aria-live="polite">AI对话费用：消耗50点属性点，解锁20轮对话；第20轮后自动清理记录。</p>
+      <section id="roomTribute" class="room-tribute" hidden>
+        <div class="room-tribute-summary">
+          <div><span>累计贡金</span><strong id="roomTributePoints">0</strong></div>
+          <div><span>可用属性点</span><strong id="roomTributeAvailable">0</strong></div>
+        </div>
+        <form id="roomTributeForm" class="room-tribute-form">
+          <label>贡献点数
+            <input id="roomTributeInput" type="number" min="1" step="1" value="10">
+          </label>
+          <button id="roomTributeButton" type="submit">确认贡金</button>
+        </form>
+        <progress id="roomTributeProgress" max="600" value="0"></progress>
+        <p id="roomTributeNext" class="room-tribute-next"></p>
+      </section>
+      <section id="blackMarketPanel" class="black-market-panel" hidden>
+        <div class="black-market-summary">
+          <div><span>累计下跪</span><strong id="blackMarketKneels">0</strong></div>
+          <div><span>今日购买</span><strong id="blackMarketLimit">0/0</strong></div>
+          <div><span>可用属性点</span><strong id="blackMarketPoints">0</strong></div>
+        </div>
+        <p id="blackMarketStatus" class="black-market-status"></p>
+        <div class="black-market-layout">
+          <section class="market-section">
+            <h4>勋章与权限</h4>
+            <ol id="blackMarketMilestones" class="market-milestones"></ol>
+          </section>
+          <section class="market-section">
+            <div class="market-heading">
+              <h4>今日库存</h4>
+              <div class="market-refresh">
+                <span>刷新 <strong id="blackMarketRefreshCount">0/3</strong></span>
+                <button id="blackMarketRefreshButton" type="button">需狂热媚外者勋章</button>
+              </div>
+            </div>
+            <div id="blackMarketStock" class="market-stock"></div>
+          </section>
+          <section class="market-section market-inventory-section">
+            <h4>已购库存</h4>
+            <div id="blackMarketInventory" class="market-inventory"></div>
+          </section>
+        </div>
+      </section>
+      <section id="roomConsumablesPanel" class="room-consumables-panel" hidden>
+        <div class="room-consumables-heading">
+          <h4>私密餐饮</h4>
+          <span>可用属性点 <strong id="roomConsumablesPoints">0</strong></span>
+        </div>
+        <p id="roomConsumablesStatus" class="room-consumables-status"></p>
+        <div id="roomConsumablesItems" class="room-consumables-items"></div>
+      </section>
+      <div id="roomMessages" class="chat-messages room-messages" aria-live="polite"></div>
+      <form id="roomForm" class="chat-form">
+        <input id="roomInput" maxlength="160" autocomplete="off" placeholder="输入你想说的话">
+        <button id="roomSendButton" type="submit">服侍</button>
+      </form>
+    </section>
+  </dialog>
+
+  <dialog id="casinoDialog" class="casino-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">功能场所</span>
+        <h2>异域赌场</h2>
+      </div>
+      <button id="closeCasinoButton" class="quiet-button" type="button">离开赌场</button>
+    </div>
+    <div id="casinoTabs" class="casino-tabs" role="tablist">
+      <button id="casinoGameTab" class="active" type="button" role="tab">大小赌桌</button>
+      <button id="casinoShopTab" type="button" role="tab">赌场商城</button>
+    </div>
+    <section id="casinoGameView">
+      <div class="casino-summary">
+        <div><span>累计胜利</span><strong id="casinoWins">0</strong></div>
+        <div><span>累计失败</span><strong id="casinoLosses">0</strong></div>
+        <div><span>属性点</span><strong id="casinoPoints">0</strong></div>
+        <div><span>当前轮次</span><strong id="casinoRound">未开始</strong></div>
+        <div><span>老板目标</span><strong id="casinoBossTarget">20</strong></div>
+      </div>
+      <p id="casinoGameStatus" class="casino-game-status" role="status"></p>
+      <button id="casinoStartButton" class="casino-start" type="button">开始十轮赌局</button>
+      <div id="casinoChoicePanel" class="casino-choice-panel" hidden>
+        <button id="casinoBigButton" type="button">押大</button>
+        <button id="casinoSmallButton" type="button">押小</button>
+      </div>
+      <section id="casinoTemptation" class="casino-temptation" hidden>
+        <img id="casinoTemptationPortrait" alt="">
+        <div>
+          <strong id="casinoTemptationRole"></strong>
+          <p id="casinoTemptationText"></p>
+          <div class="casino-temptation-actions">
+            <button id="casinoAcceptButton" type="button">接受诱惑并认输</button>
+            <button id="casinoRefuseButton" type="button">拒绝并公布结果</button>
+          </div>
+        </div>
+      </section>
+      <section id="casinoBossPanel" class="casino-boss-panel" hidden>
+        <div>
+          <span class="event-type">特殊事件</span>
+          <h3>女老板亲自下场</h3>
+          <p id="casinoBossText"></p>
+          <div class="casino-boss-actions">
+            <button id="casinoBossBig" type="button">百点押大</button>
+            <button id="casinoBossSmall" type="button">百点押小</button>
+          </div>
+        </div>
+      </section>
+      <div id="casinoResults" class="casino-results" aria-live="polite"></div>
+    </section>
+    <section id="casinoShopView" hidden>
+      <div id="casinoCharacterList" class="casino-character-list"></div>
+      <section id="casinoShopDetail" hidden>
+        <div class="casino-shop-heading">
+          <img id="casinoShopPortrait" alt="">
+          <div>
+            <span id="casinoShopRole" class="event-type"></span>
+            <h3 id="casinoShopName"></h3>
+          </div>
+          <button id="casinoShopBack" class="quiet-button" type="button">返回角色列表</button>
+        </div>
+        <div class="casino-shop-meta">
+          <span>可用属性点 <strong id="casinoShopPoints">0</strong></span>
+          <span id="casinoShopProgress"></span>
+        </div>
+        <p id="casinoShopStatus" class="casino-shop-status" role="status"></p>
+        <div id="casinoShopItems" class="casino-shop-items"></div>
+        <div class="casino-shop-actions">
+          <button id="casinoChatButton" type="button">AI对话</button>
+          <button id="casinoGalleryButton" type="button">角色画廊</button>
+        </div>
+      </section>
+    </section>
+    <section id="casinoChat" hidden>
+      <div class="casino-chat-heading">
+        <img id="casinoChatPortrait" alt="">
+        <div>
+          <span id="casinoChatLocation" class="event-type"></span>
+          <h3 id="casinoChatCharacter"></h3>
+        </div>
+        <button id="backCasinoShopButton" class="quiet-button" type="button">返回赌场商城</button>
+      </div>
+      <p id="casinoChatStatus" class="chat-status dialogue-tribute-rule" role="status"
+        aria-live="polite">AI对话费用：消耗50点属性点，解锁20轮对话；第20轮后自动清理记录。</p>
+      <div id="casinoChatMessages"
+        class="chat-messages casino-chat-messages" aria-live="polite"></div>
+      <form id="casinoChatForm" class="chat-form">
+        <input id="casinoChatInput" maxlength="160" autocomplete="off"
+          placeholder="输入你想说的话">
+        <button id="casinoChatSend" type="submit">服侍</button>
+      </form>
+    </section>
+  </dialog>
+
+  <dialog id="galleryDialog" class="gallery-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">房间收藏</span>
+        <h2 id="galleryTitle">角色 CG 画廊</h2>
+      </div>
+      <button id="closeGalleryButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <figure class="gallery-feature">
+      <img id="galleryFeatureImage" alt="">
+      <figcaption>
+        <strong id="galleryFeatureTitle"></strong>
+        <span id="galleryFeatureCaption"></span>
+      </figcaption>
+    </figure>
+    <div id="galleryThumbs" class="gallery-thumbs" aria-label="CG列表"></div>
+  </dialog>
+
+  <dialog id="playerRoomDialog" class="player-room-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">主角房间</span>
+        <h2>人生结局回想墙</h2>
+      </div>
+      <button id="closePlayerRoomButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <div class="player-gallery-toolbar">
+      <div class="gender-tabs" role="tablist" aria-label="主角性别">
+        <button type="button" role="tab" data-gallery-gender="male">男主角</button>
+        <button type="button" role="tab" data-gallery-gender="female">女主角</button>
+      </div>
+      <strong id="playerGalleryCount"></strong>
+    </div>
+    <p id="playerGalleryHint" class="player-gallery-hint">点击未解锁的CG可查看解锁条件。</p>
+    <div id="playerGalleryGrid" class="player-gallery-grid"></div>
+  </dialog>
+
+  <dialog id="traitsDialog" class="traits-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">跨周目成长</span>
+        <h2>角色属性</h2>
+      </div>
+      <button id="closeTraitsButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <div class="traits-pages" role="tablist" aria-label="角色属性页面">
+      <button type="button" role="tab" data-traits-page="traits"
+        aria-controls="traitsPage">属性分配</button>
+      <button type="button" role="tab" data-traits-page="equipment"
+        aria-controls="equipmentPage">主角装备</button>
+    </div>
+    <section id="traitsPage">
+      <div class="traits-summary">
+        <div><span>可用属性点</span><strong id="traitPoints">0</strong></div>
+        <div><span>当前称号</span><strong id="activeTraitTitle">未装备</strong></div>
+      </div>
+      <p id="traitsStatus" class="traits-status"></p>
+      <div id="traitList" class="trait-list"></div>
+      <div class="traits-actions">
+        <button id="commitTraitsButton" type="button">确认分配</button>
+      </div>
+    </section>
+    <section id="equipmentPage" hidden>
+      <div class="equipment-summary">
+        <div><span>当前羞耻</span><strong id="equipmentShame">0</strong></div>
+        <div><span>门槛减免</span><strong id="equipmentReduction">0点</strong></div>
+        <div><span>套装状态</span><strong id="equipmentSet">未激活</strong></div>
+      </div>
+      <p id="equipmentStatus" class="traits-status"></p>
+      <div id="equipmentSlots" class="equipment-grid"></div>
+      <p class="equipment-rule">四套基础装备按对应属性20/40/60/80/100点依次获得头、身、裆、手、脚部件；每件增加20点羞耻，同前缀五件套额外增加100点。</p>
+    </section>
+  </dialog>
+
+  <dialog id="tasksDialog" class="system-dialog tasks-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">每日刷新</span>
+        <h2>随机任务</h2>
+      </div>
+      <button id="closeTasksButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <p id="dailyTaskStatus" class="system-status"></p>
+    <div id="dailyTaskList" class="daily-task-list"></div>
+  </dialog>
+
+  <dialog id="shopDialog" class="system-dialog shop-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">跨周目收藏</span>
+        <h2>属性点商城</h2>
+      </div>
+      <button id="closeShopButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <div class="shop-summary">可用属性点 <strong id="shopPoints">0</strong></div>
+    <p id="shopStatus" class="system-status"></p>
+    <section id="shopLock" class="system-lock">丧志属性达到100点后开放商城。</section>
+    <section id="shopContent">
+      <label class="shop-filter">
+        <span>角色收藏</span>
+        <select id="shopCharacterSelect"></select>
+      </label>
+      <div id="shopItems" class="collectible-grid"></div>
+    </section>
+  </dialog>
+
+  <dialog id="collectionDialog" class="system-dialog collection-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">角色房间收藏</span>
+        <h2 id="collectionTitle">专属道具图鉴</h2>
+      </div>
+      <button id="closeCollectionButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <p id="collectionStatus" class="system-status"></p>
+    <div id="collectionItems" class="collectible-grid"></div>
+  </dialog>
+
+  <dialog id="recoveryDialog" class="system-dialog recovery-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">人生回想</span>
+        <h2>人生电影院</h2>
+      </div>
+      <button id="closeRecoveryButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <div class="life-cinema-options" aria-label="人生电影院功能">
+      <button id="pastLifeButton" class="life-cinema-option" type="button">
+        <strong>前世今生</strong>
+        <span>检测并恢复旧版云存档</span>
+      </button>
+      <button id="cinemaEndingsButton" class="life-cinema-option" type="button">
+        <strong>人生结局</strong>
+        <span>查看男女主角已发现的结局与CG</span>
+      </button>
+      <button id="lifeAchievementsButton" class="life-cinema-option" type="button">
+        <strong>人生成就</strong>
+        <span>查看隐藏结局与全图鉴收集进度</span>
+      </button>
+      <button id="tasteLifeButton" class="life-cinema-option" type="button">
+        <strong>品味人生</strong>
+        <span>解锁常规结局；特殊结局需先完成成就</span>
+      </button>
+      <button id="powerLifeButton" class="life-cinema-option" type="button">
+        <strong>爽文人生</strong>
+        <span>永久解锁全部道具与房间画廊</span>
+      </button>
+    </div>
+    <p id="cinemaStatus" class="system-status cinema-status" role="status">
+      选择一段人生回想。
+    </p>
+    <section id="lifeAchievementPanel" class="life-achievement-panel" hidden>
+      <div class="life-achievement-summary">
+        <strong>人生成就</strong>
+        <span id="lifeAchievementCount">正在同步成就档案...</span>
+      </div>
+      <div id="lifeAchievementList" class="life-achievement-list"></div>
+    </section>
+    <section id="recoveryPanel" class="recovery-panel" hidden>
+      <p class="recovery-copy">
+        请从原来的正式版或测试版游戏会话进入后检测。恢复会读取存储升级前的云存档，不会自动覆盖当前进度。
+      </p>
+      <div id="recoverySummary" class="recovery-summary" hidden></div>
+      <p id="recoveryStatus" class="system-status" role="status">
+        点击检测后，将逐项查找旧版人生、人生结局和跨周目数据。
+      </p>
+      <div id="recoveryProgress" class="recovery-progress" data-state="active" hidden>
+        <div class="recovery-progress-heading">
+          <span id="recoveryProgressLabel">等待开始</span>
+          <strong id="recoveryProgressPercent">0%</strong>
+        </div>
+        <progress id="recoveryProgressBar" max="100" value="0"
+          aria-labelledby="recoveryProgressLabel recoveryProgressPercent">0%</progress>
+      </div>
+      <div class="recovery-actions">
+        <button id="scanRecoveryButton" type="button">检测旧存档</button>
+        <button id="applyRecoveryButton" class="recovery-danger" type="button" hidden>
+          覆盖当前存档并恢复
+        </button>
+      </div>
+    </section>
+  </dialog>
+
+  <div id="bootError" class="boot-error" hidden>
+    <h2>人生暂时无法开始</h2>
+    <p id="bootErrorText">资源加载失败，请刷新重试。</p>
+    <button id="bootRetryButton" type="button">重试</button>
+  </div>
+
+  <script src="./offline-db.js"></script>
+  <script src="./offline-game-state.js"></script>
+  <script src="./offline-dialogue-engine.js"></script>
+  <script src="./offline-runtime.js"></script>
+  <script src="./offline-tools.js"></script>
+  <script src="./offline-pwa.js"></script>
+  <script src="./config.js?v=offline-1"></script>
+  <script src="./test-mode.js?v=20260716-2"></script>
+  <script src="./equipment-data.js"></script>
+  <script src="./black-market-data.js?v=20260717-4"></script>
+  <script src="./casino-data.js"></script>
+  <script src="./black-market-usa-equipment.js"></script>
+  <script src="./equipment.js"></script>
+  <script src="./collectibles-data.js"></script>
+  <script src="./cg-assets.js"></script>
+  <script src="./ending-gender-assets.js?v=20260716-4"></script>
+  <script src="./ending-fixed-assets.js?v=20260717-1"></script>
+  <script src="./ending-archive.js"></script>
+  <script src="./dialogue-usa.js"></script>
+  <script src="./dialogue-sanctuary.js"></script>
+  <script src="./dialogue-corporate.js"></script>
+  <script src="./dialogue-tribute.js"></script>
+  <script src="./dialogue-scenes.js"></script>
+  <script src="./room-entry-copy.js?v=20260717-1"></script>
+  <script src="./storage-chat.js?v=20260716-8"></script>
+  <script src="./storage.js?v=20260716-9"></script>
+  <script src="./save-recovery-data.js?v=20260717-1"></script>
+  <script src="./save-recovery-transaction.js?v=20260716-1"></script>
+  <script src="./save-recovery.js?v=20260716-4"></script>
+  <script src="./casino-store.js?v=20260717-1"></script>
+  <script src="./casino-rules.js"></script>
+  <script src="./black-market-potions.js"></script>
+  <script src="./black-market-store.js?v=20260717-3"></script>
+  <script src="./black-market.js"></script>
+  <script src="./black-market-refresh.js"></script>
+  <script src="./achievements.js?v=20260717-1"></script>
+  <script src="./traits-data.js"></script>
+  <script src="./traits.js"></script>
+  <script src="./trait-requirements.js"></script>
+  <script src="./collectibles.js"></script>
+  <script src="./tribute.js"></script>
+  <script src="./room-consumables.js"></script>
+  <script src="./daily-tasks.js"></script>
+  <script src="./audio.js"></script>
+  <script src="./casino-temptations.js"></script>
+  <script src="./casino-game.js"></script>
+  <script src="./authority.js?v=20260717-2"></script>
+  <script src="./life-cinema.js?v=20260717-2"></script>
+  <script src="./engine.js?v=20260716-7"></script>
+  <script src="./casino-access.js"></script>
+  <script src="./loader.js?v=20260717-3"></script>
+  <script src="./dialogue-ai.js?v=20260717-6"></script>
+  <script src="./dialogue-ui.js"></script>
+  <script src="./gallery-assets.js?v=20260717-2"></script>
+  <script src="./casino-gallery.js?v=20260717-1"></script>
+  <script src="./gallery-ui.js"></script>
+  <script src="./gender-ui.js"></script>
+  <script src="./player-gallery-ui.js"></script>
+  <script src="./black-market-refresh-ui.js"></script>
+  <script src="./black-market-ui.js?v=20260717-6"></script>
+  <script src="./room-consumables-ui.js"></script>
+  <script src="./casino-chat-ui.js?v=20260717-2"></script>
+  <script src="./casino-shop-ui.js?v=20260717-5"></script>
+  <script src="./casino-ui.js?v=20260717-2"></script>
+  <script src="./rooms-ui.js?v=20260717-4"></script>
+  <script src="./tribute-ui.js?v=20260717-3"></script>
+  <script src="./rooms.js?v=20260717-2"></script>
+  <script src="./traits-ui.js"></script>
+  <script src="./equipment-ui.js"></script>
+  <script src="./protagonist-portrait.js?v=20260716-4"></script>
+  <script src="./collectibles-ui.js"></script>
+  <script src="./daily-tasks-ui.js"></script>
+  <script src="./cg-ui.js"></script>
+  <script src="./ui.js?v=20260717-1"></script>
+  <script src="./game.js?v=20260717-1"></script>
+</body>
+</html>

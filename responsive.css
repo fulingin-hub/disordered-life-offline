@@ -1,0 +1,157 @@
+body,
+button,
+input,
+select,
+h1,
+h2,
+h3,
+p,
+strong,
+span,
+small,
+label,
+blockquote {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+dialog,
+.dialog-heading,
+.dialog-heading > *,
+.event-heading > *,
+.choice-button > *,
+.room-scene > *,
+.player-gallery-toolbar > * {
+  min-width: 0;
+}
+
+.dialog-heading h2,
+.gallery-dialog h2,
+.traits-dialog h2,
+.rooms-dialog h2,
+.player-room-dialog h2,
+.system-dialog h2 {
+  line-height: 1.2;
+}
+
+.choice-button small {
+  max-width: 46%;
+}
+
+@media (max-width: 820px) {
+  .topbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+    min-height: 0;
+    align-items: stretch;
+  }
+
+  .brand {
+    display: flex;
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 2px 8px;
+    white-space: normal;
+  }
+
+  .top-actions {
+    width: 100%;
+    max-width: none;
+  }
+
+  .event-heading {
+    align-items: flex-start;
+  }
+
+  .route-label {
+    max-width: 58%;
+    text-align: right;
+  }
+}
+
+@media (max-width: 520px) {
+  .topbar {
+    padding: 8px 9px 10px;
+  }
+
+  .top-actions .quiet-button {
+    padding: 0 7px;
+    font-size: 11px;
+  }
+
+  .stat {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+  .stat-heading {
+    gap: 2px;
+    font-size: 10px;
+  }
+
+  .event-panel {
+    max-height: 69%;
+    padding: 14px 12px calc(14px + env(safe-area-inset-bottom));
+  }
+
+  .event-panel h1 {
+    font-size: 24px;
+    line-height: 1.18;
+  }
+
+  .event-text {
+    font-size: 14px;
+  }
+
+  .choice-button {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .choice-button small {
+    max-width: none;
+    text-align: left;
+  }
+
+  .dialog-heading {
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .dialog-heading h2,
+  .gallery-dialog h2,
+  .traits-dialog h2,
+  .rooms-dialog h2,
+  .player-room-dialog h2,
+  .system-dialog h2 {
+    font-size: 20px;
+  }
+
+  .gallery-thumbs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .trait-titles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .chat-form {
+    grid-template-columns: minmax(0, 1fr) 64px;
+  }
+}
+
+@media (max-width: 380px) {
+  .traits-summary,
+  .collectible-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gender-panel {
+    padding: 16px;
+  }
+
+  .gender-panel h1 {
+    font-size: 25px;
+  }
+}

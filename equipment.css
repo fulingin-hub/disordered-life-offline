@@ -1,0 +1,113 @@
+.traits-pages {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.traits-pages button {
+  border-radius: 0;
+  background: #202631;
+  color: var(--muted);
+}
+
+.traits-pages button + button {
+  border-left: 1px solid var(--line);
+}
+
+.traits-pages button.selected {
+  background: var(--red);
+  color: white;
+}
+
+.equipment-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 16px 0 10px;
+}
+
+.equipment-summary div {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 11px 13px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.equipment-summary span,
+.equipment-slot-heading span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.equipment-summary strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--gold);
+  font-size: 20px;
+}
+
+.equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-height: 52dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.equipment-slot {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 13px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.equipment-slot-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 9px;
+}
+
+.equipment-slot-heading strong {
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 17px;
+}
+
+.equipment-slot select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 10px;
+  background: #10141b;
+  color: var(--paper);
+  font: inherit;
+}
+
+.equipment-rule {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+@media (max-width: 620px) {
+  .traits-pages,
+  .equipment-summary,
+  .equipment-grid {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+  }
+
+  .traits-pages button + button {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+}

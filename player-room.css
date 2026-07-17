@@ -1,0 +1,127 @@
+.player-room-dialog {
+  width: min(1040px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  background: #131820;
+  color: var(--paper);
+}
+
+.player-room-dialog::backdrop {
+  background: rgba(4, 5, 7, 0.9);
+}
+
+.player-room-dialog h2 {
+  margin: 4px 0 0;
+  font-size: 25px;
+}
+
+.player-gallery-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 18px 0 14px;
+}
+
+.gender-tabs {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(96px, 1fr));
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.gender-tabs button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 0;
+  background: #202631;
+  color: var(--muted);
+}
+
+.gender-tabs button + button {
+  border-left: 1px solid var(--line);
+}
+
+.gender-tabs button.selected {
+  background: var(--red);
+  color: white;
+}
+
+.player-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  max-height: calc(100dvh - 174px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;
+}
+
+.player-gallery-hint {
+  min-height: 18px;
+  margin: -5px 0 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.player-cg-item {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0;
+  background: #0b0e13;
+  color: var(--paper);
+  text-align: left;
+}
+
+.player-cg-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  background:
+    linear-gradient(135deg, transparent 46%, rgba(255, 255, 255, 0.08) 47% 53%, transparent 54%),
+    #1b2029;
+}
+
+.player-cg-item span {
+  display: block;
+  min-height: 42px;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.player-cg-item.locked {
+  opacity: 0.48;
+  filter: grayscale(1);
+  cursor: help;
+}
+
+.player-cg-item.unlocked:hover img {
+  filter: brightness(1.08);
+}
+
+.player-room-card {
+  border-color: rgba(216, 168, 78, 0.58);
+}
+
+@media (max-width: 760px) {
+  .player-room-dialog {
+    padding: 14px;
+  }
+
+  .player-gallery-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .player-gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: calc(100dvh - 222px);
+  }
+}

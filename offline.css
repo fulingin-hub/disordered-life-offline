@@ -1,0 +1,83 @@
+.offline-toast {
+  position: fixed;
+  right: 18px;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  z-index: 80;
+  max-width: min(360px, calc(100vw - 36px));
+  border: 1px solid rgba(243, 239, 230, 0.24);
+  border-left: 4px solid #d8a84e;
+  border-radius: 6px;
+  padding: 12px 16px;
+  background: #171b22;
+  color: #f3efe6;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.offline-toast.error {
+  border-left-color: #b13d4a;
+}
+
+.offline-toast.success {
+  border-left-color: #5d9b78;
+}
+
+.offline-dialog {
+  width: min(440px, calc(100vw - 28px));
+  border: 1px solid rgba(243, 239, 230, 0.18);
+  border-radius: 8px;
+  padding: 22px;
+  background: #171b22;
+  color: #f3efe6;
+}
+
+.offline-dialog::backdrop {
+  background: rgba(4, 6, 9, 0.78);
+}
+
+.offline-dialog h2 {
+  margin: 0 0 8px;
+}
+
+.offline-status {
+  min-height: 42px;
+  margin: 0 0 16px;
+  color: #aaa79f;
+}
+
+.offline-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.offline-actions button {
+  border: 1px solid rgba(243, 239, 230, 0.18);
+  background: #242b36;
+}
+
+.offline-actions button.danger {
+  border-color: rgba(177, 61, 74, 0.6);
+  background: rgba(177, 61, 74, 0.18);
+}
+
+.offline-cache-status {
+  position: fixed;
+  left: 50%;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  z-index: 75;
+  transform: translateX(-50%);
+  border: 1px solid rgba(243, 239, 230, 0.18);
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: #171b22;
+  color: #f3efe6;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+  .offline-actions {
+    grid-template-columns: 1fr;
+  }
+}

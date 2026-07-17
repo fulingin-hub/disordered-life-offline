@@ -1,0 +1,81 @@
+.room-tribute {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px 16px;
+  margin: 12px 0;
+  border: 1px solid rgba(216, 168, 78, 0.42);
+  padding: 12px;
+  background: rgba(216, 168, 78, 0.055);
+}
+
+.room-tribute-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.room-tribute-summary span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.room-tribute-summary strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--gold);
+  font-size: 20px;
+}
+
+.room-tribute progress {
+  width: 100%;
+  height: 8px;
+  grid-column: 1 / -1;
+  accent-color: var(--gold);
+}
+
+.room-tribute-next {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.room-tribute-form {
+  display: grid;
+  grid-template-columns: 92px minmax(108px, auto);
+  align-items: end;
+  gap: 8px;
+}
+
+.room-tribute-form label {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.room-tribute-form input {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 4px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 10px;
+  background: #202631;
+  color: var(--paper);
+}
+
+.room-tribute-form button {
+  min-height: 44px;
+  background: var(--red);
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .room-tribute {
+    grid-template-columns: 1fr;
+  }
+
+  .room-tribute-form {
+    grid-template-columns: minmax(0, 1fr) 120px;
+  }
+}

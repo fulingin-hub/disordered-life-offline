@@ -1,0 +1,20 @@
+{
+  "name": "失序人生",
+  "short_name": "失序人生",
+  "description": "完全离线的人生选择游戏",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101319",
+  "theme_color": "#101319",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "./assets/generated/protagonist-male-character-set-v2.10e1268e.webp",
+      "sizes": "1254x1254",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ]
+}

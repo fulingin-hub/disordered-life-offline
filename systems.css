@@ -1,0 +1,209 @@
+.system-dialog {
+  width: min(920px, calc(100vw - 28px));
+  max-height: min(800px, calc(100dvh - 28px));
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  background: #151a21;
+  color: var(--paper);
+}
+
+.system-dialog::backdrop {
+  background: rgba(4, 5, 7, 0.88);
+}
+
+.system-dialog h2 {
+  margin: 4px 0 0;
+  font-size: 25px;
+}
+
+.system-status {
+  min-height: 20px;
+  margin: 14px 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.system-lock {
+  border: 1px dashed rgba(216, 168, 78, 0.52);
+  padding: 28px 18px;
+  background: rgba(216, 168, 78, 0.06);
+  color: #ead9b2;
+  text-align: center;
+}
+
+.shop-summary {
+  margin-top: 15px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.shop-summary strong {
+  margin-left: 6px;
+  color: var(--gold);
+  font-size: 20px;
+}
+
+.shop-filter {
+  display: grid;
+  grid-template-columns: auto minmax(180px, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.shop-filter select {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 12px;
+  background: #202631;
+  color: var(--paper);
+  font: inherit;
+}
+
+.collectible-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 9px;
+  max-height: 55dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.collectible-card {
+  display: flex;
+  min-width: 0;
+  min-height: 210px;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.collectible-card.owned {
+  border-color: rgba(216, 168, 78, 0.58);
+  background: rgba(216, 168, 78, 0.055);
+}
+
+.collectible-mark {
+  color: var(--gold);
+  font-size: 10px;
+}
+
+.collectible-card strong {
+  margin-top: 7px;
+  line-height: 1.35;
+}
+
+.collectible-card p {
+  flex: 1;
+  margin: 8px 0 12px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.collectible-card button {
+  width: 100%;
+  min-height: 40px;
+  background: var(--red);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.collectible-card button:disabled {
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.daily-task-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  max-height: 65dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.daily-task {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.daily-task.claimed {
+  opacity: 0.6;
+}
+
+.daily-task > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.daily-task > div:first-child span {
+  color: var(--gold);
+  font-size: 11px;
+}
+
+.daily-task p {
+  margin: 7px 0 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.task-progress {
+  height: 5px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.task-progress span {
+  display: block;
+  height: 100%;
+  background: var(--gold);
+}
+
+.daily-task > div:last-child {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.daily-task button {
+  min-height: 38px;
+  padding: 0 12px;
+  background: var(--red);
+  font-size: 11px;
+}
+
+.daily-task button:disabled {
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 760px) {
+  .system-dialog {
+    padding: 14px;
+  }
+
+  .collectible-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: 59dvh;
+  }
+
+  .collectible-card {
+    min-height: 190px;
+  }
+
+  .daily-task-list {
+    grid-template-columns: 1fr;
+  }
+}

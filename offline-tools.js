@@ -1,0 +1,121 @@
+(function () {
+  let installPrompt = null;
+
+  function node(tag, className, text) {
+    const item = document.createElement(tag);
+    if (className) item.className = className;
+    if (text !== undefined) item.textContent = text;
+    return item;
+  }
+
+  function download(name, value) {
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(new Blob(
+      [JSON.stringify(value, null, 2)], { type: "application/json" }));
+    link.download = name;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+  }
+
+  async function exportSave(status) {
+    const storage = {};
+    for (let index = 0; index < localStorage.length; index += 1) {
+      const key = localStorage.key(index);
+      if (key) storage[key] = localStorage.getItem(key);
+    }
+    download(`disordered-life-${new Date().toISOString().slice(0, 10)}.json`, {
+      product: "disordered-life-offline",
+      exportedAt: new Date().toISOString(),
+      database: await OfflineDB.dump(),
+      localStorage: storage,
+    });
+    status.textContent = "离线存档已经导出。";
+  }
+
+  async function importSave(file, status) {
+    const payload = JSON.parse(await file.text());
+    if (payload?.product !== "disordered-life-offline" || !payload.database) {
+      throw new Error("这不是有效的失序人生离线存档。");
+    }
+    await OfflineDB.restore(payload.database);
+    localStorage.clear();
+    Object.entries(payload.localStorage || {}).forEach(([key, value]) => {
+      localStorage.setItem(key, String(value));
+    });
+    status.textContent = "存档导入完成，正在重新载入。";
+    window.setTimeout(() => location.reload(), 400);
+  }
+
+  async function reset(status) {
+    if (!window.confirm("确定删除本机全部离线存档？此操作无法撤销。")) return;
+    await OfflineDB.clear();
+    localStorage.clear();
+    status.textContent = "离线存档已经清除。";
+    window.setTimeout(() => location.reload(), 400);
+  }
+
+  function buildDialog() {
+    const dialog = node("dialog", "offline-dialog");
+    const title = node("h2", "", "离线管理");
+    const status = node("p", "offline-status", "存档只保存在当前设备。");
+    const actions = node("div", "offline-actions");
+    const exportButton = node("button", "", "导出存档");
+    const importButton = node("button", "", "导入存档");
+    const installButton = node("button", "", "安装到主屏幕");
+    const resetButton = node("button", "danger", "清除本机存档");
+    const closeButton = node("button", "quiet-button", "关闭");
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json";
+    input.hidden = true;
+
+    exportButton.addEventListener("click", () => {
+      exportSave(status).catch((error) => { status.textContent = error.message; });
+    });
+    importButton.addEventListener("click", () => input.click());
+    input.addEventListener("change", () => {
+      const file = input.files?.[0];
+      if (file) importSave(file, status)
+        .catch((error) => { status.textContent = error.message; });
+    });
+    installButton.addEventListener("click", async () => {
+      if (!installPrompt) {
+        status.textContent = "请使用浏览器菜单中的“添加到主屏幕”。";
+        return;
+      }
+      installPrompt.prompt();
+      await installPrompt.userChoice;
+      installPrompt = null;
+      installButton.disabled = true;
+    });
+    resetButton.addEventListener("click", () => {
+      reset(status).catch((error) => { status.textContent = error.message; });
+    });
+    closeButton.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      dialog.close();
+    });
+    actions.append(exportButton, importButton, installButton, resetButton);
+    dialog.append(title, status, actions, closeButton, input);
+    document.body.append(dialog);
+    return dialog;
+  }
+
+  function init() {
+    const dialog = buildDialog();
+    const button = node("button", "quiet-button", "离线管理");
+    button.type = "button";
+    button.addEventListener("click", () => dialog.showModal());
+    document.querySelector(".top-actions")?.append(button);
+    document.querySelector(".gender-panel")?.append(button.cloneNode(true));
+    const gateButton = document.querySelector(".gender-panel .quiet-button:last-child");
+    gateButton?.addEventListener("click", () => dialog.showModal());
+  }
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    installPrompt = event;
+  });
+  window.addEventListener("DOMContentLoaded", init, { once: true });
+})();

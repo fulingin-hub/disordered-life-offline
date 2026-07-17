@@ -1,0 +1,91 @@
+.room-consumables-panel {
+  margin: 14px 0;
+  border: 1px solid rgba(177, 61, 74, 0.42);
+  border-radius: 6px;
+  padding: 12px;
+  background: rgba(177, 61, 74, 0.045);
+}
+
+.room-consumables-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.room-consumables-heading h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.room-consumables-heading span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.room-consumables-heading strong {
+  color: var(--gold);
+  font-size: 16px;
+}
+
+.room-consumables-status {
+  min-height: 18px;
+  margin: 8px 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.room-consumables-items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.room-consumable-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  padding: 10px;
+  background: rgba(8, 10, 14, 0.42);
+}
+
+.room-consumable-card strong,
+.room-consumable-card small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.room-consumable-card strong {
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.room-consumable-card p,
+.room-consumable-card small {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.room-consumable-card p {
+  min-height: 29px;
+  margin: 6px 0;
+}
+
+.room-consumable-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.room-consumable-actions button {
+  min-height: 44px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .room-consumables-items {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

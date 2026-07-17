@@ -1,0 +1,239 @@
+.black-market-card .event-type {
+  color: #d8a84e;
+}
+
+.black-market-panel {
+  margin: 14px 0;
+  border: 1px solid rgba(216, 168, 78, 0.35);
+  border-radius: 6px;
+  padding: 12px;
+  background: rgba(216, 168, 78, 0.035);
+}
+
+.black-market-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.black-market-summary div {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  background: rgba(8, 10, 14, 0.48);
+}
+
+.black-market-summary span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.black-market-summary strong {
+  color: var(--gold);
+  font-size: 18px;
+}
+
+.black-market-status {
+  min-height: 18px;
+  margin: 9px 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.black-market-layout {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.75fr) minmax(0, 1.4fr);
+  gap: 10px;
+}
+
+.market-section {
+  min-width: 0;
+}
+
+.market-section h4 {
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+
+.market-heading,
+.market-refresh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.market-heading {
+  min-height: 44px;
+  justify-content: space-between;
+}
+
+.market-heading h4 {
+  margin: 0;
+}
+
+.market-refresh {
+  justify-content: flex-end;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.market-refresh button {
+  min-height: 36px;
+  padding: 7px 10px;
+  background: var(--gold);
+  color: #111318;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.market-refresh button:disabled {
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+}
+
+.market-milestones {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.market-milestones li {
+  display: grid;
+  gap: 2px;
+  border-left: 2px solid rgba(255, 255, 255, 0.12);
+  padding: 4px 7px;
+  color: #6f747d;
+  font-size: 10px;
+}
+
+.market-milestones li.unlocked {
+  border-color: var(--gold);
+  color: var(--paper);
+}
+
+.market-milestones span {
+  color: var(--muted);
+}
+
+.market-stock {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  max-height: 240px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.market-item {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  padding: 9px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.market-item.sold,
+.market-item.owned {
+  opacity: 0.55;
+}
+
+.market-kind,
+.market-item small {
+  color: var(--gold);
+  font-size: 9px;
+}
+
+.market-item strong {
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+
+.market-item p {
+  flex: 1;
+  margin: 5px 0 7px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.market-item button,
+.market-potion button {
+  min-height: 38px;
+  margin-top: 7px;
+  background: var(--red);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.market-item button:disabled,
+.market-potion button:disabled {
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.market-inventory-section {
+  grid-column: 1 / -1;
+}
+
+.market-inventory {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.market-inventory h4,
+.market-owned-note,
+.market-empty {
+  grid-column: 1 / -1;
+}
+
+.market-owned-note,
+.market-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.market-potion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 58px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  padding: 8px;
+}
+
+.market-potion strong,
+.market-potion span {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 10px;
+}
+
+.market-potion span {
+  margin-top: 3px;
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  .black-market-summary,
+  .black-market-layout,
+  .market-stock,
+  .market-inventory {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .market-owned-note,
+  .market-empty {
+    grid-column: auto;
+  }
+
+  .market-stock {
+    max-height: 230px;
+  }
+}

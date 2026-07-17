@@ -1,0 +1,200 @@
+.traits-dialog {
+  width: min(820px, calc(100vw - 28px));
+  max-height: min(780px, calc(100dvh - 28px));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 22px;
+  background: #171b22;
+  color: var(--paper);
+}
+
+.traits-dialog::backdrop {
+  background: rgba(4, 5, 7, 0.86);
+}
+
+.traits-dialog h2 {
+  margin: 4px 0 0;
+  font-size: 26px;
+}
+
+.traits-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 16px 0 10px;
+}
+
+.traits-summary div {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 11px 13px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.traits-summary span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.traits-summary strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--gold);
+  font-size: 20px;
+}
+
+.traits-status {
+  min-height: 20px;
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.trait-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-height: 53dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.trait-row {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 13px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.trait-row.unlocked {
+  border-color: rgba(216, 168, 78, 0.58);
+}
+
+.trait-row.locked {
+  opacity: 0.56;
+}
+
+.trait-row.locked .trait-track span {
+  background: #646a73;
+}
+
+.trait-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.trait-heading strong {
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 18px;
+}
+
+.trait-heading b {
+  color: var(--gold);
+  font-size: 13px;
+}
+
+.trait-row p {
+  min-height: 38px;
+  margin: 6px 0 10px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.trait-track {
+  height: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.trait-track span {
+  display: block;
+  height: 100%;
+  background: var(--red);
+  transition: width 180ms ease-out;
+}
+
+.trait-row.unlocked .trait-track span {
+  background: var(--gold);
+}
+
+.trait-controls {
+  display: grid;
+  grid-template-columns: 44px minmax(64px, 1fr) 44px;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.trait-controls > span {
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+.trait-step {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 20px;
+}
+
+.trait-titles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 9px;
+}
+
+.trait-title {
+  border: 1px solid var(--line);
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.04);
+  line-height: 1.35;
+  font-size: 12px;
+}
+
+.trait-title.equipped {
+  border-color: var(--gold);
+  background: rgba(216, 168, 78, 0.14);
+  color: #f4dfae;
+}
+
+.trait-title.tier-100:not(:disabled) {
+  border-color: rgba(177, 61, 74, 0.72);
+}
+
+.traits-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 13px;
+}
+
+.traits-actions button {
+  min-width: 150px;
+  padding: 0 18px;
+  background: var(--red);
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .traits-dialog {
+    padding: 16px;
+  }
+
+  .trait-list {
+    grid-template-columns: 1fr;
+    max-height: 57dvh;
+  }
+
+  .trait-row p {
+    min-height: 0;
+  }
+
+  .traits-actions button {
+    width: 100%;
+  }
+}
