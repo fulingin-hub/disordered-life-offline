@@ -8,7 +8,8 @@ bundled into the APK and do not require a server.
 
 Open the repository's **Actions** tab, select **Build Android APK**, then
 download the `disordered-life-offline-apk` artifact from the latest successful
-run.
+run. GitHub builds a release-signed APK with a stable repository signing key,
+so later versions can be installed over an earlier version.
 
 ## Build locally
 

@@ -4,6 +4,17 @@ plugins {
 
 val webRoot = rootProject.projectDir.parentFile
 val generatedWebAssets = layout.buildDirectory.dir("generated/web-assets").get().asFile
+val ciVersionCode = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
+val keystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
+val keystorePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
+val keyAliasValue = System.getenv("ANDROID_KEY_ALIAS")
+val keyPasswordValue = System.getenv("ANDROID_KEY_PASSWORD")
+val releaseSigningReady = listOf(
+    keystorePath,
+    keystorePassword,
+    keyAliasValue,
+    keyPasswordValue,
+).all { !it.isNullOrBlank() }
 
 val syncWebAssets by tasks.registering(Copy::class) {
     from(webRoot) {
@@ -33,15 +44,28 @@ android {
         applicationId = "com.fulinginhub.disorderedlife"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = ciVersionCode
+        versionName = "1.0.$ciVersionCode"
     }
 
     sourceSets["main"].assets.srcDir(generatedWebAssets)
 
+    signingConfigs {
+        if (releaseSigningReady) {
+            create("release") {
+                storeFile = file(keystorePath!!)
+                storePassword = keystorePassword!!
+                keyAlias = keyAliasValue!!
+                keyPassword = keyPasswordValue!!
+                storeType = "PKCS12"
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.findByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
