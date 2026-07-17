@@ -60,6 +60,14 @@ jobs:
       - name: Build installable APK
         run: gradle -p android --no-daemon assembleRelease
 
+      - name: Verify APK signature
+        run: |
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify \
+            --verbose --print-certs \
+            android/app/build/outputs/apk/release/app-release.apk
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging \
+            android/app/build/outputs/apk/release/app-release.apk | head -n 3
+
       - name: Prepare artifact
         run: cp android/app/build/outputs/apk/release/app-release.apk disordered-life-offline.apk
 
