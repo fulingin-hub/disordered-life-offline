@@ -10,9 +10,14 @@
   }
 
   function download(name, value) {
+    const text = JSON.stringify(value, null, 2);
+    if (window.AndroidOffline?.saveJson) {
+      window.AndroidOffline.saveJson(name, text);
+      return;
+    }
     const link = document.createElement("a");
     link.href = URL.createObjectURL(new Blob(
-      [JSON.stringify(value, null, 2)], { type: "application/json" }));
+      [text], { type: "application/json" }));
     link.download = name;
     link.click();
     window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);

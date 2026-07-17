@@ -1,5 +1,6 @@
 (function () {
-  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
+  if (window.AndroidOffline || !("serviceWorker" in navigator)
+    || location.protocol === "file:") return;
   let status;
 
   function show(text) {
