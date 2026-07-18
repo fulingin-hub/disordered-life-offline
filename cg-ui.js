@@ -31,7 +31,13 @@
       el.dialog = document.getElementById("cgDialog");
       el.title = document.getElementById("cgDialogTitle");
       el.image = document.getElementById("cgDialogImage");
+      el.text = document.getElementById("cgDialogText");
+      el.replay = document.getElementById("cgNarrationButton");
       document.getElementById("closeCgButton").addEventListener("click", () => el.dialog.close());
+      el.replay.addEventListener("click", () => {
+        if (el.ending) LG.cinemaNarrator?.playEnding?.(el.ending);
+      });
+      el.dialog.addEventListener("close", () => LG.cinemaNarrator?.stop?.());
     },
     showEvent(event) {
       return setBackdrop(LG.CG_ASSETS.events[event?.id]);
@@ -60,9 +66,12 @@
       el.title.textContent = `${label} · ${ending.title}`;
       el.image.src = ending.cg || LG.CG_ASSETS.endingSrc(ending.id, gender);
       el.image.alt = `${label}${ending.title}CG`;
+      el.text.textContent = ending.text || "";
+      el.ending = ending;
       const archive = document.getElementById("archiveDialog");
       if (archive.open) archive.close();
       el.dialog.showModal();
+      LG.cinemaNarrator?.playEnding?.(ending);
     },
   };
 })(window.LifeGame);

@@ -78,6 +78,7 @@
       "healthy-life": `${base}cg-ending-healthy-life-male.cf3c0d09.webp`,
       "reject-temptation":
         `${base}cg-ending-reject-temptation-male.59f9f307.webp`,
+      saint: `${base}cg-ending-saint-male.44da103f.webp`,
     },
   };
   LG.CG_ASSETS.genderEndings = {
@@ -94,6 +95,7 @@
       "healthy-life": `${base}cg-ending-healthy-life-female.f322f653.webp`,
       "reject-temptation":
         `${base}cg-ending-reject-temptation-female.60f0772a.webp`,
+      saint: `${base}cg-ending-saint-female.55adfac7.webp`,
     },
   };
   LG.CG_ASSETS.endingSrc = function (id, gender) {

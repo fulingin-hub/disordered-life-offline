@@ -124,12 +124,18 @@
       return Math.max(0, Math.min(20, Math.floor(Number(pass?.remaining) || 0)));
     },
     canUseRoom(character) {
+      if (LG.infernalClub?.isCharacter?.(character)) {
+        return LG.infernalClub.canChat(character);
+      }
       return this.roomPass(character) > 0 || LG.traits.points() >= roomCost;
     },
     roomActionLabel() {
       return "服侍";
     },
     roomStatus(character) {
+      if (LG.infernalClub?.isCharacter?.(character)) {
+        return LG.infernalClub.chatStatus(character);
+      }
       const points = LG.traits.points();
       const remaining = this.roomPass(character);
       if (remaining) {
@@ -162,6 +168,8 @@
           return err?.message || "属性点不足，贡金50点可开启20轮房间对话。";
         case "INSUFFICIENT_COUPONS":
           return err?.message || "赎罪卷不足，完成影狱任务后再开启对话。";
+        case "INSUFFICIENT_PERSONALITY":
+          return err?.message || "人格值不足，完成异界任务后再开启对话。";
         case "REQUEST_PENDING":
           return "该对话请求仍在处理中，请稍后再试。";
         case "BILLING_FAILED":

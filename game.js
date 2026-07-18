@@ -15,6 +15,7 @@
       return "平台连接尚未就绪，请退出后重新进入游戏。";
     }
     if (err?.code === "TIMEOUT") return "读取权威存档超时，请点击重试。";
+    if (err?.code === "CAPTCHA_REQUIRED") return err.message;
     if (err?.code === "function_error") return err.message || "服务端拒绝了这次操作。";
     return "网络或结算服务暂时不可用，请稍后重试。";
   }
@@ -22,6 +23,20 @@
   function adopt(result) {
     state = result.life;
     archive = result.archive;
+  }
+
+  async function recoverStaleEvent(err) {
+    if (err?.code !== "function_error" || err?.message !== "stale or invalid event") {
+      return false;
+    }
+    try {
+      adopt(await LG.authority.sync());
+      LG.ui.render(state);
+      LG.ui.showOutcome("人生事件已同步，请按当前事件重新选择。");
+    } catch (syncErr) {
+      LG.ui.showOutcome(operationError(syncErr, "事件同步失败:"));
+    }
+    return true;
   }
 
   async function choose(index) {
@@ -50,7 +65,9 @@
         LG.ui.transition(() => LG.ui.render(state));
       }, 650);
     } catch (err) {
-      LG.ui.showOutcome(operationError(err, "服务端结算失败:"));
+      if (!await recoverStaleEvent(err)) {
+        LG.ui.showOutcome(operationError(err, "服务端结算失败:"));
+      }
       window.setTimeout(() => LG.ui.hideOutcome(), 1800);
     } finally {
       busy = false;
@@ -137,6 +154,7 @@
     });
     LG.audio.init();
     LG.narration.init();
+    await LG.cinemaNarrator.init();
     LG.achievementFeedback.init();
     LG.dialogueUI.init({
       onSend: sendDialogue,
@@ -153,6 +171,10 @@
     LG.blackPrisonUI.init();
     LG.blackPrisonOutfitUI.init();
     LG.penitentiaryUI.init(() => state);
+    LG.infernalUI.init();
+    LG.abyssUI.init();
+    LG.infernalClubChatUI.init();
+    LG.infernalClubUI.init();
     LG.rooms.init(() => state);
     LG.traitsUI.init();
     LG.specialOutfitUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });

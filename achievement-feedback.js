@@ -29,8 +29,8 @@
     if (!unlocked.length || silentMethods.has(method)) return;
     LG.audio?.achievement?.();
     if (!dialog || !message) return;
-    message.textContent = `成就完成：${
-      unlocked.map((item) => item.title).join("、")}`;
+    message.textContent = `成就完成：${unlocked.map((item) =>
+      `${item.title}（+${item.reward}成就点）`).join("、")}`;
     if (!dialog.open) dialog.showModal();
   }
 

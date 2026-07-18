@@ -9,7 +9,7 @@
     {
       id: "infernal", name: "恶魔神秘",
       fullName: "恶魔的神秘套装",
-      effect: "来自恶魔的馈赠：每轮人生可额外使用药剂10次",
+      effect: "来自恶魔的馈赠：每轮人生可额外饮用每种药剂各10次",
     },
     {
       id: "penitentiary", name: "影狱丧志",
@@ -39,6 +39,15 @@
   function effectText(id, ordinary) {
     const special = outfits.find((item) => item.id === id)?.effect;
     if (special) return special;
+    if (ordinary?.saintSet) {
+      return "这是自我意志的不灭：锁定坏结局，26岁后可直接选择普通结局";
+    }
+    if (ordinary?.edenSet) {
+      return "伊甸园的馈赠：完成任务时额外获得一次同额报酬";
+    }
+    if (ordinary?.penitentiarySet) {
+      return "影狱权限：黑街与影狱角色商店的饮品、食物、药剂全部免费";
+    }
     return ordinary?.set ? "羞耻值 +100" : "无套装效果";
   }
 

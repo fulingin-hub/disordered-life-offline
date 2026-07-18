@@ -20,6 +20,8 @@
       wave: "triangle", interval: 1450, filter: 2100, volume: 0.03 },
     shadow: { notes: [65.41, 77.78, 98, 130.81], drone: [32.7, 49],
       wave: "sawtooth", interval: 2400, filter: 360, volume: 0.024 },
+    infernal: { notes: [73.42, 92.5, 110, 146.83], drone: [36.71, 46.25],
+      wave: "sawtooth", interval: 1650, filter: 520, volume: 0.025 },
     ending: { notes: [130.81, 164.81, 196, 261.63], drone: [32.7, 65.41],
       wave: "sine", interval: 3200, filter: 800, volume: 0.026 },
   };
@@ -47,6 +49,7 @@
     if (raw.startsWith("area:")) return raw.split(":")[1] || "world";
     if (raw.startsWith("eden")) return "eden";
     if (raw.startsWith("shadow") || raw.startsWith("penitentiary")) return "shadow";
+    if (raw.startsWith("infernal")) return "infernal";
     return presets[raw] ? raw : "story";
   }
 

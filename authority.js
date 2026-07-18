@@ -2,14 +2,10 @@
   let snapshot = null;
   let latestRequestId = 0;
   let applying = Promise.resolve();
-  const listeners = new Set();
-  const SYNC_TIMEOUT = 30000;
-  const FALLBACK_URL = `./offline-game-state.js?v=${
-    encodeURIComponent(LG.CONFIG.buildId)}`;
+  const listeners = new Set(), SYNC_TIMEOUT = 30000;
+  const FALLBACK_URL = `./offline-game-state.js?v=${encodeURIComponent(LG.CONFIG.buildId)}`;
   const fallbackMemory = new Map();
-  let fallbackActive = false;
-  let fallbackLoader = null;
-  let fallbackQueue = Promise.resolve();
+  let fallbackActive = false, fallbackLoader = null, fallbackQueue = Promise.resolve();
 
   function withTimeout(task) {
     let timer;
@@ -26,17 +22,6 @@
   function operationId(method) {
     if (window.crypto?.randomUUID) return `${method}:${window.crypto.randomUUID()}`;
     return `${method}:${Date.now()}:${Math.random().toString(36).slice(2, 10)}`;
-  }
-
-  function shouldFallback(err) {
-    const detail = `${err?.code || ""} ${err?.message || ""}`.toLowerCase();
-    return detail.includes("forbidden_dev_mode")
-      || detail.includes("torbidden_dev_mode")
-      || detail.includes("function_not_published")
-      || detail.includes("function_not_found")
-      || detail.includes("runtime_unavailable")
-      || detail.includes("function_unavailable")
-      || detail.includes("读取权威存档超时");
   }
 
   function loadFallbackEngine() {
@@ -67,6 +52,7 @@
   const fallbackKv = {
     async get(key) {
       if (fallbackMemory.has(key)) return { value: fallbackMemory.get(key) };
+      if (!LG.authorityFallback.remoteAllowed()) return null;
       try {
         const stored = await window.dzmm?.kv?.get?.(key);
         if (stored?.value !== undefined) {
@@ -80,6 +66,7 @@
     },
     async put(key, value) {
       fallbackMemory.set(key, value);
+      if (!LG.authorityFallback.remoteAllowed()) return true;
       try {
         await window.dzmm?.kv?.put?.(key, value, { flush: true });
       } catch (err) {
@@ -88,10 +75,12 @@
       return true;
     },
   };
-
   async function invokeFallback(body) {
     await loadFallbackEngine();
-    const run = () => window.OfflineGameState.default({ body }, { kv: fallbackKv });
+    const run = () => window.OfflineGameState.default({ body }, {
+      kv: fallbackKv,
+      lifeCinemaTestMode: LG.TEST_MODE?.lifeCinemaCheats === true || window.__LIFE_GAME_TEST_MODE__ === true,
+    });
     const task = fallbackQueue.then(run, run);
     fallbackQueue = task.then(() => {}, () => {});
     return task;
@@ -144,10 +133,23 @@
         const task = window.dzmm.fn.invoke("game-state", body);
         result = method === "sync" ? await withTimeout(task) : await task;
       } catch (err) {
-        if (!shouldFallback(err)) throw err;
-        fallbackActive = true;
-        console.warn("权威服务不可用，切换本地结算:", err?.code, err?.message);
-        result = await invokeFallback(body);
+        if (LG.authorityFallback.isCaptcha(err)) {
+          LG.authorityFallback.blockRemote(err); throw LG.authorityFallback.captchaError();
+        }
+        LG.authorityFallback.blockRemote(err);
+        const mode = LG.authorityFallback.mode(err);
+        if (!mode) throw err;
+        if (LG.authorityFallback.shouldRetry(err, Boolean(snapshot))) {
+          throw LG.authorityFallback.retryError(err);
+        }
+        fallbackActive = mode !== "transient";
+        console.warn("权威服务不可用，本次切换本地结算:", err?.code, err?.message);
+        try {
+          result = await invokeFallback(body);
+        } catch (fallbackErr) {
+          if (mode === "transient") fallbackActive = false;
+          throw fallbackErr;
+        }
       }
     }
     if (requestId !== latestRequestId && method === "sync") return snapshot;
@@ -179,12 +181,15 @@
       return Array.isArray(snapshot?.cinemaAchievements)
         ? snapshot.cinemaAchievements : [];
     },
-    endingCount() {
-      return Number(snapshot?.endingCount) || 0;
+    lifeCinemaProgress() {
+      return snapshot?.lifeCinema
+        || { restartCount: 0, tasteRequired: 800, powerRequired: 1000 };
     },
-    endingTotal() {
-      return Number(snapshot?.endingTotal) || 0;
+    achievementPoints() {
+      return snapshot?.economy?.achievementPoints || { balance: 0, lifetime: 0 };
     },
+    endingCount() { return Number(snapshot?.endingCount) || 0; },
+    endingTotal() { return Number(snapshot?.endingTotal) || 0; },
     subscribe(listener) {
       if (typeof listener !== "function") return () => {};
       listeners.add(listener);

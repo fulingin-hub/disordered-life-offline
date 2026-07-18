@@ -251,7 +251,7 @@
 }
 
 .event-quote {
-  margin: -8px 0 18px;
+  margin: -8px 0 8px;
   border-left: 2px solid var(--gold);
   padding: 8px 12px;
   background: rgba(216, 168, 78, 0.08);
@@ -259,6 +259,26 @@
   font-family: Georgia, "Songti SC", serif;
   font-size: 14px;
   line-height: 1.65;
+}
+
+.narration-replay {
+  display: block;
+  min-width: 88px;
+  margin: 0 0 18px auto;
+}
+
+.narration-replay[hidden] {
+  display: none;
+}
+
+#narrationButton[data-state="ready"] {
+  border-color: rgba(103, 190, 132, 0.7);
+  color: #bce6c8;
+}
+
+#narrationButton[data-state="disabled"] {
+  border-color: rgba(210, 103, 103, 0.7);
+  color: #efb8b8;
 }
 
 .choice-list {

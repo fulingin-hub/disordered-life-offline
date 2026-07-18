@@ -28,7 +28,7 @@
     toggle() {
       enabled = !enabled;
       LG.music?.setEnabled?.(enabled);
-      LG.narration?.setEnabled?.(enabled);
+      LG.cinemaNarrator?.setMasterEnabled?.(enabled);
       return enabled;
     },
     scene(value) {

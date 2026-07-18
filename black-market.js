@@ -42,7 +42,7 @@
       stat: template.stat,
       amount: template.amount,
       effectKey: `${country}-${template.id || guaranteed}`,
-      description: `${effectText(template.stat, template.amount)}；每个人生限用一次同类药剂。`,
+      description: `${effectText(template.stat, template.amount)}；每个人生限饮一次同类药剂。`,
       guaranteed: Boolean(guaranteed),
     };
   }
@@ -144,8 +144,10 @@
       if (this.purchasedToday(id) >= limit) {
         return { ok: false, message: limit ? `今日限购${limit}件，额度已用完。` : "先完成一次对应国家下跪。" };
       }
-      if (!LG.traits.spendPoints(item.price)) {
-        return { ok: false, message: `属性点不足，需要${item.price}点。` };
+      const price = item.type !== "equipment"
+        && LG.penitentiary.policeSetEquipped(gameState) ? 0 : item.price;
+      if (price && !LG.traits.spendPoints(price)) {
+        return { ok: false, message: `属性点不足，需要${price}点。` };
       }
       daily.sold.push(item.id);
       if (item.type === "equipment") {
@@ -166,31 +168,9 @@
         if (owned) owned.quantity += 1;
         else data.potions.push({ ...item, quantity: 1, adult: true });
       }
-      return { ok: true, item, message: `已购买${item.name}，消耗${item.price}点属性点。` };
-    },
-    usePotion(itemId, gameState) {
-      if (currentAge(gameState) < 18) return { ok: false, message: "成人道具仅限主角18岁后使用。" };
-      if (gameState.endingId) return { ok: false, message: "本次人生已经结束，无法使用药剂。" };
-      const data = this._data();
-      const item = data.potions.find((entry) => entry.id === itemId && entry.quantity > 0);
-      if (!item) return { ok: false, message: "药剂库存不足。" };
-      const unlimitedSpecial = item.specialKind === "water" || item.specialKind === "gold";
-      const used = Array.isArray(data.uses[gameState.runId]) ? data.uses[gameState.runId] : [];
-      if (!unlimitedSpecial && used.includes(item.effectKey)) {
-        return { ok: false, message: "本次人生已经使用过同类药剂。" };
-      }
-      const previous = Number(gameState.stats[item.stat]) || 0;
-      const next = Math.max(0, Math.min(100, previous + item.amount));
-      gameState.stats[item.stat] = next;
-      item.quantity -= 1;
-      const causedHealthZero = unlimitedSpecial && item.stat === "health" && previous > 0 && next === 0;
-      LG.blackMarketPotions.recordUse(data, item, causedHealthZero);
-      if (!unlimitedSpecial) {
-        data.uses[gameState.runId] = [...used, item.effectKey];
-        const runIds = Object.keys(data.uses);
-        if (runIds.length > 40) runIds.slice(0, runIds.length - 40).forEach((id) => delete data.uses[id]);
-      }
-      return { ok: true, item, message: `已使用${item.name}：${effectText(item.stat, item.amount)}。` };
+      return { ok: true, item, message: price
+        ? `已购买${item.name}，消耗${price}点属性点。`
+        : `影狱套装生效，已免费领取${item.name}。` };
     },
   });
 })(window.LifeGame);

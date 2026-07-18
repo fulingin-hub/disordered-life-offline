@@ -24,9 +24,9 @@
     "人格丧志脚铐", "人格丧志按摩器",
   ];
   const consumables = [
-    ["holy-water", "美味圣水", "健康 -10，可重复购买与食用。"],
-    ["golden-sacrament", "黄金圣餐", "健康 -20，可重复购买与食用。"],
-    ["despair-drug", "丧志药物", "自主 -15，每轮人生限用一次。"],
+    ["holy-water", "美味圣水", "健康 -10，可重复购买与饮用。"],
+    ["golden-sacrament", "黄金圣餐", "健康 -20，可重复购买与饮用。"],
+    ["despair-drug", "丧志药物", "自主 -15，每轮人生限饮一次。"],
   ];
   roles.forEach((character, index) => {
     character.items = regular.map(([suffix, name, description]) => ({
@@ -35,7 +35,7 @@
     }));
     character.items.push({
       id: character.certificate, name: `被${character.name}认可的奖状`,
-      description: "解锁人物画廊、AI对话、特殊任务和影狱套装部件。",
+      description: "可装备的影狱套装部件；同时解锁人物画廊、AI对话和特殊任务。",
       price: character.price, type: "certificate",
     });
     character.consumables = consumables.map(([suffix, name, description]) => ({

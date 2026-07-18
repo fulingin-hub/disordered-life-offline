@@ -45,6 +45,12 @@
     });
   }
 
+  async function loadImageWithRetry(src) {
+    if (await loadImage(src)) return true;
+    await new Promise((resolve) => window.setTimeout(resolve, 250));
+    return loadImage(src);
+  }
+
   async function preloadEntries(entries, message) {
     const unique = [...new Map(entries.filter(([, src]) => src)
       .map(([key, src]) => [src, [key, src]])).values()];
@@ -56,7 +62,7 @@
         totalResources: unique.length, message }
       : { phase: "resource_loading", message });
     await Promise.all(unique.map(async ([, src]) => {
-      if (!await loadImage(src)) failures.push(src);
+      if (!await loadImageWithRetry(src)) failures.push(src);
       completed += 1;
       progress(reportCounts
         ? { phase: "resource_loading", loadedResources: completed,

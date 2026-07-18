@@ -1,0 +1,36 @@
+(function (LG) {
+  Object.assign(LG.CONFIG.assets, {
+    infernalRealmGate:
+      "./assets/generated/infernal-realm-gate.f970b2ce.webp",
+    infernalClubEntrance:
+      "./assets/generated/infernal-club-border-outpost.65d08432.webp",
+    infernalClubGreedMale:
+      "./assets/generated/infernal-club-greed-male-apostle-v2.08decb32.webp",
+    infernalClubGreedFemale:
+      "./assets/generated/infernal-club-greed-female-apostle-v2.3746b921.webp",
+    infernalClubLustMale:
+      "./assets/generated/infernal-club-lust-male-apostle.0d5074b6.webp",
+    infernalClubLustFemale:
+      "./assets/generated/infernal-club-lust-female-apostle.133f591a.webp",
+    infernalClubWrathMale:
+      "./assets/generated/infernal-club-wrath-male-apostle.4d32cc2c.webp",
+    infernalClubWrathFemale:
+      "./assets/generated/infernal-club-wrath-female-apostle.042bf791.webp",
+    infernalClubSlothMale:
+      "./assets/generated/infernal-club-sloth-male-apostle.503db71e.webp",
+    infernalClubSlothFemale:
+      "./assets/generated/infernal-club-sloth-female-apostle.b771caf9.webp",
+    infernalClubPrideMale:
+      "./assets/generated/infernal-club-pride-male-apostle.2c34e05d.webp",
+    infernalClubPrideFemale:
+      "./assets/generated/infernal-club-pride-female-apostle.f77d1b58.webp",
+    infernalClubEnvyMale:
+      "./assets/generated/infernal-club-greed-male-apostle.372338af.webp",
+    infernalClubEnvyFemale:
+      "./assets/generated/infernal-club-greed-female-apostle.8e1495b1.webp",
+    infernalClubGluttonyMale:
+      "./assets/generated/infernal-club-gluttony-male-apostle.14cb13ca.webp",
+    infernalClubGluttonyFemale:
+      "./assets/generated/infernal-club-gluttony-female-apostle.ab5ba08b.webp",
+  });
+})(window.LifeGame);

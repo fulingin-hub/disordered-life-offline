@@ -6,6 +6,7 @@
     "drug-addict": "./assets/generated/cg-ending-drug-addict-male.e2add2ae.webp",
     "filth-addict": "./assets/generated/cg-ending-filth-addict-male.d2381d0e.webp",
     "hopeless-fetishist": "./assets/generated/cg-ending-hopeless-fetishist-male.bf896d03.webp",
+    saint: "./assets/generated/cg-ending-saint-male.44da103f.webp",
   });
 
   Object.assign(LG.CG_ASSETS.genderEndings.female, {
@@ -72,5 +73,6 @@
     "drug-addict": "./assets/generated/cg-ending-drug-addict-female.4e62cff3.webp",
     "filth-addict": "./assets/generated/cg-ending-filth-addict-female.d7fdad80.webp",
     "hopeless-fetishist": "./assets/generated/cg-ending-hopeless-fetishist-female.e1e9b78a.webp",
+    saint: "./assets/generated/cg-ending-saint-female.55adfac7.webp",
   });
 })(window.LifeGame);

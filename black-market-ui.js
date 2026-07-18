@@ -52,22 +52,22 @@
 
   function stockCard(item, state, purchased, limit) {
     const card = node("article", `market-item${item.sold ? " sold" : item.owned ? " owned" : ""}`);
+    const price = item.type !== "equipment" && LG.penitentiary.policeSetEquipped(state) ? 0 : item.price;
     card.append(
       node("span", "market-kind", item.type === "equipment" ? "装备" : "药剂"),
       node("strong", "", item.name),
       node("p", "", item.description),
-      node("small", "", `${item.price} 属性点`),
+      node("small", "", price ? `${price} 属性点` : "影狱套装 · 免费"),
     );
-    const button = node("button");
-    button.type = "button";
-    const adult = LG.blackMarket.currentAge(state) >= 18;
+    const button = node("button"); button.type = "button";
+    const affordable = LG.traits.points() >= price; const adult = LG.blackMarket.currentAge(state) >= 18;
     button.disabled = busy || LG.blackMarketRefreshUI?.isBusy() || item.sold || item.owned || !adult || purchased >= limit
-      || LG.traits.points() < item.price;
+      || !affordable;
     button.textContent = item.sold ? "今日已售"
       : item.owned ? "已拥有" : !adult ? "18岁后可购买"
         : !limit ? "先下跪1次"
           : purchased >= limit ? "今日额度已用完"
-            : LG.traits.points() < item.price ? `需要${item.price}点` : "购买";
+            : !affordable ? `需要${price}点` : price ? "购买" : "免费领取";
     button.addEventListener("click", () => buy(item.id));
     card.append(button);
     return card;
@@ -80,14 +80,18 @@
     const totals = LG.blackMarket.usageTotals();
     const rows = [node("p", "market-owned-note",
       `已购装备 ${equipment.length} 件，可在“角色属性 → 主角装备”中使用。`),
-    node("p", "market-owned-note", `累计食用：美味圣水 ${totals.holyWater} 次 · 黄金圣餐 ${totals.goldenSacrament} 次 · 健康归零 ${totals.healthZeroFromSpecials || 0}/500 次`)];
+    node("p", "market-owned-note", `累计饮用：美味圣水 ${totals.holyWater} 次 · 黄金圣餐 ${totals.goldenSacrament} 次 · 健康归零 ${totals.healthZeroFromSpecials || 0}/500 次`)];
     potions.forEach((item) => {
       const row = node("article", "market-potion");
       const body = node("div");
-      body.append(node("strong", "", `${item.name} ×${item.quantity}`), node("span", "", item.description));
-      const button = node("button", "", "使用");
+      const allowance = LG.blackMarket.potionAllowance(item.id, state);
+      body.append(node("strong", "", item.name),
+        node("span", "", `库存 ${item.quantity} · ${item.description} · ${allowance.label}`));
+      const button = node("button", "", !item.quantity ? "无库存"
+        : allowance.exhausted ? "已达上限" : "饮用");
       button.type = "button";
-      button.disabled = busy || LG.blackMarket.currentAge(state) < 18;
+      button.disabled = busy || !item.quantity || allowance.exhausted
+        || LG.blackMarket.currentAge(state) < 18;
       button.addEventListener("click", () => usePotion(item.id));
       row.append(body, button);
       rows.push(row);
@@ -152,13 +156,12 @@
       render(result.message);
     } catch (err) {
       console.error("黑市药剂保存失败:", err.code, err.message, err.stack);
-      render("药剂效果保存失败，请稍后重试。");
+      render(err?.message || "药剂效果保存失败，请稍后重试。");
     } finally {
       busy = false;
       render(el.status.textContent);
     }
   }
-
   LG.blackMarketUI = {
     init(stateProvider) {
       getState = stateProvider;

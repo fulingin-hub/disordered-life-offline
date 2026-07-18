@@ -3,13 +3,16 @@
   let claiming = false;
 
   function taskCard(task) {
+    const multiplier = LG.infernalClub.taskMultiplier();
     const card = document.createElement("article");
     card.className = `daily-task${task.claimed ? " claimed" : ""}`;
     const heading = document.createElement("div");
     const title = document.createElement("strong");
     title.textContent = task.title;
     const reward = document.createElement("span");
-    reward.textContent = `奖励 ${task.reward} 点`;
+    reward.textContent = multiplier > 1
+      ? `奖励 ${Math.floor(task.reward * multiplier)} 点（${multiplier}倍）`
+      : `奖励 ${task.reward} 点`;
     heading.append(title, reward);
     const content = document.createElement("p");
     content.textContent = task.content;
@@ -64,7 +67,9 @@
       this.refresh();
     },
     open() {
-      el.status.textContent = "任务每日刷新；人生选择会自动累计当前任务进度。";
+      const multiplier = LG.infernalClub.taskMultiplier();
+      const bonus = multiplier > 1 ? ` 当前套装任务报酬为${multiplier}倍。` : "";
+      el.status.textContent = `任务每日刷新；人生选择会自动累计当前任务进度。${bonus}`;
       render();
       el.dialog.showModal();
     },

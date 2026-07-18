@@ -109,13 +109,15 @@
     currentArea = null;
     currentSection = null;
     el.title.textContent = "世界区域";
-    el.intro.textContent = "选择场景区域或特殊功能场所。异域赌场需50次人生；终产者的乐园需100次人生与累计2000属性点。";
+    el.intro.textContent = "选择场景区域或特殊功能场所。异界魔境需完成真结局“圣人”并使人格达到1000点。";
     const areaCards = LG.worldAreas.all()
       .map((area) => LG.roomCards.area(area, renderArea));
     el.cards.replaceChildren(
       LG.roomCards.player(callbacks.onEnterPlayer),
       LG.casinoUI.roomCard(callbacks.onEnterCasino),
       paradiseCard(),
+      LG.infernalUI.roomCard(),
+      LG.infernalClubUI.roomCard(),
       ...areaCards,
     );
   }

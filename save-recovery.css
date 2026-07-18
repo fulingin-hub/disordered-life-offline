@@ -53,6 +53,11 @@
   opacity: 0.55;
 }
 
+.life-cinema-option.narrator-entry {
+  border-color: #8b795b;
+  background: rgba(139, 121, 91, 0.12);
+}
+
 .cinema-status {
   min-height: 22px;
   margin-top: 12px;
@@ -216,6 +221,39 @@
   margin-top: 12px;
 }
 
+.cinema-narrator-panel {
+  margin-top: 14px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.cinema-narrator-panel .voice-sample-list {
+  margin-top: 12px;
+}
+
+.cinema-narrator-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cinema-narrator-controls span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.narrator-toggle {
+  min-width: 118px;
+}
+
+.cinema-narrator-panel .system-status {
+  margin-bottom: 0;
+}
+
 @media (max-width: 520px) {
   .life-cinema-options {
     grid-template-columns: minmax(0, 1fr);
@@ -236,5 +274,10 @@
   .recovery-actions {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cinema-narrator-controls {
+    align-items: stretch;
+    flex-direction: column;
   }
 }

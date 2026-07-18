@@ -1,0 +1,225 @@
+.area-room-card > img.infernal-club-scene {
+  object-fit: contain;
+}
+
+.infernal-club-dialog {
+  width: min(1020px, calc(100vw - 24px));
+}
+
+.infernal-club-scroll {
+  min-height: 0;
+}
+
+.club-summary strong {
+  font-size: 1.05rem;
+}
+
+.club-section-heading,
+.club-detail-heading,
+.club-chat-heading,
+.club-detail-actions,
+.club-item-heading,
+.club-item-actions {
+  display: flex;
+  align-items: center;
+}
+
+.club-section-heading {
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.club-section-heading h3,
+.club-detail-heading h3,
+.club-chat-heading h3 {
+  margin: 4px 0;
+}
+
+.infernal-club-rooms {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.club-room-card {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  min-height: 148px;
+  overflow: hidden;
+  border: 1px solid rgba(216, 210, 196, 0.18);
+  border-radius: 6px;
+  background: #17191f;
+}
+
+.club-room-card img {
+  width: 96px;
+  height: 100%;
+  min-height: 148px;
+  object-fit: contain;
+  object-position: center bottom;
+  background: #101319;
+}
+
+.club-room-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px;
+}
+
+.club-room-copy p,
+.club-detail-heading p,
+.club-item p {
+  margin: 0;
+  color: #bcb8ae;
+  line-height: 1.45;
+}
+
+.club-room-copy button {
+  min-height: 42px;
+  margin-top: auto;
+}
+
+.club-back {
+  margin-bottom: 10px;
+}
+
+.club-detail-heading,
+.club-chat-heading {
+  align-items: stretch;
+  gap: 16px;
+  border-bottom: 1px solid rgba(216, 210, 196, 0.16);
+  padding-bottom: 14px;
+}
+
+.club-detail-heading > img,
+.club-chat-heading > img {
+  width: 150px;
+  height: 190px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  object-position: center bottom;
+  background: #101319;
+  border-radius: 4px;
+}
+
+.club-detail-heading > div,
+.club-chat-heading > div {
+  min-width: 0;
+  flex: 1;
+}
+
+.club-detail-actions {
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.club-detail-actions button {
+  min-height: 44px;
+}
+
+.infernal-club-items {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.club-item {
+  display: flex;
+  flex-direction: column;
+  min-height: 166px;
+  padding: 12px;
+  border: 1px solid rgba(216, 210, 196, 0.14);
+  border-radius: 6px;
+  background: #15171c;
+}
+
+.club-item.owned {
+  border-color: rgba(216, 168, 78, 0.52);
+}
+
+.club-item.locked {
+  opacity: 0.66;
+}
+
+.club-item-heading {
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.club-item-heading span {
+  flex: 0 0 auto;
+  color: #d8a84e;
+  font-size: 0.78rem;
+}
+
+.club-item p {
+  margin-top: 8px;
+}
+
+.club-item-actions {
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.club-item-actions button {
+  min-height: 40px;
+  flex: 1;
+}
+
+.club-chat-view {
+  min-height: 0;
+}
+
+.club-chat-heading {
+  align-items: center;
+}
+
+.club-chat-heading > img {
+  width: 92px;
+  height: 116px;
+}
+
+.club-chat-messages {
+  min-height: 220px;
+  max-height: min(42dvh, 400px);
+  margin-top: 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 780px) {
+  .infernal-club-rooms,
+  .infernal-club-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .infernal-club-rooms,
+  .infernal-club-items {
+    grid-template-columns: 1fr;
+  }
+
+  .club-room-card {
+    grid-template-columns: 84px minmax(0, 1fr);
+  }
+
+  .club-room-card img {
+    width: 84px;
+  }
+
+  .club-detail-heading {
+    align-items: center;
+  }
+
+  .club-detail-heading > img {
+    width: 112px;
+    height: 154px;
+  }
+}

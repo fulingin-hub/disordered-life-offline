@@ -32,6 +32,25 @@
     return card;
   }
 
+  function saintCard(item) {
+    const owned = LG.saintItems.owns(item.id);
+    const card = node("article", `collectible-card${owned ? " owned" : ""}`);
+    card.append(
+      node("span", "collectible-mark", owned ? "已激活" : "圣徒礼赞"),
+      node("strong", "", item.name),
+      node("p", "", item.description),
+    );
+    const button = node("button");
+    button.type = "button";
+    button.disabled = buying || owned || LG.saintItems.balance() < item.price;
+    button.textContent = owned ? "已拥有"
+      : LG.saintItems.balance() < item.price
+        ? `需要 ${item.price} 成就点` : `${item.price}成就点激活`;
+    button.addEventListener("click", () => buySaint(item));
+    card.append(button);
+    return card;
+  }
+
   function fillCharacterSelect() {
     const current = selectedCharacter;
     el.character.replaceChildren(...LG.collectibles.shopCharacters().map((character) => {
@@ -79,13 +98,34 @@
     }
   }
 
+  async function buySaint(item) {
+    if (buying) return;
+    buying = true;
+    try {
+      const result = await LG.authority.mutate("buySaintItem", { itemId: item.id });
+      el.collectionStatus.textContent = result.message;
+      LG.equipmentUI.refresh();
+      window.dzmm?.toast?.success?.(result.message);
+    } catch (err) {
+      console.error("圣徒礼赞道具激活失败:", err?.code, err?.message, err?.stack);
+      el.collectionStatus.textContent = err?.message || "激活失败，请稍后重试。";
+    } finally {
+      buying = false;
+      renderCollection(item.character);
+    }
+  }
+
   function renderCollection(character) {
     const meta = LG.COLLECTIBLE_CHARACTERS[character];
     const progress = LG.collectibles.progress(character);
+    const saintItems = LG.saintItems.items(character);
     el.collectionTitle.textContent = `${meta.name} · 专属道具图鉴`;
-    el.collectionStatus.textContent = LG.collectibles.collectionStatus(character);
-    el.collectionItems.replaceChildren(...LG.collectibles.items(character)
-      .map((item) => itemCard(item, true)));
+    el.collectionStatus.textContent = `${LG.collectibles.collectionStatus(character)
+      } 可用成就点：${LG.saintItems.balance()}`;
+    el.collectionItems.replaceChildren(
+      ...LG.collectibles.items(character).map((item) => itemCard(item, true)),
+      ...saintItems.map(saintCard),
+    );
   }
 
   LG.collectiblesUI = {
@@ -117,7 +157,8 @@
       el.dialog.showModal();
     },
     openCollection(character) {
-      if (!LG.achievements.isUnlocked(character)) return;
+      if (!LG.achievements.isUnlocked(character)
+        && !LG.saintItems.items(character).length) return;
       renderCollection(character);
       el.collectionDialog.showModal();
     },

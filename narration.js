@@ -1,68 +1,42 @@
 (function (LG) {
-  const femaleHints =
-    /xiaoxiao|huihui|tingting|yaoyao|meijia|female|woman|女声|晓晓|婷婷|慧慧/i;
-  let synth;
-  let voice;
-  let enabled = true;
-  let online = false;
-  let lastEvent = "";
-  let pendingEvent = null;
-  let primed = false;
-  let speechId = 0;
-  let gestureListening = false;
+  const sample = { key: "__narration_sample__", text: "旁白语音已开启。" };
+  let player, button, replayButton, pendingEvent, currentEvent;
+  let voiceId = "female-b", lastEvent = "";
+  let enabled = true, online = false, primed = false;
+  let gestureListening = false, playId = 0;
 
-  function chooseVoice() {
-    const voices = synth?.getVoices?.() || [];
-    const chinese = voices.filter((item) =>
-      String(item.lang || "").toLowerCase().startsWith("zh"));
-    voice = chinese.find((item) => femaleHints.test(item.name))
-      || chinese[0] || voices.find((item) => femaleHints.test(item.name)) || null;
+  function setStatus(status, detail) {
+    if (!button) return;
+    button.dataset.speechState = status;
+    button.title = detail || "点击试听旁白";
   }
 
   function eventPayload(event, state) {
-    if (!event?.speaker || !event?.quote) return null;
-    const text = String(event.quote).replace(/[“”"]/g, "").trim();
+    if (!event) return null;
+    const body = typeof event.text === "function" ? event.text(state) : event.text;
+    const quote = String(event.quote || "").replace(/[“”"]/g, "").trim();
+    const text = [String(body || "").trim(), quote].filter(Boolean).join(" ");
     if (!text) return null;
-    return {
-      key: `${state?.runId || ""}:${event.id || text}`,
-      text,
-    };
+    return { id: String(event.id || "event").replace(/[^a-zA-Z0-9_-]/g, "-"),
+      key: `${state?.runId || ""}:${event.id || text}`, text };
   }
 
-  function utterance(text, quiet) {
-    const item = new window.SpeechSynthesisUtterance(text);
-    item.lang = voice?.lang || "zh-CN";
-    item.voice = voice;
-    item.rate = quiet ? 2 : 0.88;
-    item.pitch = quiet ? 1 : 0.78;
-    item.volume = quiet ? 0.01 : 0.9;
-    return item;
-  }
-
-  function speak(payload, cancelFirst) {
-    const id = ++speechId;
-    try {
-      chooseVoice();
-      synth.resume?.();
-      if (cancelFirst) synth.cancel();
-      const item = utterance(payload.text, false);
-      item.onerror = (event) => {
-        const reason = String(event?.error || "unknown");
-        if (id !== speechId || reason === "interrupted" || reason === "canceled") return;
-        if (lastEvent === payload.key) lastEvent = "";
-        pendingEvent = payload;
-        if (reason === "not-allowed") primed = false;
-        console.warn("事件旁白播放失败:", reason);
-      };
-      synth.speak(item);
-      lastEvent = payload.key;
-      pendingEvent = null;
-      return true;
-    } catch (err) {
-      console.warn("事件旁白播放失败:", err?.message, err?.stack);
-      pendingEvent = payload;
-      return false;
+  function textHash(text) {
+    let hash = 2166136261;
+    for (let index = 0; index < text.length; index += 1) {
+      hash ^= text.charCodeAt(index);
+      hash = Math.imul(hash, 16777619);
     }
+    return (hash >>> 0).toString(16).padStart(8, "0");
+  }
+
+  function source(payload) {
+    return `./assets/voices/events/${voiceId}/`
+      + `${payload.id}-${textHash(payload.text)}.mp3`;
+  }
+
+  function voiceDetail(prefix) {
+    return `${prefix}：${LG.NARRATOR_VOICE_PROFILES[voiceId].label} · 固定音频`;
   }
 
   function stopGestureListening() {
@@ -72,71 +46,155 @@
     gestureListening = false;
   }
 
-  function primeFromGesture() {
-    if (!online || !enabled || primed) return;
-    try {
-      synth.resume?.();
-      const primer = utterance("。", true);
-      primer.onerror = (event) => {
-        const reason = String(event?.error || "unknown");
-        if (reason !== "interrupted" && reason !== "canceled") {
-          console.warn("网页语音解锁失败:", reason);
-        }
-      };
-      synth.speak(primer);
-      primed = true;
-      stopGestureListening();
-      if (pendingEvent) speak(pendingEvent, false);
-    } catch (err) {
-      console.warn("网页语音解锁失败:", err?.message, err?.stack);
-    }
-  }
-
   function listenForGesture() {
-    if (gestureListening || primed || !online) return;
+    if (gestureListening || primed || !online || !enabled) return;
     document.addEventListener("pointerdown", primeFromGesture, true);
     document.addEventListener("keydown", primeFromGesture, true);
     gestureListening = true;
   }
 
+  function markReady() {
+    primed = true;
+    stopGestureListening();
+    setStatus("ready", voiceDetail("当前语音"));
+  }
+
+  function stop() {
+    playId += 1;
+    if (!player) return;
+    player.pause();
+    player.removeAttribute("src");
+  }
+
+  async function speak(payload, options = {}) {
+    if (!online || !enabled || !payload || payload === sample) return false;
+    const id = ++playId;
+    const remember = options.remember !== false;
+    LG.cinemaNarrator?.stop?.();
+    player.pause();
+    player.src = source(payload);
+    player.onended = () => {
+      if (id !== playId) return;
+      if (remember) {
+        lastEvent = payload.key;
+        if (pendingEvent?.key === payload.key) pendingEvent = null;
+      }
+      setStatus("ready", voiceDetail("当前语音"));
+    };
+    player.onerror = () => {
+      if (id !== playId) return;
+      if (remember) pendingEvent = payload;
+      setStatus("error", "固定旁白加载失败，点击重播");
+      console.warn("事件固定旁白加载失败:", voiceId, payload.id);
+    };
+    setStatus("loading", `正在加载${LG.NARRATOR_VOICE_PROFILES[voiceId].label}`);
+    try {
+      await player.play();
+      if (id !== playId) return player.pause();
+      markReady();
+      if (remember) {
+        lastEvent = payload.key;
+        if (pendingEvent?.key === payload.key) pendingEvent = null;
+      }
+      return true;
+    } catch (err) {
+      if (id !== playId) return false;
+      if (remember) pendingEvent = payload;
+      if (err?.name === "NotAllowedError") {
+        primed = false;
+        listenForGesture();
+        setStatus("locked", "点击任意游戏按钮启用固定旁白");
+      } else {
+        setStatus("error", "固定旁白加载失败，点击重播");
+      }
+      console.warn("事件固定旁白播放失败:", err?.name, err?.message);
+      return false;
+    }
+  }
+
+  function primeFromGesture(event) {
+    if (event?.target?.id === "narrationButton") return;
+    if (!online || !enabled || primed) return;
+    primed = true;
+    stopGestureListening();
+    speak(pendingEvent || currentEvent, {
+      remember: Boolean(pendingEvent || currentEvent),
+    });
+  }
+
+  function activate() {
+    if (!online || !enabled) return false;
+    primed = true;
+    stopGestureListening();
+    return speak(pendingEvent || currentEvent, {
+      remember: Boolean(pendingEvent || currentEvent),
+    });
+  }
+
+  function updateReplay(payload) {
+    currentEvent = payload;
+    if (replayButton) replayButton.hidden = !payload || !online;
+  }
+
   function speakEvent(event, state) {
-    if (!online || !enabled) return;
     const payload = eventPayload(event, state);
-    if (!payload || payload.key === lastEvent || payload.key === pendingEvent?.key) return;
+    updateReplay(payload);
+    if (!online || !enabled || !payload) return;
+    if (payload.key === lastEvent || payload.key === pendingEvent?.key) return;
     if (!primed) {
       pendingEvent = payload;
+      setStatus("locked", "点击任意游戏按钮启用固定旁白");
       listenForGesture();
       return;
     }
-    speak(payload, true);
+    speak(payload);
   }
 
   LG.narration = {
     init() {
+      button = document.getElementById("narrationButton");
+      replayButton = document.getElementById("narrationReplayButton");
+      replayButton?.addEventListener("click", activate);
       online = !window.OfflineDialogueRuntime
         && !document.title.includes("离线版");
-      synth = online ? window.speechSynthesis : null;
-      if (!synth || typeof window.SpeechSynthesisUtterance !== "function") {
-        online = false;
+      player = new Audio();
+      player.preload = "none";
+      if (!online) {
+        setStatus("unsupported", "离线版不自动播放事件旁白");
         return;
       }
-      chooseVoice();
-      synth.addEventListener?.("voiceschanged", chooseVoice);
+      setStatus("locked", "点击任意游戏按钮启用固定旁白");
       listenForGesture();
     },
     speakEvent,
+    speakText() {
+      return false;
+    },
+    activate,
+    stop,
     setEnabled(value) {
       enabled = Boolean(value);
       if (!enabled) {
-        speechId += 1;
-        synth?.cancel?.();
+        stop();
+        setStatus("disabled", "总声音已关闭");
         return;
       }
+      setStatus(primed ? "ready" : "locked",
+        primed ? voiceDetail("当前语音") : "点击任意游戏按钮启用固定旁白");
       listenForGesture();
-      primeFromGesture();
     },
-    online() {
-      return online;
+    setVoice(next) {
+      if (!LG.NARRATOR_VOICE_PROFILES[next]) return;
+      voiceId = next;
+      stop();
+      lastEvent = "";
+      setStatus(primed ? "ready" : "locked",
+        primed ? voiceDetail("当前语音")
+          : `已选择${LG.NARRATOR_VOICE_PROFILES[voiceId].label}`);
     },
+    selected: () => voiceId,
+    online: () => online,
+    ready: () => primed,
+    source: (event, state) => source(eventPayload(event, state)),
   };
 })(window.LifeGame);

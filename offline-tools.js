@@ -141,10 +141,15 @@
     const topActions = document.querySelector(".top-actions");
     topActions?.prepend(languageSelect());
     topActions?.append(button);
+    const genderPanel = document.querySelector(".gender-panel");
+    const genderOptions = genderPanel?.querySelector(".gender-options");
+    const gateLanguageRow = node("label",
+      "offline-language-row gender-language-row", "语言");
     const gateLanguage = languageSelect();
     gateLanguage.classList.add("offline-language-gate");
-    document.querySelector(".gender-panel")?.append(gateLanguage);
-    document.querySelector(".gender-panel")?.append(button.cloneNode(true));
+    gateLanguageRow.append(gateLanguage);
+    genderOptions?.before(gateLanguageRow);
+    genderPanel?.append(button.cloneNode(true));
     const gateButton = document.querySelector(".gender-panel .quiet-button:last-child");
     gateButton?.addEventListener("click", () => dialog.showModal());
   }

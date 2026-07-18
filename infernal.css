@@ -1,0 +1,341 @@
+.infernal-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(920px, calc(100vw - 28px));
+  height: min(820px, calc(100dvh - 28px));
+  max-height: min(820px, calc(100dvh - 28px));
+  border: 1px solid #55343c;
+  border-radius: 8px;
+  padding: 20px;
+  background: #15171c;
+  color: var(--paper);
+  overflow: hidden;
+}
+
+.infernal-dialog::backdrop {
+  background: rgba(3, 4, 6, 0.9);
+}
+
+.infernal-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.infernal-summary div {
+  border: 1px solid var(--line);
+  padding: 9px 10px;
+  background: #101319;
+}
+
+.infernal-summary span,
+.infernal-summary strong {
+  display: block;
+}
+
+.infernal-summary span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.infernal-summary strong {
+  margin-top: 3px;
+  color: #e5c06f;
+  font-size: 19px;
+}
+
+.infernal-tabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+
+.infernal-tabs button {
+  min-width: 128px;
+  border: 1px solid var(--line);
+  background: #20242b;
+}
+
+.infernal-tabs button.active {
+  border-color: #b13d4a;
+  background: #b13d4a;
+}
+
+.infernal-status {
+  min-height: 20px;
+  margin: 10px 0;
+  color: #d8c89e;
+  font-size: 12px;
+}
+
+.infernal-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.infernal-hall-view {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.infernal-hall-view .infernal-task-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-right: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.infernal-hall-actions {
+  flex: 0 0 auto;
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  background: #15171c;
+}
+
+.infernal-run-view {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.infernal-run-view .infernal-encounter {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.infernal-hall-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.infernal-hall-heading h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.infernal-hall-heading span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.infernal-task-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.infernal-task {
+  border: 1px solid var(--line);
+  border-left: 3px solid #b13d4a;
+  padding: 10px;
+  background: #101319;
+}
+
+.infernal-task.completed {
+  border-left-color: #4f8a69;
+  opacity: 0.72;
+}
+
+.infernal-task-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.infernal-task-heading span {
+  color: #e5c06f;
+}
+
+.infernal-task progress {
+  width: 100%;
+  height: 6px;
+  margin: 9px 0 5px;
+  accent-color: #b13d4a;
+}
+
+.infernal-task small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.infernal-start {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 12px;
+  background: #9f3442;
+  font-weight: 700;
+}
+
+.infernal-hall-actions .infernal-start,
+.infernal-hall-actions .abyss-transfer {
+  margin-top: 0;
+}
+
+.infernal-empty {
+  border: 1px dashed var(--line);
+  padding: 18px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.infernal-floors {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.infernal-floors span {
+  min-width: 0;
+  border: 1px solid var(--line);
+  padding: 6px 3px;
+  color: var(--muted);
+  font-size: 10px;
+  text-align: center;
+}
+
+.infernal-floors span.active {
+  border-color: #d8a84e;
+  color: #f3efe6;
+  background: #493221;
+}
+
+.infernal-floors span.cleared {
+  border-color: #4f8a69;
+  color: #9dc7ad;
+}
+
+.infernal-encounter {
+  display: grid;
+  grid-template-columns: minmax(180px, 34%) minmax(0, 1fr);
+  gap: 16px;
+  min-height: 390px;
+  border: 1px solid var(--line);
+  background: #0d1015;
+}
+
+.infernal-encounter > img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: 470px;
+  object-fit: contain;
+  object-position: center bottom;
+  background: #090b0f;
+}
+
+.infernal-encounter-copy {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  padding: 20px 18px 18px 0;
+  overflow: hidden;
+}
+
+.infernal-encounter-text {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-right: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.infernal-encounter-copy h3 {
+  margin: 7px 0 10px;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 25px;
+}
+
+.infernal-encounter-copy p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.infernal-desire-detail {
+  border-left: 2px solid #d8a84e;
+  padding-left: 10px;
+  color: #e3d4b2 !important;
+}
+
+.infernal-actions {
+  flex: 0 0 auto;
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.infernal-actions button {
+  min-height: 46px;
+}
+
+#infernalDesireButton {
+  background: #654b72;
+}
+
+#infernalBreakButton,
+#infernalMobButton {
+  background: #9f3442;
+}
+
+#infernalSkipButton {
+  background: #3f765b;
+}
+
+#infernalRetreatButton {
+  border: 1px solid var(--line);
+  background: #262a31;
+}
+
+.infernal-area-card > img {
+  object-fit: contain;
+  background: #0b0d12;
+}
+
+@media (max-width: 700px) {
+  .infernal-dialog {
+    padding: 14px;
+  }
+
+  .infernal-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .infernal-task-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .infernal-floors {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .infernal-encounter {
+    grid-template-columns: minmax(108px, 34%) minmax(0, 1fr);
+    min-height: 360px;
+  }
+
+  .infernal-encounter-copy {
+    padding: 14px 12px 12px 0;
+  }
+
+  .infernal-encounter-copy h3 {
+    font-size: 19px;
+  }
+}

@@ -1,0 +1,103 @@
+.abyss-dialog {
+  border-color: #304d5b;
+  background: #111820;
+}
+
+.abyss-dialog::backdrop {
+  background: rgba(2, 7, 11, 0.92);
+}
+
+.abyss-transfer {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 8px;
+  border: 1px solid #426a7b;
+  background: #19303a;
+}
+
+.abyss-transfer:disabled {
+  border-color: var(--line);
+  background: #1b2026;
+  color: var(--muted);
+}
+
+.abyss-tabs button.active,
+.abyss-start {
+  border-color: #35748e;
+  background: #286278;
+}
+
+.abyss-task-list .infernal-task {
+  border-left-color: #3e819c;
+}
+
+.abyss-task-list .infernal-task.completed {
+  border-left-color: #4f8a69;
+}
+
+.abyss-task-list progress,
+.abyss-floor-progress {
+  accent-color: #3e819c;
+}
+
+.abyss-progress-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #c8dce4;
+  font-size: 12px;
+}
+
+.abyss-floor-progress {
+  width: 100%;
+  height: 10px;
+  margin: 8px 0 10px;
+}
+
+.abyss-milestones {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.abyss-milestones span {
+  border: 1px solid var(--line);
+  padding: 6px 2px;
+  color: var(--muted);
+  font-size: 10px;
+  text-align: center;
+}
+
+.abyss-milestones span.reached {
+  border-color: #3e819c;
+  color: #b7e1f1;
+  background: #173442;
+}
+
+.abyss-encounter {
+  border-color: #294651;
+}
+
+.abyss-encounter > img {
+  background: #071016;
+}
+
+#abyssDesireButton {
+  background: #654b72;
+}
+
+#abyssBreakButton {
+  background: #286278;
+}
+
+#abyssRetreatButton {
+  border: 1px solid var(--line);
+  background: #262a31;
+}
+
+@media (max-width: 700px) {
+  .abyss-milestones {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -74,7 +74,11 @@
       return Math.min(...ids.map((id) =>
         Math.max(0, Number(data.specialCompletions[id]) || 0)));
     },
-    owns(id) { return data.owned.includes(id); },
+    ownedIds() {
+      const authoritative = LG.authority.snapshot()?.economy?.penitentiary?.owned;
+      return Array.isArray(authoritative) ? authoritative : data.owned;
+    },
+    owns(id) { return this.ownedIds().includes(id); },
     spent(role) { return Number(data.spentByRole[role]) || 0; },
     stageUnlocked(stage) {
       if (!this.access().allowed) return false;
@@ -94,8 +98,26 @@
       const role = LG.PENITENTIARY_DATA.byId[id];
       return Boolean(role && role.items.every((item) => this.owns(item.id)));
     },
+    equipmentItems() {
+      return LG.PENITENTIARY_DATA.roles.flatMap((role, index) =>
+        !this.owns(role.certificate) ? [] : [{
+          id: role.certificate,
+          source: "penitentiaryCertificate",
+          setId: "penitentiaryPolice",
+          prefix: "影狱",
+          slot: LG.EQUIPMENT_SLOTS[index].id,
+          name: `被${role.name}认可的奖状`,
+          shame: 20,
+          adult: true,
+        }]);
+    },
+    policeSetEquipped(state = LG.authority.state()) {
+      return LG.PENITENTIARY_DATA.roles.every((role, index) =>
+        state?.equipment?.[LG.EQUIPMENT_SLOTS[index].id] === role.certificate);
+    },
     itemPrice(id, item) {
       if (item?.type !== "consumable") return item?.price || 0;
+      if (this.policeSetEquipped()) return 0;
       return this.collectionComplete(id)
         ? LG.PENITENTIARY_DATA.prices.premium : LG.PENITENTIARY_DATA.prices.item;
     },
@@ -106,10 +128,18 @@
     },
     consumableUsage(id, itemId) {
       const kind = itemId.endsWith("holy-water") ? "water"
-        : itemId.endsWith("golden-sacrament") ? "gold" : null;
+        : itemId.endsWith("golden-sacrament") ? "gold"
+          : itemId.endsWith("despair-drug") ? "despair" : null;
       return kind ? Math.max(0, Math.floor(Number(
         LG.blackMarket._data()?.roomUsage?.[id]?.[kind],
       ) || 0)) : 0;
+    },
+    consumableAllowance(id, itemId) {
+      const suffix = itemId.slice(id.length + 1);
+      return LG.blackMarket.potionAllowance(
+        `penitentiary-potion-${id}-${suffix}`,
+        LG.authority.state(),
+      );
     },
     controlPending() { return data.controlChoicePending === true; },
     controlAcceptances() { return data.controlAcceptances; },

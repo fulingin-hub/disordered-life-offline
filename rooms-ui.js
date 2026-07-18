@@ -160,7 +160,9 @@
       const unlocked = LG.achievements.all().filter((item) => item.unlocked).length, markets = LG.blackMarket.characters().filter((item) => LG.blackMarket.roomUnlocked(item.id)).length;
       el.button.textContent = `世界·${unlocked + markets + 1
         + Number(LG.casino.accessUnlocked()) + Number(LG.blackPrison.access().allowed)
-        + Number(LG.penitentiary.access().allowed)}`;
+        + Number(LG.penitentiary.access().allowed)
+        + Number(LG.infernalRealm.access().allowed)
+        + Number(LG.infernalClub.access().allowed)}`;
     },
   };
 })(window.LifeGame);

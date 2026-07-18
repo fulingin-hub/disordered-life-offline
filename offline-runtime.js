@@ -91,6 +91,7 @@
   function context(body) {
     return {
       kv,
+      lifeCinemaTestMode: window.LifeGame?.TEST_MODE?.lifeCinemaCheats === true,
       completions: {
         async *stream() {
           const reply = localReply(body);

@@ -54,6 +54,8 @@
       const gallery = LG.GALLERY_ASSETS[character];
       const unlocked = LG.edenCharacters?.galleryUnlocked(character)
         || LG.penitentiary?.galleryUnlocked(character)
+        || (LG.infernalClub?.isCharacter(character)
+          && LG.infernalClub.access().allowed)
         || (LG.casino?.isCharacter(character)
           ? LG.casino.galleryUnlocked(character) : LG.collectibles.galleryUnlocked(character));
       if (!gallery?.items.length || !unlocked) return false;

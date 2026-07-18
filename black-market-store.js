@@ -5,7 +5,7 @@
 
   function emptyData() {
     return {
-      version: 12,
+      version: 13,
       kneels: { japan: 0, usa: 0 },
       recordedRuns: { japan: [], usa: [] },
       conversations: { japanOfficial: [], usaOfficial: [] },
@@ -60,9 +60,7 @@
         };
       }
     });
-    Object.keys(next.conversations).forEach((id) => {
-      next.conversations[id] = [];
-    });
+    Object.keys(next.conversations).forEach((id) => { next.conversations[id] = []; });
     next.equipment = cleanArray(saved.equipment, 300).map(normalizeEquipmentItem);
     next.potions = cleanArray(saved.potions, 100).map((savedItem) => ({
       ...LG.blackMarketPotions.normalize(savedItem, savedItem.country),
@@ -70,9 +68,15 @@
     }));
     next.uses = saved.uses && typeof saved.uses === "object" ? saved.uses : {};
     Object.entries(saved.bonusPotionUses || {}).slice(-2500).forEach(([runId, uses]) => {
-      if (typeof runId !== "string") return;
-      next.bonusPotionUses[runId] = Math.max(0, Math.min(10,
-        Math.floor(Number(uses) || 0)));
+      if (typeof runId !== "string" || !uses || typeof uses !== "object"
+        || Array.isArray(uses)) return;
+      const byPotion = {};
+      Object.entries(uses).slice(-100).forEach(([effectKey, count]) => {
+        if (typeof effectKey !== "string") return;
+        byPotion[effectKey] = Math.max(0, Math.min(10,
+          Math.floor(Number(count) || 0)));
+      });
+      if (Object.keys(byPotion).length) next.bonusPotionUses[runId] = byPotion;
     });
     next.potionRuns = [...new Set(Array.isArray(saved.potionRuns)
       ? saved.potionRuns : [])]
@@ -80,13 +84,14 @@
     Object.keys(next.usageTotals).forEach((key) => {
       next.usageTotals[key] = Math.max(0, Math.floor(Number(saved.usageTotals?.[key]) || 0));
     });
-    Object.entries(saved.roomUsage || {}).slice(0, 80).forEach(([id, usage]) => {
+    Object.entries(saved.roomUsage || {}).slice(0, 100).forEach(([id, usage]) => {
       if (!/^[A-Za-z][A-Za-z0-9-]{0,39}$/.test(id)
         || !usage || typeof usage !== "object") return;
-      next.roomUsage[id] = {
-        water: Math.max(0, Math.floor(Number(usage.water) || 0)),
-        gold: Math.max(0, Math.floor(Number(usage.gold) || 0)),
-      };
+      next.roomUsage[id] = {};
+      Object.entries(usage).slice(0, 20).forEach(([kind, count]) => {
+        next.roomUsage[id][kind] = Math.max(0,
+          Math.floor(Number(count) || 0));
+      });
     });
     return next;
   }

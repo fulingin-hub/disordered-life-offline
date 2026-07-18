@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260717-release-audit-i18n-1",
+  buildId: "20260718-offline-i18n-full-unlocks-1",
   version: 4,
   eventRevision: 2026071607,
   stateKey: "disordered-life-state-v1",
@@ -75,6 +75,34 @@ window.LifeGame.CONFIG = {
       "./assets/generated/shadow-prison-warden-whitehair.e8e0c145.webp",
     shadowPrisonOwner:
       "./assets/generated/shadow-prison-owner-whitehair.b4147a48.webp",
+    infernalGreedWitch:
+      "./assets/generated/infernal-greed-witch.e96b484b.webp",
+    infernalGreedQueen:
+      "./assets/generated/infernal-greed-queen.b1fe0bbe.webp",
+    infernalLustWitch:
+      "./assets/generated/infernal-lust-witch.b0cca260.webp",
+    infernalLustQueen:
+      "./assets/generated/infernal-lust-queen.2615449c.webp",
+    infernalWrathWitch:
+      "./assets/generated/infernal-wrath-witch.ecb5a75d.webp",
+    infernalWrathQueen:
+      "./assets/generated/infernal-wrath-queen.4c30d462.webp",
+    infernalSlothWitch:
+      "./assets/generated/infernal-sloth-witch.498780fd.webp",
+    infernalSlothQueen:
+      "./assets/generated/infernal-sloth-queen.b37c1fe2.webp",
+    infernalPrideWitch:
+      "./assets/generated/infernal-pride-witch.4d5cdf77.webp",
+    infernalPrideQueen:
+      "./assets/generated/infernal-pride-queen.93ae231c.webp",
+    infernalEnvyWitch:
+      "./assets/generated/infernal-envy-witch.f5d61b05.webp",
+    infernalEnvyQueen:
+      "./assets/generated/infernal-envy-queen.472cbd62.webp",
+    infernalGluttonyWitch:
+      "./assets/generated/infernal-gluttony-witch.2a84b936.webp",
+    infernalGluttonyQueen:
+      "./assets/generated/infernal-gluttony-queen.bc32922e.webp",
     galleryShadowPrisonSupervisor:
       "./assets/generated/gallery-shadow-prison-supervisor-patrol.ba0374ec.webp",
     galleryShadowPrisonManager:
@@ -117,6 +145,18 @@ window.LifeGame.CONFIG = {
       "./assets/generated/protagonist-male-penitentiary-set.6822ef9d.webp",
     protagonistFemalePenitentiarySet:
       "./assets/generated/protagonist-female-penitentiary-set.e547b5ea.webp",
+    protagonistMaleSaintSet:
+      "./assets/generated/protagonist-male-saint-set.1bfaf541.webp",
+    protagonistFemaleSaintSet:
+      "./assets/generated/protagonist-female-saint-set.7178996a.webp",
+    protagonistMaleEdenSet:
+      "./assets/generated/protagonist-male-eden-set.ae6a7df5.webp",
+    protagonistFemaleEdenSet:
+      "./assets/generated/protagonist-female-eden-set.9e322627.webp",
+    protagonistMalePenitentiaryPoliceSet:
+      "./assets/generated/protagonist-male-penitentiary-police-set.4e6b5ec8.webp",
+    protagonistFemalePenitentiaryPoliceSet:
+      "./assets/generated/protagonist-female-penitentiary-police-set.43c4b1cf.webp",
   },
   initialStats: {
     knowledge: 40,

@@ -22,6 +22,7 @@
       const result = await LG.authority.mutate("equipItem", { slot, itemId });
       el.status.textContent = result.message;
       if (result.life.endingId) LG.ui.render(result.life);
+      else providers.onChange();
     } catch (err) {
       console.error("装备保存失败:", err?.code, err?.message, err?.stack);
       el.status.textContent = err?.message || "装备保存失败，请重试。";
@@ -40,7 +41,9 @@
     label.textContent = slot.label;
     const value = document.createElement("span");
     const selected = LG.equipment.item(state.equipment[slot.id]);
-    value.textContent = selected ? "+20羞耻" : "未装备";
+    value.textContent = selected
+      ? selected.source === "saint" ? "圣徒礼赞" : `+${selected.shame}羞耻`
+      : "未装备";
     heading.append(label, value);
     const select = document.createElement("select");
     select.disabled = saving;

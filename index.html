@@ -140,15 +140,18 @@
     })();
   </script>
   <link rel="stylesheet" href="./base.css">
-  <link rel="stylesheet" href="./game.css?v=20260717-1">
+  <link rel="stylesheet" href="./game.css?v=20260718-1">
   <link rel="stylesheet" href="./dialogue.css?v=20260717-3">
-  <link rel="stylesheet" href="./cg.css">
+  <link rel="stylesheet" href="./cg.css?v=20260718-1">
   <link rel="stylesheet" href="./rooms.css?v=20260717-2">
   <link rel="stylesheet" href="./casino.css?v=20260717-1">
   <link rel="stylesheet" href="./black-prison.css?v=20260717-3">
   <link rel="stylesheet" href="./eden-character.css?v=20260717-1">
   <link rel="stylesheet" href="./penitentiary.css?v=20260717-3">
   <link rel="stylesheet" href="./penitentiary-control.css?v=20260717-1">
+  <link rel="stylesheet" href="./infernal.css?v=20260718-1">
+  <link rel="stylesheet" href="./abyss.css?v=20260718-1">
+  <link rel="stylesheet" href="./infernal-club.css?v=20260718-1">
   <link rel="stylesheet" href="./tribute.css">
   <link rel="stylesheet" href="./gallery.css">
   <link rel="stylesheet" href="./traits.css">
@@ -158,8 +161,8 @@
   <link rel="stylesheet" href="./room-consumables.css">
   <link rel="stylesheet" href="./gender.css">
   <link rel="stylesheet" href="./player-room.css">
-  <link rel="stylesheet" href="./systems.css">
-  <link rel="stylesheet" href="./save-recovery.css?v=20260717-1">
+  <link rel="stylesheet" href="./systems.css?v=20260718-3">
+  <link rel="stylesheet" href="./save-recovery.css?v=20260718-3">
   <link rel="stylesheet" href="./responsive.css">
   <link rel="stylesheet" href="./offline.css">
 </head>
@@ -253,6 +256,8 @@
         </section>
         <blockquote id="eventQuote"
           class="event-quote dialogue-tribute-rule event-character-notice" hidden></blockquote>
+        <button id="narrationReplayButton" class="quiet-button narration-replay"
+          type="button" hidden>重播旁白</button>
         <div id="outcomeToast"
           class="outcome-toast dialogue-tribute-rule" role="status" hidden></div>
         <div id="choiceList" class="choice-list"></div>
@@ -280,7 +285,15 @@
       </div>
       <button id="closeCgButton" class="quiet-button" type="button">关闭</button>
     </div>
-    <img id="cgDialogImage" alt="">
+    <button id="cgNarrationButton" class="cg-narration-trigger" type="button"
+      aria-label="播放或重播结局旁白">
+      <img id="cgDialogImage" alt="">
+      <span>点击画面重播旁白</span>
+    </button>
+    <p id="cgDialogText" class="cg-dialog-text"></p>
+    <p id="cgNarrationStatus" class="cg-narration-status" role="status">
+      点击画面播放结局旁白。
+    </p>
   </dialog>
 
   <dialog id="roomsDialog" class="rooms-dialog">
@@ -354,7 +367,7 @@
       </section>
       <section id="roomConsumablesPanel" class="room-consumables-panel" hidden>
         <div class="room-consumables-heading">
-          <h4>私密餐饮</h4>
+          <h4>角色饮品</h4>
           <span>可用属性点 <strong id="roomConsumablesPoints">0</strong></span>
         </div>
         <p id="roomConsumablesStatus" class="room-consumables-status"></p>
@@ -597,7 +610,7 @@
             <h3>恶魔的神秘套装</h3>
             <span id="blackPrisonInfernalProgress">0/5</span>
           </div>
-          <p>每件 2000 属性点。集齐后开放穿戴；首次装备解锁“似来自地狱的恶魔”；穿戴后套装跨人生显示。来自恶魔的馈赠：每轮人生可额外使用药剂10次。</p>
+          <p>每件 2000 属性点。集齐后开放穿戴；首次装备解锁“似来自地狱的恶魔”；穿戴后套装跨人生显示。来自恶魔的馈赠：每轮人生可额外饮用每种药剂各10次。</p>
           <div id="blackPrisonInfernal" class="black-prison-grid"></div>
           <div id="blackPrisonInfernalOutfit" class="black-prison-outfit-action">
             <span id="blackPrisonInfernalOutfitStatus">集齐五件后开放穿戴</span>
@@ -799,6 +812,193 @@
     </section>
   </dialog>
 
+  <dialog id="infernalDialog" class="infernal-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">异界魔境 · 地狱的入口“终局玩法”</span>
+        <h2>临时阵地的任务大厅</h2>
+      </div>
+      <button id="closeInfernalButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <div class="infernal-summary">
+      <div><span>败北值</span><strong id="infernalDefeat">0</strong></div>
+      <div><span>人格值</span><strong id="infernalPersonality">0</strong></div>
+      <div><span>声望值</span><strong id="infernalReputation">0</strong></div>
+      <div><span>七层通关</span><strong id="infernalClears">0</strong></div>
+    </div>
+    <nav class="infernal-tabs" aria-label="异界魔境功能">
+      <button class="active" type="button" data-infernal-view="hall">悬赏大厅</button>
+      <button type="button" data-infernal-view="run">七层地狱</button>
+    </nav>
+    <p id="infernalStatus" class="infernal-status" role="status"></p>
+    <section id="infernalHall" class="infernal-scroll infernal-hall-view">
+      <div class="infernal-hall-heading">
+        <h3>地狱悬赏</h3>
+        <span id="infernalRound">第1轮</span>
+      </div>
+      <p id="infernalEmpty" class="infernal-empty" hidden>任务正在刷新。</p>
+      <div id="infernalTasks" class="infernal-task-list"></div>
+      <div class="infernal-hall-actions">
+        <button id="infernalStartButton" class="infernal-start" type="button">
+          进入七层地狱
+        </button>
+        <button id="openAbyssButton" class="abyss-transfer" type="button" disabled>
+          深渊防线未解锁 · 七层通关 0/100
+        </button>
+      </div>
+    </section>
+    <section id="infernalRun" class="infernal-scroll infernal-run-view" hidden>
+      <div id="infernalFloors" class="infernal-floors" aria-label="本局地狱顺序"></div>
+      <article class="infernal-encounter">
+        <img id="infernalPortrait" alt="">
+        <div class="infernal-encounter-copy">
+          <div class="infernal-encounter-text">
+            <span id="infernalEventType" class="event-type"></span>
+            <h3 id="infernalEventTitle"></h3>
+            <p id="infernalEventCopy"></p>
+            <p id="infernalDesireDetail" class="infernal-desire-detail" hidden></p>
+          </div>
+          <div class="infernal-actions">
+            <button id="infernalMobButton" type="button">挑战魔女</button>
+            <button id="infernalSkipButton" type="button" hidden>直面女魔王</button>
+            <button id="infernalDesireButton" type="button" hidden>完成随机任务</button>
+            <button id="infernalBreakButton" type="button" hidden>直接破局</button>
+            <button id="infernalRetreatButton" type="button">撤离本次挑战</button>
+          </div>
+        </div>
+      </article>
+    </section>
+  </dialog>
+
+  <dialog id="abyssDialog" class="infernal-dialog abyss-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">异界魔境 · 公共场景2</span>
+        <h2>驻扎在深渊防线的任务大厅</h2>
+      </div>
+      <button id="closeAbyssButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <div class="infernal-summary abyss-summary">
+      <div><span>败北值</span><strong id="abyssDefeat">0</strong></div>
+      <div><span>人格值</span><strong id="abyssPersonality">0</strong></div>
+      <div><span>声望值</span><strong id="abyssReputation">0</strong></div>
+      <div><span>深渊最高层</span><strong id="abyssHighest">0</strong></div>
+    </div>
+    <nav class="infernal-tabs abyss-tabs" aria-label="深渊防线功能">
+      <button class="active" type="button" data-abyss-view="hall">深渊悬赏</button>
+      <button type="button" data-abyss-view="run">无尽深渊</button>
+    </nav>
+    <p id="abyssStatus" class="infernal-status" role="status"></p>
+    <section id="abyssHall" class="infernal-scroll infernal-hall-view">
+      <div class="infernal-hall-heading">
+        <h3>深渊悬赏</h3>
+        <span id="abyssRound">第1轮</span>
+      </div>
+      <p id="abyssEmpty" class="infernal-empty" hidden>任务正在刷新。</p>
+      <div id="abyssTasks" class="infernal-task-list abyss-task-list"></div>
+      <div class="infernal-hall-actions">
+        <button id="abyssStartButton" class="infernal-start abyss-start" type="button">
+          进入无尽深渊
+        </button>
+      </div>
+    </section>
+    <section id="abyssRun" class="infernal-scroll infernal-run-view" hidden>
+      <div class="abyss-progress-heading">
+        <span id="abyssFloorLabel">第1层 / 100层</span>
+        <span id="abyssClearCount">完整通关 0次</span>
+      </div>
+      <progress id="abyssFloorProgress" class="abyss-floor-progress"
+        max="100" value="1"></progress>
+      <div id="abyssMilestones" class="abyss-milestones"></div>
+      <article class="infernal-encounter abyss-encounter">
+        <img id="abyssPortrait" alt="">
+        <div class="infernal-encounter-copy">
+          <div class="infernal-encounter-text">
+            <span id="abyssEventType" class="event-type"></span>
+            <h3 id="abyssEventTitle"></h3>
+            <p id="abyssEventCopy"></p>
+            <p id="abyssDesireDetail" class="infernal-desire-detail"></p>
+          </div>
+          <div class="infernal-actions">
+            <button id="abyssDesireButton" type="button">完成随机任务</button>
+            <button id="abyssBreakButton" type="button">直接破局</button>
+            <button id="abyssRetreatButton" type="button">撤回深渊防线</button>
+          </div>
+        </div>
+      </article>
+    </section>
+  </dialog>
+
+  <dialog id="infernalClubDialog" class="infernal-dialog infernal-club-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">地狱与世界交界处 · 神秘俱乐部</span>
+        <h2>神秘的地狱俱乐部</h2>
+      </div>
+      <button id="closeInfernalClubButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <div class="infernal-summary club-summary">
+      <div><span>败北值</span><strong id="infernalClubDefeat">0</strong></div>
+      <div><span>人格值</span><strong id="infernalClubPersonality">0</strong></div>
+      <div><span>俱乐部消费</span><strong id="infernalClubSpent">0</strong></div>
+      <div><span>当前套装</span><strong id="infernalClubEquipped">未穿戴</strong></div>
+    </div>
+    <p id="infernalClubStatus" class="infernal-status" role="status"></p>
+    <div id="infernalClubScroll" class="infernal-scroll infernal-club-scroll">
+      <section id="infernalClubRoomList">
+        <div class="club-section-heading">
+          <div>
+            <span class="event-type">七位女魔王的私人包间</span>
+            <h3>选择包间</h3>
+          </div>
+          <span>人格值结算</span>
+        </div>
+        <div id="infernalClubRooms" class="infernal-club-rooms"></div>
+      </section>
+      <section id="infernalClubDetail" hidden>
+        <button id="infernalClubBack" class="quiet-button club-back" type="button">
+          返回包间列表
+        </button>
+        <div class="club-detail-heading">
+          <img id="infernalClubPortrait" alt="">
+          <div>
+            <span id="infernalClubRoomName" class="event-type"></span>
+            <h3 id="infernalClubQueenName"></h3>
+            <p id="infernalClubProgress"></p>
+            <div class="club-detail-actions">
+              <button id="infernalClubChatButton" type="button">AI 对话</button>
+              <button id="infernalClubGalleryButton" type="button">角色画廊</button>
+              <button id="infernalClubEquipButton" type="button">穿戴五件套</button>
+            </div>
+          </div>
+        </div>
+        <div id="infernalClubItems" class="infernal-club-items"></div>
+      </section>
+      <section id="infernalClubChat" class="club-chat-view" hidden>
+        <button id="infernalClubChatBack" class="quiet-button club-back" type="button">
+          返回角色商店
+        </button>
+        <div class="club-chat-heading">
+          <img id="infernalClubChatPortrait" alt="">
+          <div>
+            <span id="infernalClubChatRoom" class="event-type"></span>
+            <h3 id="infernalClubChatQueen"></h3>
+          </div>
+        </div>
+        <div id="infernalClubChatMessages" class="room-messages club-chat-messages"></div>
+        <form id="infernalClubChatForm" class="room-form">
+          <label for="infernalClubChatInput">对话内容</label>
+          <textarea id="infernalClubChatInput" maxlength="160"
+            placeholder="输入想说的话"></textarea>
+          <div class="room-form-actions">
+            <span id="infernalClubChatStatus" class="room-status"></span>
+            <button id="infernalClubChatSend" type="submit">发送</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </dialog>
+
   <dialog id="tasksDialog" class="system-dialog tasks-dialog">
     <div class="dialog-heading">
       <div>
@@ -863,6 +1063,11 @@
       <button id="closeRecoveryButton" class="quiet-button" type="button">关闭</button>
     </div>
     <div class="life-cinema-options" aria-label="人生电影院功能">
+      <button id="cinemaNarratorButton" class="life-cinema-option narrator-entry"
+        type="button">
+        <strong>场外旁白</strong>
+        <span>选择女声 B 或男声 C，自动朗读普通事件与结局 CG</span>
+      </button>
       <button id="pastLifeButton" class="life-cinema-option" type="button">
         <strong>前世今生</strong>
         <span>检测并恢复旧存档，或删除当前存档</span>
@@ -877,16 +1082,31 @@
       </button>
       <button id="tasteLifeButton" class="life-cinema-option" type="button">
         <strong>品味人生</strong>
-        <span>解锁常规结局；真结局只能在人生流程中触发</span>
+        <span>人生重开 0/800 次后解锁</span>
       </button>
       <button id="powerLifeButton" class="life-cinema-option" type="button">
         <strong>爽文人生</strong>
-        <span>永久解锁全部道具、房间画廊与影狱入口</span>
+        <span>人生重开 0/1000 次后解锁</span>
       </button>
     </div>
     <p id="cinemaStatus" class="system-status cinema-status" role="status">
       选择一段人生回想。
     </p>
+    <section id="cinemaNarratorPanel" class="cinema-narrator-panel" hidden>
+      <div class="life-achievement-summary">
+        <strong>场外旁白</strong>
+        <span data-narrator-current></span>
+      </div>
+      <div class="cinema-narrator-controls">
+        <button id="narrationButton" class="quiet-button narrator-toggle"
+          type="button" data-state="ready" aria-pressed="true">旁白：已开启</button>
+        <span>同步控制事件语音与结局 CG 旁白</span>
+      </div>
+      <div class="voice-sample-list" data-narrator-list></div>
+      <p class="system-status" role="status" data-narrator-status>
+        点击女声或男声可试听并保存。
+      </p>
+    </section>
     <section id="lifeAchievementPanel" class="life-achievement-panel" hidden>
       <div class="life-achievement-summary">
         <strong>人生成就</strong>
@@ -926,7 +1146,6 @@
     <h2>人生暂时无法开始</h2>
     <p id="bootErrorText">资源加载失败，请刷新重试。</p>
     <button id="bootRetryButton" type="button">重试</button>
-    <button id="offlineCacheResetButton" type="button">清除离线缓存并重载</button>
   </div>
   <script src="./offline-db.js"></script>
   <script src="./offline-game-state.js"></script>
@@ -945,6 +1164,7 @@
   <script src="./offline-tools.js"></script>
   <script src="./offline-pwa.js"></script>
   <script src="./config.js"></script>
+  <script src="./infernal-club-assets.js"></script>
   <script src="./test-mode.js"></script>
   <script src="./equipment-data.js"></script>
   <script src="./black-market-data.js"></script>
@@ -952,13 +1172,19 @@
   <script src="./black-prison-data.js"></script>
   <script src="./eden-character-data.js"></script>
   <script src="./penitentiary-data.js"></script>
+  <script src="./infernal-data.js"></script>
+  <script src="./abyss-data.js"></script>
+  <script src="./infernal-club-data.js"></script>
   <script src="./penitentiary-dialogue.js"></script>
   <script src="./eden-character-dialogue.js"></script>
+  <script src="./infernal-club-dialogue.js"></script>
   <script src="./black-market-usa-equipment.js"></script>
+  <script src="./saint-items.js"></script>
   <script src="./equipment.js"></script>
   <script src="./collectibles-data.js"></script>
   <script src="./cg-assets.js"></script>
   <script src="./ending-gender-assets.js"></script>
+  <script src="./infernal-ending-assets.js"></script>
   <script src="./ending-fixed-assets.js"></script>
   <script src="./ending-archive.js"></script>
   <script src="./dialogue-usa.js"></script>
@@ -977,10 +1203,14 @@
   <script src="./black-prison-store.js"></script>
   <script src="./eden-character-store.js"></script>
   <script src="./penitentiary-store.js"></script>
+  <script src="./infernal-store.js"></script>
+  <script src="./infernal-club-store.js"></script>
   <script src="./casino-rules.js"></script>
   <script src="./black-market-potions.js"></script>
   <script src="./black-market-store.js"></script>
+  <script src="./potion-allowance.js"></script>
   <script src="./black-market.js"></script>
+  <script src="./black-market-use.js"></script>
   <script src="./black-market-refresh.js"></script>
   <script src="./achievements.js"></script>
   <script src="./traits-data.js"></script>
@@ -992,10 +1222,14 @@
   <script src="./daily-tasks.js"></script>
   <script src="./ambient-music.js"></script>
   <script src="./audio.js"></script>
+  <script src="./narration-voices.js"></script>
   <script src="./narration.js"></script>
+  <script src="./narrator-settings.js"></script>
+  <script src="./cinema-narrator.js"></script>
   <script src="./achievement-feedback.js"></script>
   <script src="./casino-temptations.js"></script>
   <script src="./casino-game.js"></script>
+  <script src="./authority-fallback.js"></script>
   <script src="./authority.js"></script>
   <script src="./life-cinema.js"></script>
   <script src="./engine.js"></script>
@@ -1004,9 +1238,11 @@
   <script src="./dialogue-ai.js"></script>
   <script src="./dialogue-ui.js"></script>
   <script src="./gallery-assets.js"></script>
+  <script src="./infernal-gallery.js"></script>
   <script src="./casino-gallery.js"></script>
   <script src="./eden-character-gallery.js"></script>
   <script src="./penitentiary-gallery.js"></script>
+  <script src="./gallery-local-variants.js"></script>
   <script src="./gallery-ui.js"></script>
   <script src="./gender-ui.js"></script>
   <script src="./player-gallery-ui.js"></script>
@@ -1028,6 +1264,11 @@
   <script src="./penitentiary-chat-ui.js"></script>
   <script src="./penitentiary-ui.js"></script>
   <script src="./room-cards.js"></script>
+  <script src="./infernal-ui.js"></script>
+  <script src="./abyss-ui.js"></script>
+  <script src="./infernal-club-item-ui.js"></script>
+  <script src="./infernal-club-chat-ui.js"></script>
+  <script src="./infernal-club-ui.js"></script>
   <script src="./room-lobby-ui.js"></script>
   <script src="./rooms-ui.js"></script>
   <script src="./tribute-ui.js"></script>

@@ -2,9 +2,12 @@
   const slotIds = () => LG.EQUIPMENT_SLOTS.map((slot) => slot.id);
   const allItems = () => [
     ...LG.EQUIPMENT_ITEMS,
+    ...(LG.saintItems?.equipmentItems?.() || []),
     ...(LG.blackMarket?.equipmentItems?.() || []),
     ...(LG.collectibles?.equipmentItems?.() || []),
     ...(LG.edenCharacters?.equipmentItems?.() || []),
+    ...(LG.infernalClub?.equipmentItems?.() || []),
+    ...(LG.penitentiary?.equipmentItems?.() || []),
   ];
   const itemMap = () => new Map(allItems().map((item) => [item.id, item]));
   const acquired = (item) => !item?.unlockTrait
@@ -24,11 +27,17 @@
       ? LG.EQUIPMENT_SETS.find((entry) => entry.prefix === setPrefix) || { prefix: setPrefix }
       : null;
     const itemShame = equipped.reduce((total, item) => total + item.shame, 0);
-    const setBonus = set ? 100 : 0;
+    const saintSet = setPrefix === "圣徒礼赞";
+    const edenSet = setPrefix === "伊甸园";
+    const penitentiarySet = setPrefix === "影狱";
+    const setBonus = set && !saintSet ? 100 : 0;
     return {
       count: equipped.length,
       itemShame,
       setBonus,
+      saintSet,
+      edenSet,
+      penitentiarySet,
       total: Math.min(250, itemShame + setBonus),
       set,
       reduction: Math.floor(Math.min(250, itemShame + setBonus) / 20) * 5,

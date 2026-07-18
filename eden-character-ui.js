@@ -25,7 +25,7 @@
       node("strong", "", state.name),
       node("p", "", state.description),
       node("small", "", state.group === "consumable"
-        ? `价格 ${state.price} 点 · 库存 ${state.quantity} · 累计食用 ${state.used} 次`
+        ? `价格 ${state.price} 点 · 库存 ${state.quantity} · 累计饮用 ${state.used} 次`
         : `价格 ${state.price} 点 · 购买后立即食用${
           state.owned ? " · 图鉴已激活" : ""}`),
     );
@@ -37,7 +37,7 @@
     buy.addEventListener("click", () => purchase(state.id));
     actions.append(buy);
     if (state.group === "consumable") {
-      const use = node("button", "quiet-button", state.quantity ? "食用" : "无库存");
+      const use = node("button", "quiet-button", state.quantity ? "饮用" : "无库存");
       use.type = "button";
       use.disabled = busy || !state.quantity;
       use.addEventListener("click", () =>
@@ -92,16 +92,16 @@
   async function consume(itemId) {
     if (busy) return;
     busy = true;
-    render("正在保存食用记录...");
+    render("正在保存饮用记录...");
     try {
       const result = await LG.authority.mutate("usePotion", { itemId });
       LG.ui.render(result.life);
       render(result.message);
       window.dzmm?.toast?.success?.(result.message);
     } catch (err) {
-      console.error("伊甸园角色商品食用失败:",
+      console.error("伊甸园角色商品饮用失败:",
         err?.code, err?.message, err?.stack);
-      render(err?.message || "食用失败，请稍后重试。");
+      render(err?.message || "饮用失败，请稍后重试。");
     } finally {
       busy = false;
       render();

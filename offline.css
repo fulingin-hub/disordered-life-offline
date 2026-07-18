@@ -70,7 +70,13 @@
 
 .offline-language-gate {
   width: 100%;
-  margin-top: 10px;
+}
+
+.gender-language-row {
+  margin: 0 0 14px;
+  border-top: 1px solid rgba(243, 239, 230, 0.12);
+  border-bottom: 1px solid rgba(243, 239, 230, 0.12);
+  padding: 12px 0;
 }
 
 .offline-actions {

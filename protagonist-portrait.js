@@ -10,6 +10,9 @@
       luxury: "protagonistMaleLuxurySet",
       infernal: "protagonistMaleInfernalSet",
       penitentiary: "protagonistMalePenitentiarySet",
+      saint: "protagonistMaleSaintSet",
+      eden: "protagonistMaleEdenSet",
+      penitentiaryPolice: "protagonistMalePenitentiaryPoliceSet",
     },
     female: {
       base: "protagonistFemaleBase",
@@ -21,6 +24,9 @@
       luxury: "protagonistFemaleLuxurySet",
       infernal: "protagonistFemaleInfernalSet",
       penitentiary: "protagonistFemalePenitentiarySet",
+      saint: "protagonistFemaleSaintSet",
+      eden: "protagonistFemaleEdenSet",
+      penitentiaryPolice: "protagonistFemalePenitentiaryPoliceSet",
     },
   };
   const labels = {
@@ -33,6 +39,9 @@
     luxury: "权贵奢华套装",
     infernal: "乐园王袍套装",
     penitentiary: "影狱人格丧志套装",
+    saint: "圣徒礼赞套装",
+    eden: "伊甸园套装",
+    penitentiaryPolice: "影狱套装",
   };
   let wrap;
   let image;
@@ -57,15 +66,18 @@
   function setCategory(state) {
     const items = equippedItems(state);
     if (items.length !== LG.EQUIPMENT_SLOTS.length) return null;
+    if (items.every((item) => item.source === "saint")) return "saint";
+    if (items.every((item) =>
+      item.source === "penitentiaryCertificate")) return "penitentiaryPolice";
     const summary = LG.equipment.summary(state);
     if (!summary.set) return null;
+    if (items.every((item) => item.source === "eden")) return "eden";
     const tributeSetIds = new Set([
       "collection-streetThug",
       "collection-beggar",
     ]);
     if (items.every((item) => tributeSetIds.has(item.setId))) return "tribute";
-    if (items.every((item) =>
-      ["collection", "eden"].includes(item.source))) return "character";
+    if (items.every((item) => item.source === "collection")) return "character";
     if (items.every((item) =>
       item.source === "blackMarket" && item.country === "japan")) return "japan";
     if (items.every((item) =>
@@ -76,7 +88,9 @@
   }
 
   function category(state) {
-    return (LG.penitentiary?.outfitEquipped?.() ? "penitentiary" : null)
+    const clubSet = LG.infernalClub?.equippedSet?.();
+    return (clubSet ? `club-${clubSet}` : null)
+      || (LG.penitentiary?.outfitEquipped?.() ? "penitentiary" : null)
       || LG.blackPrison?.outfitCategory?.()
       || setCategory(state) || "base";
   }
@@ -85,7 +99,13 @@
     const gender = state?.gender === "female" ? "female"
       : state?.gender === "male" ? "male" : null;
     if (!gender || currentAge(state) < 18) return null;
-    return LG.CONFIG.assets[assetKeys[gender][category(state)]];
+    const outfit = category(state);
+    if (outfit.startsWith("club-")) {
+      const queen = LG.INFERNAL_CLUB_DATA?.byId?.[outfit.slice(5)];
+      return queen ? LG.CONFIG.assets[
+        gender === "female" ? queen.apostleFemale : queen.apostleMale] : null;
+    }
+    return LG.CONFIG.assets[assetKeys[gender][outfit]];
   }
 
   LG.protagonistPortrait = {
@@ -108,7 +128,10 @@
       }
       const outfit = category(state);
       image.src = src;
-      image.alt = `${gender === "female" ? "女" : "男"}主角·${labels[outfit]}`;
+      const clubName = outfit.startsWith("club-")
+        ? `${LG.INFERNAL_CLUB_DATA.byId[outfit.slice(5)]?.name || "地狱"}魔王使徒`
+        : labels[outfit];
+      image.alt = `${gender === "female" ? "女" : "男"}主角·${clubName}`;
       wrap.dataset.category = outfit;
       wrap.hidden = false;
     },
