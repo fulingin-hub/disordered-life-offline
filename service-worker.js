@@ -1,8 +1,19 @@
 importScripts("./offline-assets.js");
 
-const VERSION = `disordered-life-offline-${self.OFFLINE_BUILD_ID || "v4"}-pwa3`;
+const VERSION = `disordered-life-offline-${self.OFFLINE_BUILD_ID || "v4"}-pwa4`;
 const CORE_CACHE = `${VERSION}-core`;
 const ASSET_CACHE = `${VERSION}-assets`;
+const CACHE_CONCURRENCY = 6;
+const CACHE_TIMEOUT_MS = 12000;
+const CACHE_SKIP = new Set([
+  "./DEPLOYMENT.md",
+  "./README.txt",
+  "./_headers",
+  "./_redirects",
+  "./netlify.toml",
+  "./vercel.json",
+]);
+let cacheAllTask;
 const CORE = [
   "./",
   "./index.html",
@@ -47,25 +58,76 @@ self.addEventListener("activate", (event) => {
     .map((key) => caches.delete(key)))).then(() => self.clients.claim()));
 });
 
-async function cacheAll() {
-  const cache = await caches.open(ASSET_CACHE);
+async function broadcast(type, detail = {}) {
   const clients = await self.clients.matchAll({ type: "window" });
+  clients.forEach((client) => client.postMessage({ type, ...detail }));
+}
+
+async function fetchForCache(url) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), CACHE_TIMEOUT_MS);
+  try {
+    const response = await fetch(new Request(url, {
+      cache: "reload",
+      signal: controller.signal,
+    }));
+    if (!response.ok) return null;
+    const body = await response.arrayBuffer();
+    return new Response(body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+    });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function cacheResource(cache, url) {
+  if (await cache.match(url, { ignoreSearch: true })) return true;
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    try {
+      const response = await fetchForCache(url);
+      if (response) {
+        await cache.put(url, response);
+        return true;
+      }
+    } catch (_) {}
+  }
+  return false;
+}
+
+async function runCacheAll() {
+  const cache = await caches.open(ASSET_CACHE);
+  const resources = (self.OFFLINE_ASSETS || [])
+    .filter((url) => !CACHE_SKIP.has(url));
+  let next = 0;
   let done = 0;
-  for (const url of self.OFFLINE_ASSETS || []) {
-    if (!await cache.match(url)) {
-      try {
-        const response = await fetch(url);
-        if (response.ok) await cache.put(url, response);
-      } catch (_) {}
-    }
-    done += 1;
-    if (done % 10 === 0 || done === self.OFFLINE_ASSETS.length) {
-      clients.forEach((client) => client.postMessage({
-        type: "CACHE_PROGRESS", done, total: self.OFFLINE_ASSETS.length,
-      }));
+  let failed = 0;
+
+  async function worker() {
+    while (next < resources.length) {
+      const url = resources[next];
+      next += 1;
+      if (!await cacheResource(cache, url)) failed += 1;
+      done += 1;
+      if (done % 10 === 0 || done === resources.length) {
+        await broadcast("CACHE_PROGRESS", {
+          done, total: resources.length, failed,
+        });
+      }
     }
   }
-  clients.forEach((client) => client.postMessage({ type: "CACHE_READY" }));
+
+  await Promise.all(Array.from({ length: CACHE_CONCURRENCY }, worker));
+  await broadcast("CACHE_READY", { total: resources.length, failed });
+}
+
+function cacheAll() {
+  if (!cacheAllTask) {
+    cacheAllTask = runCacheAll().finally(() => { cacheAllTask = null; });
+  }
+  return cacheAllTask;
 }
 
 self.addEventListener("message", (event) => {
