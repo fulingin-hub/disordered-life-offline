@@ -1,6 +1,4 @@
 (function (LG) {
-  let latestRequestId = 0;
-  let inFlight = false;
   const retryable = new Set(["runtime_unavailable", "runtime_busy", "too_many_requests"]);
   const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
   const roomCost = 50;
@@ -55,7 +53,7 @@
     let content = "";
     let completed = false;
     for await (const chunk of window.dzmm.fn.invokeStream("dialogue", body, { timeout: 60000 })) {
-      if (requestId !== latestRequestId) return null;
+      if (!LG.dialogueRequestLock.current(requestId)) return null;
       if (chunk?.type === "error") throw serverError(chunk);
       if (chunk?.type === "delta") {
         const newContent = chunk.delta || "";
@@ -73,9 +71,8 @@
 
   LG.dialogueAI = {
     async request(scene, event, state, userText, onUpdate) {
-      if (inFlight) return null;
-      inFlight = true;
-      const requestId = ++latestRequestId;
+      const requestId = LG.dialogueRequestLock.begin();
+      if (!requestId) return null;
       const body = {
         kind: String(event?.id || "").startsWith("room-") ? "room" : "event",
         sceneId: event?.id,
@@ -95,10 +92,10 @@
         for (let attempt = 0; attempt < 2; attempt += 1) {
           try {
             const response = await streamReply(body, requestId, onUpdate);
-            if (requestId !== latestRequestId) return null;
+            if (!LG.dialogueRequestLock.current(requestId)) return null;
             return response || localReply(scene, state, event);
           } catch (err) {
-            if (requestId !== latestRequestId) return null;
+            if (!LG.dialogueRequestLock.current(requestId)) return null;
             if (err.code === "function_error" && body.kind !== "room") {
               const fallback = localReply(scene, state, event);
               onUpdate(fallback);
@@ -110,14 +107,14 @@
         }
         return null;
       } finally {
-        inFlight = false;
+        LG.dialogueRequestLock.finish(requestId);
       }
     },
     cancel() {
-      latestRequestId += 1;
+      LG.dialogueRequestLock.cancel();
     },
     isBusy() {
-      return inFlight;
+      return LG.dialogueRequestLock.busy();
     },
     roomPass(character) {
       const pass = LG.authority?.snapshot?.()?.economy?.dialoguePasses?.[character];

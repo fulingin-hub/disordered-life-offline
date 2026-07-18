@@ -12,8 +12,16 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="失序人生">
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="apple-touch-icon"
-    href="./assets/generated/protagonist-male-character-set-v2.10e1268e.webp">
+  <link rel="icon" type="image/png" sizes="192x192"
+    href="./assets/generated/app-icon-192.f870da22.png">
+  <link rel="apple-touch-icon" sizes="192x192"
+    href="./assets/generated/app-icon-192.f870da22.png">
+  <link rel="preload" as="image"
+    href="./assets/generated/loading-keyart-portrait.a4a18834.webp"
+    media="(orientation: portrait)">
+  <link rel="preload" as="image"
+    href="./assets/generated/loading-keyart-landscape.f69b3765.webp"
+    media="(orientation: landscape)">
   <title>失序人生 · 离线版</title>
   <style>
     html,
@@ -30,15 +38,26 @@
       inset: 0;
       z-index: 1000;
       display: grid;
-      place-items: center;
-      background: #101319;
+      box-sizing: border-box;
+      place-items: end center;
+      padding: 24px 18px max(7vh, calc(env(safe-area-inset-bottom) + 24px));
+      background-color: #101319;
+      background-image:
+        linear-gradient(to bottom, rgba(5, 7, 13, 0.08) 38%,
+          rgba(5, 7, 13, 0.5) 68%, rgba(5, 7, 13, 0.94) 100%),
+        url("./assets/generated/loading-keyart-portrait.a4a18834.webp");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
       color: #f2eadb;
       font-family: "Noto Serif SC", "Songti SC", serif;
     }
 
     .boot-splash__content {
+      position: relative;
       width: min(72vw, 320px);
       text-align: center;
+      text-shadow: 0 2px 12px #000;
     }
 
     .boot-splash__title {
@@ -82,6 +101,16 @@
       .boot-splash__bar {
         width: 100%;
         animation: none;
+      }
+    }
+
+    @media (orientation: landscape) {
+      .boot-splash {
+        padding-bottom: max(5vh, calc(env(safe-area-inset-bottom) + 18px));
+        background-image:
+          linear-gradient(to bottom, rgba(5, 7, 13, 0.02) 45%,
+            rgba(5, 7, 13, 0.55) 76%, rgba(5, 7, 13, 0.96) 100%),
+          url("./assets/generated/loading-keyart-landscape.f69b3765.webp");
       }
     }
   </style>
@@ -149,9 +178,9 @@
   <link rel="stylesheet" href="./eden-character.css?v=20260717-1">
   <link rel="stylesheet" href="./penitentiary.css?v=20260717-3">
   <link rel="stylesheet" href="./penitentiary-control.css?v=20260717-1">
-  <link rel="stylesheet" href="./infernal.css?v=20260718-1">
+  <link rel="stylesheet" href="./infernal.css?v=20260718-2">
   <link rel="stylesheet" href="./abyss.css?v=20260718-1">
-  <link rel="stylesheet" href="./infernal-club.css?v=20260718-1">
+  <link rel="stylesheet" href="./infernal-club.css?v=20260718-2">
   <link rel="stylesheet" href="./tribute.css">
   <link rel="stylesheet" href="./gallery.css">
   <link rel="stylesheet" href="./traits.css">
@@ -976,7 +1005,7 @@
       </section>
       <section id="infernalClubChat" class="club-chat-view" hidden>
         <button id="infernalClubChatBack" class="quiet-button club-back" type="button">
-          返回角色商店
+          结束对话并返回角色商店
         </button>
         <div class="club-chat-heading">
           <img id="infernalClubChatPortrait" alt="">
@@ -1235,6 +1264,7 @@
   <script src="./engine.js"></script>
   <script src="./casino-access.js"></script>
   <script src="./loader.js"></script>
+  <script src="./dialogue-request-lock.js"></script>
   <script src="./dialogue-ai.js"></script>
   <script src="./dialogue-ui.js"></script>
   <script src="./gallery-assets.js"></script>

@@ -7,7 +7,6 @@
     if (text !== undefined) item.textContent = text;
     return item;
   }
-
   function setView(next) {
     view = next === "run" ? "run" : "hall";
     el.hall.hidden = view !== "hall";
@@ -15,7 +14,6 @@
     el.tabs.forEach((button) => button.classList.toggle("active",
       button.dataset.infernalView === view));
   }
-
   function renderStats() {
     const stats = LG.infernalRealm.stats();
     el.defeat.textContent = String(stats.defeat);
@@ -87,8 +85,9 @@
       ? `强行挑战（人格不足）` : `挑战魔女 · ${encounter.cost}人格`;
     el.desire.textContent = boss ? `完成随机任务：${encounter.desireLabel}` : "";
     el.break.textContent = boss ? `直接破局 · ${encounter.cost}人格` : "";
-    el.break.disabled = busy
-      || encounter.cost > LG.infernalRealm.stats().personality;
+    el.mob.disabled = busy; el.skip.disabled = busy; el.desire.disabled = busy;
+    el.retreat.disabled = busy;
+    el.break.disabled = busy || encounter.cost > LG.infernalRealm.stats().personality;
     el.desireDetail.textContent = boss ? encounter.desireText : "";
     el.desireDetail.hidden = !boss;
   }
@@ -104,7 +103,7 @@
     if (busy) return;
     busy = true;
     const requestId = ++latest;
-    el.actions.forEach((button) => { button.disabled = true; });
+    el.controls.forEach((button) => { button.disabled = true; });
     el.status.textContent = "正在进行权威结算...";
     try {
       const result = await LG.authority.mutate("infernalAction", { action });
@@ -122,7 +121,7 @@
       el.status.textContent = err?.message || "结算失败，请稍后重试。";
     } finally {
       busy = false;
-      el.actions.forEach((button) => { button.disabled = false; });
+      el.controls.forEach((button) => { button.disabled = false; });
       if (view === "run") renderRun();
     }
   }
@@ -167,8 +166,9 @@
         .forEach(([key, id]) => { el[key] = document.getElementById(id); });
       el.tabs = [...document.querySelectorAll("[data-infernal-view]")];
       el.actions = [el.start, el.mob, el.skip, el.desire, el.break, el.retreat];
+      el.controls = [...el.actions, ...el.tabs];
       el.tabs.forEach((button) => button.addEventListener("click", () => {
-        latest += 1; setView(button.dataset.infernalView); render();
+        if (busy) return; latest += 1; setView(button.dataset.infernalView); render();
       }));
       el.start.addEventListener("click", () => el.start.dataset.action === "resume"
         ? (setView("run"), render()) : act("start"));

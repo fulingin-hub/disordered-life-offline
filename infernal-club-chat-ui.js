@@ -18,6 +18,18 @@
     el.input.placeholder = allowed ? `与${activeQueen.title}交谈` : "人格值不足";
     el.status.textContent = LG.infernalClub.chatStatus(activeQueen.character);
   }
+  async function syncAfterReply(id) {
+    try {
+      await LG.authority.sync();
+      if (id === requestId) updateAccess();
+    } catch (err) {
+      console.warn("地狱俱乐部对话存档同步失败:",
+        err?.code, err?.message, err?.stack);
+      if (id === requestId) {
+        el.status.textContent = "回复已完成，存档将在下次操作时继续同步。";
+      }
+    }
+  }
   async function send(text) {
     if (!activeQueen || LG.dialogueAI.isBusy()) return;
     const scene = LG.dialogueScenes.room(activeQueen.character);
@@ -35,9 +47,15 @@
         },
       );
       if (id !== requestId) return;
+      if (!response) {
+        pending.textContent = "本次回应已取消。";
+        pending.classList.remove("loading");
+        return;
+      }
       pending.textContent = response;
       pending.classList.remove("loading");
-      await LG.authority.sync();
+      updateAccess();
+      void syncAfterReply(id);
     } catch (err) {
       if (id !== requestId) return;
       console.error("地狱俱乐部对话失败:", err?.code, err?.message, err?.stack);

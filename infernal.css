@@ -16,6 +16,13 @@
   background: rgba(3, 4, 6, 0.9);
 }
 
+.infernal-dialog > .dialog-heading,
+.infernal-dialog > .infernal-summary,
+.infernal-dialog > .infernal-tabs,
+.infernal-dialog > .infernal-status {
+  flex: 0 0 auto;
+}
+
 .infernal-summary {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -107,6 +114,11 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.infernal-run-view .infernal-encounter {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .infernal-run-view .infernal-encounter {
@@ -311,11 +323,33 @@
 
 @media (max-width: 700px) {
   .infernal-dialog {
-    padding: 14px;
+    width: calc(100vw - 12px);
+    height: calc(100dvh - 12px);
+    max-height: calc(100dvh - 12px);
+    padding: 10px;
   }
 
   .infernal-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+    margin: 8px 0;
+  }
+
+  .infernal-summary div {
+    padding: 6px 8px;
+  }
+
+  .infernal-summary strong {
+    font-size: 16px;
+  }
+
+  .infernal-tabs button {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .infernal-status {
+    margin: 5px 0;
   }
 
   .infernal-task-list {
@@ -328,7 +362,6 @@
 
   .infernal-encounter {
     grid-template-columns: minmax(108px, 34%) minmax(0, 1fr);
-    min-height: 360px;
   }
 
   .infernal-encounter-copy {
@@ -337,5 +370,36 @@
 
   .infernal-encounter-copy h3 {
     font-size: 19px;
+  }
+}
+
+@media (max-height: 620px) {
+  .infernal-summary {
+    margin: 5px 0;
+  }
+
+  .infernal-summary div {
+    padding: 4px 7px;
+  }
+
+  .infernal-summary strong {
+    font-size: 15px;
+  }
+
+  .infernal-status {
+    margin: 3px 0;
+  }
+
+  .infernal-floors {
+    margin-bottom: 5px;
+  }
+
+  .infernal-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .infernal-actions button {
+    min-height: 38px;
   }
 }

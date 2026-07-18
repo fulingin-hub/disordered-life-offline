@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260718-offline-i18n-full-unlocks-1",
+  buildId: "20260718-loading-keyart-1",
   version: 4,
   eventRevision: 2026071607,
   stateKey: "disordered-life-state-v1",

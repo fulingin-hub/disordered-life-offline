@@ -83,7 +83,11 @@
 }
 
 .club-back {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   margin-bottom: 10px;
+  background: #15171c;
 }
 
 .club-detail-heading,
@@ -173,7 +177,9 @@
 }
 
 .club-chat-view {
-  min-height: 0;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
 }
 
 .club-chat-heading {
@@ -186,11 +192,53 @@
 }
 
 .club-chat-messages {
-  min-height: 220px;
-  max-height: min(42dvh, 400px);
+  flex: 1 1 auto;
+  min-height: 120px;
   margin-top: 12px;
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+.club-chat-view .room-form {
+  position: sticky;
+  bottom: 0;
+  display: block;
+  flex: 0 0 auto;
+  border-top: 1px solid rgba(216, 210, 196, 0.16);
+  padding-top: 10px;
+  background: #15171c;
+}
+
+.club-chat-view .room-form label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.78rem;
+}
+
+.club-chat-view .room-form textarea {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  max-height: 110px;
+  resize: vertical;
+}
+
+.club-chat-view .room-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.club-chat-view .room-status {
+  min-width: 0;
+  flex: 1;
+  line-height: 1.35;
+}
+
+.club-chat-view .room-form-actions button {
+  min-width: 72px;
+  flex: 0 0 auto;
 }
 
 @media (max-width: 780px) {
@@ -221,5 +269,16 @@
   .club-detail-heading > img {
     width: 112px;
     height: 154px;
+  }
+}
+
+@media (max-height: 620px) {
+  .club-chat-heading > img {
+    width: 64px;
+    height: 80px;
+  }
+
+  .club-chat-messages {
+    margin-top: 6px;
   }
 }

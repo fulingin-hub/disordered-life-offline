@@ -41,15 +41,19 @@
     el.list.hidden = false;
     el.detail.hidden = true;
     el.chat.hidden = true;
+    el.scroll.scrollTop = 0;
     el.rooms.replaceChildren(...LG.INFERNAL_CLUB_DATA.queens.map(queenCard));
     status("选择女魔王包间。所有消费使用人格值，并由权威存档结算。");
   }
   function renderDetail() {
     if (!activeQueen) return renderList();
+    const leavingChat = mode === "chat";
+    if (leavingChat) LG.infernalClubChatUI.leave();
     mode = "detail";
     el.list.hidden = true;
     el.detail.hidden = false;
     el.chat.hidden = true;
+    if (leavingChat) el.scroll.scrollTop = 0;
     el.portrait.src = LG.CONFIG.assets[activeQueen.portrait];
     el.portrait.alt = activeQueen.title;
     el.roomName.textContent = activeQueen.room;
@@ -80,13 +84,14 @@
       activeQueen.effect}`);
   }
   function openDetail(id) {
-    activeQueen = LG.INFERNAL_CLUB_DATA.byId[id] || null; renderDetail();
+    activeQueen = LG.INFERNAL_CLUB_DATA.byId[id] || null; renderDetail(); el.scroll.scrollTop = 0;
   }
   function openChat() {
     if (!activeQueen || !LG.infernalClub.canChat(activeQueen.character)) return;
     mode = "chat";
     el.detail.hidden = true;
     el.chat.hidden = false;
+    el.scroll.scrollTop = 0;
     el.chatPortrait.src = LG.CONFIG.assets[activeQueen.portrait];
     el.chatPortrait.alt = activeQueen.title;
     el.chatRoom.textContent = activeQueen.room;
@@ -185,7 +190,11 @@
       if (!LG.infernalClub.access().allowed) return;
       LG.audio.scene("infernal"); renderStats(); renderList(); el.dialog.showModal();
     },
-    close() { LG.infernalClubChatUI.leave(); el.dialog.close(); LG.audio.scene("world"); },
+    close() {
+      LG.infernalClubChatUI.leave();
+      if (el.dialog.open) el.dialog.close();
+      LG.audio.scene("world");
+    },
     roomCard,
   };
 })(window.LifeGame);

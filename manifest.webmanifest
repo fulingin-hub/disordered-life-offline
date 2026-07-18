@@ -11,10 +11,22 @@
   "orientation": "any",
   "icons": [
     {
-      "src": "./assets/generated/protagonist-male-character-set-v2.10e1268e.webp",
-      "sizes": "1254x1254",
-      "type": "image/webp",
-      "purpose": "any maskable"
+      "src": "./assets/generated/app-icon-192.f870da22.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/generated/app-icon-512.4c65ecf5.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/generated/app-icon-maskable-512.10f16480.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
