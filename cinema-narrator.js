@@ -1,22 +1,9 @@
 (function (LG) {
   const VOICE_KEY = "life-cinema-narrator-v1";
   const ENABLED_KEY = "life-cinema-narrator-enabled-v1";
-  const voices = [
-    {
-      id: "female-b",
-      label: "女声旁白 · 成熟魅惑",
-      detail: "御姐女声，低音慢速，温暖而有距离感",
-      sample: "./assets/voices/samples/voice-b-mature-seductive-v3.mp3",
-    },
-    {
-      id: "male-c",
-      label: "男声旁白 · 冷峻威严",
-      detail: "成熟男声，更低更慢，适合庄重或压迫感结局",
-      sample: "./assets/voices/samples/male-c-commanding.mp3",
-    },
-  ];
+  const voices = LG.narratorCatalog.available();
   const el = {};
-  let selected = "female-b";
+  let selected = voices[0].id;
   let preferredEnabled = true;
   let masterEnabled = true;
   let player, requestId = 0, activeVoice = "";

@@ -146,6 +146,10 @@
         button.disabled = locked || button.classList.contains("requirement-locked");
       });
     },
+    setRestarting(active) {
+      el.restartButton.disabled = active;
+      el.restartButton.textContent = active ? "正在重新出生…" : "重新出生";
+    },
     showOutcome(text) {
       el.outcomeToast.textContent = text;
       el.outcomeToast.hidden = false;

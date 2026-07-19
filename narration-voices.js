@@ -12,5 +12,17 @@
       rate: 0.84,
       pitch: 0.62,
     },
+    "en-female": {
+      label: "English Narrator · Aria",
+      hints: /aria|en-US|english/i,
+      rate: 0.92,
+      pitch: 1,
+    },
+    "ja-female": {
+      label: "日本語ナレーター · Nanami",
+      hints: /nanami|ja-JP|japanese|日本語/i,
+      rate: 0.9,
+      pitch: 1,
+    },
   };
 })(window.LifeGame);

@@ -109,13 +109,14 @@
     currentArea = null;
     currentSection = null;
     el.title.textContent = "世界区域";
-    el.intro.textContent = "选择场景区域或特殊功能场所。异界魔境需完成真结局“圣人”并使人格达到1000点。";
+    el.intro.textContent = "选择场景区域或特殊功能场所。万界载具博览会馆在任一长期资源超过1000点后永久开放。";
     const areaCards = LG.worldAreas.all()
       .map((area) => LG.roomCards.area(area, renderArea));
     el.cards.replaceChildren(
       LG.roomCards.player(callbacks.onEnterPlayer),
       LG.casinoUI.roomCard(callbacks.onEnterCasino),
       paradiseCard(),
+      LG.vehicleUI.roomCard(callbacks.onEnterVehicle),
       LG.infernalUI.roomCard(),
       LG.infernalClubUI.roomCard(),
       ...areaCards,

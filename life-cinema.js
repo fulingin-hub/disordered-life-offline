@@ -104,7 +104,7 @@
         ? "已解锁：永久开放常规人生结局与全部真结局"
       : `人生重开 ${count}/${tasteRequired} 次后解锁`;
     el.powerText.textContent = testEnabled
-      ? "离线版已解锁：一键开放所有成就、属性、道具与场景区域"
+      ? "离线版已解锁：一键开放所有成就、属性、道具、载具与场景区域"
       : count >= powerRequired
         ? "已解锁：开放全部道具、房间画廊、特殊入口并完成所有成就"
       : `人生重开 ${count}/${powerRequired} 次后解锁`;
@@ -162,7 +162,7 @@
     el.power.addEventListener("click", () => unlock(
       "unlockAllCollections",
       LG.TEST_MODE?.lifeCinemaCheats === true
-        ? "确定一键解锁所有成就、属性、道具与场景区域？"
+        ? "确定一键解锁所有成就、属性、道具、载具与场景区域？"
         : "确定永久解锁全部道具、角色房间、画廊CG与特殊入口，并完成所有人生成就？",
     ));
     refreshUnlocks();

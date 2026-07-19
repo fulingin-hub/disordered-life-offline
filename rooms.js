@@ -81,6 +81,10 @@
           LG.roomsUI.close();
           LG.penitentiaryUI.open();
         },
+        onEnterVehicle: () => {
+          LG.roomsUI.close();
+          LG.vehicleUI.open();
+        },
         onSend: send,
         onLeave: leave,
       });

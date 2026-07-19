@@ -21,7 +21,6 @@
     el.reputation.textContent = String(stats.reputation);
     el.clears.textContent = String(stats.clears);
   }
-
   function taskCard(task) {
     const multiplier = LG.infernalClub.taskMultiplier();
     const card = node("article", `infernal-task${task.completed ? " completed" : ""}`);
@@ -37,7 +36,6 @@
         multiplier > 1 ? `（${multiplier}倍）` : ""}`));
     return card;
   }
-
   function renderHall() {
     const board = LG.infernalRealm.board();
     const run = LG.infernalRealm.run();
@@ -47,7 +45,6 @@
     el.start.dataset.action = run ? "resume" : "start";
     el.empty.hidden = board.tasks.length > 0;
   }
-
   function floorTrack(run) {
     return run.order.map((id, index) => {
       const layer = LG.INFERNAL_DATA.byId[id];
@@ -56,7 +53,6 @@
       return chip;
     });
   }
-
   function renderRun() {
     const run = LG.infernalRealm.run();
     if (!run) {
@@ -66,7 +62,7 @@
     }
     const encounter = run.encounter || {};
     const layer = LG.INFERNAL_DATA.byId[encounter.sin || run.order[run.floor]];
-    const boss = encounter.type === "boss";
+    const boss = encounter.type === "boss", saint = LG.infernalRealm.saintActive();
     el.floors.replaceChildren(...floorTrack(run));
     el.portrait.src = LG.CONFIG.assets[boss ? layer.queen : layer.witch];
     el.portrait.alt = boss ? layer.bossTitle : layer.mobTitle;
@@ -75,7 +71,7 @@
       : `第${run.floor + 1}层 · 小怪 ${encounter.index}/6`;
     el.title.textContent = boss ? layer.bossTitle : layer.mobTitle;
     el.copy.textContent = boss
-      ? `悬赏目标：${encounter.bountyName}。满足“${encounter.desireLabel}”任务会增加败北值；也可消耗${encounter.cost}点人格直接破局。`
+      ? saint ? `悬赏目标：${encounter.bountyName}。圣徒礼赞拒绝满足欲望，只能消耗${encounter.cost}点人格直接破局。` : `悬赏目标：${encounter.bountyName}。满足“${encounter.desireLabel}”任务会增加败北值；也可消耗${encounter.cost}点人格直接破局。`
       : `本次挑战消耗${encounter.cost}点人格。成功后返还10点人格；人格不足仍可挑战，但会立即败北撤离。`;
     el.mob.hidden = boss;
     el.skip.hidden = boss || !LG.infernalRealm.canSkipMobs();
@@ -83,24 +79,31 @@
     el.break.hidden = !boss;
     el.mob.textContent = encounter.cost > LG.infernalRealm.stats().personality
       ? `强行挑战（人格不足）` : `挑战魔女 · ${encounter.cost}人格`;
-    el.desire.textContent = boss ? `完成随机任务：${encounter.desireLabel}` : "";
+    el.desire.textContent = boss ? saint ? "圣徒礼赞：拒绝满足欲望" : `完成随机任务：${encounter.desireLabel}` : "";
     el.break.textContent = boss ? `直接破局 · ${encounter.cost}人格` : "";
-    el.mob.disabled = busy; el.skip.disabled = busy; el.desire.disabled = busy;
+    el.mob.disabled = busy; el.skip.disabled = busy; el.desire.disabled = busy || saint;
     el.retreat.disabled = busy;
     el.break.disabled = busy || encounter.cost > LG.infernalRealm.stats().personality;
     el.desireDetail.textContent = boss ? encounter.desireText : "";
     el.desireDetail.hidden = !boss;
   }
-
   function render(message) {
     renderStats();
     renderHall();
     if (view === "run") renderRun();
     if (message !== undefined) el.status.textContent = message;
   }
-
   async function act(action) {
     if (busy) return;
+    const run = LG.infernalRealm.run();
+    const encounter = run?.encounter;
+    const staleMob = ["mob", "skip-mobs"].includes(action)
+      && encounter?.type !== "mob";
+    const staleBoss = action.startsWith("boss-") && encounter?.type !== "boss";
+    if (action !== "start" && action !== "retreat" && (staleMob || staleBoss)) {
+      render("当前事件已更新，请按画面显示的选项继续。");
+      return;
+    }
     busy = true;
     const requestId = ++latest;
     el.controls.forEach((button) => { button.disabled = true; });
@@ -111,21 +114,21 @@
       if (result.life?.endingId) {
         el.dialog.close(); LG.ui.render(result.life);
       }
-      if (LG.infernalRealm.run()) setView("run");
-      else setView("hall");
+      setView(LG.infernalRealm.run() ? "run" : "hall");
       render(result.message || "结算完成。");
       LG.roomsUI.refresh();
     } catch (err) {
       if (requestId !== latest) return;
       console.error("异界魔境结算失败:", err?.code, err?.message, err?.stack);
-      el.status.textContent = err?.message || "结算失败，请稍后重试。";
+      el.status.textContent = err?.code === "runtime_unavailable"
+        ? "权威服务暂时繁忙，本次未扣除资源，请再次点击当前操作。"
+        : err?.message || "结算失败，请稍后重试。";
     } finally {
       busy = false;
       el.controls.forEach((button) => { button.disabled = false; });
       if (view === "run") renderRun();
     }
   }
-
   function roomCard() {
     const access = LG.infernalRealm.access();
     const stats = LG.infernalRealm.stats();
@@ -149,7 +152,6 @@
     card.append(image, body);
     return card;
   }
-
   LG.infernalUI = {
     init() {
       [["dialog", "infernalDialog"], ["hall", "infernalHall"], ["run", "infernalRun"],
@@ -178,9 +180,7 @@
       el.break.addEventListener("click", () => act("boss-break"));
       el.retreat.addEventListener("click", () => act("retreat"));
       document.getElementById("closeInfernalButton").addEventListener("click", () => {
-        latest += 1;
-        el.dialog.close();
-        LG.audio.scene("world");
+        latest += 1; el.dialog.close(); LG.audio.scene("world");
       });
       el.dialog.addEventListener("cancel", (event) => {
         event.preventDefault();

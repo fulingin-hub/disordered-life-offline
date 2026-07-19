@@ -78,15 +78,17 @@
   }
 
   function show(page) {
-    activePage = page === "equipment" ? "equipment" : "traits";
+    activePage = ["equipment", "vehicle"].includes(page) ? page : "traits";
     el.traitsPage.hidden = activePage !== "traits";
     el.equipmentPage.hidden = activePage !== "equipment";
+    el.vehiclePage.hidden = activePage !== "vehicle";
     el.tabs.forEach((button) => {
       const selected = button.dataset.traitsPage === activePage;
       button.classList.toggle("selected", selected);
       button.setAttribute("aria-selected", String(selected));
     });
     if (activePage === "equipment") render();
+    if (activePage === "vehicle") LG.vehicleProfileUI?.render?.();
   }
 
   LG.equipmentUI = {
@@ -94,6 +96,7 @@
       providers = nextProviders;
       el.traitsPage = document.getElementById("traitsPage");
       el.equipmentPage = document.getElementById("equipmentPage");
+      el.vehiclePage = document.getElementById("vehiclePage");
       el.shame = document.getElementById("equipmentShame");
       el.reduction = document.getElementById("equipmentReduction");
       el.set = document.getElementById("equipmentSet");

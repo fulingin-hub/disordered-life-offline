@@ -17,6 +17,17 @@
   filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.48));
 }
 
+.protagonist-wrap.mounted {
+  bottom: 0;
+  left: 0;
+  width: min(34vw, 440px);
+  height: 84%;
+}
+
+.protagonist-mounted-portrait {
+  object-position: center bottom;
+}
+
 .portrait-wrap {
   z-index: 2;
 }
@@ -46,11 +57,25 @@
     width: 44%;
     height: 48%;
   }
+
+  .protagonist-wrap.mounted {
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: auto;
+    width: 56%;
+    height: 48%;
+  }
 }
 
 @media (max-width: 520px) {
   .protagonist-wrap {
     width: 43%;
     height: 39%;
+  }
+
+  .protagonist-wrap.mounted {
+    width: 58%;
+    height: 42%;
   }
 }

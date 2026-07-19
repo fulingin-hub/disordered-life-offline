@@ -1,5 +1,4 @@
 .infernal-dialog {
-  display: flex;
   flex-direction: column;
   width: min(920px, calc(100vw - 28px));
   height: min(820px, calc(100dvh - 28px));
@@ -10,6 +9,10 @@
   background: #15171c;
   color: var(--paper);
   overflow: hidden;
+}
+
+.infernal-dialog[open] {
+  display: flex;
 }
 
 .infernal-dialog::backdrop {
@@ -374,6 +377,16 @@
 }
 
 @media (max-height: 620px) {
+  .infernal-dialog {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+
+  .infernal-dialog > .dialog-heading h2 {
+    margin: 2px 0;
+    font-size: 18px;
+  }
+
   .infernal-summary {
     margin: 5px 0;
   }
@@ -394,9 +407,28 @@
     margin-bottom: 5px;
   }
 
+  .infernal-encounter {
+    min-height: 0;
+  }
+
+  .infernal-encounter-copy {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .infernal-encounter-copy h3 {
+    margin: 3px 0 5px;
+  }
+
+  .infernal-encounter-copy p {
+    margin: 4px 0;
+    line-height: 1.4;
+  }
+
   .infernal-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 5px;
+    margin-top: 5px;
   }
 
   .infernal-actions button {

@@ -161,6 +161,7 @@
       el.button.textContent = `世界·${unlocked + markets + 1
         + Number(LG.casino.accessUnlocked()) + Number(LG.blackPrison.access().allowed)
         + Number(LG.penitentiary.access().allowed)
+        + Number(LG.vehicleStore.access().allowed)
         + Number(LG.infernalRealm.access().allowed)
         + Number(LG.infernalClub.access().allowed)}`;
     },

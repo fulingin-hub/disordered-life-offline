@@ -48,9 +48,13 @@
     },
     taskMultiplier() {
       const set = this.equippedSet();
-      if (["wrath", "greed", "gluttony"].includes(set)) return 3;
-      if (set === "envy") return 1.1;
-      return LG.equipment.summary(LG.authority.state()).edenSet ? 2 : 1;
+      const outfit = ["wrath", "greed", "gluttony"].includes(set) ? 3
+        : set === "envy" ? 1.1
+          : LG.equipment.summary(LG.authority.state()).edenSet ? 2 : 1;
+      const vehicle = economy().vehicleShop?.equipped;
+      const multiplier = outfit * (["achievement-lost-griffin",
+        "achievement-reborn-phoenix"].includes(vehicle) ? 3 : 1);
+      return Math.round(multiplier * 10) / 10;
     },
     price(item) {
       const price = Math.max(0, Number(item?.price) || 0);

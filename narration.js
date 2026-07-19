@@ -155,14 +155,9 @@
       button = document.getElementById("narrationButton");
       replayButton = document.getElementById("narrationReplayButton");
       replayButton?.addEventListener("click", activate);
-      online = !window.OfflineDialogueRuntime
-        && !document.title.includes("离线版");
+      online = LG.narratorCatalog.available().length > 0;
       player = new Audio();
       player.preload = "none";
-      if (!online) {
-        setStatus("unsupported", "离线版不自动播放事件旁白");
-        return;
-      }
       setStatus("locked", "点击任意游戏按钮启用固定旁白");
       listenForGesture();
     },

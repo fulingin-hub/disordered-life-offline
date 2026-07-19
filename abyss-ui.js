@@ -71,6 +71,7 @@
     const boss = LG.ABYSS_DATA.byId[encounter.bossId]
       || LG.ABYSS_DATA.bosses[0];
     const stats = LG.infernalRealm.stats();
+    const saint = LG.infernalRealm.saintActive();
     const floor = Math.max(1, Number(encounter.floor) || Number(run.floor) + 1);
     el.floorLabel.textContent = `第${floor}层 / 100层`;
     el.clearCount.textContent = `完整通关 ${stats.abyssClears}次`;
@@ -81,10 +82,14 @@
     el.portrait.alt = `${boss.name}欲望集成体`;
     el.eventType.textContent = `无尽深渊 · 第${floor}层事件Boss`;
     el.title.textContent = `${boss.name}欲望集成体`;
-    el.copy.textContent = `完成“${encounter.desireLabel}”会增加败北值并进入下一层；也可消耗${encounter.cost}点人格直接破局，计入对应悬赏击杀。`;
+    el.copy.textContent = saint
+      ? `圣徒礼赞拒绝满足欲望，只能消耗${encounter.cost}点人格直接破局，计入对应悬赏击杀。`
+      : `完成“${encounter.desireLabel}”会增加败北值并进入下一层；也可消耗${encounter.cost}点人格直接破局，计入对应悬赏击杀。`;
     el.desireDetail.textContent = encounter.desireText || "";
-    el.desire.textContent = `完成随机任务：${encounter.desireLabel || "满足欲望"}`;
+    el.desire.textContent = saint ? "圣徒礼赞：拒绝满足欲望"
+      : `完成随机任务：${encounter.desireLabel || "满足欲望"}`;
     el.break.textContent = `直接破局 · ${encounter.cost || 0}人格`;
+    el.desire.disabled = busy || saint;
     el.break.disabled = busy || encounter.cost > stats.personality;
   }
 

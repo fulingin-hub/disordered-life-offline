@@ -99,6 +99,9 @@
     const gender = state?.gender === "female" ? "female"
       : state?.gender === "male" ? "male" : null;
     if (!gender || currentAge(state) < 18) return null;
+    const vehicle = LG.vehicleStore?.equipped?.();
+    const mounted = LG.vehicleStore?.mountedAsset?.(vehicle, gender);
+    if (mounted) return mounted;
     const outfit = category(state);
     if (outfit.startsWith("club-")) {
       const queen = LG.INFERNAL_CLUB_DATA?.byId?.[outfit.slice(5)];
@@ -128,11 +131,26 @@
       }
       const outfit = category(state);
       image.src = src;
+      const vehicle = LG.vehicleStore?.equipped?.();
+      const mounted = LG.vehicleStore?.mountedAsset?.(vehicle, gender);
+      if (mounted) {
+        const identity = LG.VEHICLE_DATA.stores[vehicle.store].outfit;
+        image.alt = `${gender === "female" ? "女" : "男"}主角·${identity}·乘骑${vehicle.name}`;
+        image.className = "protagonist-mounted-portrait";
+        wrap.dataset.category = `vehicle-${vehicle.store}`;
+        wrap.dataset.vehicleFamily = vehicle.family;
+        wrap.classList.add("mounted");
+        wrap.hidden = false;
+        return;
+      }
       const clubName = outfit.startsWith("club-")
         ? `${LG.INFERNAL_CLUB_DATA.byId[outfit.slice(5)]?.name || "地狱"}魔王使徒`
         : labels[outfit];
       image.alt = `${gender === "female" ? "女" : "男"}主角·${clubName}`;
+      image.className = "";
       wrap.dataset.category = outfit;
+      delete wrap.dataset.vehicleFamily;
+      wrap.classList.remove("mounted");
       wrap.hidden = false;
     },
   };

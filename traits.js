@@ -16,22 +16,19 @@
       rewardedRuns: [],
     };
   }
-
   function highestUnlocked(id, value) {
     if (!definitions[id]) return null;
     const unlocked = traitTiers(id).filter((tier) => value >= tier.value);
     return unlocked[unlocked.length - 1] || null;
   }
-
   function traitTiers(id) {
     const allowed = definitions[id]?.titleTiers;
     return tiers.filter((tier) => !allowed || allowed.includes(tier.value));
   }
-
   function despairAvailable(values = data?.values) {
-    return Boolean(values && baseIds.every((id) => values[id] >= threshold));
+    return Boolean(values && (values.despair > 0
+      || baseIds.every((id) => values[id] >= threshold)));
   }
-
   function normalizeEquipped(saved, values) {
     const raw = saved?.equipped;
     if (typeof raw === "string") {
@@ -43,7 +40,6 @@
     return definitions[raw.id] && tier && values[raw.id] >= tier.value
       ? { id: raw.id, tier: tier.value } : null;
   }
-
   function normalize(saved) {
     const next = emptyData();
     if (!saved || typeof saved !== "object") return next;
@@ -158,15 +154,23 @@
     allocate(changes) {
       const entries = Object.entries(changes || {});
       const total = entries.reduce((sum, [, amount]) => sum + amount, 0);
-      const valid = total > 0 && total <= data.points && entries.every(([id, amount]) =>
-        definitions[id] && Number.isInteger(amount) && amount >= 0
-        && data.values[id] + amount <= threshold
-        && (id !== "despair" || despairAvailable()));
+      const nextValues = { ...data.values };
+      entries.forEach(([id, amount]) => {
+        if (definitions[id] && Number.isInteger(amount)) nextValues[id] += amount;
+      });
+      const valid = entries.length > 0 && total <= data.points
+        && entries.every(([id, amount]) => definitions[id]
+          && Number.isInteger(amount) && amount !== 0
+          && nextValues[id] >= 0 && nextValues[id] <= threshold)
+        && (nextValues.despair <= 0 || despairAvailable(nextValues));
       if (!valid) return { ok: false, message: "分配方案无效，请重新调整。" };
       const before = new Set(unlockedTitles().map((item) => `${item.id}:${item.tier}`));
       const beforeEquipment = new Set(unlockedEquipment().map((item) => item.id));
       entries.forEach(([id, amount]) => { data.values[id] += amount; });
       data.points -= total;
+      if (data.equipped && !isTierUnlocked(data.equipped.id, data.equipped.tier)) {
+        data.equipped = null;
+      }
       const unlocked = unlockedTitles().filter((item) => !before.has(`${item.id}:${item.tier}`));
       const equipmentUnlocked = unlockedEquipment()
         .filter((item) => !beforeEquipment.has(item.id));

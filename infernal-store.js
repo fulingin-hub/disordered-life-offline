@@ -62,9 +62,15 @@
     canSkipMobs() {
       const stats = this.stats();
       const economyState = economy();
-      return Boolean(economyState.infernalRealm?.club?.equippedSet)
+      const vehicle = economyState.vehicleShop?.equipped;
+      return ["achievement-lost-griffin",
+        "achievement-reborn-phoenix"].includes(vehicle)
+        || Boolean(economyState.infernalRealm?.club?.equippedSet)
         && stats.defeat >= 1000
         || economyState.saint?.active === true && stats.reputation >= 1000;
+    },
+    saintActive() {
+      return economy().saint?.active === true;
     },
     abyssAccess() {
       const clears = Math.max(0, Number(data().clears) || 0);

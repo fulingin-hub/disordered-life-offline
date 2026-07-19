@@ -184,8 +184,10 @@
   <link rel="stylesheet" href="./tribute.css">
   <link rel="stylesheet" href="./gallery.css">
   <link rel="stylesheet" href="./traits.css">
+  <link rel="stylesheet" href="./traits-interaction.css">
   <link rel="stylesheet" href="./equipment.css">
-  <link rel="stylesheet" href="./protagonist.css?v=20260716-2">
+  <link rel="stylesheet" href="./vehicle.css?v=20260719-3">
+  <link rel="stylesheet" href="./protagonist.css?v=20260719-3">
   <link rel="stylesheet" href="./black-market.css">
   <link rel="stylesheet" href="./room-consumables.css">
   <link rel="stylesheet" href="./gender.css">
@@ -807,6 +809,8 @@
         aria-controls="traitsPage">属性分配</button>
       <button type="button" role="tab" data-traits-page="equipment"
         aria-controls="equipmentPage">主角装备</button>
+      <button type="button" role="tab" data-traits-page="vehicle"
+        aria-controls="vehiclePage">乘骑载具</button>
     </div>
     <section id="traitsPage">
       <div class="traits-summary">
@@ -816,7 +820,8 @@
       <p id="traitsStatus" class="traits-status"></p>
       <div id="traitList" class="trait-list"></div>
       <div class="traits-actions">
-        <button id="commitTraitsButton" type="button">确认分配</button>
+        <span class="traits-save-hint">加减结果仅为暂存，点击按钮后保存。</span>
+        <button id="commitTraitsButton" type="button">调整后点击保存</button>
       </div>
     </section>
     <section id="equipmentPage" hidden>
@@ -838,6 +843,42 @@
       <p id="equipmentStatus" class="traits-status"></p>
       <div id="equipmentSlots" class="equipment-grid"></div>
       <p class="equipment-rule">四套基础装备按对应属性20/40/60/80/100点依次获得头、身、裆、手、脚部件；每件增加20点羞耻，同前缀五件套额外增加100点。</p>
+    </section>
+    <section id="vehiclePage" class="vehicle-profile-page" hidden>
+      <div class="vehicle-profile-summary">
+        <div><span>当前乘骑</span><strong id="vehicleCurrent">未选择载具</strong></div>
+        <div><span>博览会会员</span><strong id="vehicleProfileVip">访客</strong></div>
+      </div>
+      <div id="vehicleEffect" class="vehicle-profile-effect" data-active="false">
+        <div class="vehicle-effect-heading">
+          <span>坐骑效果</span>
+          <strong id="vehicleEffectState">未激活</strong>
+        </div>
+        <p id="vehicleEffectTitle">选择载具后显示当前乘骑加成</p>
+        <ul id="vehicleEffectBonuses">
+          <li>普通载具仅更换乘骑立绘，不提供特殊加成。</li>
+        </ul>
+      </div>
+      <p id="vehicleProfileStatus" class="traits-status">
+        在万界载具博览会馆购买后，可从任意已拥有载具中选择乘骑。
+      </p>
+      <div class="vehicle-profile-stage">
+        <figure id="vehicleRiderFigure" hidden>
+          <img id="vehicleRiderArt" alt="">
+          <figcaption>固定身份套装立绘</figcaption>
+        </figure>
+        <figure id="vehicleMountFigure" hidden>
+          <img id="vehicleMountArt" class="vehicle-profile-mount" alt="">
+          <figcaption>当前载具立绘</figcaption>
+        </figure>
+        <p id="vehicleProfileEmpty" class="vehicle-profile-empty">
+          尚未选择载具。前往博览会馆购买后即可乘骑。
+        </p>
+      </div>
+      <div class="vehicle-profile-controls">
+        <select id="vehicleSelect" aria-label="选择乘骑载具"></select>
+        <button id="openVehicleHallButton" type="button">前往博览会馆</button>
+      </div>
     </section>
   </dialog>
 
@@ -1028,6 +1069,45 @@
     </div>
   </dialog>
 
+  <dialog id="vehicleDialog" class="vehicle-dialog">
+    <div class="vehicle-dialog-shell">
+      <div class="dialog-heading">
+        <div>
+          <span class="event-type">异界人联合终产者们成立的神秘销金窟</span>
+          <h2>万界载具博览会馆</h2>
+        </div>
+        <button id="closeVehicleButton" class="quiet-button" type="button">关闭</button>
+      </div>
+      <div class="vehicle-catalog-scroll">
+        <div class="vehicle-summary">
+          <div><span>属性点</span><strong id="vehiclePoints">0</strong></div>
+          <div><span>成就点</span><strong id="vehicleAchievement">0</strong></div>
+          <div><span>赎罪卷</span><strong id="vehicleCoupons">0</strong></div>
+          <div><span>人格值</span><strong id="vehiclePersonality">0</strong></div>
+          <div><span>会员等级</span><strong id="vehicleVip">访客</strong></div>
+          <div><span>累计消费</span><strong id="vehicleSpent">0</strong></div>
+        </div>
+        <div class="vehicle-vip-line">
+          <span>青铜至璀璨会员按累计实际消费提升，折扣依次为5%至40%。</span>
+          <strong id="vehicleVipNext"></strong>
+        </div>
+        <nav class="vehicle-tabs" role="tablist" aria-label="载具商城货币">
+          <button class="active" type="button" role="tab"
+            data-vehicle-store="points">属性点</button>
+          <button type="button" role="tab"
+            data-vehicle-store="achievement">成就点</button>
+          <button type="button" role="tab"
+            data-vehicle-store="coupons">赎罪卷</button>
+          <button type="button" role="tab"
+            data-vehicle-store="personality">人格值</button>
+        </nav>
+        <p id="vehicleStoreCopy" class="vehicle-store-copy"></p>
+        <p id="vehicleStatus" class="vehicle-status" role="status"></p>
+        <div id="vehicleItems" class="vehicle-items"></div>
+      </div>
+    </div>
+  </dialog>
+
   <dialog id="tasksDialog" class="system-dialog tasks-dialog">
     <div class="dialog-heading">
       <div>
@@ -1196,6 +1276,8 @@
   <script src="./offline-tools.js"></script>
   <script src="./offline-pwa.js"></script>
   <script src="./config.js"></script>
+  <script src="./vehicle-assets.js"></script>
+  <script src="./vehicle-data.js"></script>
   <script src="./infernal-club-assets.js"></script>
   <script src="./test-mode.js"></script>
   <script src="./equipment-data.js"></script>
@@ -1256,6 +1338,7 @@
   <script src="./ambient-music.js"></script>
   <script src="./audio.js"></script>
   <script src="./narration-voices.js"></script>
+  <script src="./narrator-catalog.js"></script>
   <script src="./narration.js"></script>
   <script src="./narrator-settings.js"></script>
   <script src="./cinema-narrator.js"></script>
@@ -1263,12 +1346,15 @@
   <script src="./casino-temptations.js"></script>
   <script src="./casino-game.js"></script>
   <script src="./authority-fallback.js"></script>
+  <script src="./authority-intents.js"></script>
   <script src="./authority.js"></script>
+  <script src="./vehicle-store.js"></script>
   <script src="./life-cinema.js"></script>
   <script src="./engine.js"></script>
   <script src="./casino-access.js"></script>
   <script src="./loader.js"></script>
   <script src="./dialogue-request-lock.js"></script>
+  <script src="./dialogue-authority.js"></script>
   <script src="./dialogue-ai.js"></script>
   <script src="./dialogue-ui.js"></script>
   <script src="./gallery-assets.js"></script>
@@ -1303,13 +1389,16 @@
   <script src="./infernal-club-item-ui.js"></script>
   <script src="./infernal-club-chat-ui.js"></script>
   <script src="./infernal-club-ui.js"></script>
+  <script src="./vehicle-ui.js"></script>
   <script src="./room-lobby-ui.js"></script>
   <script src="./rooms-ui.js"></script>
   <script src="./tribute-ui.js"></script>
   <script src="./rooms.js"></script>
+  <script src="./trait-hold-controls.js"></script>
   <script src="./traits-ui.js"></script>
   <script src="./special-outfit-ui.js"></script>
   <script src="./equipment-ui.js"></script>
+  <script src="./vehicle-profile-ui.js"></script>
   <script src="./protagonist-portrait.js"></script>
   <script src="./collectibles-ui.js"></script>
   <script src="./daily-tasks-ui.js"></script>

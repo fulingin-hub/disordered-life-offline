@@ -1,0 +1,73 @@
+.traits-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  height: min(780px, calc(100dvh - 28px));
+  overflow: hidden;
+}
+
+.traits-dialog > .dialog-heading,
+.traits-dialog > .traits-pages {
+  flex: 0 0 auto;
+}
+
+#traitsPage:not([hidden]) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#equipmentPage:not([hidden]) {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+#traitsPage .traits-summary,
+#traitsPage .traits-status {
+  flex: 0 0 auto;
+}
+
+#traitsPage .trait-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+}
+
+.traits-actions {
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  background: #171b22;
+}
+
+.traits-save-hint {
+  flex: 1 1 auto;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.trait-step {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@media (max-width: 700px) {
+  .traits-dialog[open] {
+    height: calc(100dvh - 12px);
+  }
+
+  .traits-actions {
+    display: grid;
+    gap: 8px;
+  }
+
+  .traits-save-hint {
+    text-align: center;
+  }
+}

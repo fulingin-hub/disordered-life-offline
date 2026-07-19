@@ -1,30 +1,25 @@
 (function (LG) {
   let state;
   let archive = { male: [], female: [] };
-  let busy = false;
-
+  let busy = false, queuedRestart = null;
   function operationError(err, fallback) {
     console.error(fallback, err?.code, err?.message, err?.stack);
-    if (err?.code === "function_not_published") {
+    if (err?.code === "function_not_published")
       return "权威结算服务尚未发布，请先保存游戏。";
-    }
     if (String(err?.code || "").toLowerCase().includes("forbidden_dev_mode")) {
       return "平台结算模式暂不可用，请退出后重新进入游戏。";
     }
-    if (err?.code === "SDK_UNAVAILABLE" || err?.code === "FUNCTION_UNAVAILABLE") {
+    if (err?.code === "SDK_UNAVAILABLE" || err?.code === "FUNCTION_UNAVAILABLE")
       return "平台连接尚未就绪，请退出后重新进入游戏。";
-    }
     if (err?.code === "TIMEOUT") return "读取权威存档超时，请点击重试。";
     if (err?.code === "CAPTCHA_REQUIRED") return err.message;
     if (err?.code === "function_error") return err.message || "服务端拒绝了这次操作。";
     return "网络或结算服务暂时不可用，请稍后重试。";
   }
-
   function adopt(result) {
     state = result.life;
     archive = result.archive;
   }
-
   async function recoverStaleEvent(err) {
     if (err?.code !== "function_error" || err?.message !== "stale or invalid event") {
       return false;
@@ -38,7 +33,6 @@
     }
     return true;
   }
-
   async function choose(index) {
     if (busy || state.endingId || !state.gender) return;
     const event = LG.engine.current(state);
@@ -72,14 +66,24 @@
     } finally {
       busy = false;
       LG.ui.setLocked(false);
+      if (queuedRestart) {
+        const pending = queuedRestart;
+        queuedRestart = null;
+        restart(pending.force);
+      }
     }
   }
-
   async function restart(force) {
-    if (busy && !state.endingId) return;
+    if (busy && !state.endingId) {
+      queuedRestart = { force };
+      LG.ui.showOutcome("当前结算完成后将自动重新出生。");
+      return;
+    }
     if (!force && !state.endingId && state.history.length
       && !window.confirm("放弃当前人生并重新出生？")) return;
     busy = true;
+    LG.ui.setRestarting(true);
+    LG.ui.showOutcome("正在保存当前进度并重新出生…");
     LG.dialogueAI.cancel();
     LG.dialogueUI.close(true);
     try {
@@ -92,17 +96,13 @@
       LG.ui.showOutcome(operationError(err, "重新出生失败:"));
     } finally {
       busy = false;
+      LG.ui.setRestarting(false);
     }
   }
-
   function openArchive() {
     LG.ui.showArchive(archive, state.gender || "male");
   }
-
-  function toggleSound() {
-    LG.ui.updateSound(LG.audio.toggle());
-  }
-
+  function toggleSound() { LG.ui.updateSound(LG.audio.toggle()); }
   async function sendDialogue(text) {
     if (busy || state.endingId || LG.dialogueAI.isBusy()) return;
     const event = LG.engine.current(state);
@@ -131,13 +131,11 @@
       LG.dialogueUI.fail(LG.dialogueAI.errorMessage(err));
     }
   }
-
   async function selectGender(gender) {
     const result = await LG.authority.mutate("selectGender", { gender });
     adopt(result);
     LG.ui.render(state);
   }
-
   async function boot() {
     LG.loader.start();
     await LG.loader.waitForSdk();
@@ -175,10 +173,12 @@
     LG.abyssUI.init();
     LG.infernalClubChatUI.init();
     LG.infernalClubUI.init();
+    LG.vehicleUI.init();
     LG.rooms.init(() => state);
     LG.traitsUI.init();
     LG.specialOutfitUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
     LG.equipmentUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
+    LG.vehicleProfileUI.init({ getState: () => state });
     LG.collectiblesUI.init();
     LG.dailyTasksUI.init();
     LG.ui.render(state);
@@ -186,7 +186,6 @@
     LG.ui.updateSound(LG.audio.isEnabled());
     LG.loader.ready();
   }
-
   boot().catch((err) => {
     LG.loader.error(err);
     document.getElementById("bootSplash")?.remove();

@@ -40,7 +40,7 @@
     const special = outfits.find((item) => item.id === id)?.effect;
     if (special) return special;
     if (ordinary?.saintSet) {
-      return "这是自我意志的不灭：锁定坏结局，26岁后可直接选择普通结局";
+      return "自我意志不灭：锁定坏结局；异界魔境失败不增加败北值、不能满足欲望，胜利额外获得500人格值，完整一轮再获得500属性点与500人格值";
     }
     if (ordinary?.edenSet) {
       return "伊甸园的馈赠：完成任务时额外获得一次同额报酬";
