@@ -3,8 +3,7 @@
   let view = "hall", busy = false, latest = 0;
   function node(tag, className, text) {
     const item = document.createElement(tag);
-    if (className) item.className = className;
-    if (text !== undefined) item.textContent = text;
+    if (className) item.className = className; if (text !== undefined) item.textContent = text;
     return item;
   }
   function setView(next) {
@@ -22,7 +21,8 @@
     el.clears.textContent = String(stats.clears);
   }
   function taskCard(task) {
-    const multiplier = LG.infernalClub.taskMultiplier();
+    const taskMultiplier = LG.infernalClub.taskMultiplier();
+    const reputationMultiplier = LG.infernalClub.reputationMultiplier();
     const card = node("article", `infernal-task${task.completed ? " completed" : ""}`);
     const heading = node("div", "infernal-task-heading");
     heading.append(node("strong", "", task.name),
@@ -31,9 +31,11 @@
     progress.max = 10;
     progress.value = Math.min(10, Math.max(0, Number(task.progress) || 0));
     card.append(heading, progress,
-      node("small", "", `击杀10次 · 奖励${Math.floor(50 * multiplier)
-      }声望 / ${Math.floor(100 * multiplier)}人格值${
-        multiplier > 1 ? `（${multiplier}倍）` : ""}`));
+      node("small", "", `击杀10次 · 奖励${Math.floor(50 * reputationMultiplier)
+      }声望 / ${Math.floor(100 * taskMultiplier)}人格值${
+        reputationMultiplier !== taskMultiplier
+          ? `（声望${reputationMultiplier}倍）`
+          : taskMultiplier > 1 ? `（${taskMultiplier}倍）` : ""}`));
     return card;
   }
   function renderHall() {
@@ -41,6 +43,7 @@
     const run = LG.infernalRealm.run();
     el.round.textContent = `第${board.round + 1}轮 · ${board.tasks.length}项悬赏`;
     el.tasks.replaceChildren(...board.tasks.map(taskCard));
+    LG.infernalReputationUI.render(el.reputationRewards);
     el.start.textContent = run ? "继续七层地狱" : "进入七层地狱";
     el.start.dataset.action = run ? "resume" : "start";
     el.empty.hidden = board.tasks.length > 0;
@@ -90,8 +93,7 @@
   function render(message) {
     renderStats();
     renderHall();
-    if (view === "run") renderRun();
-    if (message !== undefined) el.status.textContent = message;
+    if (view === "run") renderRun(); if (message !== undefined) el.status.textContent = message;
   }
   async function act(action) {
     if (busy) return;
@@ -158,7 +160,8 @@
         ["defeat", "infernalDefeat"], ["personality", "infernalPersonality"],
         ["reputation", "infernalReputation"], ["clears", "infernalClears"],
         ["round", "infernalRound"], ["tasks", "infernalTasks"],
-        ["empty", "infernalEmpty"], ["start", "infernalStartButton"],
+        ["reputationRewards", "infernalReputationRewards"], ["empty", "infernalEmpty"],
+        ["start", "infernalStartButton"],
         ["floors", "infernalFloors"], ["portrait", "infernalPortrait"],
         ["eventType", "infernalEventType"], ["title", "infernalEventTitle"],
         ["copy", "infernalEventCopy"], ["desireDetail", "infernalDesireDetail"],
@@ -180,12 +183,9 @@
       el.break.addEventListener("click", () => act("boss-break"));
       el.retreat.addEventListener("click", () => act("retreat"));
       document.getElementById("closeInfernalButton").addEventListener("click", () => {
-        latest += 1; el.dialog.close(); LG.audio.scene("world");
-      });
-      el.dialog.addEventListener("cancel", (event) => {
-        event.preventDefault();
-        document.getElementById("closeInfernalButton").click();
-      });
+        latest += 1; el.dialog.close(); LG.audio.scene("world"); });
+      el.dialog.addEventListener("cancel", (event) => { event.preventDefault();
+        document.getElementById("closeInfernalButton").click(); });
       LG.authority.subscribe(() => { if (el.dialog.open) render(); });
     },
     open() {

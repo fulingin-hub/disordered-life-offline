@@ -63,8 +63,10 @@
       const stats = this.stats();
       const economyState = economy();
       const vehicle = economyState.vehicleShop?.equipped;
+      const hunter = LG.equipment.summary(LG.authority.state()).realmHunterSet;
       return ["achievement-lost-griffin",
         "achievement-reborn-phoenix"].includes(vehicle)
+        || hunter
         || Boolean(economyState.infernalRealm?.club?.equippedSet)
         && stats.defeat >= 1000
         || economyState.saint?.active === true && stats.reputation >= 1000;

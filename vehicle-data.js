@@ -27,6 +27,12 @@
       rider: { male: "vehiclePersonalityMale", female: "vehiclePersonalityFemale" },
       outfit: "重甲骑士 / 皮甲骑士",
     },
+    reputation: {
+      label: "异界声望", short: "声望奖励",
+      copy: "达到异界魔境声望里程碑后自动获得。",
+      rider: { male: "protagonistMaleInfernalSet", female: "protagonistFemaleInfernalSet" },
+      outfit: "恶魔的神秘套装",
+    },
   };
   const vipTiers = [
     ["青铜", 10000, 5], ["白银", 50000, 10], ["黄金", 100000, 15],
@@ -44,6 +50,32 @@
       "任务奖励 ×3，可与当前套装效果乘法叠加",
       "挑战七层地狱时自动跳过全部小怪事件",
     ],
+  };
+  const reputationMountEffects = {
+    wolf: {
+      title: "血色狼王祝福",
+      bonuses: [
+        "七层地狱/深渊事件胜利：声望 +10、属性点 +200、人格值 +500",
+        "完整一轮挑战：属性点 +6000、人格值 +6000",
+        "获得的声望值 ×3，可与套装效果叠加",
+      ],
+    },
+    tiger: {
+      title: "血色虎王祝福",
+      bonuses: [
+        "七层地狱/深渊事件胜利：声望 +50、属性点 +500、人格值 +1000",
+        "完整一轮挑战：属性点 +8000、人格值 +8000",
+        "获得的声望值 ×3，可与套装效果叠加",
+      ],
+    },
+    trex: {
+      title: "血色霸王龙祝福",
+      bonuses: [
+        "七层地狱/深渊事件胜利：声望 +100、属性点 +1000、人格值 +1500",
+        "完整一轮挑战：属性点 +10000、人格值 +10000",
+        "获得的任务奖励 ×3，可与套装效果叠加",
+      ],
+    },
   };
   const items = [];
 
@@ -84,6 +116,27 @@
       asset: "vehicleRebornPhoenix", tier: 1,
       effect: achievementMountEffect,
       note: "异界事件胜利：属性点+500、人格值+1000；每轮完成再奖励属性点+500、人格值+500；任务奖励×3，可与套装叠加；七层地狱自动跳过小怪事件。",
+    },
+    {
+      id: "reputation-blood-wolf", store: "reputation", family: "wolf",
+      tone: "red", name: "魔境的血色狼王", price: 0,
+      asset: "vehicleWolf", tier: 1, rewardAt: 1500,
+      effect: reputationMountEffects.wolf,
+      note: "异界魔境声望达到1500点后自动获得。",
+    },
+    {
+      id: "reputation-blood-tiger", store: "reputation", family: "tiger",
+      tone: "red", name: "魔境的血色虎王", price: 0,
+      asset: "vehicleTiger", tier: 2, rewardAt: 2000,
+      effect: reputationMountEffects.tiger,
+      note: "异界魔境声望达到2000点后自动获得。",
+    },
+    {
+      id: "reputation-blood-trex", store: "reputation", family: "mech-trex",
+      tone: "red", name: "魔境的血色霸王龙", price: 0,
+      asset: "vehicleMechTrex", tier: 3, rewardAt: 3000,
+      effect: reputationMountEffects.trex,
+      note: "异界魔境声望达到3000点后自动获得。",
     },
   );
   [

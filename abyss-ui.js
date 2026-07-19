@@ -35,7 +35,8 @@
   }
 
   function taskCard(task) {
-    const multiplier = LG.infernalClub.taskMultiplier();
+    const taskMultiplier = LG.infernalClub.taskMultiplier();
+    const reputationMultiplier = LG.infernalClub.reputationMultiplier();
     const card = node("article", `infernal-task${task.completed ? " completed" : ""}`);
     const heading = node("div", "infernal-task-heading");
     heading.append(node("strong", "", task.name),
@@ -44,9 +45,11 @@
     progress.max = 10;
     progress.value = Math.min(10, Math.max(0, Number(task.progress) || 0));
     card.append(heading, progress,
-      node("small", "", `击杀10次 · 奖励${Math.floor(50 * multiplier)
-      }声望 / ${Math.floor(100 * multiplier)}人格值${
-        multiplier > 1 ? `（${multiplier}倍）` : ""}`));
+      node("small", "", `击杀10次 · 奖励${Math.floor(50 * reputationMultiplier)
+      }声望 / ${Math.floor(100 * taskMultiplier)}人格值${
+        reputationMultiplier !== taskMultiplier
+          ? `（声望${reputationMultiplier}倍）`
+          : taskMultiplier > 1 ? `（${taskMultiplier}倍）` : ""}`));
     return card;
   }
 
@@ -55,6 +58,7 @@
     const run = LG.infernalRealm.abyssRun();
     el.round.textContent = `第${board.round + 1}轮 · ${board.tasks.length}项悬赏`;
     el.tasks.replaceChildren(...board.tasks.map(taskCard));
+    LG.infernalReputationUI.render(el.reputationRewards);
     el.empty.hidden = board.tasks.length > 0;
     el.start.textContent = run ? "继续无尽深渊" : "进入无尽深渊";
     el.start.dataset.action = run ? "resume" : "start";
@@ -137,6 +141,7 @@
         ["hall", "abyssHall"], ["run", "abyssRun"], ["defeat", "abyssDefeat"],
         ["personality", "abyssPersonality"], ["reputation", "abyssReputation"],
         ["highest", "abyssHighest"], ["round", "abyssRound"],
+        ["reputationRewards", "abyssReputationRewards"],
         ["tasks", "abyssTasks"], ["empty", "abyssEmpty"],
         ["start", "abyssStartButton"], ["floorLabel", "abyssFloorLabel"],
         ["clearCount", "abyssClearCount"], ["floorProgress", "abyssFloorProgress"],

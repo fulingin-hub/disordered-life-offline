@@ -1,0 +1,105 @@
+.infernal-reputation-board {
+  flex: 0 0 auto;
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #52323a;
+  padding: 10px;
+  background: #0e1116;
+}
+
+.abyss-dialog .infernal-reputation-board {
+  border-color: #294b59;
+}
+
+.reputation-board-heading,
+.reputation-reward-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.reputation-board-heading {
+  color: #ead9b2;
+  font-family: Georgia, "Songti SC", serif;
+}
+
+.reputation-board-heading strong,
+.reputation-reward-heading span {
+  color: #e5c06f;
+  font-size: 12px;
+}
+
+.reputation-total-progress {
+  width: 100%;
+  height: 7px;
+  accent-color: #b13d4a;
+}
+
+.abyss-dialog .reputation-total-progress {
+  accent-color: #3e819c;
+}
+
+.reputation-reward-group {
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+}
+
+.reputation-reward-heading strong {
+  font-size: 12px;
+}
+
+.reputation-milestones {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
+  margin-top: 7px;
+}
+
+.reputation-reward-group.vehicle .reputation-milestones {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.reputation-milestones > div {
+  min-width: 0;
+  border: 1px solid var(--line);
+  padding: 6px;
+  background: #151922;
+}
+
+.reputation-milestones > div.earned {
+  border-color: #4f8a69;
+  background: rgba(79, 138, 105, 0.12);
+}
+
+.reputation-milestones span,
+.reputation-milestones strong,
+.reputation-milestones small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.reputation-milestones span,
+.reputation-milestones small {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.reputation-milestones strong {
+  margin: 3px 0;
+  color: #e7e0d2;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.reputation-milestones .earned small {
+  color: #9dc7ad;
+}
+
+@media (max-width: 700px) {
+  .reputation-milestones,
+  .reputation-reward-group.vehicle .reputation-milestones {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

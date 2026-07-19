@@ -10,8 +10,15 @@
     ...(LG.penitentiary?.equipmentItems?.() || []),
   ];
   const itemMap = () => new Map(allItems().map((item) => [item.id, item]));
-  const acquired = (item) => !item?.unlockTrait
-    || Boolean(LG.traits?.isAtLeast?.(item.unlockTrait, item.unlockAt));
+  const acquired = (item) => {
+    if (item?.unlockReputation) {
+      const reputation = Number(LG.authority?.snapshot?.()
+        ?.economy?.infernalRealm?.reputation) || 0;
+      return reputation >= item.unlockReputation;
+    }
+    return !item?.unlockTrait
+      || Boolean(LG.traits?.isAtLeast?.(item.unlockTrait, item.unlockAt));
+  };
 
   function emptyLoadout() {
     return Object.fromEntries(slotIds().map((id) => [id, null]));
@@ -30,6 +37,8 @@
     const saintSet = setPrefix === "圣徒礼赞";
     const edenSet = setPrefix === "伊甸园";
     const penitentiarySet = setPrefix === "影狱";
+    const realmHunterSet = set?.id === "realm-hunter";
+    const realmBlackKnightSet = set?.id === "realm-black-knight";
     const setBonus = set && !saintSet ? 100 : 0;
     return {
       count: equipped.length,
@@ -38,6 +47,8 @@
       saintSet,
       edenSet,
       penitentiarySet,
+      realmHunterSet,
+      realmBlackKnightSet,
       total: Math.min(250, itemShame + setBonus),
       set,
       reduction: Math.floor(Math.min(250, itemShame + setBonus) / 20) * 5,

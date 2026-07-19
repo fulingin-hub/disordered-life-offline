@@ -179,6 +179,7 @@
   <link rel="stylesheet" href="./penitentiary.css?v=20260717-3">
   <link rel="stylesheet" href="./penitentiary-control.css?v=20260717-1">
   <link rel="stylesheet" href="./infernal.css?v=20260718-2">
+  <link rel="stylesheet" href="./infernal-reputation.css?v=20260719-1">
   <link rel="stylesheet" href="./abyss.css?v=20260718-1">
   <link rel="stylesheet" href="./infernal-club.css?v=20260718-2">
   <link rel="stylesheet" href="./tribute.css">
@@ -254,6 +255,8 @@
 
     <main class="stage">
       <div id="protagonistWrap" class="protagonist-wrap" hidden>
+        <img id="protagonistMountPortrait" class="protagonist-mount-portrait"
+          alt="" hidden>
         <img id="protagonistPortrait" alt="">
       </div>
 
@@ -906,6 +909,7 @@
         <h3>地狱悬赏</h3>
         <span id="infernalRound">第1轮</span>
       </div>
+      <div id="infernalReputationRewards" class="infernal-reputation-board"></div>
       <p id="infernalEmpty" class="infernal-empty" hidden>任务正在刷新。</p>
       <div id="infernalTasks" class="infernal-task-list"></div>
       <div class="infernal-hall-actions">
@@ -964,6 +968,7 @@
         <h3>深渊悬赏</h3>
         <span id="abyssRound">第1轮</span>
       </div>
+      <div id="abyssReputationRewards" class="infernal-reputation-board"></div>
       <p id="abyssEmpty" class="infernal-empty" hidden>任务正在刷新。</p>
       <div id="abyssTasks" class="infernal-task-list abyss-task-list"></div>
       <div class="infernal-hall-actions">
@@ -1288,6 +1293,7 @@
   <script src="./penitentiary-data.js"></script>
   <script src="./infernal-data.js"></script>
   <script src="./abyss-data.js"></script>
+  <script src="./infernal-reputation-ui.js"></script>
   <script src="./infernal-club-data.js"></script>
   <script src="./penitentiary-dialogue.js"></script>
   <script src="./eden-character-dialogue.js"></script>

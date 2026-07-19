@@ -45,6 +45,7 @@
   };
   let wrap;
   let image;
+  let mountImage;
 
   function eventAge(event) {
     const age = Number(event?.age);
@@ -82,6 +83,10 @@
       item.source === "blackMarket" && item.country === "japan")) return "japan";
     if (items.every((item) =>
       item.source === "blackMarket" && item.country === "usa")) return "usa";
+    if (items.every((item) =>
+      ["realm-hunter", "realm-black-knight"].includes(item.setId))) {
+      return "realm";
+    }
     const traitSetIds = new Set(LG.EQUIPMENT_SETS.map((set) => set.id));
     if (items.every((item) => traitSetIds.has(item.setId))) return "trait";
     return null;
@@ -100,9 +105,12 @@
       : state?.gender === "male" ? "male" : null;
     if (!gender || currentAge(state) < 18) return null;
     const vehicle = LG.vehicleStore?.equipped?.();
-    const mounted = LG.vehicleStore?.mountedAsset?.(vehicle, gender);
-    if (mounted) return mounted;
+    if (vehicle) return LG.vehicleStore.riderAsset(vehicle.store, gender);
     const outfit = category(state);
+    if (outfit === "realm") {
+      return LG.CONFIG.assets[gender === "female"
+        ? "vehiclePersonalityFemale" : "vehiclePersonalityMale"];
+    }
     if (outfit.startsWith("club-")) {
       const queen = LG.INFERNAL_CLUB_DATA?.byId?.[outfit.slice(5)];
       return queen ? LG.CONFIG.assets[
@@ -115,6 +123,7 @@
     init() {
       wrap = document.getElementById("protagonistWrap");
       image = document.getElementById("protagonistPortrait");
+      mountImage = document.getElementById("protagonistMountPortrait");
     },
     category,
     currentAge,
@@ -127,16 +136,21 @@
       if (!src) {
         wrap.hidden = true;
         image.removeAttribute("src");
+        mountImage.removeAttribute("src");
+        mountImage.hidden = true;
         return;
       }
       const outfit = category(state);
       image.src = src;
       const vehicle = LG.vehicleStore?.equipped?.();
-      const mounted = LG.vehicleStore?.mountedAsset?.(vehicle, gender);
-      if (mounted) {
+      if (vehicle) {
         const identity = LG.VEHICLE_DATA.stores[vehicle.store].outfit;
         image.alt = `${gender === "female" ? "女" : "男"}主角·${identity}·乘骑${vehicle.name}`;
-        image.className = `protagonist-mounted-portrait tone-${vehicle.tone}`;
+        image.className = "protagonist-rider-portrait";
+        mountImage.src = LG.CONFIG.assets[vehicle.asset];
+        mountImage.alt = vehicle.name;
+        mountImage.className = `protagonist-mount-portrait tone-${vehicle.tone}`;
+        mountImage.hidden = false;
         wrap.dataset.category = `vehicle-${vehicle.store}`;
         wrap.dataset.vehicleFamily = vehicle.family;
         wrap.dataset.vehicleTone = vehicle.tone;
@@ -146,9 +160,11 @@
       }
       const clubName = outfit.startsWith("club-")
         ? `${LG.INFERNAL_CLUB_DATA.byId[outfit.slice(5)]?.name || "地狱"}魔王使徒`
-        : labels[outfit];
+        : outfit === "realm" ? "异界魔境骑士" : labels[outfit];
       image.alt = `${gender === "female" ? "女" : "男"}主角·${clubName}`;
       image.className = "";
+      mountImage.removeAttribute("src");
+      mountImage.hidden = true;
       wrap.dataset.category = outfit;
       delete wrap.dataset.vehicleFamily;
       delete wrap.dataset.vehicleTone;

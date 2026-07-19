@@ -53,7 +53,15 @@
           : LG.equipment.summary(LG.authority.state()).edenSet ? 2 : 1;
       const vehicle = economy().vehicleShop?.equipped;
       const multiplier = outfit * (["achievement-lost-griffin",
-        "achievement-reborn-phoenix"].includes(vehicle) ? 3 : 1);
+        "achievement-reborn-phoenix", "reputation-blood-trex"]
+        .includes(vehicle) ? 3 : 1);
+      return Math.round(multiplier * 10) / 10;
+    },
+    reputationMultiplier() {
+      const vehicle = economy().vehicleShop?.equipped;
+      const multiplier = this.taskMultiplier()
+        * (["reputation-blood-wolf", "reputation-blood-tiger"]
+          .includes(vehicle) ? 3 : 1);
       return Math.round(multiplier * 10) / 10;
     },
     price(item) {

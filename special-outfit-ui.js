@@ -48,6 +48,12 @@
     if (ordinary?.penitentiarySet) {
       return "影狱权限：黑街与影狱角色商店的饮品、食物、药剂全部免费";
     }
+    if (ordinary?.realmHunterSet) {
+      return "异界猎人：跳过七层地狱小怪；每层按层数获得600点人格值；完成欲望任务额外获得100败北值";
+    }
+    if (ordinary?.realmBlackKnightSet) {
+      return "魔境黑骑：异界胜利额外获得200人格值；完整一轮额外获得5000属性点与5000人格值；完成欲望任务额外获得100败北值";
+    }
     return ordinary?.set ? "羞耻值 +100" : "无套装效果";
   }
 

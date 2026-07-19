@@ -56,6 +56,36 @@
         feet: "黑色长袜",
       },
     },
+    {
+      id: "realm-hunter",
+      prefix: "异界的",
+      separator: "",
+      unlockReputation: {
+        head: 100, body: 200, hands: 300, crotch: 400, feet: 500,
+      },
+      names: {
+        head: "猎人隐蔽头带",
+        body: "猎人隐蔽皮甲",
+        hands: "猎人多功能腰带",
+        crotch: "猎人隐蔽皮裤",
+        feet: "猎人隐蔽皮靴",
+      },
+    },
+    {
+      id: "realm-black-knight",
+      prefix: "魔境的",
+      separator: "",
+      unlockReputation: {
+        head: 600, body: 700, hands: 800, crotch: 900, feet: 1000,
+      },
+      names: {
+        head: "黑骑重甲头盔",
+        body: "黑骑重甲胸凯",
+        hands: "黑骑重甲腰带",
+        crotch: "黑骑重甲护腿",
+        feet: "黑骑重甲铁靴",
+      },
+    },
   ];
 
   LG.EQUIPMENT_ITEMS = LG.EQUIPMENT_SETS.flatMap((set) =>
@@ -64,9 +94,10 @@
       setId: set.id,
       prefix: set.prefix,
       slot: slot.id,
-      name: `${set.prefix}·${set.names[slot.id]}`,
+      name: `${set.prefix}${set.separator ?? "·"}${set.names[slot.id]}`,
       shame: 20,
       unlockTrait: set.trait,
-      unlockAt: (index + 1) * 20,
+      unlockAt: set.unlockReputation?.[slot.id] || (index + 1) * 20,
+      unlockReputation: set.unlockReputation?.[slot.id] || 0,
     })));
 })(window.LifeGame);

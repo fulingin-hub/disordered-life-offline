@@ -62,6 +62,9 @@
     },
     mountedAsset(item, gender) {
       if (!item) return "";
+      if (item.store === "reputation") {
+        return this.riderAsset(item.store, gender);
+      }
       let family = item.family;
       if (item.id === "points-otherworld-male") family = "otherworld-male";
       if (item.id === "points-otherworld-female") family = "otherworld-female";
