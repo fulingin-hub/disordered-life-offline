@@ -294,11 +294,32 @@
   color: var(--paper);
 }
 
-.tone-black { filter: brightness(0.42) contrast(1.28); }
-.tone-white { filter: saturate(0.55) brightness(1.08); }
-.tone-red { filter: sepia(0.9) saturate(3.4) hue-rotate(305deg) brightness(0.78); }
-.tone-silver { filter: grayscale(0.92) contrast(1.12) brightness(0.9); }
-.tone-gold { filter: sepia(0.82) saturate(2.15) hue-rotate(350deg) brightness(0.94); }
+.tone-black {
+  --vehicle-tone-filter: brightness(0.42) contrast(1.28);
+  filter: var(--vehicle-tone-filter);
+}
+
+.tone-white {
+  --vehicle-tone-filter: grayscale(1) contrast(0.45) brightness(1.35);
+  filter: var(--vehicle-tone-filter);
+}
+
+.tone-red {
+  --vehicle-tone-filter:
+    sepia(0.9) saturate(3.4) hue-rotate(305deg) brightness(0.78);
+  filter: var(--vehicle-tone-filter);
+}
+
+.tone-silver {
+  --vehicle-tone-filter: grayscale(0.92) contrast(0.82) brightness(1.12);
+  filter: var(--vehicle-tone-filter);
+}
+
+.tone-gold {
+  --vehicle-tone-filter:
+    sepia(1) saturate(2.8) hue-rotate(350deg) contrast(0.55) brightness(1.18);
+  filter: var(--vehicle-tone-filter);
+}
 
 @media (max-width: 700px) {
   .vehicle-dialog {

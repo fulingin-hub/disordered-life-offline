@@ -136,9 +136,10 @@
       if (mounted) {
         const identity = LG.VEHICLE_DATA.stores[vehicle.store].outfit;
         image.alt = `${gender === "female" ? "女" : "男"}主角·${identity}·乘骑${vehicle.name}`;
-        image.className = "protagonist-mounted-portrait";
+        image.className = `protagonist-mounted-portrait tone-${vehicle.tone}`;
         wrap.dataset.category = `vehicle-${vehicle.store}`;
         wrap.dataset.vehicleFamily = vehicle.family;
+        wrap.dataset.vehicleTone = vehicle.tone;
         wrap.classList.add("mounted");
         wrap.hidden = false;
         return;
@@ -150,6 +151,7 @@
       image.className = "";
       wrap.dataset.category = outfit;
       delete wrap.dataset.vehicleFamily;
+      delete wrap.dataset.vehicleTone;
       wrap.classList.remove("mounted");
       wrap.hidden = false;
     },
