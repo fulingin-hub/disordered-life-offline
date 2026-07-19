@@ -105,7 +105,11 @@
       : state?.gender === "male" ? "male" : null;
     if (!gender || currentAge(state) < 18) return null;
     const vehicle = LG.vehicleStore?.equipped?.();
-    if (vehicle) return LG.vehicleStore.riderAsset(vehicle.store, gender);
+    if (vehicle) {
+      const mounted = LG.vehicleStore.displayMode() === "ride"
+        ? LG.vehicleStore.mountedAsset(vehicle, gender) : "";
+      return mounted || LG.vehicleStore.riderAsset(vehicle.store, gender);
+    }
     const outfit = category(state);
     if (outfit === "realm") {
       return LG.CONFIG.assets[gender === "female"
@@ -144,17 +148,31 @@
       image.src = src;
       const vehicle = LG.vehicleStore?.equipped?.();
       if (vehicle) {
+        const mode = LG.vehicleStore.displayMode();
+        const mounted = mode === "ride"
+          ? LG.vehicleStore.mountedAsset(vehicle, gender) : "";
         const identity = LG.VEHICLE_DATA.stores[vehicle.store].outfit;
-        image.alt = `${gender === "female" ? "女" : "男"}主角·${identity}·乘骑${vehicle.name}`;
-        image.className = "protagonist-rider-portrait";
-        mountImage.src = LG.CONFIG.assets[vehicle.asset];
-        mountImage.alt = vehicle.name;
-        mountImage.className = `protagonist-mount-portrait tone-${vehicle.tone}`;
-        mountImage.hidden = false;
+        image.alt = `${gender === "female" ? "女" : "男"}主角·${identity}·${
+          mode === "ride" ? "乘骑" : "跟随"}${vehicle.name}`;
+        image.className = mounted
+          ? `protagonist-mounted-portrait tone-${vehicle.tone}`
+          : `protagonist-rider-portrait${mode === "ride"
+            ? ` tone-${vehicle.tone}` : ""}`;
+        if (mounted) {
+          mountImage.removeAttribute("src");
+          mountImage.hidden = true;
+        } else {
+          mountImage.src = LG.CONFIG.assets[vehicle.asset];
+          mountImage.alt = vehicle.name;
+          mountImage.className = `protagonist-mount-portrait tone-${vehicle.tone}`;
+          mountImage.hidden = false;
+        }
         wrap.dataset.category = `vehicle-${vehicle.store}`;
         wrap.dataset.vehicleFamily = vehicle.family;
         wrap.dataset.vehicleTone = vehicle.tone;
-        wrap.classList.add("mounted");
+        wrap.dataset.vehicleMode = mode;
+        wrap.classList.toggle("mounted", mode === "ride");
+        wrap.classList.toggle("following", mode === "follow");
         wrap.hidden = false;
         return;
       }
@@ -168,7 +186,9 @@
       wrap.dataset.category = outfit;
       delete wrap.dataset.vehicleFamily;
       delete wrap.dataset.vehicleTone;
+      delete wrap.dataset.vehicleMode;
       wrap.classList.remove("mounted");
+      wrap.classList.remove("following");
       wrap.hidden = false;
     },
   };

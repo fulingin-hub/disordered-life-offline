@@ -47,6 +47,25 @@
     }
   }
 
+  async function setMode(mode) {
+    if (busy || mode === LG.vehicleStore.displayMode()) return;
+    busy = true;
+    el.status.textContent = "正在保存展示方式…";
+    render();
+    try {
+      const result = await LG.authority.mutate("setVehicleDisplayMode", { mode });
+      el.status.textContent = result.message;
+      LG.protagonistPortrait.render(result.life);
+      window.dzmm?.toast?.success?.(result.message);
+    } catch (err) {
+      console.error("载具展示切换失败:", err?.code, err?.message, err?.stack);
+      el.status.textContent = err?.message || "展示方式切换失败，请重试。";
+    } finally {
+      busy = false;
+      render();
+    }
+  }
+
   function render() {
     if (!providers || !el.select) return;
     const state = providers.getState();
@@ -62,6 +81,12 @@
     el.vip.textContent = LG.vehicleStore.tier()
       ? `${LG.vehicleStore.tier().name}会员 · ${LG.vehicleStore.discount()}%折扣`
       : "访客";
+    const mode = LG.vehicleStore.displayMode();
+    el.ride.setAttribute("aria-pressed", String(mode === "ride"));
+    el.follow.setAttribute("aria-pressed", String(mode === "follow"));
+    el.ride.disabled = busy || !equipped;
+    el.follow.disabled = busy || !equipped;
+    el.stage.dataset.mode = mode;
     renderEffect(equipped);
     if (!equipped) {
       el.rider.removeAttribute("src");
@@ -72,12 +97,31 @@
       return;
     }
     const gender = state.gender === "female" ? "female" : "male";
+    const mounted = mode === "ride"
+      ? LG.vehicleStore.mountedAsset(equipped, gender) : "";
+    el.riderWrap.classList.toggle("vehicle-profile-composite", Boolean(mounted));
+    if (mounted) {
+      el.rider.src = mounted;
+      el.rider.alt = `${gender === "female" ? "女" : "男"}主角·上马${equipped.name}`;
+      el.rider.className = `vehicle-profile-mounted tone-${equipped.tone}`;
+      el.riderCaption.textContent = "上马·乘骑立绘";
+      el.mount.removeAttribute("src");
+      el.mountWrap.hidden = true;
+      el.riderWrap.hidden = false;
+      el.empty.hidden = true;
+      return;
+    }
     el.rider.src = LG.vehicleStore.riderAsset(equipped.store, gender);
     el.rider.alt = `${gender === "female" ? "女" : "男"}主角·${
       LG.VEHICLE_DATA.stores[equipped.store].outfit}`;
+    el.rider.className = "";
+    el.riderCaption.textContent = mode === "follow"
+      ? "跟随·角色立绘" : "上马·角色立绘";
     el.mount.src = LG.CONFIG.assets[equipped.asset];
     el.mount.alt = equipped.name;
     el.mount.className = `vehicle-profile-mount tone-${equipped.tone}`;
+    el.mountCaption.textContent = mode === "follow"
+      ? "跟随·坐骑立绘" : "上马·分层坐骑";
     el.riderWrap.hidden = false;
     el.mountWrap.hidden = false;
     el.empty.hidden = true;
@@ -93,9 +137,13 @@
         ["riderWrap", "vehicleRiderFigure"], ["mountWrap", "vehicleMountFigure"],
         ["empty", "vehicleProfileEmpty"], ["effect", "vehicleEffect"],
         ["effectState", "vehicleEffectState"], ["effectTitle", "vehicleEffectTitle"],
-        ["effectBonuses", "vehicleEffectBonuses"],
+        ["effectBonuses", "vehicleEffectBonuses"], ["stage", "vehicleProfileStage"],
+        ["ride", "vehicleRideModeButton"], ["follow", "vehicleFollowModeButton"],
+        ["riderCaption", "vehicleRiderCaption"], ["mountCaption", "vehicleMountCaption"],
       ].forEach(([key, id]) => { el[key] = document.getElementById(id); });
       el.select.addEventListener("change", () => equip(el.select.value));
+      el.ride.addEventListener("click", () => setMode("ride"));
+      el.follow.addEventListener("click", () => setMode("follow"));
       document.getElementById("openVehicleHallButton").addEventListener("click", () => {
         LG.traitsUI.close();
         LG.vehicleUI.open();

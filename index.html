@@ -187,8 +187,8 @@
   <link rel="stylesheet" href="./traits.css">
   <link rel="stylesheet" href="./traits-interaction.css">
   <link rel="stylesheet" href="./equipment.css">
-  <link rel="stylesheet" href="./vehicle.css?v=20260719-4">
-  <link rel="stylesheet" href="./protagonist.css?v=20260719-4">
+  <link rel="stylesheet" href="./vehicle.css?v=20260719-5">
+  <link rel="stylesheet" href="./protagonist.css?v=20260719-5">
   <link rel="stylesheet" href="./black-market.css">
   <link rel="stylesheet" href="./room-consumables.css">
   <link rel="stylesheet" href="./gender.css">
@@ -852,6 +852,10 @@
         <div><span>当前乘骑</span><strong id="vehicleCurrent">未选择载具</strong></div>
         <div><span>博览会会员</span><strong id="vehicleProfileVip">访客</strong></div>
       </div>
+      <div class="vehicle-mode-switch" role="group" aria-label="载具展示方式">
+        <button id="vehicleRideModeButton" type="button" aria-pressed="true">上马</button>
+        <button id="vehicleFollowModeButton" type="button" aria-pressed="false">跟随</button>
+      </div>
       <div id="vehicleEffect" class="vehicle-profile-effect" data-active="false">
         <div class="vehicle-effect-heading">
           <span>坐骑效果</span>
@@ -865,14 +869,14 @@
       <p id="vehicleProfileStatus" class="traits-status">
         在万界载具博览会馆购买后，可从任意已拥有载具中选择乘骑。
       </p>
-      <div class="vehicle-profile-stage">
+      <div id="vehicleProfileStage" class="vehicle-profile-stage">
         <figure id="vehicleRiderFigure" hidden>
           <img id="vehicleRiderArt" alt="">
-          <figcaption>固定身份套装立绘</figcaption>
+          <figcaption id="vehicleRiderCaption">固定身份套装立绘</figcaption>
         </figure>
         <figure id="vehicleMountFigure" hidden>
           <img id="vehicleMountArt" class="vehicle-profile-mount" alt="">
-          <figcaption>当前载具立绘</figcaption>
+          <figcaption id="vehicleMountCaption">当前载具立绘</figcaption>
         </figure>
         <p id="vehicleProfileEmpty" class="vehicle-profile-empty">
           尚未选择载具。前往博览会馆购买后即可乘骑。

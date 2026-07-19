@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-    buildId: "20260719-infernal-reputation-rewards",
+    buildId: "20260719-vehicle-display-modes",
   version: 4,
   eventRevision: 2026071607,
   stateKey: "disordered-life-state-v1",

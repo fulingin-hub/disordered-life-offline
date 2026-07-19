@@ -1,7 +1,7 @@
 (function (LG) {
   function data() {
     return LG.authority?.snapshot?.()?.economy?.vehicleShop || {
-      unlocked: false, spent: 0, owned: [], equipped: null,
+      unlocked: false, spent: 0, owned: [], equipped: null, displayMode: "ride",
     };
   }
 
@@ -55,6 +55,9 @@
     equipped() {
       return LG.VEHICLE_DATA.byId[data().equipped] || null;
     },
+    displayMode() {
+      return data().displayMode === "follow" ? "follow" : "ride";
+    },
     riderAsset(store, gender) {
       const meta = LG.VEHICLE_DATA.stores[store];
       const key = meta?.rider?.[gender === "female" ? "female" : "male"];
@@ -62,9 +65,7 @@
     },
     mountedAsset(item, gender) {
       if (!item) return "";
-      if (item.store === "reputation") {
-        return this.riderAsset(item.store, gender);
-      }
+      if (item.store === "reputation") return "";
       let family = item.family;
       if (item.id === "points-otherworld-male") family = "otherworld-male";
       if (item.id === "points-otherworld-female") family = "otherworld-female";
