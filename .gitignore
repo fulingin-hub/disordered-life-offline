@@ -1,6 +1,0 @@
-android/.gradle/
-android/**/build/
-android/release-keystore.p12
-*.apk
-*.aab
-local.properties
