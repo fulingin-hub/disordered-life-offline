@@ -208,8 +208,14 @@
 }
 
 .recovery-actions button {
+  min-height: 44px;
   padding: 0 18px;
   background: var(--steel);
+}
+
+.recovery-actions .recovery-save {
+  margin-right: auto;
+  background: #3f6e61;
 }
 
 .recovery-actions .recovery-danger {

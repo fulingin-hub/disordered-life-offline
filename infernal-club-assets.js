@@ -25,9 +25,9 @@
     infernalClubPrideFemale:
       "./assets/generated/infernal-club-pride-female-apostle.f77d1b58.webp",
     infernalClubEnvyMale:
-      "./assets/generated/infernal-club-greed-male-apostle.372338af.webp",
+      "./assets/generated/infernal-club-envy-male-apostle.6e38df51.webp",
     infernalClubEnvyFemale:
-      "./assets/generated/infernal-club-greed-female-apostle.8e1495b1.webp",
+      "./assets/generated/infernal-club-envy-female-apostle.2f5a4d13.webp",
     infernalClubGluttonyMale:
       "./assets/generated/infernal-club-gluttony-male-apostle.14cb13ca.webp",
     infernalClubGluttonyFemale:
