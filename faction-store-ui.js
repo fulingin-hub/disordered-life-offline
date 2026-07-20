@@ -49,7 +49,11 @@
     }));
     card.append(button);
     if (view === "private" && item.index === 5 && data.specialActivated) {
-      const use = node("button", "career-special-use", "使用特殊道具 · 10000属性点");
+      const count = data.specialUses?.[active.faction] || 0;
+      const progress = active.rankIndex === 2 && owned(item.id)
+        ? ` · 隐藏职业 ${Math.min(count, 101)}/101` : "";
+      const use = node("button", "career-special-use",
+        `使用特殊道具 · 10000属性点${progress}`);
       use.type = "button";
       use.disabled = busy;
       use.addEventListener("click", () =>

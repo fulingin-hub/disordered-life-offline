@@ -85,10 +85,7 @@
   function renderLoadout() {
     const data = LG.career.data();
     const jobs = (data.professionDefinitions || []).filter((item) => item.unlocked);
-    const medals = LG.CAREER_DATA.roster.filter((item) =>
-      data.characterItems?.includes(`${item.id}-normal-5`)).map((item) => ({
-        id: item.id, name: `${item.name}的大师勋章`,
-      }));
+    const medals = LG.career.medals();
     const modes = node("div", "career-mode-grid");
     [["", "不装备套装"], ["master", "职业大师"], ["consumable", "职业耗材"]]
       .forEach(([id, label]) => {
@@ -100,13 +97,13 @@
         modes.append(button);
       });
     const copy = node("p", "career-copy",
-      "大师勋章：每轮六大属性各+600。职业大师：每轮随机职业属性+10000，任务次数+10、奖励3倍。职业耗材：每轮人格-10000，任务次数+20，任务奖励改为同额羞耻值。");
+      "大师勋章每轮六大属性各+600。特殊图鉴勋章需先装备对应隐藏职业，并用于解锁职业耗材套装。职业大师任务次数+10、奖励3倍；职业耗材任务次数+20，奖励改为同额羞耻值。");
     el.loadout.replaceChildren(
       LG.careerArtUI.figure(data),
       selectControl("装备职业", jobs, data.equippedProfession,
         "equipProfession", "professionId"),
       selectControl("装备职业勋章", medals, data.equippedMedal,
-        "equipCareerMedal", "characterId"),
+        "equipCareerMedal", "medalId"),
       node("h3", "", "装备职业套装"), modes, copy,
     );
   }
