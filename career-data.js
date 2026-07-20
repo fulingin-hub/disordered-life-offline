@@ -37,12 +37,17 @@
   };
 
   function roster() {
+    const domainNames = [
+      ["小弟", "小妹"], ["大哥", "大姐"], ["男爹", "女爹"],
+    ];
     return Object.entries(factions).flatMap(([faction, meta]) =>
       meta.ranks.flatMap((rank, rankIndex) => ["male", "female"].map((gender) => ({
         id: `${faction}-${rankIndex + 1}-${gender}`,
         faction,
         rankIndex,
-        name: `${gender === "male" ? "男" : "女"}${rank.replace(" / ", "·")}`,
+        name: faction === "domain"
+          ? domainNames[rankIndex][gender === "male" ? 0 : 1]
+          : `${gender === "male" ? "男" : "女"}${rank}`,
         pieces: [1, 2, 2][rankIndex],
         asset: meta.asset,
       }))));
@@ -53,7 +58,7 @@
     ["重点笔记", "记录职业训练重点的内部笔记。"],
     ["考核资料", "用于晋升与职业考核的完整资料。"],
     ["优秀证明", "由所属势力签发的优秀证明。"],
-    ["职业大师套装部件", "集齐前四件普通收藏后开放。"],
+    ["大师勋章", "第五件普通收藏。装备后每轮人生六大属性值各增加600点。"],
   ];
   const privateItems = [
     ["私密丝袜", "角色房间中保存的私密衣物收藏。"],

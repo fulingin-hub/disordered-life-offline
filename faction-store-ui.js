@@ -59,6 +59,27 @@
     return card;
   }
 
+  function pieceClaim(data) {
+    const mode = view === "normal" ? "master" : "consumable";
+    const claimId = `${active.id}-${mode}`;
+    const allOwned = LG.CAREER_DATA.items(active, view)
+      .every((item) => owned(item.id));
+    const claimed = data.setClaims?.includes(claimId);
+    const card = node("article", `collectible-card${claimed ? " owned" : ""}`);
+    card.append(node("span", "collectible-mark", "免费领取"),
+      node("strong", "", `职业${mode === "master" ? "大师" : "耗材"}套装部件 ×${active.pieces}`),
+      node("p", "", "集齐本商城前五件道具图鉴后开放领取资格。"));
+    const button = node("button", "", claimed ? "已领取"
+      : allOwned ? "免费领取" : "需要集齐前五件图鉴");
+    button.type = "button";
+    button.disabled = busy || claimed || !allOwned;
+    button.addEventListener("click", () => mutate("claimFactionPiece", {
+      characterId: active.id, mode,
+    }));
+    card.append(button);
+    return card;
+  }
+
   function render() {
     if (!active) return;
     const data = LG.career.data();
@@ -67,9 +88,10 @@
     el.title.textContent = `${active.name}的${view === "normal" ? "正常" : "丧志"}商城`;
     el.status.textContent = view === "normal"
       ? `消耗属性点与${LG.CAREER_DATA.stats[data.factions?.find((item) =>
-        item.id === active.faction)?.stat] || "势力主属性"}；前四件解锁职业大师部件。`
-      : "消耗属性点与羞耻值；第五件解锁职业耗材部件与全职业特殊道具使用权。";
-    el.items.replaceChildren(...LG.CAREER_DATA.items(active, view).map(itemCard));
+        item.id === active.faction)?.stat] || "势力主属性"}；集齐五件后免费领取职业大师部件。`
+      : "消耗属性点与羞耻值；集齐五件后免费领取职业耗材部件，并开放特殊道具使用权。";
+    el.items.replaceChildren(...LG.CAREER_DATA.items(active, view).map(itemCard),
+      pieceClaim(data));
     el.tabs.forEach((button) => button.setAttribute("aria-selected",
       String(button.dataset.factionStoreView === view)));
   }
