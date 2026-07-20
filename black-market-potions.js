@@ -61,6 +61,9 @@
   LG.blackMarketPotions = {
     normalize(item, country) {
       const kind = kindFrom(item);
+      const custom = item?.source === "room" || item?.roomCharacter
+        || item?.source === "faction" || item?.country === "career";
+      if (custom && kind) return normalizePotion(item, country);
       return ["water", "gold"].includes(kind)
         ? normalizeSpecial(item, country) : kind ? normalizePotion(item, country) : item;
     },
