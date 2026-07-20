@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260719-otherworld-characters",
+  buildId: "20260720-career-foundation",
   version: 4,
   eventRevision: 2026071607,
   stateKey: "disordered-life-state-v1",
@@ -178,7 +178,5 @@ window.LifeGame.CONFIG = {
     dignity: "尊严",
     shame: "羞耻",
   },
-  statMaximums: {
-    shame: 250,
-  },
+  statMaximums: {},
 };

@@ -25,7 +25,7 @@
       return { ok: false, message: "本次人生已经达到该药剂的饮用上限。" };
     }
     const previous = Number(gameState.stats[item.stat]) || 0;
-    const next = Math.max(0, Math.min(100, previous + item.amount));
+    const next = Math.max(0, Math.min(999999999, previous + item.amount));
     gameState.stats[item.stat] = next;
     item.quantity -= 1;
     LG.blackMarketPotions.recordUse(data, item,

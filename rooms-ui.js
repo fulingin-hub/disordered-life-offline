@@ -30,7 +30,8 @@
         ["location", "roomLocation"], ["character", "roomCharacter"], ["messages", "roomMessages"],
         ["status", "roomStatus"], ["form", "roomForm"], ["input", "roomInput"],
         ["send", "roomSendButton"], ["gallery", "roomGalleryButton"],
-        ["items", "roomItemsButton"], ["button", "roomsButton"],
+        ["items", "roomItemsButton"], ["careerSpecial", "roomCareerSpecialButton"],
+        ["button", "roomsButton"],
       ].forEach(([key, id]) => { el[key] = document.getElementById(id); });
       LG.roomLobbyUI.init({
         cards: el.cards,
@@ -43,6 +44,12 @@
       el.gallery.addEventListener("click", () => {
         if (LG.galleryUI.open(activeCharacter)) return;
         el.status.textContent = LG.collectibles.galleryHint(activeCharacter);
+      });
+      el.careerSpecial.addEventListener("click", () => {
+        const target = document.querySelector('[data-career-view="benefits"]');
+        this.close();
+        document.getElementById("careerButton").click();
+        target.click();
       });
       el.dialog.addEventListener("cancel", (event) => {
         event.preventDefault();
@@ -100,6 +107,9 @@
       el.location.textContent = scene.location;
       el.character.textContent = scene.name;
       el.items.hidden = market; el.gallery.hidden = !LG.GALLERY_ASSETS[character]?.items.length;
+      el.careerSpecial.hidden = !["agencyCouple", "restaurantCouple"].includes(character);
+      el.careerSpecial.textContent = character === "agencyCouple"
+        ? "六大势力聘用证明" : "街头传奇的菜单";
       if (market) el.gallery.textContent = LG.collectibles.galleryUnlocked(character) ? "CG画廊" : "CG画廊·未解锁";
       if (!market) {
         const collection = LG.collectibles.progress(character);

@@ -49,16 +49,21 @@
       penitentiarySet,
       realmHunterSet,
       realmBlackKnightSet,
-      total: Math.min(250, itemShame + setBonus),
+      total: itemShame + setBonus,
       set,
-      reduction: Math.floor(Math.min(250, itemShame + setBonus) / 20) * 5,
+      reduction: Math.floor((itemShame + setBonus) / 20) * 5,
     };
   }
 
   function recalculate(state) {
     state.stats = state.stats || {};
     const result = summary(state);
-    state.stats.shame = result.total;
+    const current = Math.max(0, Number(state.stats.shame) || 0);
+    const stored = Number(state.equipmentShameApplied);
+    const previous = Number.isFinite(stored) && stored >= 0
+      ? stored : Math.min(current, result.total);
+    state.stats.shame = Math.max(0, current - previous + result.total);
+    state.equipmentShameApplied = result.total;
     return result;
   }
 

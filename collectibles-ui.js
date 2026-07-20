@@ -2,6 +2,7 @@
   const el = {};
   let buying = false;
   let activeCharacter = null;
+  let archivePrivacy = "private";
 
   function node(tag, className, text) {
     const item = document.createElement(tag);
@@ -78,17 +79,31 @@
 
   function renderArchive() {
     const regular = Object.values(LG.COLLECTIBLE_CATALOG).flat()
-      .filter((item) => LG.collectibles.owns(item.id));
+      .filter((item) => LG.collectibles.owns(item.id)
+        && (item.privacy || "private") === archivePrivacy);
     const saint = ownedSaintItems();
-    const total = Object.values(LG.COLLECTIBLE_CATALOG).flat().length + 5;
-    el.ownedCount.textContent = `${regular.length + saint.length}/${total}`;
-    el.status.textContent = regular.length || saint.length
-      ? "已获得道具汇总；购买和使用请前往对应角色房间。"
-      : "尚未获得角色道具；请先进入已解锁角色房间购买或推进贡金。";
+    const visibleSaint = archivePrivacy === "private" ? saint : [];
+    const careerItems = LG.factionStoreUI?.ownedItems?.(archivePrivacy) || [];
+    const all = Object.values(LG.COLLECTIBLE_CATALOG).flat()
+      .filter((item) => (item.privacy || "private") === archivePrivacy);
+    const total = all.length + (archivePrivacy === "private" ? 5 : 0);
+    el.ownedCount.textContent = `${regular.length + visibleSaint.length + careerItems.length}/${
+      total + 180}`;
+    el.status.textContent = regular.length || visibleSaint.length || careerItems.length
+      ? `${archivePrivacy === "private" ? "私密" : "普通"}收藏仅供查看，不能在角色收藏页面使用道具。`
+      : `尚未获得${archivePrivacy === "private" ? "私密" : "普通"}角色道具。`;
     el.items.replaceChildren(
       ...regular.map((item) => itemCard(item)),
-      ...saint.map((item) => saintCard(item)),
+      ...visibleSaint.map((item) => saintCard(item)),
+      ...careerItems.map((item) => {
+        const card = node("article", "collectible-card owned");
+        card.append(node("span", "collectible-mark", "已获得"),
+          node("strong", "", item.name), node("p", "", item.description));
+        return card;
+      }),
     );
+    el.privacyTabs.forEach((button) => button.setAttribute("aria-selected",
+      String(button.dataset.collectionPrivacy === archivePrivacy)));
   }
 
   async function buy(item) {
@@ -154,6 +169,11 @@
       el.collectionTitle = document.getElementById("collectionTitle");
       el.collectionStatus = document.getElementById("collectionStatus");
       el.collectionItems = document.getElementById("collectionItems");
+      el.privacyTabs = [...document.querySelectorAll("[data-collection-privacy]")];
+      el.privacyTabs.forEach((button) => button.addEventListener("click", () => {
+        archivePrivacy = button.dataset.collectionPrivacy;
+        renderArchive();
+      }));
       document.getElementById("closeCollectionButton")
         .addEventListener("click", () => el.collectionDialog.close());
       this.refresh();

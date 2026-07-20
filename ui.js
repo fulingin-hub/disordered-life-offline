@@ -20,7 +20,7 @@
       heading.append(node("span", "", label), node("b", "", String(value)));
       const track = node("div", "stat-track");
       const fill = node("span");
-      const maximum = Math.max(1, Number(LG.CONFIG.statMaximums?.[key]) || 100);
+      const maximum = Math.max(100, value);
       fill.style.width = `${Math.min(100, value / maximum * 100)}%`;
       track.append(fill);
       stat.append(heading, track);

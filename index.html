@@ -195,6 +195,7 @@
   <link rel="stylesheet" href="./gender.css">
   <link rel="stylesheet" href="./player-room.css">
   <link rel="stylesheet" href="./systems.css?v=20260718-3">
+  <link rel="stylesheet" href="./career.css?v=20260720-1">
   <link rel="stylesheet" href="./save-recovery.css?v=20260718-3">
   <link rel="stylesheet" href="./responsive.css">
   <link rel="stylesheet" href="./offline.css">
@@ -241,6 +242,7 @@
       <div class="top-actions">
         <button id="soundButton" class="quiet-button" type="button">声音：开</button>
         <button id="traitsButton" class="quiet-button" type="button">属性</button>
+        <button id="careerButton" class="quiet-button" type="button">职业</button>
         <button id="tasksButton" class="quiet-button" type="button">任务</button>
         <button id="roomsButton" class="quiet-button" type="button">世界</button>
         <button id="recoveryButton" class="quiet-button" type="button">人生电影院</button>
@@ -352,6 +354,8 @@
         <div class="room-actions">
           <button id="roomItemsButton" class="quiet-button" type="button">道具图鉴</button>
           <button id="roomGalleryButton" class="quiet-button" type="button">CG画廊</button>
+          <button id="roomCareerSpecialButton" class="quiet-button"
+            type="button" hidden>职业福利</button>
           <button id="backRoomsButton" class="quiet-button" type="button">返回世界区域</button>
         </div>
       </div>
@@ -803,13 +807,13 @@
     <div class="dialog-heading">
       <div>
         <span class="event-type">跨周目成长</span>
-        <h2>角色属性</h2>
+        <h2>主角面板</h2>
       </div>
       <button id="closeTraitsButton" class="quiet-button" type="button">关闭</button>
     </div>
-    <div class="traits-pages" role="tablist" aria-label="角色属性页面">
+    <div class="traits-pages" role="tablist" aria-label="主角面板页面">
       <button type="button" role="tab" data-traits-page="traits"
-        aria-controls="traitsPage">属性分配</button>
+        aria-controls="traitsPage">性癖属性</button>
       <button type="button" role="tab" data-traits-page="equipment"
         aria-controls="equipmentPage">主角装备</button>
       <button type="button" role="tab" data-traits-page="vehicle"
@@ -893,11 +897,52 @@
       <div class="shop-summary">
         已获得角色道具 <strong id="shopOwnedCount">0</strong>
       </div>
+      <div class="collection-privacy-tabs" role="tablist" aria-label="收藏类型">
+        <button type="button" role="tab" data-collection-privacy="normal">普通收藏</button>
+        <button type="button" role="tab" data-collection-privacy="private">私密收藏</button>
+      </div>
       <p id="shopStatus" class="system-status">
-        这里只展示已获得的角色道具；购买和使用请前往对应角色房间。
+        角色收藏仅供查看，不能在此使用道具。
       </p>
       <div id="shopItems" class="collectible-grid"></div>
     </section>
+  </dialog>
+
+  <dialog id="careerDialog" class="system-dialog career-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">跨周目职业成长</span>
+        <h2>职业系统</h2>
+      </div>
+      <button id="closeCareerButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <div class="career-tabs" role="tablist" aria-label="职业系统页面">
+      <button type="button" role="tab" data-career-view="stats">职业属性</button>
+      <button type="button" role="tab" data-career-view="loadout">职业装备</button>
+      <button type="button" role="tab" data-career-view="factions">六大势力</button>
+      <button type="button" role="tab" data-career-view="benefits">聘用与菜单</button>
+    </div>
+    <p id="careerStatus" class="system-status" role="status"></p>
+    <section id="careerStatsView" class="career-view"></section>
+    <section id="careerLoadoutView" class="career-view" hidden></section>
+    <section id="careerFactionsView" class="career-view" hidden></section>
+    <section id="careerBenefitsView" class="career-view" hidden></section>
+  </dialog>
+
+  <dialog id="factionStoreDialog" class="system-dialog faction-store-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span id="factionStoreFaction" class="event-type">势力职业角色</span>
+        <h2 id="factionStoreTitle">角色商城</h2>
+      </div>
+      <button id="closeFactionStoreButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <div class="collection-privacy-tabs" role="tablist" aria-label="角色商城类型">
+      <button type="button" role="tab" data-faction-store-view="normal">正常商城</button>
+      <button type="button" role="tab" data-faction-store-view="private">丧志商城</button>
+    </div>
+    <p id="factionStoreStatus" class="system-status" role="status"></p>
+    <div id="factionStoreItems" class="collectible-grid"></div>
   </dialog>
 
   <dialog id="infernalDialog" class="infernal-dialog">
@@ -1200,10 +1245,14 @@
   <dialog id="tasksDialog" class="system-dialog tasks-dialog">
     <div class="dialog-heading">
       <div>
-        <span class="event-type">每日刷新</span>
-        <h2>随机任务</h2>
+        <span class="event-type">每日工作</span>
+        <h2>任务系统</h2>
       </div>
       <button id="closeTasksButton" class="quiet-button" type="button">关闭</button>
+    </div>
+    <div class="task-category-tabs" role="tablist" aria-label="任务类型">
+      <button type="button" role="tab" data-task-view="career">职业任务</button>
+      <button type="button" role="tab" data-task-view="despair">日常丧志</button>
     </div>
     <p id="dailyTaskStatus" class="system-status"></p>
     <div id="dailyTaskList" class="daily-task-list"></div>
@@ -1346,6 +1395,7 @@
   <script src="./offline-tools.js"></script>
   <script src="./offline-pwa.js"></script>
   <script src="./config.js"></script>
+  <script src="./career-data.js"></script>
   <script src="./vehicle-assets.js"></script>
   <script src="./vehicle-data.js"></script>
   <script src="./infernal-club-assets.js"></script>
@@ -1408,6 +1458,7 @@
   <script src="./tribute.js"></script>
   <script src="./room-consumables.js"></script>
   <script src="./daily-tasks.js"></script>
+  <script src="./career-store.js"></script>
   <script src="./ambient-music.js"></script>
   <script src="./audio.js"></script>
   <script src="./narration-voices.js"></script>
@@ -1477,7 +1528,10 @@
   <script src="./equipment-ui.js"></script>
   <script src="./vehicle-profile-ui.js"></script>
   <script src="./protagonist-portrait.js"></script>
+  <script src="./career-art-ui.js"></script>
+  <script src="./faction-store-ui.js"></script>
   <script src="./collectibles-ui.js"></script>
+  <script src="./career-ui.js"></script>
   <script src="./daily-tasks-ui.js"></script>
   <script src="./cg-ui.js"></script>
   <script src="./ui.js"></script>

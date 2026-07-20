@@ -51,7 +51,7 @@
       if (state.endingId) LG.audio.ending(Boolean(state.currentEnding?.ordinary));
       LG.roomsUI.refresh();
       LG.traitsUI.refresh();
-      LG.collectiblesUI.refresh();
+      LG.collectiblesUI.refresh(), LG.careerUI.refresh();
       LG.dailyTasksUI.refresh();
       window.setTimeout(() => {
         LG.ui.hideOutcome();
@@ -178,7 +178,7 @@
     LG.specialOutfitUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
     LG.equipmentUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
     LG.vehicleProfileUI.init({ getState: () => state });
-    LG.collectiblesUI.init();
+    LG.collectiblesUI.init(), LG.factionStoreUI.init(), LG.careerUI.init();
     LG.dailyTasksUI.init();
     LG.ui.render(state);
     if (!state.gender) LG.genderUI.open();

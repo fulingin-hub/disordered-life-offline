@@ -57,7 +57,9 @@
   }
 
   function createDaily(date) {
-    const ids = shuffled(Object.keys(LG.COLLECTIBLE_CHARACTERS), seedValue(date)).slice(0, 18);
+    const eligible = Object.keys(LG.COLLECTIBLE_CHARACTERS)
+      .filter((id) => LG.collectibles?.progress?.(id)?.complete);
+    const ids = shuffled(eligible, seedValue(date)).slice(0, 18);
     return { version: 1, date, tasks: [...ids.map(characterTask), travelTask("岛国"), travelTask("米国")] };
   }
 

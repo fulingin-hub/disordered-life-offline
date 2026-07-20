@@ -44,6 +44,7 @@
       description: typeof description === "function" ? description(name) : description,
       price: tributeCatalog[id] ? 0 : 20,
       source: tributeCatalog[id] ? "tribute" : "shop",
+      privacy: "private",
       unlockAt: unlockAt || 0,
     })),
   ]));
