@@ -178,7 +178,8 @@
     LG.specialOutfitUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
     LG.equipmentUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
     LG.vehicleProfileUI.init({ getState: () => state });
-    LG.collectiblesUI.init(), LG.factionStoreUI.init(), LG.careerUI.init();
+    LG.collectiblesUI.init(), LG.factionStoreUI.init(), LG.casinoFactionUI.init(),
+    LG.careerUI.init();
     LG.dailyTasksUI.init();
     LG.ui.render(state);
     if (!state.gender) LG.genderUI.open();
@@ -195,6 +196,5 @@
       operationError(err, "游戏启动失败:");
     document.getElementById("bootError").hidden = false;
   });
-  document.getElementById("bootRetryButton")
-    .addEventListener("click", () => window.location.reload());
+  document.getElementById("bootRetryButton").addEventListener("click", () => window.location.reload());
 })(window.LifeGame);

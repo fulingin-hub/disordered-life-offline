@@ -196,6 +196,7 @@
   <link rel="stylesheet" href="./player-room.css">
   <link rel="stylesheet" href="./systems.css?v=20260718-3">
   <link rel="stylesheet" href="./career.css?v=20260720-1">
+  <link rel="stylesheet" href="./faction-rooms.css?v=20260720-1">
   <link rel="stylesheet" href="./save-recovery.css?v=20260718-3">
   <link rel="stylesheet" href="./responsive.css">
   <link rel="stylesheet" href="./offline.css">
@@ -430,6 +431,7 @@
     <div id="casinoTabs" class="casino-tabs" role="tablist">
       <button id="casinoGameTab" class="active" type="button" role="tab">大小赌桌</button>
       <button id="casinoShopTab" type="button" role="tab">赌场商城</button>
+      <button id="casinoFactionTab" type="button" role="tab">异域势力</button>
     </div>
     <section id="casinoGameView">
       <div class="casino-summary">
@@ -491,6 +493,12 @@
           <button id="casinoGalleryButton" type="button">角色画廊</button>
         </div>
       </section>
+    </section>
+    <section id="casinoFactionView" hidden>
+      <p class="casino-game-status">
+        异域赌场内的势力独立区域。加入异域后可进入十二间职业角色房间。
+      </p>
+      <div id="casinoFactionRooms" class="casino-faction-rooms"></div>
     </section>
     <section id="casinoChat" hidden>
       <div class="casino-chat-heading">
@@ -1430,6 +1438,7 @@
   <script src="./dialogue-tribute.js"></script>
   <script src="./dialogue-scenes.js"></script>
   <script src="./world-areas.js"></script>
+  <script src="./faction-rooms.js"></script>
   <script src="./room-entry-copy.js"></script>
   <script src="./storage-chat.js"></script>
   <script src="./storage.js"></script>
@@ -1532,6 +1541,7 @@
   <script src="./career-main-portrait.js"></script>
   <script src="./career-art-ui.js"></script>
   <script src="./faction-store-ui.js"></script>
+  <script src="./casino-faction-ui.js"></script>
   <script src="./collectibles-ui.js"></script>
   <script src="./career-ui.js"></script>
   <script src="./daily-tasks-ui.js"></script>

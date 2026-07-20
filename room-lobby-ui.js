@@ -20,6 +20,13 @@
         image: "shadowPrisonComplex",
         description: "封闭任务区以赎罪卷记录服从、消费与角色认可，五级权限依次开放。",
       },
+      {
+        id: "paradise",
+        label: "乐园",
+        image: "edenGoldenDistrict",
+        description: "乐园职业角色的独立办公区，设有十二间正常与丧志个人房间。",
+        faction: "paradise",
+      },
     ],
   };
 
@@ -94,7 +101,7 @@
       Object.assign(document.createElement("h3"), { textContent: paradiseArea.name }),
       Object.assign(document.createElement("p"), {
         textContent: access.allowed
-          ? `已开放场景 ${1 + Number(prison.allowed)}/2`
+          ? `已开放场景 ${2 + Number(prison.allowed)}/3`
           : `人生 ${access.lives}/100 · 累计属性点 ${access.points}/2000`,
       }),
       LG.roomEntryCopy.node("area-paradise"),
@@ -131,13 +138,15 @@
     currentArea = paradiseId;
     currentSection = section.id;
     el.title.textContent = `${paradiseArea.name} · ${section.label}`;
-    el.intro.textContent = "在这里属性点代表一切；伊甸园负责消费，影狱负责赎罪与角色进阶。";
+    el.intro.textContent = "伊甸园负责消费，影狱负责赎罪，乐园区域负责势力角色与职业商城。";
     el.cards.replaceChildren(
       toolbar(paradiseArea, section),
       LG.roomCards.scene(paradiseArea, section),
-      section.id === "eden"
-        ? LG.blackPrisonUI.roomCard(callbacks.onEnterBlackPrison)
-        : LG.penitentiaryUI.roomCard(callbacks.onEnterPenitentiary),
+      ...(section.faction
+        ? LG.factionRooms.cards(section.faction)
+        : [section.id === "eden"
+          ? LG.blackPrisonUI.roomCard(callbacks.onEnterBlackPrison)
+          : LG.penitentiaryUI.roomCard(callbacks.onEnterPenitentiary)]),
     );
   }
 
@@ -154,7 +163,9 @@
     el.cards.replaceChildren(
       toolbar(area, section),
       LG.roomCards.scene(area, section),
-      ...characterCards(section.characters),
+      ...(section.faction
+        ? LG.factionRooms.cards(section.faction)
+        : characterCards(section.characters)),
     );
   }
 

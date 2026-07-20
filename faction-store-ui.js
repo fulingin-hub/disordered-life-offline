@@ -84,6 +84,32 @@
     return card;
   }
 
+  function professionPanel(data) {
+    if (active.rankIndex !== 2) return null;
+    const statId = data.factions?.find((item) => item.id === active.faction)?.stat;
+    const balance = LG.authority.state()?.stats?.[statId] || 0;
+    const jobs = (data.professionDefinitions || []).filter((item) =>
+      !item.specialFaction && item.factions?.includes(active.faction));
+    const panel = node("section", "faction-profession-panel");
+    panel.append(
+      node("h3", "", `${active.name} · 势力专属职业`),
+      node("p", "", `当前${LG.CAREER_DATA.stats[statId]} ${balance}；每个职业消耗20000点永久解锁。`),
+    );
+    const grid = node("div", "faction-profession-grid");
+    jobs.forEach((job) => {
+      const button = node("button", "", job.unlocked
+        ? `${job.name} · 已解锁` : `解锁${job.name} · 20000${LG.CAREER_DATA.stats[statId]}`);
+      button.type = "button";
+      button.disabled = busy || job.unlocked || balance < 20000;
+      button.addEventListener("click", () => mutate("unlockFactionProfession", {
+        characterId: active.id, professionId: job.id,
+      }));
+      grid.append(button);
+    });
+    panel.append(grid);
+    return panel;
+  }
+
   function render() {
     if (!active) return;
     const data = LG.career.data();
@@ -94,8 +120,12 @@
       ? `消耗属性点与${LG.CAREER_DATA.stats[data.factions?.find((item) =>
         item.id === active.faction)?.stat] || "势力主属性"}；集齐五件后免费领取职业大师部件。`
       : "消耗属性点与羞耻值；集齐五件后免费领取职业耗材部件，并开放特殊道具使用权。";
-    el.items.replaceChildren(...LG.CAREER_DATA.items(active, view).map(itemCard),
-      pieceClaim(data));
+    const profession = professionPanel(data);
+    el.items.replaceChildren(
+      ...(profession ? [profession] : []),
+      ...LG.CAREER_DATA.items(active, view).map(itemCard),
+      pieceClaim(data),
+    );
     el.tabs.forEach((button) => button.setAttribute("aria-selected",
       String(button.dataset.factionStoreView === view)));
   }
@@ -115,10 +145,10 @@
         render();
       }));
     },
-    open(characterId) {
+    open(characterId, initialView = "normal") {
       active = LG.CAREER_DATA.roster.find((item) => item.id === characterId);
       if (!active) return;
-      view = "normal";
+      view = initialView === "private" ? "private" : "normal";
       render();
       el.dialog.showModal();
     },
