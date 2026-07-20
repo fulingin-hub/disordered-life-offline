@@ -69,6 +69,21 @@
   object-position: left bottom;
 }
 
+.protagonist-wrap[data-category^="career-"] {
+  bottom: -2%;
+  width: min(31vw, 400px);
+  height: 92%;
+}
+
+.protagonist-wrap[data-category="career-special"] {
+  width: min(34vw, 440px);
+}
+
+.career-main-portrait {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
 .portrait-wrap {
   z-index: 2;
 }
@@ -116,6 +131,15 @@
     width: 66%;
     height: 48%;
   }
+
+  .protagonist-wrap[data-category^="career-"] {
+    top: 0;
+    right: 1%;
+    bottom: auto;
+    left: auto;
+    width: 48%;
+    height: 52%;
+  }
 }
 
 @media (max-width: 520px) {
@@ -132,5 +156,10 @@
   .protagonist-wrap.following {
     width: 68%;
     height: 42%;
+  }
+
+  .protagonist-wrap[data-category^="career-"] {
+    width: 46%;
+    height: 45%;
   }
 }

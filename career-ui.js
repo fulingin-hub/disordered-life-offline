@@ -17,6 +17,7 @@
       const result = await LG.authority.mutate(method, body);
       el.status.textContent = result.message;
       LG.traitsUI.refresh();
+      LG.protagonistPortrait.render(LG.authority.state());
       render();
     } catch (err) {
       console.error("职业系统结算失败:", err?.code, err?.message, err?.stack);
@@ -99,7 +100,7 @@
     const copy = node("p", "career-copy",
       "大师勋章每轮六大属性各+600。特殊图鉴勋章需先装备对应隐藏职业，并用于解锁职业耗材套装。职业大师任务次数+10、奖励3倍；职业耗材任务次数+20，奖励改为同额羞耻值。");
     el.loadout.replaceChildren(
-      LG.careerArtUI.figure(data),
+      LG.careerArtUI.panel(data),
       selectControl("装备职业", jobs, data.equippedProfession,
         "equipProfession", "professionId"),
       selectControl("装备职业勋章", medals, data.equippedMedal,

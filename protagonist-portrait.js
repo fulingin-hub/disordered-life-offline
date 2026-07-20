@@ -104,6 +104,8 @@
     const gender = state?.gender === "female" ? "female"
       : state?.gender === "male" ? "male" : null;
     if (!gender || currentAge(state) < 18) return null;
+    const career = LG.careerMainPortrait?.get?.(gender);
+    if (career) return career.src;
     const vehicle = LG.vehicleStore?.equipped?.();
     if (vehicle) {
       const mounted = LG.vehicleStore.displayMode() === "ride"
@@ -146,7 +148,8 @@
       }
       const outfit = category(state);
       image.src = src;
-      const vehicle = LG.vehicleStore?.equipped?.();
+      const career = LG.careerMainPortrait?.get?.(gender);
+      const vehicle = career ? null : LG.vehicleStore?.equipped?.();
       if (vehicle) {
         const mode = LG.vehicleStore.displayMode();
         const mounted = mode === "ride"
@@ -176,6 +179,8 @@
         wrap.hidden = false;
         return;
       }
+      if (career) return LG.careerMainPortrait.apply(
+        { wrap, image, mountImage, gender, career });
       const clubName = outfit.startsWith("club-")
         ? `${LG.INFERNAL_CLUB_DATA.byId[outfit.slice(5)]?.name || "地狱"}魔王使徒`
         : outfit === "realm" ? "异界魔境骑士" : labels[outfit];

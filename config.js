@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260720-career-foundation",
+  buildId: "20260720-career-portraits",
   version: 4,
   eventRevision: 2026071607,
   stateKey: "disordered-life-state-v1",
