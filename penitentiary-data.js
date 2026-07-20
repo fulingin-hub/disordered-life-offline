@@ -24,9 +24,9 @@
     "人格丧志脚铐", "人格丧志按摩器",
   ];
   const consumables = [
-    ["holy-water", "美味圣水", "健康 -10，可重复购买与饮用。"],
-    ["golden-sacrament", "黄金圣餐", "健康 -20，可重复购买与饮用。"],
-    ["despair-drug", "丧志药物", "自主 -15，每轮人生限饮一次。"],
+    ["holy-water", "美味圣水", "健康-10，尊严-100，羞耻值+500，依赖+100，可重复购买与饮用。"],
+    ["golden-sacrament", "黄金圣餐", "健康-10，尊严-100，羞耻值+500，依赖+100，可重复购买与饮用。"],
+    ["despair-drug", "丧志药物", "健康-10，自主-100，羞耻值+100，依赖+500，每轮人生限饮一次。"],
   ];
   roles.forEach((character, index) => {
     character.items = regular.map(([suffix, name, description]) => ({

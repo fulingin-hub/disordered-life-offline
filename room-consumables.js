@@ -6,10 +6,10 @@
     },
     gold: {
       label: "黄金圣餐", container: "黄金盆", stat: "health",
-      amount: -20, price: 40, repeatable: true,
+      amount: -10, price: 40, repeatable: true,
     },
     addictive: {
-      label: "成瘾药剂", stat: "dependence", amount: 15,
+      label: "成瘾药剂", stat: "health", amount: -10,
       price: 20, seller: "evelyn", repeatable: false,
     },
   };
@@ -40,6 +40,7 @@
     const discounted = !meta.seller && !tribute && ownsContainer(character, kind);
     const effectKey = `room-${character}-${kind}`;
     const owned = LG.blackMarket._data().potions.find((item) => item.effectKey === effectKey);
+    const effects = LG.potionEffects.for({ specialKind: kind });
     return {
       id: `room-potion-${character}-${kind}`,
       roomCharacter: character,
@@ -50,10 +51,11 @@
       effectKey,
       name: `${characterName(character)}的${meta.label}`,
       stat: meta.stat,
-      amount: meta.amount,
-      description: meta.repeatable
-        ? `健康${meta.amount}；库存充足时可重复饮用。`
-        : `依赖+${meta.amount}；每轮人生限饮一次，恶魔神秘套装可额外饮用10次。`,
+      amount: effects.health,
+      effects,
+      description: `${LG.potionEffects.text(effects)}；${meta.repeatable
+        ? "库存充足时可重复饮用。"
+        : "每轮人生限饮一次，恶魔神秘套装可额外饮用10次。"}`,
       price: LG.penitentiary.policeSetEquipped() && blackStreet.includes(character)
         ? 0 : meta.seller ? meta.price : tribute ? tributePrices[kind]
           : discounted ? 1 : LG.blackMarketPotions.roomPrice(kind),

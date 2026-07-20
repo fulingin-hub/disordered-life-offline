@@ -1,7 +1,7 @@
 (function (LG) {
   const consumables = [
-    ["water", "美味圣水", "圣水瓶", 20, "健康 -10", "consumable"],
-    ["gold", "黄金圣餐", "黄金盆", 40, "健康 -20", "consumable"],
+    ["water", "美味圣水", "圣水瓶", 20, "健康-10，尊严-100，羞耻值+500，依赖+100", "consumable"],
+    ["gold", "黄金圣餐", "黄金盆", 40, "健康-10，尊严-100，羞耻值+500，依赖+100", "consumable"],
   ];
   const foods = ["rare", "demon"].flatMap((group) =>
     LG.BLACK_PRISON_DATA.groups[group].map((item) => [

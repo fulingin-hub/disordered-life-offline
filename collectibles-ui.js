@@ -82,11 +82,11 @@
       .filter((item) => LG.collectibles.owns(item.id)
         && (item.privacy || "private") === archivePrivacy);
     const saint = ownedSaintItems();
-    const visibleSaint = archivePrivacy === "private" ? saint : [];
+    const visibleSaint = archivePrivacy === "normal" ? saint : [];
     const careerItems = LG.factionStoreUI?.ownedItems?.(archivePrivacy) || [];
     const all = Object.values(LG.COLLECTIBLE_CATALOG).flat()
       .filter((item) => (item.privacy || "private") === archivePrivacy);
-    const total = all.length + (archivePrivacy === "private" ? 5 : 0);
+    const total = all.length + (archivePrivacy === "normal" ? 5 : 0);
     el.ownedCount.textContent = `${regular.length + visibleSaint.length + careerItems.length}/${
       total + 180}`;
     el.status.textContent = regular.length || visibleSaint.length || careerItems.length

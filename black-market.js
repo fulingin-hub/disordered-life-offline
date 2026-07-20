@@ -5,9 +5,6 @@
     || new Date().toISOString().slice(0, 10);
   const prefix = (country, id) => (country === "japan"
     ? meta.japanPrefixes : meta.usaPrefixes).find((item) => item.id === id);
-  const effectText = (stat, amount) =>
-    `${LG.CONFIG.statMeta[stat]}${amount > 0 ? "+" : ""}${amount}`;
-
   function equipmentStock(date) {
     const suffixes = Object.values(meta.japanEquipment).flat();
     return Array.from({ length: LG.EQUIPMENT_SLOTS.length }, (_, index) => {
@@ -31,6 +28,7 @@
       ? meta.japanPrefixes : meta.usaPrefixes);
     const joiner = selected.label.endsWith("的") ? "" : "的";
     const name = `${selected.label}${joiner}${template.suffix}`;
+    const effects = LG.potionEffects.for({ specialKind: "potion" });
     return {
       id: `${country}-${date}-${guaranteed || index}`,
       country,
@@ -41,16 +39,20 @@
       name,
       stat: template.stat,
       amount: template.amount,
+      effects,
       effectKey: `${country}-${template.id || guaranteed}`,
-      description: `${effectText(template.stat, template.amount)}；每个人生限饮一次同类药剂。`,
+      description: `${LG.potionEffects.text(effects)}；每个人生限饮一次同类药剂。`,
       guaranteed: Boolean(guaranteed),
     };
   }
 
-  function usaStock(date) {
+  function potionStock(country, date) {
+    const templates = country === "japan" ? meta.japanPotions : meta.usaPotions;
     const potions = Array.from({ length: 5 }, (_, index) =>
-      potionFromTemplate("usa", date, index, pick(meta.usaPotions)));
-    return [...potions, ...LG.blackMarketUSAEquipment.stock(date)];
+      potionFromTemplate(country, date, index, pick(templates)));
+    return country === "japan"
+      ? [...potions, ...equipmentStock(date)]
+      : [...potions, ...LG.blackMarketUSAEquipment.stock(date)];
   }
 
   function ensureCountry(country) {
@@ -60,7 +62,7 @@
     if (state.daily[country]?.date !== date) {
       state.daily[country] = {
         date,
-        stock: country === "japan" ? equipmentStock(date) : usaStock(date),
+        stock: potionStock(country, date),
         sold: [],
         refreshes: 0,
       };
@@ -96,7 +98,7 @@
       ensureCountry(country);
       const daily = this._data().daily[country];
       const key = `${daily.date}-r${daily.refreshes}`;
-      daily.stock = country === "japan" ? equipmentStock(key) : usaStock(key);
+      daily.stock = potionStock(country, key);
       ensureCountry(country);
     },
     stock(id) {

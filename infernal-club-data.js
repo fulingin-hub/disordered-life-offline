@@ -35,12 +35,14 @@
     envy: "任务与异界人格/败北奖励+10%；非装备商品九折；每种限次消耗品额外使用10次。",
   };
   const consumables = [
-    ["golden-sacrament", "黄金圣餐", 100, "健康 -20，依赖 +5。"],
-    ["holy-water", "美味圣水", 60, "健康 -10，依赖 +3。"],
-    ["despair-potion", "丧志药剂", 120, "自主 -15，尊严 -10，依赖 +10。"],
-    ["demonic-potion", "魔性药剂", 150, "自主 -10，尊严 -15，依赖 +15。"],
-  ].map(([id, name, price, description]) => ({
-    id, name, price, description, type: "consumable",
+    ["golden-sacrament", "黄金圣餐", 100, "gold"],
+    ["holy-water", "美味圣水", 60, "water"],
+    ["despair-potion", "丧志药剂", 120, "potion"],
+    ["demonic-potion", "魔性药剂", 150, "potion"],
+  ].map(([id, name, price, specialKind]) => ({
+    id, name, price, specialKind,
+    description: `${LG.potionEffects.text(LG.potionEffects.for({ specialKind }))}。`,
+    type: "consumable",
   }));
   const queens = queenRows.map(([id, name, character, portrait, accent]) => {
     const equipment = LG.EQUIPMENT_SLOTS.map((slot) => ({

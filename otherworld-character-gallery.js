@@ -16,8 +16,8 @@
           caption: `${character.name}在工作场所展示特殊钥匙与收费账单。`,
           src: character.gallery,
           alt: `${character.name}特殊会面立绘`,
-          fit: "cover",
-          position: "center",
+          fit: "contain",
+          position: "center top",
         },
       ],
     };

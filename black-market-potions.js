@@ -1,6 +1,5 @@
 (function (LG) {
   const origin = (country) => country === "japan" ? "岛国" : "米国";
-  const effectText = (amount) => `健康${amount}`;
   const kindFrom = (item) => {
     if (item?.specialKind === "water" || item?.name?.includes("美味圣水")) return "water";
     if (item?.specialKind === "gold" || item?.name?.includes("美味黄金")) return "gold";
@@ -8,28 +7,30 @@
     if (item?.specialKind === "addictive" || item?.name?.includes("成瘾药剂")) {
       return "addictive";
     }
+    if (item?.type === "potion" || item?.name?.includes("药剂")
+      || item?.name?.includes("药物")) return "potion";
     return null;
   };
   const defaultPrice = (country, kind) => country === "japan"
     ? (kind === "gold" ? 40 : 20) : (kind === "gold" ? 20 : 10);
 
-  function normalizeRoom(item) {
+  function normalizePotion(item, country) {
     const kind = kindFrom(item);
-    const amount = kind === "water" ? -10 : kind === "gold" ? -20
-      : kind === "addictive" ? 15 : -15;
-    const stat = kind === "despair" ? "autonomy"
-      : kind === "addictive" ? "dependence" : "health";
+    const effects = LG.potionEffects.for({ specialKind: kind });
+    const room = item?.source === "room" || item?.roomCharacter;
     return {
       ...item,
-      country: "room",
-      source: "room",
+      country: room ? "room" : country || item.country,
+      source: room ? "room" : item.source,
       type: "potion",
       specialKind: kind,
-      stat,
-      amount,
+      stat: "health",
+      amount: effects.health,
+      effects,
       effectKey: item.effectKey || `room-${item.roomCharacter}-${kind}`,
-      description: item.description || `${stat === "health" ? "健康" : "自主"}${
-        amount}；库存充足时可重复饮用。`,
+      description: `${LG.potionEffects.text(effects)}；${
+        ["water", "gold"].includes(kind)
+          ? "库存充足时可重复饮用。" : "每轮人生限饮一次。"}`,
     };
   }
 
@@ -37,7 +38,7 @@
     const kind = kindFrom(item);
     if (!kind) return item;
     const market = country || item.country || (item.id?.startsWith("japan-") ? "japan" : "usa");
-    const amount = kind === "water" ? -10 : -20;
+    const effects = LG.potionEffects.for({ specialKind: kind });
     const suffix = kind === "water" ? "美味圣水" : "美味黄金圣餐";
     return {
       ...item,
@@ -49,18 +50,19 @@
       price: Number.isFinite(Number(item.price)) ? Number(item.price) : defaultPrice(market, kind),
       name: `${origin(market)}产出的${suffix}`,
       stat: "health",
-      amount,
+      amount: effects.health,
+      effects,
       effectKey: `${market}-${kind}`,
-      description: `${effectText(amount)}；库存充足时可重复饮用。`,
+      description: `${LG.potionEffects.text(effects)}；库存充足时可重复饮用。`,
       guaranteed: true,
     };
   }
 
   LG.blackMarketPotions = {
     normalize(item, country) {
-      if (item?.source === "room" || item?.roomCharacter) return normalizeRoom(item);
-      return ["water", "gold"].includes(kindFrom(item))
-        ? normalizeSpecial(item, country) : item;
+      const kind = kindFrom(item);
+      return ["water", "gold"].includes(kind)
+        ? normalizeSpecial(item, country) : kind ? normalizePotion(item, country) : item;
     },
     roomPrice(kind) {
       return defaultPrice("japan", kind);

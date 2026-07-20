@@ -6,8 +6,7 @@
     if (className) item.className = className;
     if (text !== undefined) item.textContent = text;
     return item;
-  }
-  const status = (text) => { el.status.textContent = text || ""; };
+  } const status = (text) => { el.status.textContent = text || ""; };
   function renderStats() {
     const access = LG.infernalClub.access();
     const equipped = LG.infernalClub.equippedSet();
@@ -43,7 +42,7 @@
     el.chat.hidden = true;
     el.scroll.scrollTop = 0;
     el.rooms.replaceChildren(...LG.INFERNAL_CLUB_DATA.queens.map(queenCard));
-    status("选择女魔王包间。所有消费使用人格值，并由权威存档结算。");
+    status("七大魔王真身所在之处，不知道让多少英雄英雄沉沦在此地，往日这里还被称为沉沦地狱。");
   }
   function renderDetail() {
     if (!activeQueen) return renderList();
@@ -106,6 +105,7 @@
     try {
       const result = await LG.authority.mutate(method, body);
       window.dzmm?.toast?.success?.(result.message);
+      if (method === "infernalClubUse") LG.infernalClubFeedback.show(result.message);
       status(result.message);
       LG.protagonistPortrait.render(result.life);
       LG.equipmentUI?.refresh?.();
@@ -177,7 +177,8 @@
       el.galleryButton.addEventListener("click", () =>
         LG.galleryUI.open(el.galleryButton.dataset.character));
       el.equipButton.addEventListener("click", equip);
-      document.getElementById("closeInfernalClubButton").addEventListener("click", () => this.close());
+      document.getElementById("closeInfernalClubButton")
+        .addEventListener("click", () => this.close());
       el.dialog.addEventListener("cancel", (event) => { event.preventDefault(); this.close(); });
       LG.authority.subscribe(() => {
         if (el.dialog.open) {
@@ -196,5 +197,4 @@
       LG.audio.scene("world");
     },
     roomCard,
-  };
-})(window.LifeGame);
+  }; })(window.LifeGame);

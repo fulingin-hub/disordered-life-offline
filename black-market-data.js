@@ -37,11 +37,12 @@
     feet: ["旧丝袜", "穿过的臭鞋"],
   };
   const usaPotions = [
-    { id: "addictive-unknown", prefix: "addictive", suffix: "不明药剂", stat: "health", amount: -15 },
-    { id: "mindless-unknown", prefix: "mindless", suffix: "不明药剂", stat: "knowledge", amount: -15 },
-    { id: "mindless-stamina", prefix: "mindless", suffix: "体力药剂", stat: "health", amount: 15 },
-    { id: "addictive-official", prefix: "addictive", suffix: "官方药剂", stat: "knowledge", amount: 15 },
+    { id: "addictive-unknown", prefix: "addictive", suffix: "不明药剂", stat: "health", amount: -10 },
+    { id: "mindless-unknown", prefix: "mindless", suffix: "不明药剂", stat: "health", amount: -10 },
+    { id: "mindless-stamina", prefix: "mindless", suffix: "体力药剂", stat: "health", amount: -10 },
+    { id: "addictive-official", prefix: "addictive", suffix: "官方药剂", stat: "health", amount: -10 },
   ];
+  const japanPotions = usaPotions.map((item) => ({ ...item }));
   const usaPrefixes = [
     { id: "addictive", label: "让人上瘾的", price: 20 },
     { id: "mindless", label: "让人无脑的", price: 10 },
@@ -66,6 +67,7 @@
     milestones,
     japanPrefixes,
     japanEquipment,
+    japanPotions,
     usaPrefixes,
     usaPotions,
     usaEquipmentSets,

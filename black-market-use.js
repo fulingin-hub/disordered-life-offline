@@ -1,7 +1,4 @@
 (function (LG) {
-  const effectText = (stat, amount) =>
-    `${LG.CONFIG.statMeta[stat]}${amount > 0 ? "+" : ""}${amount}`;
-
   LG.blackMarket.usePotion = function usePotion(itemId, gameState) {
     if (this.currentAge(gameState) < 18) {
       return { ok: false, message: "成人道具仅限主角18岁后饮用。" };
@@ -24,12 +21,12 @@
     if (repeated && (!infernal || bonusUsed >= 10)) {
       return { ok: false, message: "本次人生已经达到该药剂的饮用上限。" };
     }
-    const previous = Number(gameState.stats[item.stat]) || 0;
-    const next = Math.max(0, Math.min(999999999, previous + item.amount));
-    gameState.stats[item.stat] = next;
+    const effects = item.effects || LG.potionEffects.for(item);
+    const previousHealth = Number(gameState.stats.health) || 0;
+    LG.potionEffects.apply(gameState.stats, effects);
     item.quantity -= 1;
     LG.blackMarketPotions.recordUse(data, item,
-      unlimited && item.stat === "health" && previous > 0 && next === 0);
+      unlimited && previousHealth > 0 && gameState.stats.health === 0);
     if (repeated) {
       data.bonusPotionUses[gameState.runId] = {
         ...bonusByPotion, [item.effectKey]: bonusUsed + 1,
@@ -45,7 +42,7 @@
       ? `来自恶魔的馈赠，该药剂本轮额外饮用次数剩余${9 - bonusUsed}次。` : "";
     return {
       ok: true, item,
-      message: `已饮用${item.name}：${effectText(item.stat, item.amount)}。${bonus}`,
+      message: `已饮用${item.name}：${LG.potionEffects.text(effects)}。${bonus}`,
     };
   };
 })(window.LifeGame);
