@@ -4,15 +4,15 @@
   left: 50%;
   z-index: 30;
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr) 38px;
+  grid-template-columns: 102px minmax(0, 1fr) 102px;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
   width: min(720px, calc(100vw - 24px));
-  min-height: 58px;
+  min-height: 68px;
   transform: translate(-50%, -18px);
   border: 1px solid #f0ca6a;
   border-radius: 6px;
-  padding: 8px 12px;
+  padding: 9px 7px;
   background: linear-gradient(90deg, #5c4214, #b98725, #5c4214);
   box-shadow: 0 10px 30px rgba(0, 0, 0, .48);
   color: #fff3c8;
@@ -36,26 +36,61 @@
 }
 
 .item-use-foot {
-  width: 27px;
-  height: 43px;
+  position: relative;
+  z-index: 2;
+  width: 104px;
+  height: 154px;
+  margin-block: -52px;
   justify-self: center;
-  transform: rotate(-16deg);
-  border-radius: 48% 45% 43% 47%;
-  background:
-    radial-gradient(circle at 18% 8%, currentColor 0 3px, transparent 3.5px),
-    radial-gradient(circle at 36% 3%, currentColor 0 3.5px, transparent 4px),
-    radial-gradient(circle at 55% 4%, currentColor 0 3.8px, transparent 4.3px),
-    radial-gradient(circle at 74% 8%, currentColor 0 3.4px, transparent 4px),
-    radial-gradient(circle at 90% 14%, currentColor 0 2.8px, transparent 3.3px),
-    radial-gradient(ellipse at 49% 65%, currentColor 0 11px, transparent 11.7px);
-  color: #e8b39c;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .45));
+  overflow: hidden;
+  border-radius: 48% 48% 44% 44% / 34% 34% 58% 58%;
+  background-repeat: no-repeat;
+  filter:
+    saturate(1.08) contrast(1.08)
+    drop-shadow(0 8px 12px rgba(20, 0, 12, .72));
+  -webkit-mask-image: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    #000 68%,
+    rgba(0, 0, 0, .82) 80%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    #000 68%,
+    rgba(0, 0, 0, .82) 80%,
+    transparent 100%
+  );
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.item-use-foot.bare {
+  background-image:
+    url("./assets/generated/gallery-victoria-barefoot-press-v2.93457ae8.webp");
+  background-position: 66% 37%;
+  background-size: 500% auto;
+  transform: translate(-34px, 8px) rotate(14deg) scale(.72);
 }
 
 .item-use-foot.stocking {
-  transform: scaleX(-1) rotate(-16deg);
-  color: #17151d;
-  opacity: .92;
+  background-image:
+    url("./assets/generated/gallery-restaurant-couple-female-tights-stomp.456bcb2a.webp");
+  background-position: 34% 36%;
+  background-size: 650% auto;
+  filter:
+    brightness(1.9) saturate(.72) contrast(1.08)
+    drop-shadow(0 8px 12px rgba(20, 0, 12, .76));
+  transform: translate(34px, 8px) rotate(-14deg) scale(-.72, .72);
+}
+
+.item-use-banner[data-tone="private"].show .item-use-foot.bare {
+  animation: item-foot-bare-press 320ms cubic-bezier(.2, .78, .25, 1.08)
+    forwards;
+}
+
+.item-use-banner[data-tone="private"].show .item-use-foot.stocking {
+  animation: item-foot-stocking-press 320ms cubic-bezier(.2, .78, .25, 1.08)
+    forwards;
 }
 
 .item-use-banner[data-tone="normal"] .item-use-foot {
@@ -69,17 +104,52 @@
 
 @media (max-width: 520px) {
   .item-use-banner {
-    grid-template-columns: 30px minmax(0, 1fr) 30px;
-    gap: 5px;
-    padding-inline: 7px;
+    grid-template-columns: 76px minmax(0, 1fr) 76px;
+    gap: 1px;
+    min-height: 64px;
+    padding-inline: 4px;
     font-size: .86rem;
   }
 
   .item-use-foot {
-    transform: scale(.82) rotate(-16deg);
+    width: 90px;
+    height: 150px;
+    margin-block: -52px;
+  }
+
+  .item-use-foot.bare {
+    transform: translate(-23px, 7px) rotate(14deg) scale(.72);
   }
 
   .item-use-foot.stocking {
-    transform: scale(-.82, .82) rotate(-16deg);
+    transform: translate(23px, 7px) rotate(-14deg) scale(-.72, .72);
+  }
+}
+
+@keyframes item-foot-bare-press {
+  from {
+    opacity: 0;
+    transform: translate(-34px, 8px) rotate(14deg) scale(.72);
+  }
+  to {
+    opacity: 1;
+    transform: translate(13px, 0) rotate(7deg) scale(1.16);
+  }
+}
+
+@keyframes item-foot-stocking-press {
+  from {
+    opacity: 0;
+    transform: translate(34px, 8px) rotate(-14deg) scale(-.72, .72);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-13px, 0) rotate(-7deg) scale(-1.16, 1.16);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item-use-banner[data-tone="private"].show .item-use-foot {
+    animation-duration: 1ms;
   }
 }
