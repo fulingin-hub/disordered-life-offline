@@ -6,8 +6,7 @@
     if (className) item.className = className; if (text !== undefined) item.textContent = text;
     return item;
   }
-  function progressText(group) {
-    const value = LG.blackPrison.progress(group); return `${value.count}/${value.total}`; }
+  function progressText(group) { const value = LG.blackPrison.progress(group); return `${value.count}/${value.total}`; }
   function actionLabel(item, owned, locked) {
     if (owned) return "已完成";
     if (locked) return "先完成命令2与命令3";
@@ -31,6 +30,7 @@
     card.append(heading, node("p", "", item.description), button);
     if (owned) card.append(LG.collectionUseUI.button({ owned, source: "paradise",
       roomId: "blackPrison", itemId: item.id,
+      tone: /demon|infernal/.test(item.group) ? "private" : "normal",
       onStatus: (text) => { el.status.textContent = text; }, onRefresh: render }));
     return card;
   }

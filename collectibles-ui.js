@@ -14,6 +14,7 @@
   function useButton(item, source = "character") {
     return LG.collectionUseUI.button({
       owned: true, source, roomId: item.character, itemId: item.id,
+      tone: source === "saint" || item.privacy === "normal" ? "normal" : "private",
       onStatus: (text) => { el.collectionStatus.textContent = text; },
       onRefresh: () => renderCollection(item.character),
     });

@@ -159,8 +159,9 @@
       menu.append(button);
     });
     const achievements = data.achievement || {};
-    const badge = node("p", "career-copy", `“百世家奴，方知主恩。”：${achievements.restaurant ? "已解锁" : "未解锁"}；“永世家奴，终生不悔。”：${
-      achievements.eternal ? "已解锁" : "未解锁"}；“金牌家奴”：${achievements.gold ? "已解锁" : "未解锁"}。`);
+    const counts = data.servant || {}, badge = node("p", "career-copy", `“百世家奴，方知主恩。”：${achievements.restaurant ? "已解锁" : "未解锁"}（${
+      counts.restaurant || 0}/100）；“永世家奴，终生不悔。”：${achievements.eternal ? "已解锁" : "未解锁"}（${
+      counts.eternal || 0}/100）；“金牌家奴”：${achievements.gold ? "已解锁" : "未解锁"}。`);
     el.benefits.replaceChildren(certificate, node("h3", "", "街头传奇的菜单"),
       badge, menu);
   }

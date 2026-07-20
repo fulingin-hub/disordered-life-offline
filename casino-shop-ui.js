@@ -60,6 +60,7 @@
         source: "casino",
         roomId: item.character,
         itemId: item.id,
+        tone: item.insider ? "private" : "normal",
         onStatus: (text) => { el.status.textContent = text; },
         onRefresh: () => openDetail(item.character),
       }));

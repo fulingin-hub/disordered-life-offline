@@ -53,6 +53,7 @@
             LG.penitentiaryShopUI.refresh();
             LG.penitentiaryUI.refresh(result.message);
             window.dzmm?.toast?.success?.(result.message);
+            LG.itemFeedback?.show?.(result.message, "normal");
           } catch (err) {
             console.error("影狱饮品饮用失败:", err?.code, err?.message, err?.stack);
             LG.penitentiaryUI.status(err?.message || "饮用失败，请稍后重试。");
@@ -69,6 +70,7 @@
           source: "penitentiary",
           roomId: role.id,
           itemId: item.id,
+          tone: item.type === "certificate" ? "normal" : "private",
           onStatus: (text) => LG.penitentiaryUI.status(text),
           onRefresh: () => LG.penitentiaryShopUI.refresh(),
         }));

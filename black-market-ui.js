@@ -79,7 +79,7 @@
     const potions = LG.blackMarket.potions().filter((item) => item.country === country);
     const totals = LG.blackMarket.usageTotals();
     const rows = [node("p", "market-owned-note",
-      `已购装备 ${equipment.length} 件，可在“角色属性 → 主角装备”中使用。`),
+      `已购装备 ${equipment.length} 件，可在“主角面板 → 主角装备”中使用。`),
     node("p", "market-owned-note", `累计饮用：美味圣水 ${totals.holyWater} 次 · 黄金圣餐 ${totals.goldenSacrament} 次 · 健康归零 ${totals.healthZeroFromSpecials || 0}/500 次`)];
     potions.forEach((item) => {
       const row = node("article", "market-potion");
@@ -148,7 +148,7 @@
       const result = await LG.authority.mutate("usePotion", { itemId });
       const state = LG.authority.state();
       LG.ui.render(state);
-      window.dzmm?.toast?.success?.(result.message);
+      window.dzmm?.toast?.success?.(result.message); LG.itemFeedback?.show?.(result.message, "normal");
       if (state.endingId) {
         LG.roomsUI.close();
         return;

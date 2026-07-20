@@ -89,6 +89,7 @@
       const state = LG.authority.state();
       LG.ui.render(state);
       window.dzmm?.toast?.success?.(result.message);
+      LG.itemFeedback?.show?.(result.message, "normal");
       if (state.endingId) return LG.roomsUI.close();
       render(result.message);
     } catch (err) {

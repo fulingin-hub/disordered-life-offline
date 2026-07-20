@@ -50,6 +50,7 @@
         source: "eden",
         roomId: active.id,
         itemId: state.id,
+        tone: "normal",
         onStatus: (text) => LG.blackPrisonUI.status(text),
         onRefresh: () => render(),
       }));
@@ -108,6 +109,7 @@
       LG.ui.render(result.life);
       render(result.message);
       window.dzmm?.toast?.success?.(result.message);
+      LG.itemFeedback?.show?.(result.message, "normal");
     } catch (err) {
       console.error("伊甸园角色商品饮用失败:",
         err?.code, err?.message, err?.stack);

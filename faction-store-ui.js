@@ -24,6 +24,8 @@
       LG.careerUI.refresh();
       render();
       el.status.textContent = result.message;
+      if (method === "usePotion" || method === "useFactionSpecial") LG.itemFeedback?.show?.(
+        result.message, method === "useFactionSpecial" ? "private" : "normal");
     } catch (err) {
       console.error("职业角色商城结算失败:", err?.code, err?.message, err?.stack);
       el.status.textContent = err?.message || "商城操作失败，请稍后重试。";

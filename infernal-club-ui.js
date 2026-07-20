@@ -105,8 +105,8 @@
     try {
       const result = await LG.authority.mutate(method, body);
       window.dzmm?.toast?.success?.(result.message);
-      if (method === "infernalClubUse") LG.infernalClubFeedback.show(result.message);
-      status(result.message);
+      if (method === "infernalClubUse") LG.infernalClubFeedback.show(result.message,
+        /demon-sensor|tentacle-therapy-device/.test(body.itemId) ? "private" : "normal"); status(result.message);
       LG.protagonistPortrait.render(result.life);
       LG.equipmentUI?.refresh?.();
       LG.roomsUI.refresh();

@@ -28,10 +28,6 @@
   }
 
   function previewSource(id, gender) {
-    if (category(id) === "special") {
-      return LG.CG_ASSETS?.genderEndings?.[gender]
-        ?.["otherworld-pair-slaughterhouse"] || mainSource(id, gender);
-    }
     return mainSource(id, gender);
   }
 

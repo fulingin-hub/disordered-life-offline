@@ -42,6 +42,7 @@
     if (owned) {
       card.append(LG.collectionUseUI.button({
         owned, source: "otherworld", roomId: item.character, itemId: item.id,
+        tone: item.special ? "private" : "normal",
         onStatus: (text) => { el.status.textContent = text; },
         onRefresh: () => renderDetail(),
       }));

@@ -190,10 +190,9 @@
     refresh() {
       if (!el.button) return;
       const active = LG.traits.active();
-      el.button.textContent = LG.traits.points()
-        ? `属性·${LG.traits.points()}` : active ? "属性·称号" : "属性";
+      el.button.textContent = "主角面板";
       el.button.title = active
-        ? `当前称号：${active.title}（${active.attitude}态度）` : "角色属性";
+        ? `当前称号：${active.title}（${active.attitude}态度）` : "主角面板";
     },
   };
 })(window.LifeGame);

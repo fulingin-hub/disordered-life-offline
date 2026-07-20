@@ -27,6 +27,7 @@
       LG.traitsUI?.refresh?.();
       LG.roomsUI?.refresh?.();
       window.dzmm?.toast?.success?.(result.message);
+      LG.itemFeedback?.show?.(result.message, options.tone || "normal");
     } catch (err) {
       console.error("图鉴道具使用失败:", err?.code, err?.message, err?.stack);
       feedback = err?.message || "使用失败，请稍后重试。";

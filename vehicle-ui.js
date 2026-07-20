@@ -37,7 +37,7 @@
     const fee = LG.otherworldCharacters?.vehicleMarkup?.() > 1
       ? " 女销售额外手续费 +10% · 账单明细：技术指导。" : "";
     const note = node("p", "vehicle-note",
-      `${item.note || "博览会馆认证载具，可在角色属性页切换乘骑。"}${fee}`);
+      `${item.note || "博览会馆认证载具，可在主角面板切换乘骑。"}${fee}`);
     const button = node("button", "", equipped ? "当前乘骑" : owned ? "前往属性页乘骑" : "购买");
     button.type = "button";
     button.disabled = busy || equipped;

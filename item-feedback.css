@@ -1,0 +1,85 @@
+.item-use-banner {
+  position: fixed;
+  top: max(18px, env(safe-area-inset-top));
+  left: 50%;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) 38px;
+  align-items: center;
+  gap: 10px;
+  width: min(720px, calc(100vw - 24px));
+  min-height: 58px;
+  transform: translate(-50%, -18px);
+  border: 1px solid #f0ca6a;
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, #5c4214, #b98725, #5c4214);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .48);
+  color: #fff3c8;
+  font-weight: 800;
+  line-height: 1.45;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.item-use-banner[data-tone="private"] {
+  border-color: #ff8fcb;
+  background: linear-gradient(90deg, #641c48, #bd427d, #641c48);
+  color: #fff0f8;
+}
+
+.item-use-banner.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+.item-use-foot {
+  width: 27px;
+  height: 43px;
+  justify-self: center;
+  transform: rotate(-16deg);
+  border-radius: 48% 45% 43% 47%;
+  background:
+    radial-gradient(circle at 18% 8%, currentColor 0 3px, transparent 3.5px),
+    radial-gradient(circle at 36% 3%, currentColor 0 3.5px, transparent 4px),
+    radial-gradient(circle at 55% 4%, currentColor 0 3.8px, transparent 4.3px),
+    radial-gradient(circle at 74% 8%, currentColor 0 3.4px, transparent 4px),
+    radial-gradient(circle at 90% 14%, currentColor 0 2.8px, transparent 3.3px),
+    radial-gradient(ellipse at 49% 65%, currentColor 0 11px, transparent 11.7px);
+  color: #e8b39c;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .45));
+}
+
+.item-use-foot.stocking {
+  transform: scaleX(-1) rotate(-16deg);
+  color: #17151d;
+  opacity: .92;
+}
+
+.item-use-banner[data-tone="normal"] .item-use-foot {
+  visibility: hidden;
+}
+
+.item-use-message {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 520px) {
+  .item-use-banner {
+    grid-template-columns: 30px minmax(0, 1fr) 30px;
+    gap: 5px;
+    padding-inline: 7px;
+    font-size: .86rem;
+  }
+
+  .item-use-foot {
+    transform: scale(.82) rotate(-16deg);
+  }
+
+  .item-use-foot.stocking {
+    transform: scale(-.82, .82) rotate(-16deg);
+  }
+}
