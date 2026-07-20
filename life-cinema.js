@@ -56,9 +56,22 @@
       node("p", "", item.description),
       progress,
       node("small", "", item.unlocked
-        ? `${item.category} · 奖励${item.reward}点 · ${item.target}/${item.target}`
-        : `${item.category} · 奖励${item.reward}点 · ${item.progress}/${item.target}`),
+        ? item.reward > 0
+          ? `${item.category} · 奖励${item.reward}点 · ${item.target}/${item.target}`
+          : `${item.category} · 已收录 · ${item.target}/${item.target}`
+        : item.reward > 0
+          ? `${item.category} · 奖励${item.reward}点 · ${item.progress}/${item.target}`
+          : `${item.category} · ${item.progress}/${item.target}`),
     );
+    if (item.unlocked && item.specialCg) {
+      const button = node("button", "life-achievement-cg-button", "查看特殊CG");
+      button.type = "button";
+      button.addEventListener("click", () => {
+        LG.cgUI?.openSpecial?.(item.specialCg,
+          LG.authority.state()?.gender || "male");
+      });
+      card.append(button);
+    }
     return card;
   }
 

@@ -26,10 +26,10 @@
         || LG.infernalClub.personality() < price;
       buy.addEventListener("click", () => onBuy(queen, item));
       actions.append(buy);
-      if (consumable) {
+      if (consumable || (!consumable && owned)) {
         const use = node("button", "quiet-button", "使用");
         use.type = "button";
-        use.disabled = busy || LG.infernalClub.quantity(item.id) < 1;
+        use.disabled = busy || (consumable && LG.infernalClub.quantity(item.id) < 1);
         use.addEventListener("click", () => onUse(item));
         actions.append(use);
       }

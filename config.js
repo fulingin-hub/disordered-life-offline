@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-    buildId: "20260719-vehicle-display-modes",
+  buildId: "20260719-otherworld-characters",
   version: 4,
   eventRevision: 2026071607,
   stateKey: "disordered-life-state-v1",

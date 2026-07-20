@@ -1,6 +1,7 @@
 .traits-pages {
-  display: inline-grid;
-  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
   margin-top: 16px;
   border: 1px solid var(--line);
   border-radius: 6px;

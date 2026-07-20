@@ -2,7 +2,7 @@
   const assets = {
     male: {
       "infernal-seven-apostles":
-        "./assets/generated/cg-ending-infernal-seven-apostles-male.44e456db.webp",
+        "./assets/generated/cg-ending-infernal-seven-apostles-male.872a1513.webp",
       "infernal-fallen":
         "./assets/generated/cg-ending-infernal-fallen-male.10797463.webp",
       "infernal-really-won":
@@ -14,7 +14,7 @@
     },
     female: {
       "infernal-seven-apostles":
-        "./assets/generated/cg-ending-infernal-seven-apostles-female.c5941502.webp",
+        "./assets/generated/cg-ending-infernal-seven-apostles-female.669ffe41.webp",
       "infernal-fallen":
         "./assets/generated/cg-ending-infernal-fallen-female.b1ffbae5.webp",
       "infernal-really-won":

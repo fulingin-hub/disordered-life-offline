@@ -98,6 +98,35 @@
       saint: `${base}cg-ending-saint-female.55adfac7.webp`,
     },
   };
+  LG.CG_ASSETS.specialMeta = {
+    "foreign-outfit-complete": {
+      title: "异域套装完成",
+      label: "装备套装特殊CG",
+      text: "五件异域装备已经完整穿戴。身份发饰、翻领制服、身份腰带、白手套与长袜靴组成统一形象；这次记录只收录为特殊CG，不会结束当前人生。",
+    },
+    "battlefield-hero": {
+      title: "战场英雄",
+      text: "历经不知几年在众多同行佣兵的羡慕目光中，和老佣兵们冷漠复杂的目光中你走向颁奖台，恭喜你英雄！",
+    },
+    "border-watch": {
+      title: "边境线的守望者",
+      text: "又过了几年，当初的同行者们很少还有能再并肩作战的了，你随手接过勋章，看着刚来到这里的还雄心勃勃的年轻人们，心里暗想“这不值得”",
+    },
+  };
+  LG.CG_ASSETS.special = {
+    "foreign-outfit-complete": {
+      male: `${base}cg-ending-trait-energy-depleted-life.2c052a6a.webp`,
+      female: `${base}cg-ending-trait-energy-depleted-life.2c052a6a.webp`,
+    },
+    "battlefield-hero": {
+      male: `${base}cg-special-battlefield-hero-male.579b86cd.webp`,
+      female: `${base}cg-special-battlefield-hero-female.5203e6ca.webp`,
+    },
+    "border-watch": {
+      male: `${base}cg-special-border-watch-male.eaaa9ea2.webp`,
+      female: `${base}cg-special-border-watch-female.9ac37e45.webp`,
+    },
+  };
   LG.CG_ASSETS.endingSrc = function (id, gender) {
     return this.genderEndings[gender]?.[id] || this.endings[id];
   };

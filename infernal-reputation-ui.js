@@ -21,7 +21,9 @@
         node("small", "", earned ? "已获得" : `还差${target - reputation}`));
       milestones.append(chip);
     });
-    card.append(heading, milestones);
+    card.append(heading);
+    if (group.hint) card.append(node("p", "reputation-reward-hint", group.hint));
+    card.append(milestones);
     return card;
   }
 

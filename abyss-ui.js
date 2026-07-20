@@ -39,13 +39,14 @@
     const reputationMultiplier = LG.infernalClub.reputationMultiplier();
     const card = node("article", `infernal-task${task.completed ? " completed" : ""}`);
     const heading = node("div", "infernal-task-heading");
+    const target = Math.max(10, Number(task.target) || 10);
     heading.append(node("strong", "", task.name),
-      node("span", "", task.completed ? "已结算" : `${task.progress}/10`));
+      node("span", "", task.completed ? "已结算" : `${task.progress}/${target}`));
     const progress = node("progress");
-    progress.max = 10;
-    progress.value = Math.min(10, Math.max(0, Number(task.progress) || 0));
+    progress.max = target;
+    progress.value = Math.min(target, Math.max(0, Number(task.progress) || 0));
     card.append(heading, progress,
-      node("small", "", `击杀10次 · 奖励${Math.floor(50 * reputationMultiplier)
+      node("small", "", `击杀${target}次 · 奖励${Math.floor(50 * reputationMultiplier)
       }声望 / ${Math.floor(100 * taskMultiplier)}人格值${
         reputationMultiplier !== taskMultiplier
           ? `（声望${reputationMultiplier}倍）`
@@ -143,7 +144,8 @@
         ["highest", "abyssHighest"], ["round", "abyssRound"],
         ["reputationRewards", "abyssReputationRewards"],
         ["tasks", "abyssTasks"], ["empty", "abyssEmpty"],
-        ["start", "abyssStartButton"], ["floorLabel", "abyssFloorLabel"],
+        ["start", "abyssStartButton"], ["return", "abyssReturnButton"],
+        ["floorLabel", "abyssFloorLabel"],
         ["clearCount", "abyssClearCount"], ["floorProgress", "abyssFloorProgress"],
         ["milestones", "abyssMilestones"], ["portrait", "abyssPortrait"],
         ["eventType", "abyssEventType"], ["title", "abyssEventTitle"],
@@ -160,6 +162,11 @@
       el.transfer.addEventListener("click", () => this.open());
       el.start.addEventListener("click", () => el.start.dataset.action === "resume"
         ? (setView("run"), render()) : act("start"));
+      el.return.addEventListener("click", () => {
+        latest += 1;
+        el.dialog.close();
+        LG.infernalUI.open();
+      });
       el.desire.addEventListener("click", () => act("desire"));
       el.break.addEventListener("click", () => act("break"));
       el.retreat.addEventListener("click", () => act("retreat"));

@@ -44,6 +44,16 @@
         consume(`room-potion-${active.id}-${state.id}`));
       actions.append(use);
     }
+    if (state.owned) {
+      actions.append(LG.collectionUseUI.button({
+        owned: true,
+        source: "eden",
+        roomId: active.id,
+        itemId: state.id,
+        onStatus: (text) => LG.blackPrisonUI.status(text),
+        onRefresh: () => render(),
+      }));
+    }
     article.append(actions);
     return article;
   }

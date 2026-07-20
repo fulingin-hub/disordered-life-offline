@@ -47,7 +47,8 @@
       return tier()?.discount || 0;
     },
     price(item) {
-      return Math.ceil(item.price * (100 - this.discount()) / 100);
+      const discounted = Math.ceil(item.price * (100 - this.discount()) / 100);
+      return Math.ceil(discounted * (LG.otherworldCharacters?.vehicleMarkup?.() || 1));
     },
     owns(id) {
       return data().owned.includes(id);
@@ -65,7 +66,6 @@
     },
     mountedAsset(item, gender) {
       if (!item) return "";
-      if (item.store === "reputation") return "";
       let family = item.family;
       if (item.id === "points-otherworld-male") family = "otherworld-male";
       if (item.id === "points-otherworld-female") family = "otherworld-female";

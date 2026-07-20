@@ -24,6 +24,17 @@
   overscroll-behavior: contain;
 }
 
+#collectionPage:not([hidden]) {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+#collectionPage .collectible-grid {
+  max-height: none;
+}
+
 #traitsPage .traits-summary,
 #traitsPage .traits-status {
   flex: 0 0 auto;

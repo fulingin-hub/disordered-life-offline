@@ -65,7 +65,7 @@
 
   async function confirmOperation(id) {
     const result = await remote({ method: "operationStatus", operationId: id });
-    await apply(result);
+    if (result?.life && result?.economy) await apply(result);
     return result;
   }
 
@@ -126,16 +126,22 @@
           throw err;
         }
         intent.unknown = true;
-        try {
-          const status = await confirmOperation(intent.id);
-          if (status.operationProcessed) {
-            LG.authorityIntents.remove(key);
-            LG.achievementFeedback?.apply?.(status, method);
-            return status;
+        for (const delay of [0, 350, 900, 1800]) {
+          if (delay) await new Promise((resolve) => window.setTimeout(resolve, delay));
+          try {
+            const status = await confirmOperation(intent.id);
+            if (status.operationProcessed) {
+              LG.authorityIntents.remove(key);
+              LG.achievementFeedback?.apply?.(status, method);
+              return status;
+            }
+          } catch (confirmErr) {
+            if (LG.authorityFallback?.isCaptcha?.(confirmErr)) {
+              throw LG.authorityFallback.captchaError();
+            }
+            console.warn("未知结算结果确认失败:",
+              confirmErr?.code, confirmErr?.message, confirmErr?.stack);
           }
-        } catch (confirmErr) {
-          console.warn("未知结算结果确认失败:",
-            confirmErr?.code, confirmErr?.message, confirmErr?.stack);
         }
         const retry = new Error(
           "结算结果尚未确认。当前保持只读，请重试同一操作以继续确认。",

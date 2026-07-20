@@ -88,7 +88,7 @@
         : `已激活 ${progress.count}/${progress.total}，集齐后开放角色CG画廊。`;
     },
     buy(character, itemId) {
-      if (!this.shopUnlocked()) return { ok: false, message: "丧志达到100点后解锁属性点商城。" };
+      if (!this.shopUnlocked()) return { ok: false, message: "丧志达到100点后解锁角色房间购买。" };
       if (!LG.achievements.isUnlocked(character)) {
         return { ok: false, message: "需要先完成该角色路线10次并解锁房间。" };
       }

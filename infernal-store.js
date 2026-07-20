@@ -62,10 +62,12 @@
     canSkipMobs() {
       const stats = this.stats();
       const economyState = economy();
-      const vehicle = economyState.vehicleShop?.equipped;
+      const vehicleShop = economyState.vehicleShop || {};
+      const vehicle = LG.VEHICLE_DATA.byId[vehicleShop.equipped];
+      const riddenVehicle = vehicleShop.displayMode !== "follow"
+        && vehicle?.skipMobsOnRide === true;
       const hunter = LG.equipment.summary(LG.authority.state()).realmHunterSet;
-      return ["achievement-lost-griffin",
-        "achievement-reborn-phoenix"].includes(vehicle)
+      return riddenVehicle
         || hunter
         || Boolean(economyState.infernalRealm?.club?.equippedSet)
         && stats.defeat >= 1000

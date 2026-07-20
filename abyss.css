@@ -27,6 +27,11 @@
   background: #286278;
 }
 
+.abyss-return {
+  border: 1px solid #715a3e;
+  background: #31281f;
+}
+
 .abyss-task-list .infernal-task {
   border-left-color: #3e819c;
 }

@@ -6,6 +6,7 @@
   let initialized = false;
   let dialog;
   let message;
+  let pendingSpecialCg = null;
 
   function completed(result) {
     return (Array.isArray(result?.cinemaAchievements)
@@ -27,11 +28,24 @@
     const unlocked = items.filter((item) => !known.has(item.id));
     items.forEach((item) => known.add(item.id));
     if (!unlocked.length || silentMethods.has(method)) return;
+    pendingSpecialCg = unlocked.find((item) => item.specialCg)?.specialCg || null;
     LG.audio?.achievement?.();
     if (!dialog || !message) return;
-    message.textContent = `成就完成：${unlocked.map((item) =>
-      `${item.title}（+${item.reward}成就点）`).join("、")}`;
+    const prefix = unlocked.every((item) => item.specialCg)
+      ? "特殊CG解锁" : "成就完成";
+    message.textContent = `${prefix}：${unlocked.map((item) =>
+      item.reward > 0 ? `${item.title}（+${item.reward}成就点）` : item.title)
+      .join("、")}${pendingSpecialCg ? "。关闭后播放特殊CG。" : ""}`;
     if (!dialog.open) dialog.showModal();
+  }
+
+  function openPendingSpecialCg() {
+    if (!pendingSpecialCg) return;
+    const id = pendingSpecialCg;
+    pendingSpecialCg = null;
+    window.setTimeout(() => {
+      LG.cgUI?.openSpecial?.(id, LG.authority.state()?.gender || "male");
+    }, 0);
   }
 
   LG.achievementFeedback = {
@@ -44,6 +58,7 @@
         event.preventDefault();
         dialog.close();
       });
+      dialog.addEventListener("close", openPendingSpecialCg);
     },
     apply,
   };

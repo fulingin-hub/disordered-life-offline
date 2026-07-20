@@ -62,7 +62,9 @@
       entry.prepend(button);
     },
     open(ending, gender = "male") {
-      const label = ending.universal ? "通用结局" : LG.endingArchive.label(gender);
+      const label = ending.specialLabel || (ending.specialCg
+        ? "异界魔境特殊CG"
+        : ending.universal ? "通用结局" : LG.endingArchive.label(gender));
       el.title.textContent = `${label} · ${ending.title}`;
       el.image.src = ending.cg || LG.CG_ASSETS.endingSrc(ending.id, gender);
       el.image.alt = `${label}${ending.title}CG`;
@@ -72,6 +74,21 @@
       if (archive.open) archive.close();
       el.dialog.showModal();
       LG.cinemaNarrator?.playEnding?.(ending);
+    },
+    openSpecial(id, gender = "male") {
+      const special = LG.CG_ASSETS.special?.[id];
+      const src = special?.[gender === "female" ? "female" : "male"];
+      const meta = LG.CG_ASSETS.specialMeta?.[id];
+      if (!src || !meta) return false;
+      this.open({
+        id: `special-cg-${id}`,
+        title: meta.title,
+        text: meta.text,
+        cg: src,
+        specialCg: true,
+        specialLabel: meta.label,
+      }, gender);
+      return true;
     },
   };
 })(window.LifeGame);

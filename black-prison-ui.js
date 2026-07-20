@@ -3,14 +3,11 @@
   let busy = false;
   function node(tag, className, text) {
     const item = document.createElement(tag);
-    if (className) item.className = className;
-    if (text !== undefined) item.textContent = text;
+    if (className) item.className = className; if (text !== undefined) item.textContent = text;
     return item;
   }
   function progressText(group) {
-    const progress = LG.blackPrison.progress(group);
-    return `${progress.count}/${progress.total}`;
-  }
+    const value = LG.blackPrison.progress(group); return `${value.count}/${value.total}`; }
   function actionLabel(item, owned, locked) {
     if (owned) return "已完成";
     if (locked) return "先完成命令2与命令3";
@@ -32,6 +29,9 @@
     button.disabled = busy || owned || locked || LG.traits.points() < item.price;
     button.addEventListener("click", () => buy(item.id));
     card.append(heading, node("p", "", item.description), button);
+    if (owned) card.append(LG.collectionUseUI.button({ owned, source: "paradise",
+      roomId: "blackPrison", itemId: item.id,
+      onStatus: (text) => { el.status.textContent = text; }, onRefresh: render }));
     return card;
   }
   function renderGroup(target, group) {

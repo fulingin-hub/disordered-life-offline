@@ -188,6 +188,7 @@
   <link rel="stylesheet" href="./traits-interaction.css">
   <link rel="stylesheet" href="./equipment.css">
   <link rel="stylesheet" href="./vehicle.css?v=20260719-5">
+  <link rel="stylesheet" href="./otherworld-characters.css?v=20260719-1">
   <link rel="stylesheet" href="./protagonist.css?v=20260719-5">
   <link rel="stylesheet" href="./black-market.css">
   <link rel="stylesheet" href="./room-consumables.css">
@@ -241,7 +242,6 @@
         <button id="soundButton" class="quiet-button" type="button">声音：开</button>
         <button id="traitsButton" class="quiet-button" type="button">属性</button>
         <button id="tasksButton" class="quiet-button" type="button">任务</button>
-        <button id="shopButton" class="quiet-button" type="button">商城·锁</button>
         <button id="roomsButton" class="quiet-button" type="button">世界</button>
         <button id="recoveryButton" class="quiet-button" type="button">人生电影院</button>
         <button id="restartButton" class="quiet-button danger" type="button">重新出生</button>
@@ -814,6 +814,8 @@
         aria-controls="equipmentPage">主角装备</button>
       <button type="button" role="tab" data-traits-page="vehicle"
         aria-controls="vehiclePage">乘骑载具</button>
+      <button type="button" role="tab" data-traits-page="collection"
+        aria-controls="collectionPage">角色收藏</button>
     </div>
     <section id="traitsPage">
       <div class="traits-summary">
@@ -853,7 +855,7 @@
         <div><span>博览会会员</span><strong id="vehicleProfileVip">访客</strong></div>
       </div>
       <div class="vehicle-mode-switch" role="group" aria-label="载具展示方式">
-        <button id="vehicleRideModeButton" type="button" aria-pressed="true">上马</button>
+        <button id="vehicleRideModeButton" type="button" aria-pressed="true">骑乘</button>
         <button id="vehicleFollowModeButton" type="button" aria-pressed="false">跟随</button>
       </div>
       <div id="vehicleEffect" class="vehicle-profile-effect" data-active="false">
@@ -887,6 +889,15 @@
         <button id="openVehicleHallButton" type="button">前往博览会馆</button>
       </div>
     </section>
+    <section id="collectionPage" hidden>
+      <div class="shop-summary">
+        已获得角色道具 <strong id="shopOwnedCount">0</strong>
+      </div>
+      <p id="shopStatus" class="system-status">
+        这里只展示已获得的角色道具；购买和使用请前往对应角色房间。
+      </p>
+      <div id="shopItems" class="collectible-grid"></div>
+    </section>
   </dialog>
 
   <dialog id="infernalDialog" class="infernal-dialog">
@@ -913,6 +924,11 @@
         <h3>地狱悬赏</h3>
         <span id="infernalRound">第1轮</span>
       </div>
+      <div class="otherworld-section-heading">
+        <div><span class="event-type">任务发布者</span><h3>公会角色房间</h3></div>
+        <p>进入个人商店与图鉴</p>
+      </div>
+      <div id="otherworldGuildCharacters" class="otherworld-character-strip"></div>
       <div id="infernalReputationRewards" class="infernal-reputation-board"></div>
       <p id="infernalEmpty" class="infernal-empty" hidden>任务正在刷新。</p>
       <div id="infernalTasks" class="infernal-task-list"></div>
@@ -978,6 +994,9 @@
       <div class="infernal-hall-actions">
         <button id="abyssStartButton" class="infernal-start abyss-start" type="button">
           进入无尽深渊
+        </button>
+        <button id="abyssReturnButton" class="abyss-return" type="button">
+          返回临时阵地 · 七层地狱
         </button>
       </div>
     </section>
@@ -1088,6 +1107,11 @@
         <button id="closeVehicleButton" class="quiet-button" type="button">关闭</button>
       </div>
       <div class="vehicle-catalog-scroll">
+        <div class="otherworld-section-heading">
+          <div><span class="event-type">异界商行</span><h3>博览会角色房间</h3></div>
+          <p>进入个人商店与图鉴</p>
+        </div>
+        <div id="otherworldExpoCharacter" class="otherworld-character-strip"></div>
         <div class="vehicle-summary">
           <div><span>属性点</span><strong id="vehiclePoints">0</strong></div>
           <div><span>成就点</span><strong id="vehicleAchievement">0</strong></div>
@@ -1117,6 +1141,62 @@
     </div>
   </dialog>
 
+  <dialog id="otherworldCharacterDialog"
+    class="casino-dialog otherworld-character-dialog">
+    <div class="otherworld-character-shell">
+      <div class="dialog-heading">
+        <div>
+          <span class="event-type">异界角色房间</span>
+          <h2>个人商行与图鉴</h2>
+        </div>
+        <button id="closeOtherworldCharacterButton" class="quiet-button"
+          type="button">关闭</button>
+      </div>
+      <div class="otherworld-character-scroll">
+        <div class="otherworld-character-heading">
+          <img id="otherworldCharacterPortrait" alt="">
+          <div>
+            <span id="otherworldCharacterRole" class="event-type"></span>
+            <h3 id="otherworldCharacterName"></h3>
+            <div class="otherworld-character-meta">
+              <span>属性点 <strong id="otherworldCharacterPoints">0</strong></span>
+              <span id="otherworldCharacterProgress"></span>
+            </div>
+          </div>
+        </div>
+        <p id="otherworldCharacterStatus" class="casino-shop-status"
+          role="status"></p>
+        <div id="otherworldCharacterItems" class="casino-shop-items"></div>
+        <div class="otherworld-character-actions">
+          <button id="otherworldCharacterChat" type="button">AI对话</button>
+          <button id="otherworldCharacterGallery" type="button">角色画廊</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="otherworldChatDialog" class="casino-dialog otherworld-chat-dialog">
+    <div class="dialog-heading">
+      <div class="otherworld-chat-heading">
+        <img id="otherworldChatPortrait" alt="">
+        <div>
+          <span id="otherworldChatLocation" class="event-type"></span>
+          <h2 id="otherworldChatName"></h2>
+        </div>
+      </div>
+      <button id="closeOtherworldChatButton" class="quiet-button"
+        type="button">关闭</button>
+    </div>
+    <p id="otherworldChatStatus" class="chat-status" role="status"></p>
+    <div id="otherworldChatMessages"
+      class="chat-messages otherworld-chat-messages" aria-live="polite"></div>
+    <form id="otherworldChatForm" class="chat-form">
+      <input id="otherworldChatInput" maxlength="160" autocomplete="off"
+        placeholder="输入想说的话">
+      <button id="otherworldChatSend" type="submit">发送</button>
+    </form>
+  </dialog>
+
   <dialog id="tasksDialog" class="system-dialog tasks-dialog">
     <div class="dialog-heading">
       <div>
@@ -1127,26 +1207,6 @@
     </div>
     <p id="dailyTaskStatus" class="system-status"></p>
     <div id="dailyTaskList" class="daily-task-list"></div>
-  </dialog>
-
-  <dialog id="shopDialog" class="system-dialog shop-dialog">
-    <div class="dialog-heading">
-      <div>
-        <span class="event-type">跨周目收藏</span>
-        <h2>属性点商城</h2>
-      </div>
-      <button id="closeShopButton" class="quiet-button" type="button">关闭</button>
-    </div>
-    <div class="shop-summary">可用属性点 <strong id="shopPoints">0</strong></div>
-    <p id="shopStatus" class="system-status"></p>
-    <section id="shopLock" class="system-lock">丧志属性达到100点后开放商城。</section>
-    <section id="shopContent">
-      <label class="shop-filter">
-        <span>角色收藏</span>
-        <select id="shopCharacterSelect"></select>
-      </label>
-      <div id="shopItems" class="collectible-grid"></div>
-    </section>
   </dialog>
 
   <dialog id="collectionDialog" class="system-dialog collection-dialog">
@@ -1281,6 +1341,7 @@
   <script src="./offline-dialogue-foreign.js"></script>
   <script src="./offline-dialogue-despair.js"></script>
   <script src="./offline-dialogue-text.js"></script>
+  <script src="./offline-dialogue-replies.js"></script>
   <script src="./offline-runtime.js"></script>
   <script src="./offline-tools.js"></script>
   <script src="./offline-pwa.js"></script>
@@ -1292,6 +1353,7 @@
   <script src="./equipment-data.js"></script>
   <script src="./black-market-data.js"></script>
   <script src="./casino-data.js"></script>
+  <script src="./otherworld-character-data.js"></script>
   <script src="./black-prison-data.js"></script>
   <script src="./eden-character-data.js"></script>
   <script src="./penitentiary-data.js"></script>
@@ -1325,6 +1387,7 @@
   <script src="./save-recovery.js"></script>
   <script src="./save-file.js"></script>
   <script src="./casino-store.js"></script>
+  <script src="./otherworld-character-store.js"></script>
   <script src="./black-prison-store.js"></script>
   <script src="./eden-character-store.js"></script>
   <script src="./penitentiary-store.js"></script>
@@ -1372,16 +1435,20 @@
   <script src="./casino-gallery.js"></script>
   <script src="./eden-character-gallery.js"></script>
   <script src="./penitentiary-gallery.js"></script>
+  <script src="./otherworld-character-gallery.js"></script>
   <script src="./gallery-local-variants.js"></script>
   <script src="./gallery-ui.js"></script>
   <script src="./gender-ui.js"></script>
   <script src="./player-gallery-ui.js"></script>
   <script src="./black-market-refresh-ui.js"></script>
   <script src="./black-market-ui.js"></script>
+  <script src="./collection-use-ui.js"></script>
   <script src="./room-consumables-ui.js"></script>
   <script src="./casino-chat-ui.js"></script>
   <script src="./casino-shop-ui.js"></script>
   <script src="./casino-ui.js"></script>
+  <script src="./otherworld-character-chat-ui.js"></script>
+  <script src="./otherworld-character-ui.js"></script>
   <script src="./black-prison-outfit-ui.js"></script>
   <script src="./eden-character-chat-ui.js"></script>
   <script src="./eden-character-ui.js"></script>

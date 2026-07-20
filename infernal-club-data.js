@@ -57,14 +57,16 @@
         name: `${name}·魔物感应器`,
         price: 600,
         type: "special",
-        description: "五件套集齐后开放。会以微光和脉动提示附近的异界魔力。",
+        description: `蠕动的魔虫长开嘴巴探出舌头好像在渴望什么，由${
+          name}女魔王的排泄物变化而成。`,
       },
       {
         id: `club-${id}-tentacle-therapy-device`,
         name: `${name}·触须理疗器`,
         price: 600,
         type: "special",
-        description: "五件套集齐后开放。柔性魔法触须用于非伤害性的恢复理疗。",
+        description: `蠕动的触手，可以看见密密麻麻的小口在吸允着什么，由${
+          name}女魔王的排泄物变化而成。`,
       },
     ];
     return {

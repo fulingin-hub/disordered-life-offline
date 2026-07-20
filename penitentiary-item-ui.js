@@ -63,6 +63,16 @@
         });
         actions.append(use);
       }
+      if (owned) {
+        actions.append(LG.collectionUseUI.button({
+          owned,
+          source: "penitentiary",
+          roomId: role.id,
+          itemId: item.id,
+          onStatus: (text) => LG.penitentiaryUI.status(text),
+          onRefresh: () => LG.penitentiaryShopUI.refresh(),
+        }));
+      }
       card.append(actions);
       return card;
     },

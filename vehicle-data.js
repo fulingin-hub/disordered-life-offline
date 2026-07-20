@@ -42,14 +42,24 @@
   const colorNames = {
     black: "黑色", white: "白色", red: "红色", silver: "银色", gold: "金色",
   };
+  const rideSkipBonus =
+    "骑乘时可跳过七层地狱小怪事件，直接面对本层Boss；跟随时不生效";
+  const standardMountEffect = {
+    title: "直面首领",
+    bonuses: [rideSkipBonus],
+  };
   const achievementMountEffect = {
     title: "异界魔境祝福",
     bonuses: [
       "七层地狱/深渊事件胜利：属性点 +500、人格值 +1000",
       "每完成一轮挑战：属性点 +500、人格值 +500",
       "任务奖励 ×3，可与当前套装效果乘法叠加",
-      "挑战七层地狱时自动跳过全部小怪事件",
+      rideSkipBonus,
     ],
+  };
+  const otherworldMountEffect = {
+    title: "异界通行",
+    bonuses: [rideSkipBonus],
   };
   const reputationMountEffects = {
     wolf: {
@@ -58,6 +68,7 @@
         "七层地狱/深渊事件胜利：声望 +10、属性点 +200、人格值 +500",
         "完整一轮挑战：属性点 +6000、人格值 +6000",
         "获得的声望值 ×3，可与套装效果叠加",
+        rideSkipBonus,
       ],
     },
     tiger: {
@@ -66,14 +77,16 @@
         "七层地狱/深渊事件胜利：声望 +50、属性点 +500、人格值 +1000",
         "完整一轮挑战：属性点 +8000、人格值 +8000",
         "获得的声望值 ×3，可与套装效果叠加",
+        rideSkipBonus,
       ],
     },
-    trex: {
-      title: "血色霸王龙祝福",
+    dragon: {
+      title: "血色龙王祝福",
       bonuses: [
         "七层地狱/深渊事件胜利：声望 +100、属性点 +1000、人格值 +1500",
         "完整一轮挑战：属性点 +10000、人格值 +10000",
         "获得的任务奖励 ×3，可与套装效果叠加",
+        rideSkipBonus,
       ],
     },
   };
@@ -83,6 +96,8 @@
     names.forEach(([tone, label]) => items.push({
       id: `${store}-${family}-${tone}`, store, family, tone,
       name: `${colorNames[tone]}${label}`, price, asset, tier,
+      effect: standardMountEffect, skipMobsOnRide: true,
+      note: "骑乘时可跳过小怪事件直面Boss；跟随时不生效。",
     }));
   }
 
@@ -96,47 +111,49 @@
     {
       id: "points-otherworld-male", store: "points", family: "otherworld",
       tone: "base", name: "异界公畜", price: 5000, asset: "vehicleOtherworldMale", tier: 4,
-      note: "在异界是最常见的载具，不值钱。",
+      effect: otherworldMountEffect, skipMobsOnRide: true,
+      note: "在异界是最常见的载具；骑乘时可跳过小怪直面Boss，跟随时不生效。",
     },
     {
       id: "points-otherworld-female", store: "points", family: "otherworld",
       tone: "base", name: "异界母畜", price: 5000, asset: "vehicleOtherworldFemale", tier: 4,
-      note: "在异界是最常见的载具，不值钱。",
+      effect: otherworldMountEffect, skipMobsOnRide: true,
+      note: "在异界是最常见的载具；骑乘时可跳过小怪直面Boss，跟随时不生效。",
     },
     {
       id: "achievement-lost-griffin", store: "achievement", family: "griffin",
       tone: "base", name: "迷失方向的狮鹫", price: 500,
       asset: "vehicleLostGriffin", tier: 1,
-      effect: achievementMountEffect,
-      note: "异界事件胜利：属性点+500、人格值+1000；每轮完成再奖励属性点+500、人格值+500；任务奖励×3，可与套装叠加；七层地狱自动跳过小怪事件。",
+      effect: achievementMountEffect, skipMobsOnRide: true,
+      note: "异界奖励与任务奖励×3；骑乘时可跳过小怪直面Boss，跟随时不生效。",
     },
     {
       id: "achievement-reborn-phoenix", store: "achievement", family: "phoenix",
       tone: "base", name: "涅槃重生的玄凤", price: 500,
       asset: "vehicleRebornPhoenix", tier: 1,
-      effect: achievementMountEffect,
-      note: "异界事件胜利：属性点+500、人格值+1000；每轮完成再奖励属性点+500、人格值+500；任务奖励×3，可与套装叠加；七层地狱自动跳过小怪事件。",
+      effect: achievementMountEffect, skipMobsOnRide: true,
+      note: "异界奖励与任务奖励×3；骑乘时可跳过小怪直面Boss，跟随时不生效。",
     },
     {
-      id: "reputation-blood-wolf", store: "reputation", family: "wolf",
-      tone: "red", name: "魔境的血色狼王", price: 0,
-      asset: "vehicleWolf", tier: 1, rewardAt: 1500,
-      effect: reputationMountEffects.wolf,
-      note: "异界魔境声望达到1500点后自动获得。",
+      id: "reputation-blood-wolf", store: "reputation", family: "blood-wolf",
+      tone: "base", name: "魔境的血色狼王", price: 0,
+      asset: "vehicleBloodWolf", tier: 1, rewardAt: 1500,
+      effect: reputationMountEffects.wolf, skipMobsOnRide: true,
+      note: "声望达到1500点获得；骑乘时可跳过小怪直面Boss，跟随时不生效。",
     },
     {
-      id: "reputation-blood-tiger", store: "reputation", family: "tiger",
-      tone: "red", name: "魔境的血色虎王", price: 0,
-      asset: "vehicleTiger", tier: 2, rewardAt: 2000,
-      effect: reputationMountEffects.tiger,
-      note: "异界魔境声望达到2000点后自动获得。",
+      id: "reputation-blood-tiger", store: "reputation", family: "blood-tiger",
+      tone: "base", name: "魔境的血色虎王", price: 0,
+      asset: "vehicleBloodTiger", tier: 2, rewardAt: 2000,
+      effect: reputationMountEffects.tiger, skipMobsOnRide: true,
+      note: "声望达到2000点获得；骑乘时可跳过小怪直面Boss，跟随时不生效。",
     },
     {
-      id: "reputation-blood-trex", store: "reputation", family: "mech-trex",
-      tone: "red", name: "魔境的血色霸王龙", price: 0,
-      asset: "vehicleMechTrex", tier: 3, rewardAt: 3000,
-      effect: reputationMountEffects.trex,
-      note: "异界魔境声望达到3000点后自动获得。",
+      id: "reputation-blood-trex", store: "reputation", family: "blood-dragon",
+      tone: "base", name: "魔境的血色龙王", price: 0,
+      asset: "vehicleBloodDragon", tier: 3, rewardAt: 3000,
+      effect: reputationMountEffects.dragon, skipMobsOnRide: true,
+      note: "声望达到3000点获得；骑乘时可跳过小怪直面Boss，跟随时不生效。",
     },
   );
   [

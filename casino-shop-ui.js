@@ -54,6 +54,16 @@
       : LG.traits.points() < item.price ? `需要${item.price}点` : "购买";
     button.addEventListener("click", () => buy(item));
     card.append(button);
+    if (owned) {
+      card.append(LG.collectionUseUI.button({
+        owned,
+        source: "casino",
+        roomId: item.character,
+        itemId: item.id,
+        onStatus: (text) => { el.status.textContent = text; },
+        onRefresh: () => openDetail(item.character),
+      }));
+    }
     return card;
   }
 

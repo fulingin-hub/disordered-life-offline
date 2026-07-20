@@ -10,10 +10,13 @@
     return item;
   }
 
-  function renderEffect(item) {
+  function renderEffect(item, mode) {
     const effect = item?.effect;
     el.effect.dataset.active = String(Boolean(effect));
-    el.effectState.textContent = effect ? "已激活" : item ? "无特殊加成" : "未激活";
+    el.effectState.textContent = !effect ? item ? "无特殊加成" : "未激活"
+      : item.skipMobsOnRide && mode === "follow"
+        ? "跟随中·跳怪不生效" : item.skipMobsOnRide
+          ? "骑乘中·跳怪生效" : "已激活";
     el.effectTitle.textContent = effect?.title
       || (item ? "标准乘骑" : "选择载具后显示当前乘骑加成");
     const bonuses = effect?.bonuses || [item
@@ -87,7 +90,7 @@
     el.ride.disabled = busy || !equipped;
     el.follow.disabled = busy || !equipped;
     el.stage.dataset.mode = mode;
-    renderEffect(equipped);
+    renderEffect(equipped, mode);
     if (!equipped) {
       el.rider.removeAttribute("src");
       el.mount.removeAttribute("src");
@@ -102,9 +105,9 @@
     el.riderWrap.classList.toggle("vehicle-profile-composite", Boolean(mounted));
     if (mounted) {
       el.rider.src = mounted;
-      el.rider.alt = `${gender === "female" ? "女" : "男"}主角·上马${equipped.name}`;
+      el.rider.alt = `${gender === "female" ? "女" : "男"}主角·骑乘${equipped.name}`;
       el.rider.className = `vehicle-profile-mounted tone-${equipped.tone}`;
-      el.riderCaption.textContent = "上马·乘骑立绘";
+      el.riderCaption.textContent = "骑乘·乘骑立绘";
       el.mount.removeAttribute("src");
       el.mountWrap.hidden = true;
       el.riderWrap.hidden = false;
@@ -116,12 +119,12 @@
       LG.VEHICLE_DATA.stores[equipped.store].outfit}`;
     el.rider.className = "";
     el.riderCaption.textContent = mode === "follow"
-      ? "跟随·角色立绘" : "上马·角色立绘";
+      ? "跟随·角色立绘" : "骑乘·角色立绘";
     el.mount.src = LG.CONFIG.assets[equipped.asset];
     el.mount.alt = equipped.name;
     el.mount.className = `vehicle-profile-mount tone-${equipped.tone}`;
     el.mountCaption.textContent = mode === "follow"
-      ? "跟随·坐骑立绘" : "上马·分层坐骑";
+      ? "跟随·坐骑立绘" : "骑乘·分层坐骑";
     el.riderWrap.hidden = false;
     el.mountWrap.hidden = false;
     el.empty.hidden = true;

@@ -15,8 +15,7 @@
     if (err?.code === "CAPTCHA_REQUIRED") return err.message;
     if (err?.code === "function_error") return err.message || "服务端拒绝了这次操作。";
     return "网络或结算服务暂时不可用，请稍后重试。";
-  }
-  function adopt(result) {
+  } function adopt(result) {
     state = result.life;
     archive = result.archive;
   }
@@ -98,8 +97,7 @@
       busy = false;
       LG.ui.setRestarting(false);
     }
-  }
-  function openArchive() {
+  } function openArchive() {
     LG.ui.showArchive(archive, state.gender || "male");
   }
   function toggleSound() { LG.ui.updateSound(LG.audio.toggle()); }
@@ -174,6 +172,7 @@
     LG.infernalClubChatUI.init();
     LG.infernalClubUI.init();
     LG.vehicleUI.init();
+    LG.otherworldCharacterUI.init();
     LG.rooms.init(() => state);
     LG.traitsUI.init();
     LG.specialOutfitUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
@@ -187,6 +186,8 @@
     LG.loader.ready();
   }
   boot().catch((err) => {
+    if (err?.code === "ABORTED"
+      || /service destroyed/i.test(String(err?.message || ""))) return;
     LG.loader.error(err);
     document.getElementById("bootSplash")?.remove();
     window.LifeGameBoot?.stop?.();

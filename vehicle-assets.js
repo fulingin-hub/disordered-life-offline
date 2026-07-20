@@ -4,6 +4,12 @@
     vehicleHorse: "./assets/generated/mount-horse.f67f368c.webp",
     vehicleWolf: "./assets/generated/mount-wolf.0472e5ad.webp",
     vehicleTiger: "./assets/generated/mount-tiger.87f10d44.webp",
+    vehicleBloodWolf:
+      "./assets/generated/mount-blood-wolf-king.60a5b6e3.webp",
+    vehicleBloodTiger:
+      "./assets/generated/mount-blood-tiger-king.e5aa6468.webp",
+    vehicleBloodDragon:
+      "./assets/generated/mount-blood-dragon-king.8c71c2da.webp",
     vehicleOtherworldMale: "./assets/generated/mount-otherworld-male.51afb1d6.webp",
     vehicleOtherworldFemale: "./assets/generated/mount-otherworld-female.bc1db7b3.webp",
     vehicleShadowMotorcycle: "./assets/generated/mount-shadow-motorcycle.f445fbca.webp",
@@ -78,5 +84,17 @@
       "./assets/generated/mounted-personality-xuanwu-male.9829cd41.webp",
     "mounted-personality-xuanwu-female":
       "./assets/generated/mounted-personality-xuanwu-female.a601e018.webp",
+    "mounted-reputation-blood-wolf-male":
+      "./assets/generated/mounted-reputation-blood-wolf-male.b2d3b60b.webp",
+    "mounted-reputation-blood-wolf-female":
+      "./assets/generated/mounted-reputation-blood-wolf-female.b1fb3763.webp",
+    "mounted-reputation-blood-tiger-male":
+      "./assets/generated/mounted-reputation-blood-tiger-male.dae7c36b.webp",
+    "mounted-reputation-blood-tiger-female":
+      "./assets/generated/mounted-reputation-blood-tiger-female.1f3fbb48.webp",
+    "mounted-reputation-blood-dragon-male":
+      "./assets/generated/mounted-reputation-blood-dragon-male.7a1769a6.webp",
+    "mounted-reputation-blood-dragon-female":
+      "./assets/generated/mounted-reputation-blood-dragon-female.818185f7.webp",
   });
 })(window.LifeGame);
