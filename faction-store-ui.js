@@ -19,11 +19,11 @@
     busy = true;
     try {
       const result = await LG.authority.mutate(method, body);
-      el.status.textContent = result.message;
       LG.traitsUI.refresh();
       LG.collectiblesUI.refresh();
       LG.careerUI.refresh();
       render();
+      el.status.textContent = result.message;
     } catch (err) {
       console.error("职业角色商城结算失败:", err?.code, err?.message, err?.stack);
       el.status.textContent = err?.message || "商城操作失败，请稍后重试。";
@@ -49,7 +49,7 @@
     }));
     card.append(button);
     if (view === "private" && item.index === 5 && data.specialActivated) {
-      const count = data.specialUses?.[active.faction] || 0;
+      const count = data.specialUses?.[active.specialKey || active.faction] || 0;
       const progress = active.rankIndex === 2 && owned(item.id)
         ? ` · 隐藏职业 ${Math.min(count, 101)}/101` : "";
       const use = node("button", "career-special-use",
@@ -89,7 +89,8 @@
     const statId = data.factions?.find((item) => item.id === active.faction)?.stat;
     const balance = LG.authority.state()?.stats?.[statId] || 0;
     const jobs = (data.professionDefinitions || []).filter((item) =>
-      !item.specialFaction && item.factions?.includes(active.faction));
+      !item.specialFaction && item.factions?.includes(active.faction)
+      && (!item.branch || item.branch === active.branch));
     const panel = node("section", "faction-profession-panel");
     panel.append(
       node("h3", "", `${active.name} · 势力专属职业`),
@@ -114,8 +115,10 @@
     if (!active) return;
     const data = LG.career.data();
     const faction = LG.CAREER_DATA.factions[active.faction];
-    el.faction.textContent = `${faction.name} · ${faction.location}`;
-    el.title.textContent = `${active.name}的${view === "normal" ? "正常" : "丧志"}商城`;
+    el.faction.textContent = `${faction.name} · ${
+      active.branchLabel || faction.location}`;
+    el.title.textContent = `${LG.CAREER_DATA.characterLabel(active)}的${
+      view === "normal" ? "正常" : "丧志"}商城`;
     el.status.textContent = view === "normal"
       ? `消耗属性点与${LG.CAREER_DATA.stats[data.factions?.find((item) =>
         item.id === active.faction)?.stat] || "势力主属性"}；集齐五件后免费领取职业大师部件。`
@@ -124,6 +127,8 @@
     el.items.replaceChildren(
       ...(profession ? [profession] : []),
       ...LG.CAREER_DATA.items(active, view).map(itemCard),
+      ...(view === "private"
+        ? LG.factionConsumablesUI.cards(active, busy, mutate) : []),
       pieceClaim(data),
     );
     el.tabs.forEach((button) => button.setAttribute("aria-selected",

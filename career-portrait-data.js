@@ -1,18 +1,18 @@
 (function (LG) {
   const normalAssets = {
-    doctor: "TraitSet", scholar: "TraitSet",
-    agent: "JapanSet", assassin: "JapanSet",
+    scholar: "TraitSet", agent: "JapanSet", assassin: "JapanSet",
     mercenary: "InfernalSet", adventurer: "InfernalSet",
     engineer: "LuxurySet", mechanic: "LuxurySet",
     gene: "EdenSet", cultivator: "EdenSet",
   };
   const specialIds = new Set([
-    "university-hound", "ranch-livestock", "sanctuary-essence",
+    "ranch-livestock", "sanctuary-essence",
     "paradise-foot", "domain-toilet", "otherworld-tribute",
   ]);
 
   function category(id) {
-    return specialIds.has(id) ? "special" : "normal";
+    return specialIds.has(id) || /^university-(xia|island|rice)-hound$/.test(id)
+      ? "special" : "normal";
   }
 
   function genderKey(gender) {
@@ -21,8 +21,9 @@
 
   function mainSource(id, gender) {
     if (!id) return null;
-    const suffix = category(id) === "special"
-      ? "PenitentiarySet" : normalAssets[id] || "TraitSet";
+    const universityAgent = /^university-(xia|island|rice)-agent$/.test(id);
+    const suffix = category(id) === "special" ? "PenitentiarySet"
+      : universityAgent ? "JapanSet" : normalAssets[id] || "TraitSet";
     return LG.CONFIG.assets[`protagonist${genderKey(gender)}${suffix}`] || null;
   }
 

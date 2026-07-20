@@ -128,7 +128,7 @@
     (data.factions || []).forEach((item) => grid.append(factionCard(item)));
     const roster = node("div", "career-roster");
     LG.CAREER_DATA.roster.forEach((item) => {
-      const card = node("button", "", item.name);
+      const card = node("button", "", LG.CAREER_DATA.characterLabel(item));
       card.type = "button";
       card.style.backgroundImage = `linear-gradient(rgba(11,14,19,.35),rgba(11,14,19,.9)),url("${
         LG.CONFIG.assets[item.asset]}")`;
@@ -137,7 +137,8 @@
       card.addEventListener("click", () => LG.factionStoreUI.open(item.id));
       roster.append(card);
     });
-    el.factions.replaceChildren(grid, node("h3", "", "势力职业角色 · 36人"), roster);
+    el.factions.replaceChildren(grid,
+      node("h3", "", "势力职业角色 · 84人（国立大学三分校54人）"), roster);
   }
 
   function renderBenefits() {

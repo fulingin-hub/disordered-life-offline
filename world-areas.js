@@ -16,11 +16,12 @@
         },
         {
           id: "university",
-          label: "国立大学",
+          label: "国立大学·夏国分校",
           image: "worldXiaCampus",
-          description: "国立大学夏国校区的职业角色区域，设有十二间正常与丧志个人房间。",
+          description: "国立大学夏国分校，设有本部、异界学科与职业学院，共十八名职业角色和三十六间正常、丧志个人房间。",
           characters: [],
           faction: "university",
+          branch: "xia",
         },
         {
           id: "society",
@@ -47,11 +48,12 @@
         },
         {
           id: "university",
-          label: "国立大学",
+          label: "国立大学·岛国分校",
           image: "worldIslandCampus",
-          description: "国立大学岛国校区的职业角色区域，设有十二间正常与丧志个人房间。",
+          description: "国立大学岛国分校，设有本部、异界学科与职业学院，共十八名职业角色和三十六间正常、丧志个人房间。",
           characters: [],
           faction: "university",
+          branch: "island",
         },
         {
           id: "society",
@@ -78,11 +80,12 @@
         },
         {
           id: "university",
-          label: "国立大学",
+          label: "国立大学·米国分校",
           image: "worldRiceCampus",
-          description: "国立大学米国校区的职业角色区域，设有十二间正常与丧志个人房间。",
+          description: "国立大学米国分校，设有本部、异界学科与职业学院，共十八名职业角色和三十六间正常、丧志个人房间。",
           characters: [],
           faction: "university",
+          branch: "rice",
         },
         {
           id: "society",

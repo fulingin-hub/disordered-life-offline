@@ -24,7 +24,7 @@
     const label = privacy === "normal" ? "正常个人房间" : "丧志个人房间";
     body.append(
       node("span", "event-type", `${label}${leader ? " · 势力首领" : ""}`),
-      node("h3", "", `${character.name}的个人房间`),
+      node("h3", "", `${LG.CAREER_DATA.characterLabel(character)}的个人房间`),
       node("p", "", joined
         ? `${privacy === "normal" ? "普通" : "私密"}图鉴 ${count}/5${
           leader ? " · 可购买势力职业" : ""}`
@@ -44,22 +44,28 @@
     return card;
   }
 
-  function cards(factionId) {
+  function cards(factionId, branch = null) {
     return LG.CAREER_DATA.roster
-      .filter((character) => character.faction === factionId)
+      .filter((character) => character.faction === factionId
+        && (!branch || character.branch === branch))
       .flatMap((character) => [
         roomCard(character, "normal"),
         roomCard(character, "private"),
       ]);
   }
 
-  function render(container, factionId) {
+  function render(container, factionId, branch = null) {
     const faction = LG.CAREER_DATA.factions[factionId];
     if (!container || !faction) return;
+    const roster = LG.CAREER_DATA.roster.filter((character) =>
+      character.faction === factionId && (!branch || character.branch === branch));
+    const branchLabel = branch
+      ? LG.CAREER_DATA.universityBranches[branch]?.label : faction.name;
     container.replaceChildren(
       node("p", "faction-room-intro",
-        `${faction.name}独立区域 · 六名角色各设正常与丧志房间，共十二间。`),
-      ...cards(factionId),
+        `${branchLabel}独立区域 · ${roster.length}名角色各设正常与丧志房间，共${
+          roster.length * 2}间。`),
+      ...cards(factionId, branch),
     );
   }
 

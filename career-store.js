@@ -25,6 +25,7 @@
         item.id === data.equippedProfession);
       const special = LG.CAREER_DATA.roster.filter((item) =>
         item.faction === job?.specialFaction
+        && (!job?.branch || item.branch === job.branch)
         && data.characterItems?.includes(`${item.id}-private-5`)).map((item) => ({
         id: `special:${item.id}`, name: `${item.name}的特殊图鉴勋章`,
       }));

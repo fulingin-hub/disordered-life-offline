@@ -5,8 +5,9 @@
   };
   const factions = {
     university: {
-      name: "国立大学", proof: "国立大学入学证明", location: "夏国 / 岛国 / 米国 · 校园",
-      copy: "在夏国、米国、岛国拥有强大校区，毕业即就业。新增异界学科欢迎新生报考。",
+      name: "国立大学", proof: "国立大学入学证明",
+      location: "夏国分校 / 岛国分校 / 米国分校",
+      copy: "国立大学下设夏国分校、岛国分校、米国分校。加入后可进入全部三个分校，毕业即就业，异界学科欢迎新生报考。",
       ranks: ["导员", "教导主任", "校长"], asset: "worldXiaCampus",
     },
     sanctuary: {
@@ -40,7 +41,9 @@
     const domainNames = [
       ["小弟", "小妹"], ["大哥", "大姐"], ["男爹", "女爹"],
     ];
-    return Object.entries(factions).flatMap(([faction, meta]) =>
+    const standard = Object.entries(factions)
+      .filter(([faction]) => faction !== "university")
+      .flatMap(([faction, meta]) =>
       meta.ranks.flatMap((rank, rankIndex) => ["male", "female"].map((gender) => ({
         id: `${faction}-${rankIndex + 1}-${gender}`,
         faction,
@@ -51,6 +54,7 @@
         pieces: [1, 2, 2][rankIndex],
         asset: meta.asset,
       }))));
+    return [...LG.CAREER_UNIVERSITY_DATA.roster, ...standard];
   }
 
   const normalItems = [
@@ -94,5 +98,12 @@
     }));
   }
 
-  LG.CAREER_DATA = { stats, factions, roster: roster(), items };
+  function characterLabel(character) {
+    return character.role ? `${character.name} · ${character.role}` : character.name;
+  }
+
+  LG.CAREER_DATA = {
+    stats, factions, roster: roster(), items, characterLabel,
+    universityBranches: LG.CAREER_UNIVERSITY_DATA.branches,
+  };
 })(window.LifeGame);

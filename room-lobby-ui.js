@@ -164,7 +164,7 @@
       toolbar(area, section),
       LG.roomCards.scene(area, section),
       ...(section.faction
-        ? LG.factionRooms.cards(section.faction)
+        ? LG.factionRooms.cards(section.faction, section.branch)
         : characterCards(section.characters)),
     );
   }

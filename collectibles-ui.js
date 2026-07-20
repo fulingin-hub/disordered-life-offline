@@ -87,8 +87,9 @@
     const all = Object.values(LG.COLLECTIBLE_CATALOG).flat()
       .filter((item) => (item.privacy || "private") === archivePrivacy);
     const total = all.length + (archivePrivacy === "normal" ? 5 : 0);
+    const careerTotal = (LG.CAREER_DATA?.roster?.length || 0) * 5;
     el.ownedCount.textContent = `${regular.length + visibleSaint.length + careerItems.length}/${
-      total + 180}`;
+      total + careerTotal}`;
     el.status.textContent = regular.length || visibleSaint.length || careerItems.length
       ? `${archivePrivacy === "private" ? "私密" : "普通"}收藏仅供查看，不能在角色收藏页面使用道具。`
       : `尚未获得${archivePrivacy === "private" ? "私密" : "普通"}角色道具。`;
