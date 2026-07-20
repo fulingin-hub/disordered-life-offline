@@ -69,7 +69,6 @@
     url("./assets/generated/gallery-victoria-barefoot-press-v2.93457ae8.webp");
   background-position: 66% 37%;
   background-size: 500% auto;
-  transform: translate(-34px, 8px) rotate(14deg) scale(.72);
 }
 
 .item-use-foot.stocking {
@@ -80,16 +79,23 @@
   filter:
     brightness(1.9) saturate(.72) contrast(1.08)
     drop-shadow(0 8px 12px rgba(20, 0, 12, .76));
+}
+
+.item-use-foot.left {
+  transform: translate(-34px, 8px) rotate(14deg) scale(.72);
+}
+
+.item-use-foot.right {
   transform: translate(34px, 8px) rotate(-14deg) scale(-.72, .72);
 }
 
-.item-use-banner[data-tone="private"].show .item-use-foot.bare {
-  animation: item-foot-bare-press 320ms cubic-bezier(.2, .78, .25, 1.08)
+.item-use-banner[data-tone="private"].show .item-use-foot.left {
+  animation: item-foot-left-press 320ms cubic-bezier(.2, .78, .25, 1.08)
     forwards;
 }
 
-.item-use-banner[data-tone="private"].show .item-use-foot.stocking {
-  animation: item-foot-stocking-press 320ms cubic-bezier(.2, .78, .25, 1.08)
+.item-use-banner[data-tone="private"].show .item-use-foot.right {
+  animation: item-foot-right-press 320ms cubic-bezier(.2, .78, .25, 1.08)
     forwards;
 }
 
@@ -117,16 +123,16 @@
     margin-block: -52px;
   }
 
-  .item-use-foot.bare {
+  .item-use-foot.left {
     transform: translate(-23px, 7px) rotate(14deg) scale(.72);
   }
 
-  .item-use-foot.stocking {
+  .item-use-foot.right {
     transform: translate(23px, 7px) rotate(-14deg) scale(-.72, .72);
   }
 }
 
-@keyframes item-foot-bare-press {
+@keyframes item-foot-left-press {
   from {
     opacity: 0;
     transform: translate(-34px, 8px) rotate(14deg) scale(.72);
@@ -137,7 +143,7 @@
   }
 }
 
-@keyframes item-foot-stocking-press {
+@keyframes item-foot-right-press {
   from {
     opacity: 0;
     transform: translate(34px, 8px) rotate(-14deg) scale(-.72, .72);
