@@ -38,6 +38,9 @@
     used(id) {
       return Math.max(0, Number(club().used?.[id]) || 0);
     },
+    specialUses(sin) {
+      return Math.max(0, Number(club().specialUsesByQueen?.[sin]) || 0);
+    },
     fullSet(sin) {
       const queen = LG.INFERNAL_CLUB_DATA.byId[sin];
       return Boolean(queen && queen.equipment.every((item) => this.owns(item.id)));

@@ -169,7 +169,7 @@
     LG.penitentiaryUI.init(() => state);
     LG.infernalUI.init();
     LG.abyssUI.init();
-    LG.infernalClubChatUI.init();
+    LG.infernalStompPopup.init(); LG.infernalClubChatUI.init();
     LG.infernalClubUI.init();
     LG.vehicleUI.init();
     LG.otherworldCharacterUI.init();

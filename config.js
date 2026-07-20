@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260720-item-feedback-variants",
+  buildId: "20260720-infernal-stomp-voice",
   version: 4,
   eventRevision: 2026071607,
   stateKey: "disordered-life-state-v1",

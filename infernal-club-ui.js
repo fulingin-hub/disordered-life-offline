@@ -127,9 +127,9 @@
   function buy(queen, item) {
     mutate("infernalClubBuy", { sin: queen.id, itemId: item.id },
       "地狱俱乐部购买失败:");
-  }
-  function use(item) {
-    mutate("infernalClubUse", { itemId: item.id }, "地狱俱乐部道具使用失败:");
+  } function use(item) {
+    LG.infernalClubFeedback.track(item); mutate("infernalClubUse",
+      { itemId: item.id }, "地狱俱乐部道具使用失败:");
   }
   function equip() {
     const equipped = LG.infernalClub.equippedSet() === activeQueen.id;

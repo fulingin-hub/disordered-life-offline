@@ -32,5 +32,19 @@
       "./assets/generated/infernal-club-gluttony-male-apostle.14cb13ca.webp",
     infernalClubGluttonyFemale:
       "./assets/generated/infernal-club-gluttony-female-apostle.ab5ba08b.webp",
+    infernalStompGreed:
+      "./assets/generated/infernal-greed-queen-apostle-pose.10236ffb.webp",
+    infernalStompLust:
+      "./assets/generated/infernal-lust-queen-apostle-pose.10b8f3e7.webp",
+    infernalStompWrath:
+      "./assets/generated/infernal-wrath-queen-apostle-pose.bab74f8a.webp",
+    infernalStompSloth:
+      "./assets/generated/infernal-sloth-queen-apostle-pose.e0a47b23.webp",
+    infernalStompPride:
+      "./assets/generated/infernal-pride-queen-apostle-pose.c6d9f718.webp",
+    infernalStompEnvy:
+      "./assets/generated/infernal-envy-queen-apostle-pose.b03bb16b.webp",
+    infernalStompGluttony:
+      "./assets/generated/infernal-gluttony-queen-apostle-pose.cfd71635.webp",
   });
 })(window.LifeGame);
