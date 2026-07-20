@@ -72,8 +72,7 @@
       job.id === data.equippedProfession);
     const bonus = node("div", "career-bonus-copy");
     bonus.append(node("strong", "", `当前装备：${current?.name || "未装备职业"}`),
-      node("p", "", LG.careerPortraits.bonus(current)),
-      node("small", "", "正式男女主全身远景职业图待角色立绘素材生成后替换。"));
+      node("p", "", LG.careerPortraits.bonus(current)));
     panel.append(tabs, genderTabs, select, figure, bonus);
     return panel;
   }
