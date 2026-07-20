@@ -112,6 +112,15 @@
       title: "边境线的守望者",
       text: "又过了几年，当初的同行者们很少还有能再并肩作战的了，你随手接过勋章，看着刚来到这里的还雄心勃勃的年轻人们，心里暗想“这不值得”",
     },
+    "you-have-fallen": {
+      title: "你已沉沦",
+      label: "地狱俱乐部特殊CG",
+      text: "成为畜奴被宰杀吧",
+      fixedNarration: {
+        src: "./assets/voices/special/you-have-fallen-ja.mp3",
+        label: "日本語女声 · 你已沉沦",
+      },
+    },
   };
   LG.CG_ASSETS.special = {
     "foreign-outfit-complete": {
@@ -125,6 +134,10 @@
     "border-watch": {
       male: `${base}cg-special-border-watch-male.eaaa9ea2.webp`,
       female: `${base}cg-special-border-watch-female.9ac37e45.webp`,
+    },
+    "you-have-fallen": {
+      male: `${base}cg-special-you-have-fallen-male.da53e4ee.webp`,
+      female: `${base}cg-special-you-have-fallen-female.1c5711e0.webp`,
     },
   };
   LG.CG_ASSETS.endingSrc = function (id, gender) {

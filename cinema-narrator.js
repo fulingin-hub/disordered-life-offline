@@ -167,6 +167,14 @@
     },
     playEnding(ending) {
       if (!ending?.id) return;
+      if (ending.fixedNarration?.src) {
+        return playSource(
+          ending.fixedNarration.src,
+          ending.fixedNarration.label || ending.title,
+          true,
+          ending.text,
+        );
+      }
       const item = voice();
       const src = `./assets/voices/endings/${item.id}/${ending.id}.mp3`;
       return playSource(src, `${item.label} · ${ending.title}`, true, ending.text);

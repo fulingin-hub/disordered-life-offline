@@ -87,6 +87,7 @@
         cg: src,
         specialCg: true,
         specialLabel: meta.label,
+        fixedNarration: meta.fixedNarration,
       }, gender);
       return true;
     },

@@ -8,7 +8,7 @@
   function club() {
     return realm().club || {
       spent: 0, spentByQueen: {}, owned: [], consumables: {}, used: {},
-      equippedSet: null,
+      specialUsesByQueen: {}, stompConquests: 0, equippedSet: null,
     };
   }
   LG.infernalClub = {
