@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260720-you-have-fallen-achievement",
+  buildId: "20260720-foreign-outfit-fallen-cg",
   version: 4,
   eventRevision: 2026071607,
   stateKey: "disordered-life-state-v1",

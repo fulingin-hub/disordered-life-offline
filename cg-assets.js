@@ -100,9 +100,17 @@
   };
   LG.CG_ASSETS.specialMeta = {
     "foreign-outfit-complete": {
-      title: "异域套装完成",
-      label: "装备套装特殊CG",
-      text: "五件异域装备已经完整穿戴。身份发饰、翻领制服、身份腰带、白手套与长袜靴组成统一形象；这次记录只收录为特殊CG，不会结束当前人生。",
+      title: "沦为公畜",
+      titleByGender: {
+        male: "沦为公畜",
+        female: "沦为母畜",
+      },
+      label: "色欲女王套装特殊CG",
+      text: "不要思考，继续沉沦吧",
+      fixedNarration: {
+        src: "./assets/voices/special/foreign-outfit-fallen-ja.mp3",
+        label: "日本語女声 · 色欲女王",
+      },
     },
     "battlefield-hero": {
       title: "战场英雄",
@@ -124,8 +132,8 @@
   };
   LG.CG_ASSETS.special = {
     "foreign-outfit-complete": {
-      male: `${base}cg-ending-trait-energy-depleted-life.2c052a6a.webp`,
-      female: `${base}cg-ending-trait-energy-depleted-life.2c052a6a.webp`,
+      male: `${base}infernal-club-lust-male-apostle.0d5074b6.webp`,
+      female: `${base}infernal-club-lust-female-apostle.133f591a.webp`,
     },
     "battlefield-hero": {
       male: `${base}cg-special-battlefield-hero-male.579b86cd.webp`,

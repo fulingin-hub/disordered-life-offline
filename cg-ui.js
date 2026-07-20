@@ -82,7 +82,8 @@
       if (!src || !meta) return false;
       this.open({
         id: `special-cg-${id}`,
-        title: meta.title,
+        title: meta.titleByGender?.[gender === "female" ? "female" : "male"]
+          || meta.title,
         text: meta.text,
         cg: src,
         specialCg: true,
