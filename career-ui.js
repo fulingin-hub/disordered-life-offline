@@ -18,12 +18,12 @@
       el.status.textContent = result.message;
       LG.traitsUI.refresh();
       LG.protagonistPortrait.render(LG.authority.state());
-      render();
     } catch (err) {
       console.error("职业系统结算失败:", err?.code, err?.message, err?.stack);
       el.status.textContent = err?.message || "职业操作失败，请稍后重试。";
     } finally {
       busy = false;
+      render();
     }
   }
 
