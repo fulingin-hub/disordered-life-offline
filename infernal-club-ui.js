@@ -42,7 +42,7 @@
     el.chat.hidden = true;
     el.scroll.scrollTop = 0;
     el.rooms.replaceChildren(...LG.INFERNAL_CLUB_DATA.queens.map(queenCard));
-    status("七大魔王真身所在之处，不知道让多少英雄英雄沉沦在此地，往日这里还被称为沉沦地狱。");
+    status("七大魔王真身所在之处，不知道让多少英雄勇者沉沦在此地，传说往日这里还被称为沉沦地狱。连续使用七次特殊道具会发生什么呢？");
   }
   function renderDetail() {
     if (!activeQueen) return renderList();
