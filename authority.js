@@ -160,6 +160,9 @@
     mutate(method, args) {
       return enqueue(() => mutateNow(method, args));
     },
+    exportSave() {
+      return enqueue(() => remote({ method: "exportSave" }));
+    },
     snapshot() { return snapshot; },
     state() { return snapshot?.life || null; },
     archive() { return snapshot?.archive || { male: [], female: [] }; },

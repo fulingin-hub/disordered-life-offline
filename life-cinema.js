@@ -76,7 +76,8 @@
   }
 
   function renderAchievements() {
-    const items = LG.authority.cinemaAchievements();
+    const items = LG.authority.cinemaAchievements()
+      .filter((item) => !item.specialCg || item.unlocked);
     const completed = items.filter((item) => item.unlocked).length;
     const points = LG.authority.achievementPoints();
     el.achievementCount.textContent = items.length
@@ -117,9 +118,9 @@
         ? "已解锁：永久开放常规人生结局与全部真结局"
       : `人生重开 ${count}/${tasteRequired} 次后解锁`;
     el.powerText.textContent = testEnabled
-      ? "离线版已解锁：一键开放所有成就、属性、道具、载具与场景区域"
+      ? "离线版已解锁：一键开放所有成就、六大势力职业/装备/道具、载具与场景"
       : count >= powerRequired
-        ? "已解锁：开放全部道具、房间画廊、特殊入口并完成所有成就"
+        ? "已解锁：开放全部道具、六大势力职业内容、特殊入口并完成所有成就"
       : `人生重开 ${count}/${powerRequired} 次后解锁`;
   }
 
@@ -175,8 +176,8 @@
     el.power.addEventListener("click", () => unlock(
       "unlockAllCollections",
       LG.TEST_MODE?.lifeCinemaCheats === true
-        ? "确定一键解锁所有成就、属性、道具、载具与场景区域？"
-        : "确定永久解锁全部道具、角色房间、画廊CG与特殊入口，并完成所有人生成就？",
+        ? "确定一键解锁所有成就、六大势力职业/装备/普通与私密道具、载具与场景区域？"
+        : "确定永久解锁全部道具、六大势力职业内容、画廊CG与特殊入口，并完成所有人生成就？",
     ));
     refreshUnlocks();
     LG.authority.subscribe(() => {

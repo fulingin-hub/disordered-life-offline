@@ -28,7 +28,8 @@
     const unlocked = items.filter((item) => !known.has(item.id));
     items.forEach((item) => known.add(item.id));
     if (!unlocked.length || silentMethods.has(method)) return;
-    pendingSpecialCg = unlocked.find((item) => item.specialCg)?.specialCg || null;
+    pendingSpecialCg = unlocked.find((item) =>
+      item.specialCg && item.autoPlaySpecialCg !== false)?.specialCg || null;
     LG.audio?.achievement?.();
     if (!dialog || !message) return;
     const prefix = unlocked.every((item) => item.specialCg)

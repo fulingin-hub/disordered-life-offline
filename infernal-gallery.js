@@ -27,8 +27,15 @@
     male: "./assets/generated/cg-ending-infernal-seven-apostles-male.872a1513.webp",
     female: "./assets/generated/cg-ending-infernal-seven-apostles-female.669ffe41.webp",
   };
+  const sevenQueens =
+    "./assets/generated/infernal-club-seven-queens.204fcd99.webp";
   LG.INFERNAL_CLUB_DATA.queens.forEach((queen) => {
     const layer = LG.INFERNAL_DATA.byId[queen.id];
+    const assetName = queen.id[0].toUpperCase() + queen.id.slice(1);
+    const seatedMale = LG.CONFIG.assets[
+      `infernalClub${assetName}SeatedMale`];
+    const seatedFemale = LG.CONFIG.assets[
+      `infernalClub${assetName}SeatedFemale`];
     const items = [
       {
         title: `${queen.name}女魔王立绘`,
@@ -56,6 +63,30 @@
         position: "center bottom",
       },
       {
+        title: `${queen.name}使徒套装·男主`,
+        caption: `${queen.name}女魔王与男主角共同展示完整使徒套装。`,
+        src: LG.CONFIG.assets[queen.apostleMale],
+        alt: `${queen.name}女魔王男主使徒套装CG`,
+        fit: "contain",
+        position: "center bottom",
+      },
+      {
+        title: `${queen.name}使徒套装·女主`,
+        caption: `${queen.name}女魔王与女主角共同展示完整使徒套装。`,
+        src: LG.CONFIG.assets[queen.apostleFemale],
+        alt: `${queen.name}女魔王女主使徒套装CG`,
+        fit: "contain",
+        position: "center bottom",
+      },
+      {
+        title: "七大女魔王合影",
+        caption: `包含${queen.name}女魔王在内的七大女魔王完整合影。`,
+        src: sevenQueens,
+        alt: "七大女魔王完整合影CG",
+        fit: "contain",
+        position: "center",
+      },
+      {
         title: "七罪使徒·男主",
         caption: "七位女魔王与男主使徒共同完成的七罪使徒仪式CG。",
         src: sevenApostles.male,
@@ -72,6 +103,20 @@
         position: "center",
       },
     ];
+    [
+      ["男主", seatedMale, LG.CONFIG.assets[queen.apostleMale]],
+      ["女主", seatedFemale, LG.CONFIG.assets[queen.apostleFemale]],
+    ].forEach(([gender, src, original]) => {
+      if (!src || src === original) return;
+      items.push({
+        title: `${queen.name}女王背负仪式·${gender}`,
+        caption: `${queen.name}女魔王端坐于${gender}使徒背部的完整仪式CG。`,
+        src,
+        alt: `${queen.name}女魔王坐在${gender}使徒背部CG`,
+        fit: "contain",
+        position: "center bottom",
+      });
+    });
     if (queen.id === "lust") {
       items.push({
         title: "色欲王室足部理疗",

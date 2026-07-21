@@ -102,8 +102,7 @@
   Object.entries(additions).forEach(([id, variants]) => {
     const gallery = LG.GALLERY_ASSETS[id];
     if (!gallery) return;
-    const targetCount = id === "clubLustQueen" ? 6 : 4;
-    variants.slice(0, Math.max(0, targetCount - gallery.items.length)).forEach(([title, file]) => {
+    variants.forEach(([title, file]) => {
       gallery.items.push({
         title,
         caption: captions[title],

@@ -1,8 +1,8 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260720-normal-career-portraits",
-  version: 4,
+  buildId: "20260720-career-offline-unlock",
+  version: 7,
   eventRevision: 2026071607,
   stateKey: "disordered-life-state-v1",
   archiveKey: "disordered-life-archive-v1",

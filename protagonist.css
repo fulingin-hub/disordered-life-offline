@@ -70,12 +70,13 @@
 }
 
 .protagonist-wrap[data-category^="career-"] {
-  bottom: -2%;
+  bottom: 0;
   width: min(31vw, 400px);
   height: 92%;
 }
 
-.protagonist-wrap[data-category="career-special"] {
+.protagonist-wrap[data-category="career-special"],
+.protagonist-wrap[data-category="career-advanced"] {
   width: min(34vw, 440px);
 }
 

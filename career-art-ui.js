@@ -1,7 +1,7 @@
 (function (LG) {
   let mode = "normal";
   let previewGender = null;
-  const selected = { normal: null, special: null };
+  const selected = { normal: null, advanced: null, special: null };
   const node = (tag, cls, text) => {
     const item = document.createElement(tag);
     if (cls) item.className = cls;
@@ -20,7 +20,8 @@
     }
     const panel = node("section", "career-portrait-panel");
     const tabs = node("div", "career-portrait-tabs");
-    [["normal", "普通职业立绘"], ["special", "特殊职业立绘"]]
+    [["normal", "普通职业立绘"], ["advanced", "一转职业立绘"],
+      ["special", "特殊职业立绘"]]
       .forEach(([id, label]) => {
         const button = node("button", mode === id ? "active" : "", label);
         button.type = "button";
@@ -58,15 +59,21 @@
       panel.replaceWith(build(LG.career.data()));
     });
     const figure = node("figure", "career-cg-art");
-    if (chosen) {
+    const advancementLocked = mode === "advanced" && !data.firstAdvanceUnlocked;
+    const specialLocked = mode === "special" && !chosen?.unlocked;
+    if (chosen && !advancementLocked && !specialLocked) {
       const image = node("img");
       image.src = LG.careerPortraits.previewSource(chosen.id, previewGender);
       image.alt = `${previewGender === "female" ? "女" : "男"}主角·${chosen.name}职业CG`;
       const caption = node("figcaption", "", `${chosen.name} · ${
-        mode === "special" ? "特殊职业CG逻辑预览" : "普通职业全身立绘预览"}`);
+        mode === "special" ? "特殊职业CG逻辑预览"
+          : mode === "advanced" ? "一转职业全身立绘预览" : "普通职业全身立绘预览"}`);
       figure.append(image, caption);
     } else {
-      figure.append(node("p", "career-portrait-empty", "当前分类暂无职业资料。"));
+      figure.append(node("p", "career-portrait-empty", advancementLocked
+        ? "首次装备职业大师套装后，永久解锁一转职业与一转立绘。"
+        : specialLocked ? "完成对应特殊职业解锁条件后才可查看立绘。"
+        : "当前分类暂无职业资料。"));
     }
     const current = data.professionDefinitions?.find((job) =>
       job.id === data.equippedProfession);

@@ -47,7 +47,7 @@
     },
   };
   const departments = ["本部", "异界学科", "职业学院"];
-  const ranks = ["导员", "教导主任", "校长"];
+  const ranks = LG.careerRosterIdentity.rankLabels.university;
 
   function roster() {
     return Object.entries(branches).flatMap(([branch, meta]) =>
@@ -55,6 +55,10 @@
         ranks.flatMap((rank, rankIndex) =>
           ["male", "female"].map((gender) => {
             const nameIndex = departmentIndex * ranks.length + rankIndex;
+            const identity = LG.careerRosterIdentity.universityIdentity(
+              branch, meta.label, department, rankIndex, gender);
+            const originalRole = `${meta.label}·${department}${
+              gender === "male" ? "男" : "女"}${rank}`;
             return {
               id: `university-${branch}-${departmentIndex + 1}-${rankIndex + 1}-${gender}`,
               faction: "university",
@@ -62,8 +66,10 @@
               branchLabel: meta.label,
               department,
               rankIndex,
-              name: meta[gender][nameIndex],
-              role: `${meta.label}·${department}${gender === "male" ? "男" : "女"}${rank}`,
+              gender,
+              name: identity?.name || meta[gender][nameIndex],
+              role: identity?.role || LG.careerRosterIdentity.universityRole(
+                meta.label, department, rankIndex) || originalRole,
               specialKey: `university-${branch}`,
               pieces: [1, 2, 2][rankIndex],
               asset: meta.asset,

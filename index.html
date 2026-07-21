@@ -183,6 +183,7 @@
   <link rel="stylesheet" href="./abyss.css?v=20260718-1">
   <link rel="stylesheet" href="./infernal-club.css?v=20260718-2">
   <link rel="stylesheet" href="./infernal-stomp-popup.css?v=20260720-1">
+  <link rel="stylesheet" href="./faction-leader-sacrifice-popup.css?v=20260720-1">
   <link rel="stylesheet" href="./tribute.css">
   <link rel="stylesheet" href="./gallery.css">
   <link rel="stylesheet" href="./traits.css">
@@ -197,7 +198,7 @@
   <link rel="stylesheet" href="./gender.css">
   <link rel="stylesheet" href="./player-room.css">
   <link rel="stylesheet" href="./systems.css?v=20260718-3">
-  <link rel="stylesheet" href="./career.css?v=20260720-1">
+  <link rel="stylesheet" href="./career.css?v=20260720-5">
   <link rel="stylesheet" href="./faction-rooms.css?v=20260720-1">
   <link rel="stylesheet" href="./save-recovery.css?v=20260718-3">
   <link rel="stylesheet" href="./responsive.css">
@@ -1353,7 +1354,7 @@
     </section>
     <section id="recoveryPanel" class="recovery-panel" hidden>
       <p class="recovery-copy">
-        选择前世可检测并恢复旧版云存档；放弃今生会删除当前存档、重新载入新存档并让一切重新开始。
+        存档文件可由服务器校验后恢复当前账号的权威进度；选择前世可检测旧版云存档；放弃今生会删除当前存档并重新开始。
       </p>
       <div id="recoverySummary" class="recovery-summary" hidden></div>
       <p id="recoveryStatus" class="system-status" role="status">
@@ -1371,6 +1372,11 @@
         <button id="saveFileButton" class="recovery-save" type="button">
           保存存档到文件
         </button>
+        <button id="importSaveFileButton" type="button">
+          从存档文件恢复
+        </button>
+        <input id="saveFileInput" type="file"
+          accept="application/json,text/plain,.json" hidden>
         <button id="scanRecoveryButton" type="button">选择前世</button>
         <button id="deleteSaveButton" class="recovery-danger" type="button">
           放弃今生
@@ -1406,6 +1412,7 @@
   <script src="./offline-pwa.js"></script>
   <script src="./config.js"></script>
   <script src="./potion-effects.js"></script>
+  <script src="./career-roster-identities.js"></script>
   <script src="./career-university-data.js"></script>
   <script src="./career-data.js"></script>
   <script src="./vehicle-assets.js"></script>
@@ -1434,6 +1441,8 @@
   <script src="./ending-gender-assets.js"></script>
   <script src="./infernal-ending-assets.js"></script>
   <script src="./ending-fixed-assets.js"></script>
+  <script src="./career-roster-assets.js"></script>
+  <script src="./career-advancement-data.js"></script>
   <script src="./career-portrait-data.js"></script>
   <script src="./ending-archive.js"></script>
   <script src="./dialogue-usa.js"></script>
@@ -1450,6 +1459,7 @@
   <script src="./save-recovery-transaction.js"></script>
   <script src="./save-recovery.js"></script>
   <script src="./save-file.js"></script>
+  <script src="./save-file-import.js"></script>
   <script src="./casino-store.js"></script>
   <script src="./otherworld-character-store.js"></script>
   <script src="./black-prison-store.js"></script>
@@ -1548,9 +1558,11 @@
   <script src="./career-main-portrait.js"></script>
   <script src="./career-art-ui.js"></script>
   <script src="./faction-consumables-ui.js"></script>
+  <script src="./faction-leader-sacrifice-popup.js"></script>
   <script src="./faction-store-ui.js"></script>
   <script src="./casino-faction-ui.js"></script>
   <script src="./collectibles-ui.js"></script>
+  <script src="./career-stat-input.js"></script>
   <script src="./career-ui.js"></script>
   <script src="./daily-tasks-ui.js"></script>
   <script src="./cg-ui.js"></script>

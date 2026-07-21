@@ -80,45 +80,25 @@
     if (busy || !recovered) return;
     if (!window.confirm("恢复旧存档会覆盖当前人生及跨周目数据，确定继续？")) return;
     setBusy(true, "恢复处理中...");
-    let backup = null;
-    let wroteSnapshot = false;
     try {
       setProgress(5, "正在再次校验旧存档");
       recovered = Data.prepare(recovered).values;
-      setProgress(20, "正在备份当前存档");
-      backup = await Data.current();
-      const transaction = Data.transaction(recovered, backup);
-      setProgress(45, "正在写入恢复快照");
-      const receipt = await LG.storageChat.replace(transaction);
-      wroteSnapshot = true;
-      setProgress(75, "正在回读并核对恢复快照");
-      await Data.verifySnapshot(receipt, transaction);
-      setProgress(90, "正在提交恢复事务");
-      await Data.commitPending();
-      setProgress(95, "正在同步本地安全副本");
+      setProgress(35, "正在提交权威迁移请求");
+      const result = await LG.authority.mutate("migrateLegacySave", {
+        legacyData: recovered,
+      });
+      setProgress(85, "正在确认权威档案");
+      if (!result?.life || !Number.isFinite(Number(result.authorityVersion))) {
+        throw new Error("权威迁移结果无法确认");
+      }
       Data.updateLocalFallback(recovered);
       setProgress(100, "恢复完成，准备重新载入", "success");
-      el.status.textContent = "旧存档已通过写入校验。若启动异常，系统会自动回滚原存档。";
+      el.status.textContent = result.message || "旧存档已迁移到权威档案。";
       window.setTimeout(() => window.location.reload(), 900);
     } catch (err) {
       console.error("旧存档恢复失败:", err?.code, err?.message, err?.stack);
-      if (wroteSnapshot && backup) {
-        setProgress(90, "校验失败，正在自动回滚");
-        try {
-          await LG.storageChat.replace(backup);
-          Data.updateLocalFallback(backup);
-          el.status.textContent = "恢复校验失败，已自动恢复原存档，可稍后重试。";
-          setProgress(100, "已回滚到恢复前存档", "error");
-        } catch (rollbackErr) {
-          console.error("恢复回滚失败:", rollbackErr?.code,
-            rollbackErr?.message, rollbackErr?.stack);
-          el.status.textContent = "恢复状态未能确认，请勿刷新并稍后重新进入游戏。";
-          setProgress(100, "恢复与回滚均未确认", "error");
-        }
-      } else {
-        el.status.textContent = `${err?.message || "恢复写入失败"}，当前存档未改变。`;
-        setProgress(100, "恢复未执行", "error");
-      }
+      el.status.textContent = `${err?.message || "恢复写入失败"}，当前存档未改变。`;
+      setProgress(100, "权威迁移未完成", "error");
       setBusy(false);
     }
   }

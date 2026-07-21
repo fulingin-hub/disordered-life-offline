@@ -1,6 +1,5 @@
 (function (LG) {
-  let state;
-  let archive = { male: [], female: [] };
+  let state, archive = { male: [], female: [] };
   let busy = false, queuedRestart = null;
   function operationError(err, fallback) {
     console.error(fallback, err?.code, err?.message, err?.stack);
@@ -138,6 +137,7 @@
     LG.loader.start();
     await LG.loader.waitForSdk();
     await LG.loader.preload();
+    await LG.saveRecoveryData.rollbackPending();
     LG.authority.subscribe(adopt);
     const result = await LG.authority.sync();
     adopt(result);
@@ -169,7 +169,7 @@
     LG.penitentiaryUI.init(() => state);
     LG.infernalUI.init();
     LG.abyssUI.init();
-    LG.infernalStompPopup.init(); LG.infernalClubChatUI.init();
+    LG.infernalStompPopup.init(); LG.factionLeaderSacrifice.init(); LG.infernalClubChatUI.init();
     LG.infernalClubUI.init();
     LG.vehicleUI.init();
     LG.otherworldCharacterUI.init();

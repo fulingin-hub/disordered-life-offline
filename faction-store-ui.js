@@ -16,6 +16,8 @@
 
   async function mutate(method, body) {
     if (busy) return;
+    const sacrifice = method === "useFactionSpecial"
+      ? LG.factionLeaderSacrifice?.capture?.(active, view) : null;
     busy = true;
     try {
       const result = await LG.authority.mutate(method, body);
@@ -26,6 +28,7 @@
       el.status.textContent = result.message;
       if (method === "usePotion" || method === "useFactionSpecial") LG.itemFeedback?.show?.(
         result.message, method === "useFactionSpecial" ? "private" : "normal");
+      LG.factionLeaderSacrifice?.complete?.(sacrifice);
     } catch (err) {
       console.error("职业角色商城结算失败:", err?.code, err?.message, err?.stack);
       el.status.textContent = err?.message || "商城操作失败，请稍后重试。";
@@ -91,7 +94,7 @@
     const statId = data.factions?.find((item) => item.id === active.faction)?.stat;
     const balance = LG.authority.state()?.stats?.[statId] || 0;
     const jobs = (data.professionDefinitions || []).filter((item) =>
-      !item.specialFaction && item.factions?.includes(active.faction)
+      !item.specialFaction && !item.tier && item.factions?.includes(active.faction)
       && (!item.branch || item.branch === active.branch));
     const panel = node("section", "faction-profession-panel");
     panel.append(

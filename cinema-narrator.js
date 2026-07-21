@@ -167,6 +167,11 @@
     },
     playEnding(ending) {
       if (!ending?.id) return;
+      if (ending.fixedNarration === false) {
+        stop();
+        el.cgStatus.textContent = "此特殊CG无旁白。";
+        return;
+      }
       if (ending.fixedNarration?.src) {
         return playSource(
           ending.fixedNarration.src,

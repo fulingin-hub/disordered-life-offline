@@ -11,24 +11,22 @@
     return `disordered-life-save-${stamp}.json`;
   }
 
-  function createFile() {
-    const snapshot = LG.authority?.snapshot?.();
-    if (!snapshot || typeof snapshot !== "object") {
+  function createFile(payload) {
+    if (payload?.format !== "disordered-life-save"
+      || payload?.schemaVersion !== 2
+      || typeof payload?.backupId !== "string") {
       throw Object.assign(
-        new Error("当前存档尚未准备完成，请稍后重试。"),
-        { code: "SAVE_NOT_READY" },
+        new Error("权威存档备份尚未准备完成，请稍后重试。"),
+        { code: "SAVE_EXPORT_INVALID" },
       );
     }
-    const payload = {
-      format: "disordered-life-save",
-      schemaVersion: 1,
-      gameVersion: Number(LG.CONFIG?.version) || 1,
+    const filePayload = {
+      ...copy(payload),
+      clientGameVersion: Number(LG.CONFIG?.version) || 1,
       buildId: String(LG.CONFIG?.buildId || ""),
-      exportedAt: new Date().toISOString(),
-      snapshot: copy(snapshot),
     };
     return new File(
-      [JSON.stringify(payload, null, 2)],
+      [JSON.stringify(filePayload, null, 2)],
       filename(),
       { type: "text/plain" },
     );
@@ -99,9 +97,14 @@
     if (busy) return;
     busy = true;
     el.button.disabled = true;
+    if (el.importButton) el.importButton.disabled = true;
     el.status.textContent = "正在整理当前存档...";
     try {
-      const file = createFile();
+      if (typeof LG.authority?.exportSave !== "function") {
+        throw new Error("权威存档服务不可用，无法创建可恢复备份。");
+      }
+      const payload = await LG.authority.exportSave();
+      const file = createFile(payload);
       const shared = await share(file);
       const picked = shared ? false : await pickFile(file);
       if (!shared && !picked) download(file);
@@ -119,11 +122,13 @@
     } finally {
       busy = false;
       el.button.disabled = false;
+      if (el.importButton) el.importButton.disabled = false;
     }
   }
 
   function init() {
     el.button = document.getElementById("saveFileButton");
+    el.importButton = document.getElementById("importSaveFileButton");
     el.status = document.getElementById("recoveryStatus");
     if (!el.button || !el.status) return;
     el.button.addEventListener("click", save);

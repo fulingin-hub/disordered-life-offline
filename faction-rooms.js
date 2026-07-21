@@ -16,7 +16,7 @@
     const leader = character.rankIndex === 2;
     const card = node("article", `room-card faction-room-card${joined ? " unlocked" : ""}`);
     const image = node("img");
-    image.src = LG.CONFIG.assets[character.asset];
+    image.src = LG.careerPortraits.characterSource(character);
     image.alt = `${character.name}的${privacy === "normal" ? "正常" : "丧志"}房间`;
     image.loading = "lazy";
     image.decoding = "async";

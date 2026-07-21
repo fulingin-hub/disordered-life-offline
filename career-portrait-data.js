@@ -41,12 +41,67 @@
       female: "./assets/generated/career-cultivator-female.91a542a2.webp",
     },
   };
+  const specialAssets = {
+    "university-xia-hound": {
+      male: "./assets/generated/career-special-university-xia-hound-male.0371e221.webp",
+      female: "./assets/generated/career-special-university-xia-hound-female.78b203d3.webp",
+    },
+    "university-island-hound": {
+      male: "./assets/generated/career-special-university-island-hound-male.ae875a56.webp",
+      female: "./assets/generated/career-special-university-island-hound-female.940b83fb.webp",
+    },
+    "university-rice-hound": {
+      male: "./assets/generated/career-special-university-rice-hound-male.8003edc2.webp",
+      female: "./assets/generated/career-special-university-rice-hound-female.5555a128.webp",
+    },
+    "ranch-livestock": {
+      male: "./assets/generated/career-special-ranch-livestock-respirator-male.9ecaf8b8.webp",
+      female: "./assets/generated/career-special-ranch-livestock-respirator-female.ec106369.webp",
+    },
+    "sanctuary-essence": {
+      male: "./assets/generated/career-special-sanctuary-essence-ritual-male.b55a3ece.webp",
+      female: "./assets/generated/career-special-sanctuary-essence-ritual-female.2f1deb60.webp",
+    },
+    "paradise-foot": {
+      male: "./assets/generated/career-special-paradise-foot-soul-male.e258c981.webp",
+      female: "./assets/generated/career-special-paradise-foot-soul-female.cd406732.webp",
+    },
+    "domain-toilet": {
+      male: "./assets/generated/career-special-domain-toilet-alchemy-male.eca9c359.webp",
+      female: "./assets/generated/career-special-domain-toilet-alchemy-female.4dd7a4d7.webp",
+    },
+    "otherworld-tribute": {
+      male: "./assets/generated/career-special-otherworld-tribute-command-male.4b31cebc.webp",
+      female: "./assets/generated/career-special-otherworld-tribute-command-female.371c2d14.webp",
+    },
+  };
   const specialIds = new Set([
     "ranch-livestock", "sanctuary-essence",
     "paradise-foot", "domain-toilet", "otherworld-tribute",
   ]);
+  const universityJobs = {
+    "本部": ["scholar", "doctor", "engineer"],
+    "异界学科": ["adventurer", "cultivator", "scholar"],
+    "职业学院": ["mechanic", "agent", "engineer"],
+  };
+  const factionJobs = {
+    sanctuary: ["scholar", "cultivator", "doctor"],
+    ranch: ["mercenary", "gene", "engineer"],
+    paradise: ["agent", "engineer", "doctor"],
+    domain: ["assassin", "agent", "mercenary"],
+    otherworld: ["adventurer", "mechanic", "cultivator"],
+  };
+  const rosterRanks = {
+    university: ["guide", "director", "leader"],
+    sanctuary: ["guide", "mentor", "leader"],
+    ranch: ["herder", "owner", "leader"],
+    paradise: ["employee", "teamlead", "leader"],
+    domain: ["follower", "senior", "leader"],
+    otherworld: ["captain", "manager", "leader"],
+  };
 
   function category(id) {
+    if (id?.startsWith("first-")) return "advanced";
     return specialIds.has(id) || /^university-(xia|island|rice)-hound$/.test(id)
       ? "special" : "normal";
   }
@@ -63,10 +118,13 @@
 
   function mainSource(id, gender) {
     if (!id) return null;
+    if (category(id) === "advanced") {
+      return LG.careerAdvancements?.source?.(id, gender) || null;
+    }
     if (category(id) === "special") {
-      return LG.CONFIG.assets[
-        `protagonist${genderKey(gender)}PenitentiarySet`
-      ] || null;
+      return specialAssets[id]?.[gender === "female" ? "female" : "male"]
+        || LG.CONFIG.assets[`protagonist${genderKey(gender)}PenitentiarySet`]
+        || null;
     }
     const key = normalKey(id);
     return normalAssets[key]?.[gender === "female" ? "female" : "male"] || null;
@@ -76,8 +134,30 @@
     return mainSource(id, gender);
   }
 
+  function characterSource(character) {
+    const rank = rosterRanks[character.faction]?.[character.rankIndex];
+    const prefix = character.faction === "university"
+      ? `university-${character.branch}` : character.faction;
+    const gender = character.gender === "female" ? "female" : "male";
+    const rosterAsset = rank
+      ? LG.careerRosterAssets?.[`${prefix}-${rank}`]?.[gender] : null;
+    const jobs = character.faction === "university"
+      ? universityJobs[character.department]
+      : factionJobs[character.faction];
+    const key = jobs?.[character.rankIndex];
+    return rosterAsset || normalAssets[key]?.[gender]
+      || LG.CONFIG.assets[character.asset]
+      || LG.CONFIG.assets.background;
+  }
+
   function bonus(job) {
     if (!job) return "尚未装备职业。";
+    if (job.tier === 1) {
+      const label = (id) => LG.CAREER_DATA.stats[id] || id;
+      return `人生事件${label(job.base)}获得量×10；职业大师套装使${
+        label(job.mode)}获得量×7；职业耗材套装使羞耻获得量×7。专精：${
+        job.mastery || "进阶职业能力"}。`;
+    }
     if (job.specialFaction) {
       return "可装备对应势力的特殊图鉴职业勋章，并解锁职业耗材套装装备资格。";
     }
@@ -88,6 +168,7 @@
 
   LG.careerPortraits = {
     category,
+    characterSource,
     mainSource,
     previewSource,
     bonus,

@@ -99,26 +99,21 @@
     },
   };
   LG.CG_ASSETS.specialMeta = {
-    "foreign-outfit-complete": {
-      title: "沦为公畜",
-      titleByGender: {
-        male: "沦为公畜",
-        female: "沦为母畜",
-      },
-      label: "色欲女王套装特殊CG",
-      text: "不要思考，继续沉沦吧",
-      fixedNarration: {
-        src: "./assets/voices/special/foreign-outfit-fallen-ja.mp3",
-        label: "日本語女声 · 色欲女王",
-      },
-    },
     "battlefield-hero": {
       title: "战场英雄",
       text: "历经不知几年在众多同行佣兵的羡慕目光中，和老佣兵们冷漠复杂的目光中你走向颁奖台，恭喜你英雄！",
+      fixedNarration: {
+        src: "./assets/voices/special/battlefield-hero-zh-male.mp3",
+        label: "中文男声 · 战场英雄",
+      },
     },
     "border-watch": {
-      title: "边境线的守望者",
+      title: "久经沙场",
       text: "又过了几年，当初的同行者们很少还有能再并肩作战的了，你随手接过勋章，看着刚来到这里的还雄心勃勃的年轻人们，心里暗想“这不值得”",
+      fixedNarration: {
+        src: "./assets/voices/special/border-watch-zh-male.mp3",
+        label: "中文男声 · 久经沙场",
+      },
     },
     "you-have-fallen": {
       title: "你已沉沦",
@@ -129,12 +124,20 @@
         label: "日本語女声 · 你已沉沦",
       },
     },
+    "taste-good-too-weak": {
+      title: "味道不错，但是太弱",
+      label: "六大势力首领特殊CG",
+      text: "十二位首领带走了最后一点灵魂，只留下两道几乎熄灭的呼吸。",
+      fixedNarration: false,
+    },
+    "gold-servant": {
+      title: "金牌家奴",
+      label: "职业成就特殊CG",
+      text: "两对夫妻并排接受护理，男女主角的长期服役终于被冠以金牌之名。",
+      fixedNarration: false,
+    },
   };
   LG.CG_ASSETS.special = {
-    "foreign-outfit-complete": {
-      male: `${base}infernal-club-lust-male-apostle.0d5074b6.webp`,
-      female: `${base}infernal-club-lust-female-apostle.133f591a.webp`,
-    },
     "battlefield-hero": {
       male: `${base}cg-special-battlefield-hero-male.579b86cd.webp`,
       female: `${base}cg-special-battlefield-hero-female.5203e6ca.webp`,
@@ -147,7 +150,43 @@
       male: `${base}cg-special-you-have-fallen-male.da53e4ee.webp`,
       female: `${base}cg-special-you-have-fallen-female.1c5711e0.webp`,
     },
+    "taste-good-too-weak": {
+      male: `${base}cg-special-taste-good-too-weak.965a4655.webp`,
+      female: `${base}cg-special-taste-good-too-weak.965a4655.webp`,
+    },
+    "gold-servant": {
+      male: `${base}cg-special-gold-servant.ae399612.webp`,
+      female: `${base}cg-special-gold-servant.ae399612.webp`,
+    },
   };
+  const infernalSpecials = {
+    "infernal-greed-livestock": ["贪婪", "infernalClubGreedSeatedMale", "infernalClubGreedSeatedFemale"],
+    "foreign-outfit-complete": ["色欲", "infernalClubLustSeatedMale", "infernalClubLustSeatedFemale"],
+    "infernal-wrath-livestock": ["愤怒", "infernalClubWrathSeatedMale", "infernalClubWrathSeatedFemale"],
+    "infernal-sloth-livestock": ["懒惰", "infernalClubSlothSeatedMale", "infernalClubSlothSeatedFemale"],
+    "infernal-pride-livestock": ["傲慢", "infernalClubPrideSeatedMale", "infernalClubPrideSeatedFemale"],
+    "infernal-envy-livestock": ["嫉妒", "infernalClubEnvySeatedMale", "infernalClubEnvySeatedFemale"],
+    "infernal-gluttony-livestock": ["暴食", "infernalClubGluttonySeatedMale", "infernalClubGluttonySeatedFemale"],
+  };
+  Object.entries(infernalSpecials).forEach(([id, [name, male, female]]) => {
+    LG.CG_ASSETS.specialMeta[id] = {
+      title: `沦为${name}的公畜`,
+      titleByGender: {
+        male: `沦为${name}的公畜`,
+        female: `沦为${name}的母畜`,
+      },
+      label: `${name}女王套装特殊CG`,
+      text: "不要思考，继续沉沦吧",
+      fixedNarration: {
+        src: "./assets/voices/special/foreign-outfit-fallen-ja.mp3",
+        label: `日本語女声 · ${name}女王`,
+      },
+    };
+    LG.CG_ASSETS.special[id] = {
+      male: LG.CONFIG.assets[male],
+      female: LG.CONFIG.assets[female],
+    };
+  });
   LG.CG_ASSETS.endingSrc = function (id, gender) {
     return this.genderEndings[gender]?.[id] || this.endings[id];
   };

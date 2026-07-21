@@ -46,7 +46,7 @@
 }
 
 .career-summary {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-bottom: 10px;
 }
 
@@ -79,12 +79,28 @@
 .career-stepper,
 .career-mode-grid {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
 }
 
 .career-stepper button {
   width: 44px;
   min-height: 38px;
+}
+
+.career-custom-points {
+  min-width: 86px;
+  flex: 1;
+  height: 38px;
+  padding: 0 8px;
+  border: 1px solid rgba(205, 181, 125, 0.35);
+  background: #0c0f14;
+  color: #f1eadc;
+}
+
+.career-apply-points {
+  width: auto !important;
+  padding: 0 12px;
 }
 
 .career-primary {
@@ -107,7 +123,7 @@
 
 .career-portrait-tabs {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 6px;
 }
 
@@ -204,6 +220,11 @@
   border-color: rgba(98, 166, 134, 0.65);
 }
 
+.faction-card.selected {
+  border-color: #d8a84e;
+  box-shadow: inset 0 0 0 1px rgba(216, 168, 78, 0.28);
+}
+
 .career-kicker {
   color: #c7a75c;
   font-size: 11px;
@@ -216,12 +237,17 @@
 }
 
 .career-roster button {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   min-width: 0;
-  min-height: 92px;
+  min-height: 138px;
   padding: 7px 5px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background-position: center;
-  background-size: cover;
+  background-color: #101319;
+  background-position: center, center 15%;
+  background-repeat: no-repeat;
+  background-size: cover, auto 142%;
   color: #f8f1e5;
   font-size: 11px;
   text-align: center;
@@ -252,6 +278,7 @@
 }
 
 @media (max-width: 720px) {
+  .career-summary,
   .career-stat-grid,
   .faction-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

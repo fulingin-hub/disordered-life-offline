@@ -1,0 +1,236 @@
+.faction-sacrifice-popup {
+  --ritual: #d92f5d;
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: transparent;
+  color: #fff;
+}
+
+.faction-sacrifice-popup::backdrop {
+  background: rgba(0, 0, 0, .92);
+  backdrop-filter: blur(6px);
+}
+
+.faction-sacrifice-popup[data-theme^="university"] { --ritual: #e1b954; }
+.faction-sacrifice-popup[data-theme="sanctuary"] { --ritual: #d9e6ff; }
+.faction-sacrifice-popup[data-theme="ranch"] { --ritual: #d6773d; }
+.faction-sacrifice-popup[data-theme="paradise"] { --ritual: #ef4f7b; }
+.faction-sacrifice-popup[data-theme="domain"] { --ritual: #9f55e8; }
+.faction-sacrifice-popup[data-theme="otherworld"] { --ritual: #4fc6ac; }
+
+.faction-sacrifice-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 64%, color-mix(in srgb, var(--ritual) 38%, transparent),
+      transparent 42%),
+    linear-gradient(180deg, #120b12, #020203 78%);
+}
+
+.faction-sacrifice-aura,
+.faction-sacrifice-impact {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.faction-sacrifice-aura {
+  z-index: 1;
+  opacity: .55;
+  background:
+    repeating-conic-gradient(from 0deg at 50% 58%, transparent 0 12deg,
+      color-mix(in srgb, var(--ritual) 42%, transparent) 13deg 14deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 17%, #000 18% 48%, transparent 69%);
+  mask: radial-gradient(circle, transparent 0 17%, #000 18% 48%, transparent 69%);
+}
+
+.faction-sacrifice-leader {
+  position: absolute;
+  z-index: 2;
+  bottom: -5%;
+  width: min(65vw, 580px);
+  height: 98%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 25px 25px #000);
+  opacity: 0;
+  will-change: transform, opacity, filter;
+}
+
+.faction-sacrifice-leader.leader-a { left: 27%; }
+.faction-sacrifice-leader.leader-b { right: 27%; }
+
+.faction-sacrifice-sole {
+  position: absolute;
+  z-index: 5;
+  top: 49%;
+  left: 50%;
+  width: min(54vw, 360px);
+  aspect-ratio: .58 / 1;
+  border: 7px solid #171418;
+  border-radius: 46% 46% 34% 34%;
+  opacity: 0;
+  background:
+    linear-gradient(90deg, transparent 44%, rgba(255,255,255,.12) 45% 55%,
+      transparent 56%),
+    repeating-linear-gradient(0deg, #201c20 0 12px, #080708 13px 23px);
+  box-shadow: inset 0 0 0 4px #3b343b, inset 0 0 45px #000, 0 34px 60px #000;
+  transform: translate(-50%, -50%) scale(.04) perspective(500px) rotateX(-9deg);
+  will-change: transform, opacity;
+}
+
+.faction-sacrifice-sole i {
+  position: absolute;
+  inset: 27% 18%;
+  border: 3px solid var(--ritual);
+  border-radius: 50%;
+  box-shadow: 0 0 18px var(--ritual), inset 0 0 18px var(--ritual);
+}
+
+.faction-sacrifice-sole i::before,
+.faction-sacrifice-sole i::after {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border: 2px solid var(--ritual);
+  transform: rotate(45deg);
+}
+
+.faction-sacrifice-impact {
+  z-index: 6;
+  opacity: 0;
+  background: radial-gradient(circle, #fff 0 2%, var(--ritual) 4%, transparent 48%);
+  mix-blend-mode: screen;
+}
+
+.faction-sacrifice-caption {
+  position: absolute;
+  z-index: 9;
+  left: 50%;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  width: min(760px, calc(100% - 32px));
+  padding: 12px 18px;
+  transform: translateX(-50%);
+  border: 1px solid color-mix(in srgb, var(--ritual) 72%, white);
+  border-radius: 6px;
+  background: rgba(9, 7, 10, .88);
+  box-shadow: 0 16px 40px #000;
+  text-align: center;
+  text-shadow: 0 2px 8px #000;
+}
+
+.faction-sacrifice-kicker {
+  display: block;
+  color: var(--ritual);
+  font-size: .76rem;
+}
+
+.faction-sacrifice-caption strong {
+  display: block;
+  margin-top: 2px;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+}
+
+.faction-sacrifice-names {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 3px;
+  color: #ddd;
+  font-size: .84rem;
+}
+
+.faction-sacrifice-names b { color: var(--ritual); }
+.faction-sacrifice-caption p {
+  margin: 7px 0 0;
+  font-size: clamp(.88rem, 2.8vw, 1.08rem);
+  line-height: 1.5;
+}
+
+.faction-sacrifice-close {
+  position: absolute;
+  z-index: 11;
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 50%;
+  background: rgba(0,0,0,.72);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.faction-sacrifice-popup.playing .leader-a {
+  animation: faction-leader-a 8s ease-in-out infinite;
+}
+.faction-sacrifice-popup.playing .leader-b {
+  animation: faction-leader-b 8s ease-in-out infinite;
+}
+.faction-sacrifice-popup.playing .sole-a {
+  animation: faction-sole-a 8s cubic-bezier(.1,.64,.16,1) infinite;
+}
+.faction-sacrifice-popup.playing .sole-b {
+  animation: faction-sole-b 8s cubic-bezier(.1,.64,.16,1) infinite;
+}
+.faction-sacrifice-popup.playing .faction-sacrifice-impact {
+  animation: faction-impact 8s linear infinite;
+}
+.faction-sacrifice-popup.playing .faction-sacrifice-scene {
+  animation: faction-shake 8s linear infinite;
+}
+
+@keyframes faction-leader-a {
+  0%, 3%, 45%, 100% { opacity: 0; transform: translateX(-50%) scale(.88); }
+  8%, 38% { opacity: 1; transform: translateX(-50%) scale(1); }
+  24%, 31% { opacity: 1; transform: translateX(-50%) translateY(2%) scale(1.05); }
+}
+@keyframes faction-leader-b {
+  0%, 45% { opacity: 0; transform: translateX(50%) scale(.88); }
+  51%, 94% { opacity: 1; transform: translateX(50%) scale(1); }
+  70%, 78% { opacity: 1; transform: translateX(50%) translateY(2%) scale(1.05); }
+  100% { opacity: 0; transform: translateX(50%) scale(.88); }
+}
+@keyframes faction-sole-a {
+  0%, 12%, 39%, 100% { opacity: 0; transform: translate(-50%,-50%) scale(.04); }
+  23% { opacity: .9; transform: translate(-50%,-50%) scale(.58) rotate(-2deg); }
+  29%, 34% { opacity: 1; transform: translate(-50%,-50%) scale(1.55) rotate(1deg); }
+}
+@keyframes faction-sole-b {
+  0%, 55%, 88%, 100% { opacity: 0; transform: translate(-50%,-50%) scale(.04); }
+  69% { opacity: .9; transform: translate(-50%,-50%) scale(.58) rotate(2deg); }
+  75%, 80% { opacity: 1; transform: translate(-50%,-50%) scale(1.55) rotate(-1deg); }
+}
+@keyframes faction-impact {
+  0%, 27%, 31%, 73%, 77%, 100% { opacity: 0; }
+  29%, 75% { opacity: .86; }
+}
+@keyframes faction-shake {
+  0%, 28%, 32%, 74%, 78%, 100% { transform: translate(0); }
+  29%, 75% { transform: translate(-8px, 6px); }
+  30%, 76% { transform: translate(7px, -5px); }
+  31%, 77% { transform: translate(-3px, 2px); }
+}
+
+@media (max-width: 520px) {
+  .faction-sacrifice-leader { width: 92vw; height: 88%; }
+  .faction-sacrifice-leader.leader-a { left: 38%; }
+  .faction-sacrifice-leader.leader-b { right: 38%; }
+  .faction-sacrifice-sole { width: min(72vw, 330px); top: 47%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faction-sacrifice-popup.playing * { animation-duration: 12s !important; }
+}
