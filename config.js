@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260721-infernal-portraits-2",
+  buildId: "20260721-infernal-offering-3",
   version: 7,
   eventRevision: 2026072101,
   stateKey: "disordered-life-state-v1",

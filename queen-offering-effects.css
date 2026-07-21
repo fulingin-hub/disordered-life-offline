@@ -85,6 +85,16 @@
 }
 
 .contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-emissions i .female-offering-sigil-art {
+  inset: 13%;
+  border-color: #c08a57;
+  opacity: .9;
+  background: linear-gradient(135deg, #e0ae72, #6d3d22 52%, #2a140c);
+  box-shadow: inset 0 0 5px #241008, 0 0 6px rgba(213, 147, 85, .8);
+  filter: contrast(1.24) drop-shadow(0 0 3px #d79a5b);
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
   .female-offering-vent,
 .contribution-ritual-popup[data-female-offering-queen]
   .female-offering-emissions i {
@@ -148,7 +158,7 @@
 
 .female-offering-souls {
   position: absolute;
-  z-index: 5;
+  z-index: 8;
   inset: 0;
   overflow: hidden;
   opacity: 0;
@@ -159,14 +169,36 @@
   left: 50%;
   bottom: 8%;
   display: block;
-  width: clamp(7px, 1.2vw, 14px);
+  width: clamp(11px, 1.7vw, 20px);
   aspect-ratio: .62 / 1;
+  border: 1px solid color-mix(in srgb,
+    var(--soul-secondary, #303038) 64%, white);
   border-radius: 56% 44% 68% 32%;
-  background: linear-gradient(var(--soul-primary, #303038),
-    var(--soul-secondary, #303038));
-  box-shadow: 0 0 8px var(--soul-primary, #303038),
-    0 0 17px var(--soul-secondary, #303038);
-  filter: brightness(1.45);
+  background:
+    radial-gradient(circle at 50% 62%,
+      rgba(255, 255, 255, .92) 0 11%, transparent 13%),
+    linear-gradient(var(--soul-primary, #303038),
+      var(--soul-secondary, #303038));
+  box-shadow:
+    inset 0 0 5px rgba(255, 255, 255, .72),
+    0 0 10px var(--soul-primary, #303038),
+    0 0 22px var(--soul-secondary, #303038);
+  filter: brightness(1.9) saturate(1.26);
+  mix-blend-mode: screen;
+}
+
+.female-offering-souls i::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -44%;
+  width: 38%;
+  height: 62%;
+  border-radius: 50%;
+  background: linear-gradient(
+    var(--soul-secondary, #303038), transparent);
+  filter: blur(1px);
+  transform: translateX(-50%);
 }
 
 .female-offering-souls i.hip {
@@ -185,6 +217,8 @@
 }
 
 .contribution-ritual-popup[data-female-offering="true"][data-phase="overview"]
+  .female-offering-souls,
+.contribution-ritual-popup[data-female-offering="true"][data-phase="upper"]
   .female-offering-souls,
 .contribution-ritual-popup[data-female-offering="true"][data-phase="lower"]
   .female-offering-souls {
