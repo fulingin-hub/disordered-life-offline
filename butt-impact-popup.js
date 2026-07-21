@@ -107,11 +107,19 @@
     if (!meta) return false;
     if (!el.dialog) build();
     const pose = LG.buttImpactMeta.pose(meta);
-    el.character.src = meta.src;
-    el.character.alt = meta.name;
+    const dedicatedQueenPose = meta.kind === "queen";
+    el.character.hidden = dedicatedQueenPose;
+    if (dedicatedQueenPose) {
+      el.character.removeAttribute("src");
+      el.character.alt = "";
+    } else {
+      el.character.src = meta.src;
+      el.character.alt = meta.name;
+    }
     el.pose.src = pose.src;
     el.pose.alt = `${meta.name}低机位仪式动作`;
-    el.stockings.style.setProperty("--impact-source", `url("${meta.src}")`);
+    el.stockings.style.setProperty(
+      "--impact-source", `url("${dedicatedQueenPose ? pose.src : meta.src}")`);
     el.detail.textContent = itemKind === "gold"
       ? "黄金 · 排气孔收缩热雾 · 黑褐粗蛇集中后扩散 · 主动关闭"
       : "圣水 · 低机位仰视 · 10秒人物前奏";

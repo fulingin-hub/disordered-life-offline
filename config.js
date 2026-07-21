@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260721-infernal-church-1",
+  buildId: "20260721-infernal-portraits-2",
   version: 7,
   eventRevision: 2026072101,
   stateKey: "disordered-life-state-v1",
@@ -130,13 +130,13 @@ window.LifeGame.CONFIG = {
     infernalChurchPriestess:
       "./assets/generated/infernal-church-priestess.6afa716d.webp",
     careerSigilApostleMale:
-      "./assets/generated/magic-gas-protagonist-male-fullbody.f5909ba8.webp",
+      "./assets/generated/magic-gas-protagonist-male-haired.9022a9ae.webp",
     careerSigilApostleFemale:
-      "./assets/generated/magic-gas-protagonist-female.webp",
+      "./assets/generated/career-sigil-apostle-female.c7443a44.webp",
     magicGasProtagonistMale:
-      "./assets/generated/magic-gas-protagonist-male-fullbody.f5909ba8.webp",
+      "./assets/generated/magic-gas-protagonist-male-haired.9022a9ae.webp",
     magicGasProtagonistFemale:
-      "./assets/generated/magic-gas-protagonist-female.webp",
+      "./assets/generated/magic-gas-protagonist-female-haired.00c6465e.webp",
     protagonistMaleBase: "./assets/generated/protagonist-male-base.15d3eb1b.webp",
     protagonistFemaleBase: "./assets/generated/protagonist-female-base.055bb894.webp",
     protagonistMaleCharacterSet: "./assets/generated/protagonist-male-character-set-v2.10e1268e.webp",

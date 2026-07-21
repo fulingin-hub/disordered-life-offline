@@ -75,8 +75,8 @@
       female: "./assets/generated/career-special-otherworld-tribute-command-female.371c2d14.webp",
     },
     "sigil-apostle": {
-      male: "./assets/generated/magic-gas-protagonist-male-fullbody.f5909ba8.webp",
-      female: "./assets/generated/magic-gas-protagonist-female.webp",
+      male: LG.CONFIG.assets.careerSigilApostleMale,
+      female: LG.CONFIG.assets.careerSigilApostleFemale,
     },
   };
   const specialIds = new Set([

@@ -23,7 +23,7 @@
     const genderKey = gender === "female" ? "female" : "male";
     return {
       src: LG.CONFIG.assets[kneelingAssets[genderKey]],
-      label: "魔气洗脑主角立绘·翻白眼光头魔纹",
+      label: "魔气洗脑主角立绘·有发魔纹受术姿态",
       crop: "single",
       pose: "magic-gas",
     };

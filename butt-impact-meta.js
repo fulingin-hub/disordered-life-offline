@@ -4,6 +4,22 @@
     stocking: "./assets/generated/female-soul-offering-stockings.668cd139.webp",
     male: "./assets/generated/low-angle-male-pose.98edae6f.webp",
   };
+  const queenPoses = {
+    greed:
+      "./assets/generated/infernal-greed-queen-offering-squat.ac1304b1.webp",
+    lust:
+      "./assets/generated/infernal-lust-queen-offering-squat.3e82c11f.webp",
+    wrath:
+      "./assets/generated/infernal-wrath-queen-offering-squat.e223f759.webp",
+    sloth:
+      "./assets/generated/infernal-sloth-queen-offering-squat.623091ad.webp",
+    pride:
+      "./assets/generated/infernal-pride-queen-offering-squat.b990ff4b.webp",
+    envy:
+      "./assets/generated/infernal-envy-queen-offering-squat.e1da65a6.webp",
+    gluttony:
+      "./assets/generated/infernal-gluttony-queen-offering-squat.a4a0235c.webp",
+  };
 
   function playerGender() {
     return LG.authority?.state?.()?.gender === "female" ? "Female" : "Male";
@@ -16,6 +32,9 @@
   }
 
   function pose(meta) {
+    if (meta?.kind === "queen" && queenPoses[meta.id]) {
+      return { variant: `queen-${meta.id}`, src: queenPoses[meta.id] };
+    }
     if (meta?.gender !== "female") {
       return { variant: "male", src: poses.male };
     }
@@ -61,5 +80,12 @@
     };
   }
 
-  LG.buttImpactMeta = { pose, queen, leader, room, femaleVariant };
+  LG.buttImpactMeta = {
+    pose,
+    queen,
+    leader,
+    room,
+    femaleVariant,
+    queenPoses,
+  };
 })(window.LifeGame);

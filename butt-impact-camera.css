@@ -37,6 +37,18 @@
   height: 125%;
 }
 
+.butt-impact-popup[data-kind="queen"] .butt-impact-pose {
+  bottom: -7%;
+  width: min(106vw, 1040px);
+  height: 118%;
+  filter:
+    brightness(1.24)
+    contrast(1.08)
+    saturate(1.06)
+    drop-shadow(0 28px 34px #000)
+    drop-shadow(0 0 28px rgba(224, 188, 92, .28));
+}
+
 .butt-impact-popup[data-camera="low-angle"] .butt-impact-character {
   z-index: 3;
   left: 17%;
@@ -126,6 +138,12 @@
     bottom: -8%;
     width: 132vw;
     height: 116%;
+  }
+
+  .butt-impact-popup[data-kind="queen"] .butt-impact-pose {
+    bottom: -3%;
+    width: 142vw;
+    height: 110%;
   }
 }
 
