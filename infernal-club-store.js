@@ -13,12 +13,12 @@
   }
   LG.infernalClub = {
     access() {
-      const defeat = Math.max(0, Number(realm().defeat) || 0);
       const testing = LG.TEST_MODE?.unlockAllRooms === true;
+      const access = realm().display?.clubAccess || {};
       return {
-        allowed: testing || defeat >= LG.INFERNAL_CLUB_DATA.accessDefeat,
-        defeat,
-        required: LG.INFERNAL_CLUB_DATA.accessDefeat,
+        allowed: testing || access.allowed === true,
+        defeat: Math.max(0, Number(access.defeat) || 0),
+        text: testing ? "测试模式已开放" : access.text || "开放条件同步中",
       };
     },
     personality() {
@@ -49,30 +49,9 @@
       const id = club().equippedSet;
       return LG.INFERNAL_CLUB_DATA.byId[id] ? id : null;
     },
-    taskMultiplier() {
-      const set = this.equippedSet();
-      const outfit = ["wrath", "greed", "gluttony"].includes(set) ? 3
-        : set === "envy" ? 1.1
-          : LG.equipment.summary(LG.authority.state()).edenSet ? 2 : 1;
-      const vehicle = economy().vehicleShop?.equipped;
-      const multiplier = outfit * (["achievement-lost-griffin",
-        "achievement-reborn-phoenix", "reputation-blood-trex"]
-        .includes(vehicle) ? 3 : 1);
-      return Math.round(multiplier * 10) / 10;
-    },
-    reputationMultiplier() {
-      const vehicle = economy().vehicleShop?.equipped;
-      const multiplier = this.taskMultiplier()
-        * (["reputation-blood-wolf", "reputation-blood-tiger"]
-          .includes(vehicle) ? 3 : 1);
-      return Math.round(multiplier * 10) / 10;
-    },
     price(item) {
-      const price = Math.max(0, Number(item?.price) || 0);
-      if (item?.type === "equipment") return price;
-      const set = this.equippedSet();
-      if (["wrath", "greed", "gluttony"].includes(set)) return 0;
-      return set === "envy" ? Math.ceil(price * 0.9) : price;
+      return Math.max(0,
+        Number(realm().display?.clubPrices?.[item?.id]) || 0);
     },
     isCharacter(id) {
       return Boolean(LG.INFERNAL_CLUB_DATA.byCharacter[id]);
@@ -95,15 +74,18 @@
       return LG.dialogueAI.roomPass(character);
     },
     canChat(character) {
+      const chat = realm().display?.clubChat || {};
       return this.access().allowed
         && (this.chatPass(character) > 0
-          || this.personality() >= LG.INFERNAL_CLUB_DATA.chatCost);
+          || this.personality() >= Math.max(0, Number(chat.cost) || 0));
     },
     chatStatus(character) {
       const pass = this.chatPass(character);
-      if (pass) return `本周期剩余${pass}/${LG.INFERNAL_CLUB_DATA.chatTurns}轮。`;
-      return `消耗${LG.INFERNAL_CLUB_DATA.chatCost}人格开启${
-        LG.INFERNAL_CLUB_DATA.chatTurns}轮对话；当前${this.personality()}人格。`;
+      const chat = realm().display?.clubChat || {};
+      const turns = Math.max(1, Number(chat.turns) || 1);
+      if (pass) return `本周期剩余${pass}/${turns}轮。`;
+      return `消耗${Math.max(0, Number(chat.cost) || 0)}人格开启${
+        turns}轮对话；当前${this.personality()}人格。`;
     },
   };
 })(window.LifeGame);

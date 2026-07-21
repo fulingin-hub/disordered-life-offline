@@ -146,8 +146,25 @@
     },
     room(character) {
       const scene = rooms[character];
-      if (!scene) return null;
-      return { ...scene, ...characters[character], conversationKey: character };
+      if (scene) {
+        return { ...scene, ...characters[character], conversationKey: character };
+      }
+      const careerCharacter = LG.career?.character?.(character);
+      if (!careerCharacter) return null;
+      const faction = LG.CAREER_DATA.factions[careerCharacter.faction];
+      return {
+        character,
+        conversationKey: character,
+        name: careerCharacter.name,
+        location: `${careerCharacter.branchLabel || faction.name} · 私密个人房间`,
+        title: `${careerCharacter.name}的私密谈话`,
+        opener: `${careerCharacter.name}确认私密收藏已经集齐，示意你开始谈话。`,
+        fallback: [
+          "收藏只是进入这里的凭证，接下来要说什么仍由你决定。",
+          "你已经证明了投入，但投入并不等于你必须继续服从。",
+          "把真正的问题说出来，我会按所属势力的规则回答。",
+        ],
+      };
     },
   };
 })(window.LifeGame);

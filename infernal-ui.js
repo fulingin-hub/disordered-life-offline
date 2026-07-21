@@ -20,9 +20,7 @@
     el.clears.textContent = String(stats.clears);
   }
   function taskCard(task) {
-    const taskMultiplier = LG.infernalClub.taskMultiplier();
-    const reputationMultiplier = LG.infernalClub.reputationMultiplier(),
-      target = Math.max(10, Number(task.target) || 10);
+    const target = Math.max(10, Number(task.target) || 10);
     const card = node("article", `infernal-task${task.completed ? " completed" : ""}`);
     const heading = node("div", "infernal-task-heading");
     heading.append(node("strong", "", task.name),
@@ -31,11 +29,8 @@
     progress.max = target;
     progress.value = Math.min(target, Math.max(0, Number(task.progress) || 0));
     card.append(heading, progress,
-      node("small", "", `击杀${target}次 · 奖励${Math.floor(50 * reputationMultiplier)
-      }声望 / ${Math.floor(100 * taskMultiplier)}人格值${
-        reputationMultiplier !== taskMultiplier
-          ? `（声望${reputationMultiplier}倍）`
-          : taskMultiplier > 1 ? `（${taskMultiplier}倍）` : ""}`));
+      node("small", "", `击杀${target}次 · ${
+        task.rewardText || "奖励由权威服务结算"}`));
     return card;
   }
   function renderHall() {

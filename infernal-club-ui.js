@@ -67,7 +67,7 @@
       || !LG.infernalClub.canChat(activeQueen.character);
     const pass = LG.infernalClub.chatPass(activeQueen.character);
     el.chatButton.textContent = pass ? `AI 对话 · 剩余${pass}轮`
-      : `AI 对话 · ${LG.INFERNAL_CLUB_DATA.chatCost}人格`;
+      : `AI 对话 · ${LG.infernalClub.chatStatus(activeQueen.character)}`;
     el.galleryButton.dataset.character = activeQueen.character;
     el.equipButton.disabled = busy || !full;
     el.equipButton.textContent = equipped ? "脱下五件套" : "穿戴五件套";
@@ -145,14 +145,14 @@
     image.alt = "地狱边境路牌与粉色灯光的远处俱乐部";
     image.loading = "lazy";
     const body = node("div", "room-card-body");
-    const button = node("button", "", access.allowed ? "进入地狱俱乐部" : "败北值尚未达到1000");
+    const button = node("button", "", access.allowed ? "进入地狱俱乐部" : "地狱俱乐部尚未开放");
     button.type = "button";
     button.disabled = !access.allowed;
     button.addEventListener("click", () => LG.infernalClubUI.open());
     body.append(node("span", "event-type", "在地狱和世界的交界处的神秘俱乐部"),
     node("h3", "", "神秘的地狱俱乐部"),
     node("p", "", access.allowed ? `累计消费 ${LG.infernalClub.spent()}人格`
-      : `败北值 ${access.defeat}/${access.required}`), button);
+      : access.text), button);
     card.append(image, body);
     return card;
   }

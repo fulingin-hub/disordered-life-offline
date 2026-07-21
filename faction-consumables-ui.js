@@ -1,9 +1,4 @@
 (function (LG) {
-  const goods = [
-    { id: "water", name: "美味圣水", price: 20, specialKind: "water" },
-    { id: "gold", name: "黄金圣餐", price: 40, specialKind: "gold" },
-    { id: "potion", name: "职业药剂", price: 20, specialKind: "potion" },
-  ];
   const node = (tag, cls, text) => {
     const item = document.createElement(tag);
     if (cls) item.className = cls;
@@ -28,7 +23,7 @@
     const actions = node("div", "club-item-actions");
     const buy = node("button", "", `购买 · ${item.price}属性点`);
     buy.type = "button";
-    buy.disabled = busy || LG.traits.points() < item.price;
+    buy.disabled = busy || item.canBuy !== true;
     buy.addEventListener("click", () => mutate("buyFactionConsumable", {
       characterId: active.id, kind: item.id,
     }));
@@ -44,8 +39,8 @@
   }
 
   LG.factionConsumablesUI = {
-    cards(active, busy, mutate) {
-      return goods.map((item) => card(active, item, busy, mutate));
+    cards(active, goods, busy, mutate) {
+      return (goods || []).map((item) => card(active, item, busy, mutate));
     },
   };
 })(window.LifeGame);

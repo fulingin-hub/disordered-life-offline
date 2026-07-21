@@ -55,6 +55,7 @@
       const unlocked = LG.edenCharacters?.galleryUnlocked(character)
         || LG.penitentiary?.galleryUnlocked(character)
         || LG.otherworldCharacters?.galleryUnlocked(character)
+        || LG.career?.galleryUnlocked(character)
         || (LG.infernalClub?.isCharacter(character)
           && LG.infernalClub.access().allowed)
         || (LG.casino?.isCharacter(character)

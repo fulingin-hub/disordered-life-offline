@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260721-parental-achievements",
+  buildId: "20260721-random-queen-groups",
   version: 7,
   eventRevision: 2026072101,
   stateKey: "disordered-life-state-v1",

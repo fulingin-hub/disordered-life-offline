@@ -99,8 +99,6 @@
       id: `${character.id}-${privacy}-${index + 1}`,
       character: character.id, privacy, index: index + 1,
       name: `${character.name}的${name}`, description,
-      pointCost: [10000, 20000, 30000, 40000, 100000][index],
-      statCost: [5000, 10000, 20000, 30000, 50000][index],
     }));
   }
 

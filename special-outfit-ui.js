@@ -54,6 +54,12 @@
     if (ordinary?.realmBlackKnightSet) {
       return "魔境黑骑：异界胜利额外获得200人格值；完整一轮额外获得5000属性点与5000人格值；完成欲望任务额外获得100败北值";
     }
+    if (ordinary?.careerMasterSet) {
+      return "职业大师：激活职业大师收益、任务奖励与一转职业立绘；作为普通五件套计算羞耻值";
+    }
+    if (ordinary?.careerConsumableSet) {
+      return "对应势力隐秘套装：激活职业耗材收益；对应势力领袖的特殊道具免费无限使用，每累计6次播放特殊动画";
+    }
     return ordinary?.set ? "羞耻值 +100" : "无套装效果";
   }
 

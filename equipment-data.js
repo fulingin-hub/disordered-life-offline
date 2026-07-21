@@ -86,6 +86,30 @@
         feet: "黑骑重甲铁靴",
       },
     },
+    {
+      id: "career-master",
+      prefix: "职业大师",
+      unlockCareerMode: "master",
+      names: {
+        head: "大师冠饰",
+        body: "大师礼装",
+        crotch: "大师腰封",
+        hands: "大师手套",
+        feet: "大师长靴",
+      },
+    },
+    {
+      id: "career-consumable",
+      prefix: "职业耗材",
+      unlockCareerMode: "consumable",
+      names: {
+        head: "隐秘面饰",
+        body: "隐秘礼装",
+        crotch: "隐秘束带",
+        hands: "隐秘手套",
+        feet: "隐秘长靴",
+      },
+    },
   ];
 
   LG.EQUIPMENT_ITEMS = LG.EQUIPMENT_SETS.flatMap((set) =>
@@ -97,7 +121,9 @@
       name: `${set.prefix}${set.separator ?? "·"}${set.names[slot.id]}`,
       shame: 20,
       unlockTrait: set.trait,
-      unlockAt: set.unlockReputation?.[slot.id] || (index + 1) * 20,
+      unlockCareerMode: set.unlockCareerMode,
+      unlockAt: set.unlockCareerMode
+        ? index + 1 : set.unlockReputation?.[slot.id] || (index + 1) * 20,
       unlockReputation: set.unlockReputation?.[slot.id] || 0,
     })));
 })(window.LifeGame);

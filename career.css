@@ -272,6 +272,19 @@
   max-height: calc(100dvh - 24px);
 }
 
+.faction-character-actions {
+  grid-column: 1 / -1;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .04);
+}
+
+.faction-character-actions p {
+  margin: 6px 0 10px;
+  color: var(--muted);
+}
+
 .career-special-use {
   border-color: #9d4960;
   color: #ffdce5;

@@ -24,23 +24,23 @@
     wrath: "无能地面对现实",
     sloth: "放弃抵抗沦为俘虏",
   };
-  const universal = "七层地狱或深渊完整通关一轮，四项资源各+700。";
+  const universal = "七层地狱或深渊完整通关时获得额外资源奖励。";
   const effects = {
-    wrath: "任务三倍报酬；非装备商品免费；饮品、食物、药物不限使用次数。",
-    greed: "任务三倍报酬；非装备商品免费；饮品、食物、药物不限使用次数。",
-    gluttony: "任务三倍报酬；非装备商品免费；饮品、食物、药物不限使用次数。",
-    pride: "异界事件四项资源各+100；每拥有一位女魔王的特殊道具，事件败北值再+100，最多+700。",
-    lust: "异界事件四项资源各+100；每拥有一位女魔王的特殊道具，事件败北值再+100，最多+700。",
-    sloth: "异界事件四项资源各+100；每拥有一位女魔王的特殊道具，事件败北值再+100，最多+700。",
-    envy: "任务与异界人格/败北奖励+10%；非装备商品九折；每种限次消耗品额外使用10次。",
+    wrath: "强化任务、商城与消耗品结算。",
+    greed: "强化任务、商城与消耗品结算。",
+    gluttony: "强化任务、商城与消耗品结算。",
+    pride: "强化异界事件与特殊收藏结算。",
+    lust: "强化异界事件与特殊收藏结算。",
+    sloth: "强化异界事件与特殊收藏结算。",
+    envy: "强化任务、异界奖励、商城与消耗品结算。",
   };
   const consumables = [
-    ["golden-sacrament", "黄金圣餐", 100, "gold"],
-    ["holy-water", "美味圣水", 60, "water"],
-    ["despair-potion", "丧志药剂", 120, "potion"],
-    ["demonic-potion", "魔性药剂", 150, "potion"],
-  ].map(([id, name, price, specialKind]) => ({
-    id, name, price, specialKind,
+    ["golden-sacrament", "黄金圣餐", "gold"],
+    ["holy-water", "美味圣水", "water"],
+    ["despair-potion", "丧志药剂", "potion"],
+    ["demonic-potion", "魔性药剂", "potion"],
+  ].map(([id, name, specialKind]) => ({
+    id, name, specialKind,
     description: `${LG.potionEffects.text(LG.potionEffects.for({ specialKind }))}。`,
     type: "consumable",
   }));
@@ -48,7 +48,6 @@
     const equipment = LG.EQUIPMENT_SLOTS.map((slot) => ({
       id: `club-${id}-${slot.id}`,
       name: `${name}地狱魔王·${accent}${slotNames[slot.id]}`,
-      price: 250,
       slot: slot.id,
       type: "equipment",
       description: `${lore[id]}。${universal}${effects[id]}`,
@@ -57,7 +56,6 @@
       {
         id: `club-${id}-demon-sensor`,
         name: `${name}·魔物感应器`,
-        price: 600,
         type: "special",
         description: `蠕动的魔虫长开嘴巴探出舌头好像在渴望什么，由${
           name}女魔王的排泄物变化而成。`,
@@ -65,7 +63,6 @@
       {
         id: `club-${id}-tentacle-therapy-device`,
         name: `${name}·触须理疗器`,
-        price: 600,
         type: "special",
         description: `蠕动的触手，可以看见密密麻麻的小口在吸允着什么，由${
           name}女魔王的排泄物变化而成。`,
@@ -87,8 +84,5 @@
     byId: Object.fromEntries(queens.map((item) => [item.id, item])),
     byCharacter: Object.fromEntries(queens.map((item) => [item.character, item])),
     consumables,
-    accessDefeat: 1000,
-    chatCost: 100,
-    chatTurns: 20,
   };
 })(window.LifeGame);

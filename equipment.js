@@ -11,6 +11,10 @@
   ];
   const itemMap = () => new Map(allItems().map((item) => [item.id, item]));
   const acquired = (item) => {
+    if (item?.unlockCareerMode) {
+      return Math.max(0, Number(LG.career?.data?.()
+        ?.setPieces?.[item.unlockCareerMode]) || 0) >= item.unlockAt;
+    }
     if (item?.unlockReputation) {
       const reputation = Number(LG.authority?.snapshot?.()
         ?.economy?.infernalRealm?.reputation) || 0;
@@ -39,6 +43,8 @@
     const penitentiarySet = setPrefix === "影狱";
     const realmHunterSet = set?.id === "realm-hunter";
     const realmBlackKnightSet = set?.id === "realm-black-knight";
+    const careerMasterSet = set?.id === "career-master";
+    const careerConsumableSet = set?.id === "career-consumable";
     const setBonus = set && !saintSet ? 100 : 0;
     return {
       count: equipped.length,
@@ -49,6 +55,8 @@
       penitentiarySet,
       realmHunterSet,
       realmBlackKnightSet,
+      careerMasterSet,
+      careerConsumableSet,
       total: itemShame + setBonus,
       set,
       reduction: Math.floor((itemShame + setBonus) / 20) * 5,

@@ -74,9 +74,28 @@
   async function rollbackPending() {
     const marker = await LG.storageChat?.get(MARKER_KEY);
     const backup = await LG.storageChat?.get(BACKUP_KEY);
-    if (!marker || !Data.plain(backup)) return false;
-    await LG.storageChat.replace(backup);
-    updateLocalFallback(backup);
+    if (!marker) {
+      if (backup !== null && backup !== undefined) {
+        await LG.storageChat.remove(BACKUP_KEY);
+      }
+      return false;
+    }
+    if (!Data.plain(marker) || marker.version !== 1
+      || !Number.isFinite(Number(marker.createdAt))) {
+      throw Data.failure("RECOVERY_MARKER_INVALID", "恢复事务标记已损坏，无法自动回滚");
+    }
+    if (!Data.plain(backup)) {
+      throw Data.failure("RECOVERY_BACKUP_INVALID", "恢复事务备份已损坏，无法自动回滚");
+    }
+    const restored = Data.clone(backup);
+    delete restored[MARKER_KEY];
+    delete restored[BACKUP_KEY];
+    await LG.storageChat.replace(restored);
+    updateLocalFallback(restored);
+    if (await LG.storageChat.get(MARKER_KEY)
+      || await LG.storageChat.get(BACKUP_KEY)) {
+      throw Data.failure("RECOVERY_ROLLBACK_INCOMPLETE", "恢复事务回滚未完成");
+    }
     return true;
   }
 

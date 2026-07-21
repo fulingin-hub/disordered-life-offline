@@ -31,5 +31,19 @@
       }));
       return [...master, ...special];
     },
+    privateComplete(characterId) {
+      const owned = new Set(this.data().characterItems || []);
+      return [1, 2, 3, 4, 5].every((index) =>
+        owned.has(`${characterId}-private-${index}`));
+    },
+    galleryUnlocked(characterId) {
+      return this.privateComplete(characterId);
+    },
+    character(characterId) {
+      return LG.CAREER_DATA.roster.find((item) => item.id === characterId) || null;
+    },
+    aiState() {
+      return LG.authority.state();
+    },
   };
 })(window.LifeGame);

@@ -3,6 +3,8 @@
   let active = null;
   let view = "normal";
   let busy = false;
+  let store = null;
+  let latestStoreRequest = 0;
   const node = (tag, cls, text) => {
     const item = document.createElement(tag);
     if (cls) item.className = cls;
@@ -14,6 +16,18 @@
     return LG.career.data().characterItems?.includes(id);
   }
 
+  async function refreshStore() {
+    const requestId = ++latestStoreRequest;
+    const result = await LG.authority.inspect("viewFactionStore", {
+      characterId: active.id,
+    });
+    if (requestId !== latestStoreRequest || result.store?.characterId !== active.id) {
+      return false;
+    }
+    store = result.store;
+    return true;
+  }
+
   async function mutate(method, body) {
     if (busy) return;
     const sacrifice = method === "useFactionSpecial"
@@ -21,14 +35,16 @@
     busy = true;
     try {
       const result = await LG.authority.mutate(method, body);
+      await refreshStore();
       LG.traitsUI.refresh();
       LG.collectiblesUI.refresh();
       LG.careerUI.refresh();
+      LG.equipmentUI.refresh();
       render();
       el.status.textContent = result.message;
       if (method === "usePotion" || method === "useFactionSpecial") LG.itemFeedback?.show?.(
         result.message, method === "useFactionSpecial" ? "private" : "normal");
-      LG.factionLeaderSacrifice?.complete?.(sacrifice);
+      LG.factionLeaderSacrifice?.complete?.(sacrifice, result.action);
     } catch (err) {
       console.error("职业角色商城结算失败:", err?.code, err?.message, err?.stack);
       el.status.textContent = err?.message || "商城操作失败，请稍后重试。";
@@ -39,28 +55,25 @@
 
   function itemCard(item) {
     const data = LG.career.data();
+    const price = store?.[view]?.find((entry) => entry.index === item.index);
     const card = node("article", `collectible-card${owned(item.id) ? " owned" : ""}`);
     card.append(node("span", "collectible-mark", owned(item.id) ? "已获得"
       : view === "normal" ? "普通收藏" : "私密收藏"),
     node("strong", "", item.name), node("p", "", item.description));
-    const stat = view === "normal"
-      ? LG.CAREER_DATA.factions[active.faction].name + "主属性" : "羞耻";
     const button = node("button", "", owned(item.id) ? "已获得"
-      : `${item.pointCost}属性点 + ${item.statCost}${stat}`);
+      : price ? `${price.pointCost}属性点 + ${price.statCost}${price.statLabel}`
+        : "价格同步中");
     button.type = "button";
-    button.disabled = busy || owned(item.id);
+    button.disabled = busy || owned(item.id) || price?.canBuy !== true;
     button.addEventListener("click", () => mutate("buyFactionItem", {
       characterId: active.id, privacy: view, index: item.index,
     }));
     card.append(button);
-    if (view === "private" && item.index === 5 && data.specialActivated) {
-      const count = data.specialUses?.[active.specialKey || active.faction] || 0;
-      const progress = active.rankIndex === 2 && owned(item.id)
-        ? ` · 隐藏职业 ${Math.min(count, 101)}/101` : "";
+    if (view === "private" && item.index === 5 && store?.specialUse?.available) {
       const use = node("button", "career-special-use",
-        `使用特殊道具 · 10000属性点${progress}`);
+        store.specialUse.label);
       use.type = "button";
-      use.disabled = busy;
+      use.disabled = busy || store.specialUse.canUse !== true;
       use.addEventListener("click", () =>
         mutate("useFactionSpecial", { characterId: active.id }));
       card.append(use);
@@ -89,24 +102,20 @@
     return card;
   }
 
-  function professionPanel(data) {
+  function professionPanel() {
     if (active.rankIndex !== 2) return null;
-    const statId = data.factions?.find((item) => item.id === active.faction)?.stat;
-    const balance = LG.authority.state()?.stats?.[statId] || 0;
-    const jobs = (data.professionDefinitions || []).filter((item) =>
-      !item.specialFaction && !item.tier && item.factions?.includes(active.faction)
-      && (!item.branch || item.branch === active.branch));
+    const jobs = store?.professions || [];
     const panel = node("section", "faction-profession-panel");
     panel.append(
       node("h3", "", `${active.name} · 势力专属职业`),
-      node("p", "", `当前${LG.CAREER_DATA.stats[statId]} ${balance}；每个职业消耗20000点永久解锁。`),
+      node("p", "", "解锁条件与扣费由权威职业档案结算。"),
     );
     const grid = node("div", "faction-profession-grid");
     jobs.forEach((job) => {
       const button = node("button", "", job.unlocked
-        ? `${job.name} · 已解锁` : `解锁${job.name} · 20000${LG.CAREER_DATA.stats[statId]}`);
+        ? `${job.name} · 已解锁` : `解锁${job.name} · ${job.costLabel}`);
       button.type = "button";
-      button.disabled = busy || job.unlocked || balance < 20000;
+      button.disabled = busy || job.unlocked || job.canUnlock !== true;
       button.addEventListener("click", () => mutate("unlockFactionProfession", {
         characterId: active.id, professionId: job.id,
       }));
@@ -118,6 +127,11 @@
 
   function render() {
     if (!active) return;
+    if (!store) {
+      el.status.textContent = "正在读取权威商城数据...";
+      el.items.replaceChildren(node("p", "system-status", "商城加载中"));
+      return;
+    }
     const data = LG.career.data();
     const faction = LG.CAREER_DATA.factions[active.faction];
     el.faction.textContent = `${faction.name} · ${
@@ -128,12 +142,14 @@
       ? `消耗属性点与${LG.CAREER_DATA.stats[data.factions?.find((item) =>
         item.id === active.faction)?.stat] || "势力主属性"}；集齐五件后免费领取职业大师部件。`
       : "消耗属性点与羞耻值；集齐五件后免费领取职业耗材部件，并开放特殊道具使用权。";
-    const profession = professionPanel(data);
+    const profession = professionPanel();
+    const characterActions = LG.careerCharacterActions.panel(active, view, busy);
     el.items.replaceChildren(
       ...(profession ? [profession] : []),
+      ...(characterActions ? [characterActions] : []),
       ...LG.CAREER_DATA.items(active, view).map(itemCard),
       ...(view === "private"
-        ? LG.factionConsumablesUI.cards(active, busy, mutate) : []),
+        ? LG.factionConsumablesUI.cards(active, store.consumables, busy, mutate) : []),
       pieceClaim(data),
     );
     el.tabs.forEach((button) => button.setAttribute("aria-selected",
@@ -158,9 +174,14 @@
     open(characterId, initialView = "normal") {
       active = LG.CAREER_DATA.roster.find((item) => item.id === characterId);
       if (!active) return;
+      store = null;
       view = initialView === "private" ? "private" : "normal";
       render();
       el.dialog.showModal();
+      refreshStore().then(() => render()).catch((err) => {
+        console.error("职业角色商城读取失败:", err?.code, err?.message, err?.stack);
+        el.status.textContent = err?.message || "商城读取失败，请关闭后重试。";
+      });
     },
     ownedItems(privacy) {
       const ids = new Set(LG.career.data().characterItems || []);

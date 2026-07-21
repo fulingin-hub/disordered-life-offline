@@ -89,6 +89,30 @@
   will-change: transform, opacity;
 }
 
+.faction-sacrifice-sole.foot-bare,
+.faction-sacrifice-sole.foot-stocking {
+  background-repeat: no-repeat;
+}
+
+.faction-sacrifice-sole.foot-bare {
+  border-color: #6d4940;
+  background-position: 66% 37%;
+  background-size: 500% auto;
+  filter: saturate(.88) contrast(1.08) brightness(1.08);
+}
+
+.faction-sacrifice-sole.foot-stocking {
+  border-color: #29242d;
+  background-position: 34% 36%;
+  background-size: 650% auto;
+  filter: brightness(1.72) saturate(.65) contrast(1.12);
+}
+
+.faction-sacrifice-sole.foot-bare i,
+.faction-sacrifice-sole.foot-stocking i {
+  opacity: .48;
+}
+
 .faction-sacrifice-sole i {
   position: absolute;
   inset: 27% 18%;

@@ -36,11 +36,10 @@
   }
 
   function despairCard(task) {
-    const multiplier = LG.infernalClub.taskMultiplier();
     const card = node("article", `daily-task${task.claimed ? " claimed" : ""}`);
     const heading = node("div");
     heading.append(node("strong", "", task.title),
-      node("span", "", `奖励 ${Math.floor(task.reward * multiplier)} 点`));
+      node("span", "", task.rewardText || "奖励由权威服务结算"));
     const footer = node("div");
     const button = node("button", "", task.claimed ? "已领取"
       : task.progress >= task.target ? "领取奖励" : "进行中");
@@ -56,7 +55,7 @@
     const card = node("article", `daily-task${task.claimed ? " claimed" : ""}`);
     const heading = node("div");
     heading.append(node("strong", "", task.title),
-      node("span", "", `${LG.CAREER_DATA.stats[task.rewardStat] || "羞耻"} +${task.reward}`));
+      node("span", "", task.rewardText || "奖励由权威服务结算"));
     const footer = node("div");
     const action = node("button", "", task.progress >= task.target ? "已完成"
       : task.type === "boss" ? "挑战首领" : "执行任务");

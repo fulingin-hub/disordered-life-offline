@@ -134,6 +134,21 @@
     return mainSource(id, gender);
   }
 
+  function hiddenSetSource(character) {
+    const ids = {
+      "university-xia": "university-xia-hound",
+      "university-island": "university-island-hound",
+      "university-rice": "university-rice-hound",
+      ranch: "ranch-livestock",
+      sanctuary: "sanctuary-essence",
+      paradise: "paradise-foot",
+      domain: "domain-toilet",
+      otherworld: "otherworld-tribute",
+    };
+    const id = ids[character?.specialKey || character?.faction];
+    return id ? mainSource(id, character.gender) : null;
+  }
+
   function characterSource(character) {
     const rank = rosterRanks[character.faction]?.[character.rankIndex];
     const prefix = character.faction === "university"
@@ -171,6 +186,7 @@
     characterSource,
     mainSource,
     previewSource,
+    hiddenSetSource,
     bonus,
     normalReady: true,
   };

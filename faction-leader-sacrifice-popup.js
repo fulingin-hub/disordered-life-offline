@@ -80,11 +80,18 @@
     name.textContent = leader.name;
   }
 
-  function show(character) {
+  function show(character, forcedVariants) {
     const counterpart = pairFor(character)[0];
     if (!counterpart || !el.dialog) return false;
     const order = Math.random() < 0.5
       ? [character, counterpart] : [counterpart, character];
+    const modes = [0, 1].map((index) =>
+      LG.footVariants.normalize(forcedVariants?.[index]
+        || LG.footVariants.pick()));
+    LG.footVariants.apply(el.soleA, modes[0]);
+    LG.footVariants.apply(el.soleB, modes[1]);
+    el.dialog.dataset.soleA = modes[0];
+    el.dialog.dataset.soleB = modes[1];
     renderLeader(el.leaderA, el.nameA, order[0]);
     renderLeader(el.leaderB, el.nameB, order[1]);
     const faction = LG.CAREER_DATA.factions[character.faction];
@@ -122,6 +129,8 @@
       </div>`;
     el.leaderA = el.dialog.querySelector(".leader-a");
     el.leaderB = el.dialog.querySelector(".leader-b");
+    el.soleA = el.dialog.querySelector(".sole-a");
+    el.soleB = el.dialog.querySelector(".sole-b");
     [el.nameA, el.nameB] = el.dialog.querySelectorAll(".faction-sacrifice-names span");
     el.title = el.dialog.querySelector(".faction-sacrifice-caption strong");
     el.subtitle = el.dialog.querySelector(".faction-sacrifice-caption p");
@@ -141,7 +150,12 @@
       const key = character.specialKey || character.faction;
       return { character, key, before: count(key) };
     },
-    complete(token) {
+    complete(token, action) {
+      if (action?.type === "factionLeaderSacrifice") {
+        const character = LG.CAREER_DATA.roster.find(
+          (item) => item.id === action.characterId);
+        return Boolean(character && show(character));
+      }
       if (!token) return false;
       const after = count(token.key);
       return after > token.before && after % 6 === 0 && show(token.character);

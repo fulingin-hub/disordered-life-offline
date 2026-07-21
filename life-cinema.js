@@ -104,24 +104,19 @@
   function refreshUnlocks() {
     if (!el.taste || !el.power) return;
     const progress = LG.authority.lifeCinemaProgress();
-    const count = Math.max(0, Number(progress.restartCount) || 0);
-    const tasteRequired = Math.max(1, Number(progress.tasteRequired) || 800);
-    const powerRequired = Math.max(1, Number(progress.powerRequired) || 1000);
+    const endings = progress.unlockAllEndings || {};
+    const collections = progress.unlockAllCollections || {};
     const testEnabled = LG.TEST_MODE?.lifeCinemaCheats === true;
     el.taste.hidden = false;
     el.power.hidden = false;
-    el.taste.disabled = busy || (!testEnabled && count < tasteRequired);
-    el.power.disabled = busy || (!testEnabled && count < powerRequired);
+    el.taste.disabled = busy || (!testEnabled && endings.available !== true);
+    el.power.disabled = busy || (!testEnabled && collections.available !== true);
     el.tasteText.textContent = testEnabled
       ? "离线版已解锁：一键开放全部事件结局（包括真结局与隐藏结局）"
-      : count >= tasteRequired
-        ? "已解锁：永久开放常规人生结局与全部真结局"
-      : `人生重开 ${count}/${tasteRequired} 次后解锁`;
+      : endings.text || "正在同步解锁进度";
     el.powerText.textContent = testEnabled
       ? "离线版已解锁：一键开放所有成就、六大势力职业/装备/道具、载具与场景"
-      : count >= powerRequired
-        ? "已解锁：开放全部道具、六大势力职业内容、特殊入口并完成所有成就"
-      : `人生重开 ${count}/${powerRequired} 次后解锁`;
+      : collections.text || "正在同步解锁进度";
   }
 
   async function unlock(method, prompt) {

@@ -14,8 +14,7 @@
     if (err?.code === "CAPTCHA_REQUIRED") return err.message;
     if (err?.code === "function_error") return err.message || "服务端拒绝了这次操作。";
     return "网络或结算服务暂时不可用，请稍后重试。";
-  } function adopt(result) {
-    state = result.life;
+  } function adopt(result) { state = result.life;
     archive = result.archive;
   }
   async function recoverStaleEvent(err) {
@@ -178,7 +177,8 @@
     LG.specialOutfitUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
     LG.equipmentUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
     LG.vehicleProfileUI.init({ getState: () => state });
-    LG.collectiblesUI.init(), LG.factionStoreUI.init(), LG.casinoFactionUI.init(),
+    LG.collectiblesUI.init(), LG.careerCharacterChatUI.init(),
+    LG.factionStoreUI.init(), LG.casinoFactionUI.init(),
     LG.careerUI.init();
     LG.dailyTasksUI.init();
     LG.ui.render(state);

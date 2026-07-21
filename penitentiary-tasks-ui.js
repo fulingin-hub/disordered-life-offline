@@ -8,13 +8,10 @@
     return item;
   }
   function taskCard(task) {
-    const multiplier = LG.infernalClub.taskMultiplier();
     const card = node("article", `penitentiary-task ${task.status}`);
     const heading = node("div", "penitentiary-task-heading");
     heading.append(node("strong", "", task.name),
-      node("span", "", multiplier > 1
-        ? `${Math.floor(task.reward * multiplier)}赎罪卷（${multiplier}倍）`
-        : `${task.reward}赎罪卷`));
+      node("span", "", task.rewardText || "奖励由权威服务结算"));
     const state = task.status === "completed" ? "已完成"
       : task.status === "claimed" ? "任务进行中" : task.special ? "特殊任务" : "常规任务";
     card.append(heading, node("p", "", state));

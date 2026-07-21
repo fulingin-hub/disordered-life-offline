@@ -182,8 +182,8 @@
   <link rel="stylesheet" href="./infernal-reputation.css?v=20260719-1">
   <link rel="stylesheet" href="./abyss.css?v=20260718-1">
   <link rel="stylesheet" href="./infernal-club.css?v=20260718-2">
-  <link rel="stylesheet" href="./infernal-stomp-popup.css?v=20260720-1">
-  <link rel="stylesheet" href="./faction-leader-sacrifice-popup.css?v=20260720-1">
+  <link rel="stylesheet" href="./infernal-stomp-popup.css?v=20260721-2">
+  <link rel="stylesheet" href="./faction-leader-sacrifice-popup.css?v=20260721-2">
   <link rel="stylesheet" href="./tribute.css">
   <link rel="stylesheet" href="./gallery.css">
   <link rel="stylesheet" href="./traits.css">
@@ -956,6 +956,29 @@
     <div id="factionStoreItems" class="collectible-grid"></div>
   </dialog>
 
+  <dialog id="careerCharacterChatDialog"
+    class="casino-dialog otherworld-chat-dialog">
+    <div class="dialog-heading">
+      <div class="otherworld-chat-heading">
+        <img id="careerCharacterChatPortrait" alt="">
+        <div>
+          <span id="careerCharacterChatLocation" class="event-type"></span>
+          <h2 id="careerCharacterChatName"></h2>
+        </div>
+      </div>
+      <button id="closeCareerCharacterChatButton" class="quiet-button"
+        type="button">关闭</button>
+    </div>
+    <p id="careerCharacterChatStatus" class="chat-status" role="status"></p>
+    <div id="careerCharacterChatMessages"
+      class="chat-messages otherworld-chat-messages" aria-live="polite"></div>
+    <form id="careerCharacterChatForm" class="chat-form">
+      <input id="careerCharacterChatInput" maxlength="160" autocomplete="off"
+        placeholder="输入想说的话">
+      <button id="careerCharacterChatSend" type="submit">发送</button>
+    </form>
+  </dialog>
+
   <dialog id="infernalDialog" class="infernal-dialog">
     <div class="dialog-heading">
       <div>
@@ -1493,6 +1516,7 @@
   <script src="./cinema-narrator.js"></script>
   <script src="./achievement-feedback.js"></script>
   <script src="./item-feedback.js"></script>
+  <script src="./foot-variant-data.js"></script>
   <script src="./casino-temptations.js"></script>
   <script src="./casino-game.js"></script>
   <script src="./authority-fallback.js"></script>
@@ -1514,6 +1538,7 @@
   <script src="./eden-character-gallery.js"></script>
   <script src="./penitentiary-gallery.js"></script>
   <script src="./otherworld-character-gallery.js"></script>
+  <script src="./career-character-gallery.js"></script>
   <script src="./gallery-local-variants.js"></script>
   <script src="./gallery-ui.js"></script>
   <script src="./gender-ui.js"></script>
@@ -1527,6 +1552,8 @@
   <script src="./casino-ui.js"></script>
   <script src="./otherworld-character-chat-ui.js"></script>
   <script src="./otherworld-character-ui.js"></script>
+  <script src="./career-character-chat-ui.js"></script>
+  <script src="./career-character-actions.js"></script>
   <script src="./black-prison-outfit-ui.js"></script>
   <script src="./eden-character-chat-ui.js"></script>
   <script src="./eden-character-ui.js"></script>

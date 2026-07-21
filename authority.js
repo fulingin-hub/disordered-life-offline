@@ -160,6 +160,9 @@
     mutate(method, args) {
       return enqueue(() => mutateNow(method, args));
     },
+    inspect(method, args) {
+      return enqueue(() => remote({ ...(args || {}), method }));
+    },
     exportSave() {
       return enqueue(() => remote({ method: "exportSave" }));
     },
@@ -173,7 +176,10 @@
     },
     lifeCinemaProgress() {
       return snapshot?.lifeCinema
-        || { restartCount: 0, tasteRequired: 800, powerRequired: 1000 };
+        || {
+          unlockAllEndings: { available: false, text: "正在同步解锁进度" },
+          unlockAllCollections: { available: false, text: "正在同步解锁进度" },
+        };
     },
     achievementPoints() {
       return snapshot?.economy?.achievementPoints || { balance: 0, lifetime: 0 };

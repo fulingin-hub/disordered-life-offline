@@ -15,6 +15,7 @@
       const result = await LG.authority.mutate(method, body);
       el.status.textContent = result.message;
       LG.traitsUI.refresh();
+      LG.equipmentUI.refresh();
       LG.protagonistPortrait.render(LG.authority.state());
     } catch (err) {
       console.error("职业系统结算失败:", err?.code, err?.message, err?.stack);

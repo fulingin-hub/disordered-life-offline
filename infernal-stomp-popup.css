@@ -28,19 +28,43 @@
     linear-gradient(180deg, #15030f 0%, #030104 100%);
 }
 
-.infernal-stomp-queen {
+.infernal-stomp-queens {
   position: absolute;
   z-index: 1;
-  left: 50%;
-  bottom: -4%;
+  inset: 0;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.infernal-stomp-queen {
+  position: relative;
+  flex: 0 0 auto;
   width: min(96vw, 760px);
   height: 102%;
+  margin-inline: 0;
   object-fit: contain;
   object-position: center bottom;
-  transform: translateX(-50%) scale(.92);
+  transform: scale(.92);
   transform-origin: 50% 84%;
   filter: drop-shadow(0 24px 34px #000);
   will-change: transform, filter;
+}
+
+.infernal-stomp-popup[data-group-size="2"] .infernal-stomp-queen {
+  width: min(61vw, 560px);
+  margin-inline: -6vw;
+}
+
+.infernal-stomp-popup[data-group-size="3"] .infernal-stomp-queen {
+  width: min(47vw, 440px);
+  margin-inline: -6.5vw;
+}
+
+.infernal-stomp-popup[data-group-size="7"] .infernal-stomp-queen {
+  width: min(27vw, 280px);
+  margin-inline: -6.2vw;
 }
 
 .infernal-stomp-foot {
@@ -62,6 +86,20 @@
   mask-image: radial-gradient(ellipse, #000 42%, rgba(0, 0, 0, .94) 59%,
     transparent 76%);
   will-change: transform, opacity;
+}
+
+.infernal-stomp-foot.foot-bare {
+  background-position: 66% 37%;
+  background-size: 500% auto;
+  filter: saturate(.92) contrast(1.1) brightness(1.08)
+    drop-shadow(0 28px 28px #000);
+}
+
+.infernal-stomp-foot.foot-stocking {
+  background-position: 34% 36%;
+  background-size: 650% auto;
+  filter: brightness(1.72) saturate(.66) contrast(1.12)
+    drop-shadow(0 28px 28px #000);
 }
 
 .infernal-stomp-shade {
@@ -118,6 +156,7 @@
 
 .infernal-stomp-popup.playing .infernal-stomp-queen {
   animation: infernal-queen-step 1.22s ease-in-out infinite;
+  animation-delay: calc(var(--queen-index) * -55ms);
 }
 
 .infernal-stomp-popup.playing .infernal-stomp-foot {
@@ -129,9 +168,9 @@
 }
 
 @keyframes infernal-queen-step {
-  0%, 22%, 100% { transform: translateX(-50%) scale(.92); }
-  52% { transform: translateX(-50%) translateY(2%) scale(1.01); }
-  68% { transform: translateX(-50%) translateY(4%) scale(1.04); }
+  0%, 22%, 100% { transform: scale(.92); }
+  52% { transform: translateY(2%) scale(1.01); }
+  68% { transform: translateY(4%) scale(1.04); }
 }
 
 @keyframes infernal-foot-press {
@@ -162,8 +201,26 @@
 
 @media (max-width: 520px) {
   .infernal-stomp-queen {
-    width: 112vw;
     height: 98%;
+  }
+
+  .infernal-stomp-popup[data-group-size="1"] .infernal-stomp-queen {
+    width: 112vw;
+  }
+
+  .infernal-stomp-popup[data-group-size="2"] .infernal-stomp-queen {
+    width: 70vw;
+    margin-inline: -9vw;
+  }
+
+  .infernal-stomp-popup[data-group-size="3"] .infernal-stomp-queen {
+    width: 54vw;
+    margin-inline: -9vw;
+  }
+
+  .infernal-stomp-popup[data-group-size="7"] .infernal-stomp-queen {
+    width: 31vw;
+    margin-inline: -7.5vw;
   }
 
   .infernal-stomp-foot {
