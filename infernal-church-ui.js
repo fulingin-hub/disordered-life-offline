@@ -81,15 +81,18 @@
       busy = false; renderChurch();
     }
   }
-  async function cast(source = "七大欲女祭司", explicitSin = null) {
+  async function cast(source = "七大欲女祭司", explicitSin = null, options = {}) {
     if (busy) return;
     busy = true;
     const theme = LG.infernalChurchMagic.resolve(source, explicitSin);
+    const portrait = LG.infernalChurchMagic.targetPortrait(options);
     el.magicDialog.dataset.sigil = theme.id;
     el.magicDialog.dataset.sigilMode = theme.mode;
+    el.magicDialog.dataset.portraitTier = portrait.tier;
+    el.magicDialog.dataset.roomCastCount = String(portrait.count);
     el.magicDialog.style.setProperty("--magic-color", theme.color);
-    el.magicTarget.src = LG.infernalChurchMagic.targetSource();
-    el.magicTarget.alt = "被魔气包裹头部的主角";
+    el.magicTarget.src = portrait.src;
+    el.magicTarget.alt = portrait.label;
     el.magicSource.textContent = `${source} · ${theme.name}魔纹`;
     el.magicResult.textContent = `${theme.name}魔气正在锁定灵魂…`;
     el.magicDialog.classList.remove("casting");
@@ -98,7 +101,7 @@
     el.magicDialog.classList.add("casting");
     try {
       const result = await LG.authority.mutate("magicGasAttack", {
-        source, seconds: 5,
+        source, seconds: 5, roomCharacter: options.roomCharacter,
       });
       el.magicResult.textContent = result.message;
       renderSoul(); LG.collectiblesUI?.refresh?.();
@@ -149,7 +152,7 @@
   }
   function magicPanel(source, explicitSin = null) {
     const panel = node("section", "church-magic-action");
-    const button = node("button", "", "魔气洗脑");
+    const button = node("button", "", "魔气入脑");
     button.type = "button";
     button.addEventListener("click", () => cast(source, explicitSin));
     panel.append(node("strong", "", "魔纹能力"),

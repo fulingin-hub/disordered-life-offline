@@ -143,6 +143,10 @@
         LG.careerUI.refresh();
         LG.infernalChurchUI.renderChurch();
       }
+      if (!LG.infernalChurch.data().baptized) {
+        const result = await LG.authority.mutate("completeInfernalBaptism");
+        document.getElementById("infernalChurchStatus").textContent = result.message;
+      }
       play();
     } catch (err) {
       console.error("地狱教会入教洗礼失败:", err?.code, err?.message, err?.stack);

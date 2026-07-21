@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260721-infernal-offering-3",
+  buildId: "20260721-magic-brain-1",
   version: 7,
   eventRevision: 2026072101,
   stateKey: "disordered-life-state-v1",
@@ -137,6 +137,10 @@ window.LifeGame.CONFIG = {
       "./assets/generated/magic-gas-protagonist-male-haired.9022a9ae.webp",
     magicGasProtagonistFemale:
       "./assets/generated/magic-gas-protagonist-female-haired.00c6465e.webp",
+    magicGasThrallMale:
+      "./assets/generated/magic-gas-thrall-male-bald.webp",
+    magicGasThrallFemale:
+      "./assets/generated/magic-gas-thrall-female-bald.webp",
     protagonistMaleBase: "./assets/generated/protagonist-male-base.15d3eb1b.webp",
     protagonistFemaleBase: "./assets/generated/protagonist-female-base.055bb894.webp",
     protagonistMaleCharacterSet: "./assets/generated/protagonist-male-character-set-v2.10e1268e.webp",

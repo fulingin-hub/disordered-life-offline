@@ -1,7 +1,8 @@
 (function (LG) {
   const fallback = {
     joined: false, selectedThisRun: false, faith: null,
-    activeBooks: [], ownedBooks: [], books: [],
+    activeBooks: [], ownedBooks: [], books: [], baptized: false,
+    roomCastCount: 0,
     soul: { tier: "black", name: "黑色", total: 0, colors: ["black"], effects: [] },
   };
   LG.infernalChurch = {

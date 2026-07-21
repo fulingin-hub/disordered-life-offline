@@ -271,6 +271,26 @@
   filter: saturate(.78) contrast(1.08);
 }
 
+.magic-gas-dialog[data-portrait-tier="normal"] .magic-gas-target,
+.magic-gas-dialog[data-portrait-tier="advanced"] .magic-gas-target {
+  top: 28px;
+  width: 238px;
+  height: 318px;
+  border-radius: 14px;
+}
+
+.magic-gas-dialog[data-portrait-tier="normal"] .magic-gas-target img,
+.magic-gas-dialog[data-portrait-tier="advanced"] .magic-gas-target img {
+  object-position: center top;
+  opacity: .94;
+  filter: saturate(.9) contrast(1.08);
+}
+
+.magic-gas-dialog[data-portrait-tier="normal"] .magic-gas-target::after,
+.magic-gas-dialog[data-portrait-tier="advanced"] .magic-gas-target::after {
+  display: none;
+}
+
 .magic-gas-target::after {
   position: absolute;
   z-index: 3;

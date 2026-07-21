@@ -17,12 +17,13 @@
           LG.contributionRitual.showRoom(character, mode));
         actions.append(button);
       });
-    const magic = node("button", "", "魔气洗脑");
+    const magic = node("button", "", "魔气入脑");
     magic.type = "button";
-    magic.addEventListener("click", () => LG.infernalChurchUI.cast(character.name));
+    magic.addEventListener("click", () => LG.infernalChurchUI.cast(
+      character.name, null, { roomCharacter: character.id }));
     actions.append(magic);
     section.append(node("strong", "", "魔纹术式"),
-      node("p", "", "可选择献上灵魂、洗脑榨取，或让该角色发动魔气洗脑。"),
+      node("p", "", "可选择献上灵魂、洗脑榨取，或让该角色发动魔气入脑。"),
       actions);
     return section;
   }
