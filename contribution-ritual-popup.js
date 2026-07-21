@@ -19,8 +19,7 @@
       },
     },
   };
-  const el = {};
-  let requesting = false;
+  const el = {}; let requesting = false;
   function close() {
     LG.contributionRitualTimeline?.stop?.();
     LG.contributionRitualVoice?.stop?.();
@@ -121,7 +120,7 @@
     el.protagonist.alt = `${gender === "female" ? "女" : "男"}主角·${outfit.label}`;
     el.actor.src = meta.src;
     el.actor.alt = meta.name;
-    LG.femaleOfferingEffects?.prepare?.(el.dialog, meta, mode);
+    LG.femaleOfferingEffects?.prepare?.(el.dialog, meta, mode, durations);
     el.name.textContent = `${meta.name} · ${
       mode === "offering" ? "供奉" : "卖弄"}`;
     el.dialog.dataset.kind = meta.kind;
@@ -145,6 +144,8 @@
       phases: modes[mode].phases,
       durations,
       onPhase: (name, index) => phase(name, index, mode),
+      canAdvance: (context) =>
+        LG.femaleOfferingEffects?.canAdvance?.(el.dialog, context) !== false,
       finalLead: mode === "showcase" ? 3000 : 0,
       onFinalLead: mode === "showcase" ? impact : null,
       onFinish: close,

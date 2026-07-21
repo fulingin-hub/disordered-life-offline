@@ -101,6 +101,18 @@
   top: 60%;
 }
 
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-vent {
+  --vent-tilt-y: 0deg;
+  --vent-turn: 0deg;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-emissions i {
+  --emission-mid-x: 0vw;
+  --emission-target-x: 0vw;
+}
+
 .contribution-ritual-popup[data-female-offering-queen][data-phase="lower"]
   .female-offering-sigil.hip {
   top: 60%;

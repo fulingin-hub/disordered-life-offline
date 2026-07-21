@@ -51,10 +51,13 @@
       <div class="queen-offering-conduit">
         <div class="queen-offering-conduit-portrait"><img alt=""></div>
         <i class="queen-offering-conduit-core"></i>
+        <i class="queen-offering-corruption"></i>
         <b class="queen-offering-conduit-ring ring-a"></b>
         <b class="queen-offering-conduit-ring ring-b"></b>
       </div>
+      <div class="female-offering-target-corruption"></div>
       <div class="queen-offering-persona"></div>
+      <div class="female-offering-mouth-impact"><b><span></span></b></div>
       <div class="queen-offering-view"></div>`;
     const emissions = layer.querySelector(".female-offering-emissions");
     for (let index = 0; index < 10; index += 1) {
@@ -63,7 +66,9 @@
       art.className = "female-offering-sigil-art";
       sigil.append(art);
       sigil.style.setProperty("--emission-index", index);
-      sigil.style.setProperty("--emission-x", `${(index - 4.5) * 7}vw`);
+      sigil.style.setProperty("--emission-drift-x", `${(index - 4.5) * 1.25}vw`);
+      sigil.style.setProperty("--emission-land-offset",
+        `${(index % 5 - 2) * 1.1}vw`);
       sigil.style.setProperty("--emission-delay", `${-(index % 5) * .28}s`);
       emissions.append(sigil);
     }
@@ -89,7 +94,18 @@
     return layer;
   }
 
-  function prepare(dialog, meta, mode) {
+  function configureTimings(dialog, durations) {
+    const upper = Math.max(50, Number(durations?.[1]) || 10000);
+    const lower = Math.max(50, Number(durations?.[2]) || 5000);
+    const impactDuration = Math.max(80, Math.min(1800, lower * .38));
+    dialog.style.setProperty("--female-offering-upper-duration", `${upper}ms`);
+    dialog.style.setProperty("--female-offering-impact-delay",
+      `${Math.max(0, lower - impactDuration)}ms`);
+    dialog.style.setProperty("--female-offering-impact-duration",
+      `${impactDuration}ms`);
+  }
+
+  function prepare(dialog, meta, mode, durations) {
     reset(dialog);
     if (!eligible(meta, mode)) return false;
     const layer = ensure(dialog);
@@ -100,6 +116,8 @@
     pose.alt = `${meta.name}献上灵魂仪式动作`;
     dialog.dataset.femaleOffering = "true";
     dialog.dataset.femaleOfferingVariant = variant;
+    dialog.dataset.corruptionComplete = "false";
+    configureTimings(dialog, durations);
     if (queenSource) {
       dialog.dataset.femaleOfferingQueen = meta.id;
       const source = dialog.querySelector(".contribution-ritual-protagonist img");
@@ -111,7 +129,15 @@
   }
 
   function phaseCopy(dialog, phase) {
-    return dialog?.dataset.femaleOffering === "true" ? copy[phase] : null;
+    if (dialog?.dataset.femaleOffering !== "true") return null;
+    dialog.dataset.corruptionComplete = phase === "lower" ? "true" : "false";
+    return copy[phase];
+  }
+
+  function canAdvance(dialog, context) {
+    if (dialog?.dataset.femaleOffering !== "true") return true;
+    if (context?.phase !== "upper") return true;
+    return context.elapsed >= context.duration;
   }
 
   function reset(dialog) {
@@ -119,6 +145,10 @@
     delete dialog.dataset.femaleOffering;
     delete dialog.dataset.femaleOfferingVariant;
     delete dialog.dataset.femaleOfferingQueen;
+    delete dialog.dataset.corruptionComplete;
+    dialog.style.removeProperty("--female-offering-upper-duration");
+    dialog.style.removeProperty("--female-offering-impact-delay");
+    dialog.style.removeProperty("--female-offering-impact-duration");
     const conduit = dialog.querySelector(".queen-offering-conduit img");
     if (conduit) {
       conduit.removeAttribute("src");
@@ -126,5 +156,7 @@
     }
   }
 
-  LG.femaleOfferingEffects = { eligible, prepare, phaseCopy, reset };
+  LG.femaleOfferingEffects = {
+    eligible, prepare, phaseCopy, canAdvance, reset,
+  };
 })(window.LifeGame);

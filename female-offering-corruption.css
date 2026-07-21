@@ -1,0 +1,199 @@
+.queen-offering-corruption,
+.female-offering-target-corruption,
+.female-offering-mouth-impact {
+  display: none;
+  pointer-events: none;
+}
+
+.contribution-ritual-popup[data-female-offering="true"]
+  .female-offering-target-corruption {
+  position: absolute;
+  z-index: 6;
+  left: 16%;
+  bottom: 8%;
+  display: block;
+  width: clamp(100px, 21vw, 210px);
+  height: clamp(150px, 34vh, 320px);
+  overflow: hidden;
+  border-radius: 48% 48% 18% 18%;
+  opacity: 0;
+  background:
+    repeating-linear-gradient(113deg,
+      transparent 0 8px, rgba(112, 70, 42, .2) 9px 12px),
+    linear-gradient(180deg, #160b07, #4d2b1a 52%, #140906);
+  box-shadow: inset 0 0 28px #050201, 0 0 18px rgba(74, 39, 22, .8);
+  transform: scaleY(0);
+  transform-origin: center bottom;
+  mix-blend-mode: multiply;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-target-corruption {
+  display: none;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .queen-offering-corruption {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse at 50% 16%, rgba(139, 91, 53, .52), transparent 28%),
+    repeating-linear-gradient(118deg,
+      #160a06 0 9px, #4b2919 10px 16px, #241009 17px 22px);
+  box-shadow: inset 0 0 34px #020101;
+  transform: scaleY(0);
+  transform-origin: center bottom;
+  mix-blend-mode: multiply;
+}
+
+.contribution-ritual-popup.playing[data-female-offering="true"][data-phase="upper"]
+  .female-offering-target-corruption,
+.contribution-ritual-popup.playing[data-female-offering-queen][data-phase="upper"]
+  .queen-offering-corruption {
+  animation: female-offering-corruption-fill
+    var(--female-offering-upper-duration, 10000ms) linear forwards;
+}
+
+.contribution-ritual-popup[data-female-offering="true"][data-phase="lower"]
+  .female-offering-target-corruption,
+.contribution-ritual-popup[data-female-offering-queen][data-phase="lower"]
+  .queen-offering-corruption {
+  opacity: .94;
+  transform: scaleY(1);
+}
+
+.contribution-ritual-popup.playing[data-female-offering-queen][data-phase="upper"]
+  .queen-offering-conduit-core {
+  animation: female-offering-core-corrupt
+    var(--female-offering-upper-duration, 10000ms) linear forwards;
+}
+
+.contribution-ritual-popup[data-female-offering-queen][data-phase="lower"]
+  .queen-offering-conduit-core {
+  filter: brightness(.23) sepia(1) saturate(.72);
+  background: linear-gradient(180deg, transparent, #4a2919 35%, #130906);
+  box-shadow: 0 0 12px #2d160d, 0 0 25px #090403;
+}
+
+.contribution-ritual-popup[data-female-offering="true"]
+  .female-offering-mouth-impact {
+  position: absolute;
+  z-index: 12;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 54%,
+    transparent 0 14%, rgba(29, 11, 8, .46) 32%, rgba(4, 1, 1, .96) 76%);
+}
+
+.female-offering-mouth-impact b {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  display: block;
+  width: min(52vw, 520px);
+  height: min(20vw, 190px);
+  border: clamp(10px, 2vw, 22px) solid #7f234c;
+  border-width: clamp(15px, 2.8vw, 28px) clamp(9px, 1.8vw, 18px);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #050102 0 56%, #2f071c 59% 100%);
+  box-shadow:
+    inset 0 0 22px #000,
+    0 0 0 5px rgba(255, 154, 196, .42),
+    0 0 46px var(--soul-secondary, #752554);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.16);
+}
+
+.female-offering-mouth-impact b::before,
+.female-offering-mouth-impact b::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  height: 36%;
+  border-radius: 50%;
+  background: linear-gradient(#ff9ac4, #7d2049);
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, .7);
+}
+
+.female-offering-mouth-impact b::before { top: -31%; }
+.female-offering-mouth-impact b::after {
+  bottom: -31%;
+  transform: rotate(180deg);
+}
+
+.female-offering-mouth-impact b span {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 46%;
+  width: 24%;
+  height: 142%;
+  border-radius: 48% 48% 72% 72%;
+  background: linear-gradient(#ffc0dc, #b73372 58%, #68153e);
+  box-shadow: inset 0 3px 5px #ffe8f2, 0 0 18px #e56aa0;
+  transform: translateX(-50%) rotate(18deg);
+  transform-origin: center top;
+}
+
+.contribution-ritual-popup.playing[data-female-offering="true"][data-phase="lower"]
+  .female-offering-mouth-impact {
+  animation: female-offering-devour-flash
+    var(--female-offering-impact-duration, 1800ms)
+    cubic-bezier(.18, .72, .24, 1)
+    var(--female-offering-impact-delay, 3200ms) 1 both;
+}
+
+.contribution-ritual-popup.playing[data-female-offering="true"][data-phase="lower"]
+  .female-offering-mouth-impact b {
+  animation: female-offering-devour-mouth
+    var(--female-offering-impact-duration, 1800ms)
+    cubic-bezier(.16, .76, .2, 1)
+    var(--female-offering-impact-delay, 3200ms) 1 both;
+}
+
+.contribution-ritual-popup.playing[data-female-offering="true"][data-phase="lower"]
+  .female-offering-mouth-impact b span {
+  animation: female-offering-devour-tongue .28s ease-in-out
+    var(--female-offering-impact-delay, 3200ms) 4 alternate both;
+}
+
+@keyframes female-offering-corruption-fill {
+  0% { opacity: 0; transform: scaleY(0); filter: brightness(1.18); }
+  18% { opacity: .58; }
+  72% { opacity: .88; filter: brightness(.72); }
+  100% { opacity: .96; transform: scaleY(1); filter: brightness(.5); }
+}
+
+@keyframes female-offering-core-corrupt {
+  0% { filter: none; }
+  62% { filter: brightness(.64) sepia(.52) saturate(.82); }
+  100% { filter: brightness(.23) sepia(1) saturate(.72); }
+}
+
+@keyframes female-offering-devour-flash {
+  0%, 10% { opacity: 0; }
+  28% { opacity: .58; }
+  62% { opacity: 1; }
+  82% { opacity: .92; }
+  100% { opacity: 0; background-color: #020101; }
+}
+
+@keyframes female-offering-devour-mouth {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.16); }
+  24% { opacity: 1; transform: translate(-50%, -50%) scale(.7, .52); }
+  56% { opacity: 1; transform: translate(-50%, -50%) scale(1.45, 1.18); }
+  78% { opacity: 1; transform: translate(-50%, -50%) scale(2.34, 2.18); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(3.2); }
+}
+
+@keyframes female-offering-devour-tongue {
+  0% { transform: translateX(-50%) rotate(-38deg) scaleY(.82); }
+  100% { transform: translateX(-50%) rotate(42deg) scaleY(1.24); }
+}

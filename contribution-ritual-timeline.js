@@ -24,6 +24,7 @@
     if (active !== state) return;
     clearTimers();
     state.index = index;
+    state.enteredAt = performance.now();
     state.onPhase(state.phases[index], index);
     const duration = state.durations[index];
     if (index < state.phases.length - 1) {
@@ -56,6 +57,13 @@
   function advance() {
     const state = active;
     if (!state) return false;
+    const context = {
+      phase: state.phases[state.index],
+      index: state.index,
+      elapsed: performance.now() - state.enteredAt,
+      duration: state.durations[state.index],
+    };
+    if (state.canAdvance?.(context) === false) return false;
     if (state.index < state.phases.length - 1) {
       enter(state.index + 1, state, true);
     } else {
