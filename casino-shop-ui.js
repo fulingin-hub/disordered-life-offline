@@ -41,17 +41,18 @@
 
   function itemCard(item) {
     const owned = LG.casino.owns(item.id);
+    const price = LG.infernalChurch.price(item.price);
     const card = node("article", `casino-item${owned ? " owned" : ""}`);
     card.append(
-      node("span", "casino-item-state", owned ? "已拥有" : `${item.price}属性点`),
+      node("span", "casino-item-state", owned ? "已拥有" : `${price}属性点`),
       node("strong", "", item.name),
       node("p", "", item.description),
     );
     const button = node("button");
     button.type = "button";
-    button.disabled = buying || saveBlocked || owned || LG.traits.points() < item.price;
+    button.disabled = buying || saveBlocked || owned || LG.traits.points() < price;
     button.textContent = owned ? "已购买"
-      : LG.traits.points() < item.price ? `需要${item.price}点` : "购买";
+      : LG.traits.points() < price ? `需要${price}点` : "购买";
     button.addEventListener("click", () => buy(item));
     card.append(button);
     if (owned) {
@@ -92,7 +93,9 @@
     el.progress.textContent = `基础商品 ${regular.count}/${regular.total} · 内幕商品 ${
       LG.casino.owns(insider.id) ? "已购买" : LG.casino.insiderAvailable(characterId)
         ? "已解锁" : "未解锁"}`;
-    el.items.replaceChildren(...LG.casino.visibleItems(characterId).map(itemCard));
+    el.items.replaceChildren(...LG.casino.visibleItems(characterId).map(itemCard),
+      LG.roomRitualUI.panel({ id: character.id, name: character.name,
+        src: character.portrait, gender: "female" }));
     el.chat.disabled = !progress.complete;
     el.gallery.disabled = !progress.complete;
     el.chat.textContent = progress.complete ? "AI对话 · 服侍" : "买光后解锁AI对话";

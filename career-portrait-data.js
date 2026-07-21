@@ -74,15 +74,17 @@
       male: "./assets/generated/career-special-otherworld-tribute-command-male.4b31cebc.webp",
       female: "./assets/generated/career-special-otherworld-tribute-command-female.371c2d14.webp",
     },
+    "sigil-apostle": {
+      male: "./assets/generated/magic-gas-protagonist-male-fullbody.f5909ba8.webp",
+      female: "./assets/generated/magic-gas-protagonist-female.webp",
+    },
   };
   const specialIds = new Set([
     "ranch-livestock", "sanctuary-essence",
-    "paradise-foot", "domain-toilet", "otherworld-tribute",
+    "paradise-foot", "domain-toilet", "otherworld-tribute", "sigil-apostle",
   ]);
   const universityJobs = {
     "本部": ["scholar", "doctor", "engineer"],
-    "异界学科": ["adventurer", "cultivator", "scholar"],
-    "职业学院": ["mechanic", "agent", "engineer"],
   };
   const factionJobs = {
     sanctuary: ["scholar", "cultivator", "doctor"],

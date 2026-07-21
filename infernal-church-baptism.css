@@ -1,0 +1,403 @@
+.infernal-baptism-dialog {
+  width: min(980px, calc(100vw - 20px));
+  height: min(680px, calc(100dvh - 20px));
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #8f7441;
+  border-radius: 6px;
+  color: #f5efe8;
+  background: #08090d;
+}
+
+.infernal-baptism-dialog::backdrop {
+  background: rgba(1, 2, 4, .94);
+  backdrop-filter: blur(5px);
+}
+
+.infernal-baptism-scene {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 62%,
+      color-mix(in srgb, var(--baptism-soul-primary, #303038) 25%, transparent),
+      transparent 34%),
+    linear-gradient(rgba(7, 5, 10, .28), rgba(4, 5, 8, .96)),
+    url("./assets/generated/infernal-church-sanctuary.33f2c5bc.webp")
+      center / cover;
+}
+
+.baptism-close {
+  position: absolute;
+  z-index: 30;
+  top: max(10px, env(safe-area-inset-top));
+  right: max(10px, env(safe-area-inset-right));
+}
+
+.baptism-copy {
+  position: absolute;
+  z-index: 22;
+  top: 14px;
+  left: 16px;
+  max-width: min(480px, 68vw);
+  padding: 10px 12px;
+  border-left: 3px solid #d8a84e;
+  background: rgba(8, 7, 12, .78);
+  text-shadow: 0 2px 5px #000;
+}
+
+.baptism-copy h2,
+.baptism-copy p {
+  margin: 4px 0 0;
+}
+
+.baptism-copy h2 {
+  font-size: clamp(1rem, 2.6vw, 1.55rem);
+}
+
+.baptism-copy p {
+  color: #d2ccd5;
+  font-size: clamp(.76rem, 1.5vw, .92rem);
+  line-height: 1.45;
+}
+
+.baptism-priestess {
+  position: absolute;
+  z-index: 18;
+  right: -2%;
+  bottom: -8%;
+  width: min(55vw, 530px);
+  height: 94%;
+  object-fit: contain;
+  object-position: right bottom;
+  filter: drop-shadow(0 24px 34px #000);
+  transform-origin: 58% 78%;
+}
+
+.infernal-baptism-dialog.playing .baptism-priestess {
+  animation: baptism-priestess-step 2.1s cubic-bezier(.2, .72, .2, 1) infinite;
+}
+
+.baptism-target {
+  position: absolute;
+  z-index: 8;
+  left: 44%;
+  bottom: 4%;
+  width: clamp(92px, 18vw, 180px);
+  height: clamp(180px, 42vh, 360px);
+  transform: translateX(-50%);
+}
+
+.baptism-target img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter:
+    saturate(.45)
+    drop-shadow(0 0 18px var(--baptism-soul-primary, #303038));
+}
+
+.baptism-target b {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  width: clamp(36px, 6vw, 66px);
+  aspect-ratio: 1;
+  border: 2px solid var(--baptism-soul-primary, #303038);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    #fff 0 8%, var(--baptism-soul-primary, #303038) 12% 32%,
+    transparent 58%);
+  box-shadow:
+    0 0 18px var(--baptism-soul-primary, #303038),
+    0 0 42px var(--baptism-soul-secondary, #303038);
+  transform: translate(-50%, -50%);
+}
+
+.infernal-baptism-dialog.playing .baptism-target {
+  animation: baptism-target-shudder .34s ease-in-out infinite;
+}
+
+.infernal-baptism-dialog.playing .baptism-target b {
+  animation: baptism-soul-core 1.1s ease-in-out infinite;
+}
+
+.baptism-great-sigils,
+.baptism-soul-threads,
+.baptism-foot-sigils,
+.baptism-souls {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  pointer-events: none;
+}
+
+.baptism-great-sigil {
+  position: absolute;
+  left: var(--sigil-x);
+  top: var(--sigil-y);
+  width: clamp(76px, 13vw, 136px);
+  aspect-ratio: 1;
+  border: 3px solid var(--sigil-color);
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from 8deg,
+      transparent 0 17deg, var(--sigil-color) 18deg 20deg),
+    radial-gradient(circle, transparent 0 28%,
+      color-mix(in srgb, var(--sigil-color) 48%, transparent) 30% 34%,
+      transparent 36% 52%, var(--sigil-color) 54% 56%, transparent 58%);
+  box-shadow:
+    inset 0 0 24px color-mix(in srgb, var(--sigil-color) 52%, transparent),
+    0 0 28px var(--sigil-color);
+  opacity: .86;
+  transform: translate(-50%, -50%);
+}
+
+.baptism-great-sigil b {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 46%;
+  height: 18%;
+  border-radius: 50%;
+  background: linear-gradient(#ff9dcc, #8f194e);
+  box-shadow: inset 0 0 6px #ffe0ed, 0 0 10px var(--sigil-color);
+  clip-path: polygon(0 50%, 24% 8%, 50% 31%, 76% 8%, 100% 50%,
+    76% 92%, 50% 69%, 24% 92%);
+  transform: translate(-50%, -50%);
+}
+
+.baptism-great-sigil b span {
+  position: absolute;
+  top: 54%;
+  left: 50%;
+  width: 24%;
+  height: 122%;
+  border-radius: 48% 48% 72% 72%;
+  background: linear-gradient(#ffc1dc, #a31f60);
+  box-shadow: 0 0 7px #ff75b7;
+  transform: translateX(-50%);
+  transform-origin: center top;
+}
+
+.infernal-baptism-dialog.playing .baptism-great-sigil {
+  animation: baptism-great-turn 4.8s linear infinite;
+}
+
+.infernal-baptism-dialog.playing .baptism-great-sigil b {
+  animation: baptism-mouth-pulse .58s ease-in-out infinite;
+}
+
+.infernal-baptism-dialog.playing .baptism-great-sigil b span {
+  animation: baptism-tongue-four-way .68s ease-in-out infinite;
+}
+
+.baptism-soul-thread {
+  position: absolute;
+  left: 44%;
+  top: 63%;
+  width: min(45vw, 430px);
+  height: 5px;
+  border-radius: 50%;
+  background: linear-gradient(90deg,
+    var(--baptism-soul-primary, #303038),
+    color-mix(in srgb, var(--thread-color) 84%, white));
+  box-shadow: 0 0 13px var(--thread-color);
+  opacity: 0;
+  transform: rotate(var(--thread-angle));
+  transform-origin: left center;
+}
+
+.infernal-baptism-dialog.playing .baptism-soul-thread {
+  animation: baptism-thread-draw 1.1s ease-in-out infinite;
+}
+
+.baptism-foot-sigils {
+  z-index: 5;
+  left: 44%;
+  top: 61%;
+  width: 1px;
+  height: 1px;
+  overflow: visible;
+}
+
+.baptism-foot-sigil {
+  position: absolute;
+  width: clamp(34px, 5vw, 54px);
+  aspect-ratio: 1;
+  border: 2px solid var(--baptism-soul-secondary, #9b65dc);
+  border-radius: 50%;
+  background: rgba(6, 5, 9, .72);
+  box-shadow: 0 0 13px var(--baptism-soul-primary, #303038);
+  transform:
+    rotate(var(--orbit-angle))
+    translateX(clamp(170px, 31vw, 330px))
+    rotate(calc(-1 * var(--orbit-angle)));
+}
+
+.baptism-foot-sigil b {
+  position: absolute;
+  top: 19%;
+  left: 38%;
+  width: 28%;
+  height: 58%;
+  border-radius: 48% 52% 62% 38%;
+  background: linear-gradient(
+    var(--baptism-soul-primary, #303038),
+    var(--baptism-soul-tertiary, #303038));
+  transform: rotate(-12deg);
+}
+
+.baptism-foot-sigil b span {
+  position: absolute;
+  top: -14%;
+  left: -35%;
+  width: 36%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--baptism-soul-secondary, #303038);
+  box-shadow:
+    8px -5px 0 -1px var(--baptism-soul-secondary, #303038),
+    16px -6px 0 -2px var(--baptism-soul-secondary, #303038),
+    23px -3px 0 -3px var(--baptism-soul-secondary, #303038);
+}
+
+.infernal-baptism-dialog.playing .baptism-foot-sigil {
+  animation: baptism-foot-pulse 1.25s ease-in-out infinite;
+  animation-delay: var(--orbit-delay);
+}
+
+.baptism-souls {
+  z-index: 9;
+}
+
+.baptism-souls i {
+  position: absolute;
+  left: 44%;
+  top: 55%;
+  width: 8px;
+  height: 18px;
+  border-radius: 50% 50% 42% 42%;
+  background: linear-gradient(#fff, var(--soul-color));
+  box-shadow: 0 0 12px var(--soul-color);
+  opacity: 0;
+}
+
+.infernal-baptism-dialog.playing .baptism-souls i {
+  animation: baptism-soul-extract 1.55s ease-in infinite;
+  animation-delay: var(--soul-delay);
+}
+
+.baptism-status {
+  position: absolute;
+  z-index: 24;
+  right: 16px;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  max-width: 55%;
+  padding: 8px 10px;
+  border-right: 3px solid #d8a84e;
+  background: rgba(5, 5, 8, .78);
+  color: #f4d995;
+  text-align: right;
+}
+
+.infernal-baptism-dialog.completed .baptism-status {
+  color: #9be6c0;
+}
+
+@keyframes baptism-priestess-step {
+  0%, 100% { transform: translate3d(0, 1%, 0) rotate(-.8deg) scale(.96); }
+  48% { transform: translate3d(-4%, -1%, 0) rotate(.7deg) scale(1.06); }
+  58% { transform: translate3d(-7%, 2%, 0) rotate(.4deg) scale(1.13); }
+}
+
+@keyframes baptism-target-shudder {
+  0%, 100% { translate: -2px 0; }
+  50% { translate: 2px 1px; }
+}
+
+@keyframes baptism-soul-core {
+  0%, 100% { transform: translate(-50%, -50%) scale(.78); opacity: .72; }
+  50% { transform: translate(-50%, -50%) scale(1.18); opacity: 1; }
+}
+
+@keyframes baptism-great-turn {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes baptism-mouth-pulse {
+  0%, 100% { scale: .88; }
+  50% { scale: 1.12; }
+}
+
+@keyframes baptism-tongue-four-way {
+  0% { transform: translateX(-50%) rotate(-38deg) translateY(2%); }
+  25% { transform: translateX(-50%) rotate(0) translateY(24%); }
+  50% { transform: translateX(-50%) rotate(38deg) translateY(2%); }
+  75% { transform: translateX(-50%) rotate(0) translateY(-18%); }
+  100% { transform: translateX(-50%) rotate(-38deg) translateY(2%); }
+}
+
+@keyframes baptism-thread-draw {
+  0% { opacity: 0; scale: 0 1; }
+  26%, 72% { opacity: .86; scale: 1 1; }
+  100% { opacity: 0; scale: .3 1; }
+}
+
+@keyframes baptism-foot-pulse {
+  0%, 100% { opacity: .42; filter: brightness(.75); }
+  50% { opacity: 1; filter: brightness(1.45); }
+}
+
+@keyframes baptism-soul-extract {
+  0% { opacity: 0; transform: translate(0, 0) scale(.4); }
+  18% { opacity: .92; }
+  100% {
+    opacity: 0;
+    transform: translate(var(--soul-x), var(--soul-y)) scale(.15);
+  }
+}
+
+@media (max-width: 620px) {
+  .baptism-priestess {
+    right: -22%;
+    width: 82vw;
+    height: 88%;
+  }
+
+  .baptism-target {
+    left: 35%;
+  }
+
+  .baptism-soul-thread,
+  .baptism-souls i {
+    left: 35%;
+  }
+
+  .baptism-foot-sigils {
+    left: 35%;
+  }
+
+  .baptism-foot-sigil {
+    transform:
+      rotate(var(--orbit-angle))
+      translateX(clamp(128px, 38vw, 230px))
+      rotate(calc(-1 * var(--orbit-angle)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .infernal-baptism-dialog.playing .baptism-priestess,
+  .infernal-baptism-dialog.playing .baptism-target,
+  .infernal-baptism-dialog.playing .baptism-target b,
+  .infernal-baptism-dialog.playing .baptism-great-sigil,
+  .infernal-baptism-dialog.playing .baptism-great-sigil b,
+  .infernal-baptism-dialog.playing .baptism-great-sigil b span,
+  .infernal-baptism-dialog.playing .baptism-soul-thread,
+  .infernal-baptism-dialog.playing .baptism-foot-sigil,
+  .infernal-baptism-dialog.playing .baptism-souls i {
+    animation-duration: 4s;
+  }
+}

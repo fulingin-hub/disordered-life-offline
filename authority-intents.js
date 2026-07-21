@@ -3,6 +3,7 @@
   const uncertainCodes = new Set([
     "NETWORK_ERROR", "TIMEOUT", "runtime_unavailable", "runtime_busy",
     "too_many_requests", "SERVICE_UNAVAILABLE", "INTERNAL_ERROR",
+    "AUTHORITY_BUSY",
   ]);
 
   function createId(method) {
@@ -41,7 +42,7 @@
       return Boolean(err?.retryable)
         || uncertainCodes.has(err?.code)
         || err?.message === "AUTHORITY_BUSY"
-        || /http 504/i.test(String(err?.message || ""));
+        || /http 50[234]/i.test(String(err?.message || ""));
     },
   };
 })(window.LifeGame);

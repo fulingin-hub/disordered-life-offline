@@ -109,7 +109,7 @@
       el.items.hidden = market; el.gallery.hidden = !LG.GALLERY_ASSETS[character]?.items.length;
       el.careerSpecial.hidden = !["agencyCouple", "restaurantCouple"].includes(character);
       el.careerSpecial.textContent = character === "agencyCouple"
-        ? "六大势力聘用证明" : "街头传奇的菜单";
+        ? "阵营聘用证明" : "街头传奇的菜单";
       if (market) el.gallery.textContent = LG.collectibles.galleryUnlocked(character) ? "CG画廊" : "CG画廊·未解锁";
       if (!market) {
         const collection = LG.collectibles.progress(character);

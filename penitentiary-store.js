@@ -116,10 +116,13 @@
         state?.equipment?.[LG.EQUIPMENT_SLOTS[index].id] === role.certificate);
     },
     itemPrice(id, item) {
-      if (item?.type !== "consumable") return item?.price || 0;
+      if (item?.type !== "consumable") {
+        return LG.infernalChurch.price(item?.price || 0);
+      }
       if (this.policeSetEquipped()) return 0;
-      return this.collectionComplete(id)
+      const price = this.collectionComplete(id)
         ? LG.PENITENTIARY_DATA.prices.premium : LG.PENITENTIARY_DATA.prices.item;
+      return LG.infernalChurch.price(price);
     },
     consumableQuantity(id, itemId) {
       const key = `penitentiary-${id}-${itemId.split("-").slice(-2).join("-")}`;

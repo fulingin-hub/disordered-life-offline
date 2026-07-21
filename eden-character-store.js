@@ -43,7 +43,7 @@
         ...item,
         owned,
         unlocked: this.storeUnlocked(id),
-        price: discounted ? 1 : item.price,
+        price: LG.infernalChurch.price(discounted ? 1 : item.price),
         quantity: item.group === "consumable"
           ? Math.max(0, Math.floor(Number(potion(id, itemId)?.quantity) || 0)) : null,
         used: item.group === "consumable" ? usage(id, itemId) : null,

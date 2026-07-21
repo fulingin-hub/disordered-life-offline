@@ -185,6 +185,17 @@
   <link rel="stylesheet" href="./infernal-stomp-popup.css?v=20260721-2">
   <link rel="stylesheet" href="./faction-leader-sacrifice-popup.css?v=20260721-2">
   <link rel="stylesheet" href="./character-foot-impact-popup.css?v=20260721-1">
+  <link rel="stylesheet" href="./butt-impact-popup.css?v=20260721-5">
+  <link rel="stylesheet" href="./butt-impact-splashes.css?v=20260721-3">
+  <link rel="stylesheet" href="./butt-impact-timeline.css?v=20260721-1">
+  <link rel="stylesheet" href="./butt-impact-camera.css?v=20260721-3">
+  <link rel="stylesheet" href="./butt-impact-variants.css?v=20260721-6">
+  <link rel="stylesheet" href="./contribution-ritual-popup.css?v=20260721-3">
+  <link rel="stylesheet" href="./contribution-showcase.css?v=20260721-7">
+  <link rel="stylesheet" href="./contribution-showcase-effects.css?v=20260721-4">
+  <link rel="stylesheet" href="./contribution-magic-sigil.css?v=20260721-3">
+  <link rel="stylesheet" href="./contribution-ritual-modes.css?v=20260721-5">
+  <link rel="stylesheet" href="./female-offering-effects.css?v=20260721-1">
   <link rel="stylesheet" href="./tribute.css">
   <link rel="stylesheet" href="./gallery.css">
   <link rel="stylesheet" href="./traits.css">
@@ -201,6 +212,8 @@
   <link rel="stylesheet" href="./systems.css?v=20260718-3">
   <link rel="stylesheet" href="./career.css?v=20260720-5">
   <link rel="stylesheet" href="./faction-rooms.css?v=20260720-1">
+  <link rel="stylesheet" href="./infernal-church.css?v=20260721-1">
+  <link rel="stylesheet" href="./infernal-church-baptism.css?v=20260721-1">
   <link rel="stylesheet" href="./save-recovery.css?v=20260718-3">
   <link rel="stylesheet" href="./responsive.css">
   <link rel="stylesheet" href="./offline.css">
@@ -815,6 +828,59 @@
     <div id="playerGalleryGrid" class="player-gallery-grid"></div>
   </dialog>
 
+  <dialog id="infernalChurchDialog" class="infernal-church-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">黑街 · 地狱教会</span>
+        <h2>七大欲女祭司的祭祀所</h2>
+      </div>
+      <button id="closeInfernalChurchButton" class="quiet-button"
+        type="button">关闭</button>
+    </div>
+    <div class="infernal-church-scroll">
+      <section class="infernal-church-hero">
+        <img src="./assets/generated/infernal-church-priestess.6afa716d.webp"
+          alt="七大欲女祭司">
+        <div class="infernal-church-copy">
+          <span class="event-type">七大欲的代言人 · 教主</span>
+          <h3>七大欲的人间体降临凡间</h3>
+          <p>七大欲的人间体，降临凡间，如果想成为魔纹贱畜就快点爬来跪好，接受教主的踩脸洗礼，成为光荣的魔纹贱畜吧！</p>
+          <strong id="infernalChurchState"></strong>
+        </div>
+      </section>
+      <p id="infernalChurchStatus" class="system-status" role="status"></p>
+      <div class="church-actions church-baptism-action">
+        <p>地狱教会无偿加入。入教洗礼不会消耗属性点、人格或败北值。</p>
+        <button id="infernalChurchBaptismButton" type="button">入教洗礼</button>
+      </div>
+      <h3>七大欲的赏赐</h3>
+      <div id="infernalChurchFaiths" class="faith-grid"></div>
+      <div class="church-actions">
+        <p>不选择欲望信仰，只接受通用魔纹保护。</p>
+        <button id="infernalChurchNoFaith" type="button">领取通用魔纹法术书</button>
+      </div>
+      <h3>本轮魔纹法术书</h3>
+      <div id="infernalChurchActiveBooks" class="sigil-book-grid"></div>
+    </div>
+  </dialog>
+
+  <dialog id="magicGasDialog" class="magic-gas-dialog">
+    <div class="magic-gas-scene">
+      <button id="closeMagicGasButton" class="quiet-button" type="button">关闭</button>
+      <div class="magic-gas-target">
+        <img id="magicGasTarget" alt="">
+      </div>
+      <div class="magic-gas-cloud" aria-hidden="true"></div>
+      <div class="magic-gas-sigil" aria-hidden="true"><i></i></div>
+      <div class="magic-gas-copy">
+        <span class="event-type">魔纹术式 · 魔气洗脑</span>
+        <h2 id="magicGasSource">魔纹贱畜</h2>
+        <p>魔气包裹头部并保持面部可见，灵魂被快速牵引至魔纹核心。</p>
+        <strong id="magicGasResult" role="status">等待术式发动。</strong>
+      </div>
+    </div>
+  </dialog>
+
   <dialog id="traitsDialog" class="traits-dialog">
     <div class="dialog-heading">
       <div>
@@ -832,6 +898,8 @@
         aria-controls="vehiclePage">乘骑载具</button>
       <button type="button" role="tab" data-traits-page="collection"
         aria-controls="collectionPage">角色收藏</button>
+      <button type="button" role="tab" data-traits-page="soul"
+        aria-controls="soulPage">灵魂之火</button>
     </div>
     <section id="traitsPage">
       <div class="traits-summary">
@@ -907,16 +975,29 @@
     </section>
     <section id="collectionPage" hidden>
       <div class="shop-summary">
-        已获得角色道具 <strong id="shopOwnedCount">0</strong>
+        <span id="shopOwnedLabel">已获得角色道具</span>
+        <strong id="shopOwnedCount">0</strong>
       </div>
       <div class="collection-privacy-tabs" role="tablist" aria-label="收藏类型">
         <button type="button" role="tab" data-collection-privacy="normal">普通收藏</button>
         <button type="button" role="tab" data-collection-privacy="private">私密收藏</button>
+        <button type="button" role="tab" data-collection-privacy="corruption">堕落收藏</button>
       </div>
       <p id="shopStatus" class="system-status">
         角色收藏仅供查看，不能在此使用道具。
       </p>
       <div id="shopItems" class="collectible-grid"></div>
+    </section>
+    <section id="soulPage" hidden>
+      <div class="soul-panel">
+        <div id="soulFlames" class="soul-flames" aria-hidden="true"></div>
+        <div>
+          <span class="event-type">本轮灵魂状态</span>
+          <h3 id="soulName">黑色灵魂之火</h3>
+          <strong id="soulTotal">累计人格 0</strong>
+          <p id="soulLore"></p>
+        </div>
+      </div>
     </section>
   </dialog>
 
@@ -931,7 +1012,7 @@
     <div class="career-tabs" role="tablist" aria-label="职业系统页面">
       <button type="button" role="tab" data-career-view="stats">职业属性</button>
       <button type="button" role="tab" data-career-view="loadout">职业装备</button>
-      <button type="button" role="tab" data-career-view="factions">六大势力</button>
+      <button type="button" role="tab" data-career-view="factions">选择阵营</button>
       <button type="button" role="tab" data-career-view="benefits">聘用与菜单</button>
     </div>
     <p id="careerStatus" class="system-status" role="status"></p>
@@ -1451,9 +1532,11 @@
   <script src="./eden-character-data.js"></script>
   <script src="./penitentiary-data.js"></script>
   <script src="./infernal-data.js"></script>
+  <script src="./infernal-church-data.js"></script>
   <script src="./abyss-data.js"></script>
   <script src="./infernal-reputation-ui.js"></script>
   <script src="./infernal-club-data.js"></script>
+  <script src="./infernal-church-magic.js"></script>
   <script src="./penitentiary-dialogue.js"></script>
   <script src="./eden-character-dialogue.js"></script>
   <script src="./infernal-club-dialogue.js"></script>
@@ -1463,6 +1546,7 @@
   <script src="./collectibles-data.js"></script>
   <script src="./cg-assets.js"></script>
   <script src="./foot-impact-achievement-assets.js"></script>
+  <script src="./contribution-showcase-achievement-assets.js"></script>
   <script src="./parental-cg-assets.js"></script>
   <script src="./ending-gender-assets.js"></script>
   <script src="./infernal-ending-assets.js"></script>
@@ -1493,6 +1577,7 @@
   <script src="./penitentiary-store.js"></script>
   <script src="./infernal-store.js"></script>
   <script src="./infernal-club-store.js"></script>
+  <script src="./infernal-church-store.js"></script>
   <script src="./casino-rules.js"></script>
   <script src="./black-market-potions.js"></script>
   <script src="./black-market-store.js"></script>
@@ -1512,6 +1597,7 @@
   <script src="./ambient-music.js"></script>
   <script src="./audio.js"></script>
   <script src="./narration-voices.js"></script>
+  <script src="./narration-voice-assets.js"></script>
   <script src="./narrator-catalog.js"></script>
   <script src="./narration.js"></script>
   <script src="./narrator-settings.js"></script>
@@ -1521,16 +1607,31 @@
   <script src="./item-feedback.js"></script>
   <script src="./foot-variant-data.js"></script>
   <script src="./character-foot-impact-popup.js"></script>
+  <script src="./butt-impact-voice.js"></script>
+  <script src="./butt-impact-meta.js"></script>
+  <script src="./butt-impact-popup.js"></script>
+  <script src="./butt-impact-tracker.js"></script>
+  <script src="./contribution-ritual-voice.js"></script>
+  <script src="./contribution-showcase.js"></script>
+  <script src="./contribution-showcase-effects.js"></script>
+  <script src="./contribution-ritual-data.js"></script>
+  <script src="./contribution-ritual-timeline.js"></script>
+  <script src="./female-offering-effects.js"></script>
+  <script src="./contribution-ritual-popup.js"></script>
+  <script src="./room-ritual-ui.js"></script>
   <script src="./casino-temptations.js"></script>
   <script src="./casino-game.js"></script>
   <script src="./authority-fallback.js"></script>
   <script src="./authority-intents.js"></script>
+  <script src="./authority-retry.js"></script>
+  <script src="./preview-profile.js"></script>
   <script src="./authority.js"></script>
   <script src="./daily-clock.js"></script>
   <script src="./vehicle-store.js"></script>
   <script src="./life-cinema.js"></script>
   <script src="./engine.js"></script>
   <script src="./casino-access.js"></script>
+  <script src="./asset-recovery.js"></script>
   <script src="./loader.js"></script>
   <script src="./dialogue-request-lock.js"></script>
   <script src="./dialogue-authority.js"></script>
@@ -1549,6 +1650,8 @@
   <script src="./player-gallery-ui.js"></script>
   <script src="./black-market-refresh-ui.js"></script>
   <script src="./black-market-ui.js"></script>
+  <script src="./infernal-church-baptism.js"></script>
+  <script src="./infernal-church-ui.js"></script>
   <script src="./collection-use-ui.js"></script>
   <script src="./room-consumables-ui.js"></script>
   <script src="./casino-chat-ui.js"></script>

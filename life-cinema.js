@@ -115,7 +115,7 @@
       ? "离线版已解锁：一键开放全部事件结局（包括真结局与隐藏结局）"
       : endings.text || "正在同步解锁进度";
     el.powerText.textContent = testEnabled
-      ? "离线版已解锁：一键开放常规成就与内容；足底动画隐藏成就不自动解锁"
+      ? "离线版已解锁：一键开放常规内容；足底与供奉卖弄隐藏成就不自动解锁"
       : collections.text || "正在同步解锁进度";
   }
 
@@ -171,8 +171,8 @@
     el.power.addEventListener("click", () => unlock(
       "unlockAllCollections",
       LG.TEST_MODE?.lifeCinemaCheats === true
-        ? "确定一键解锁常规成就与内容？足底动画一万/两万/五万次隐藏成就仍需手动累计。"
-        : "确定永久解锁全部道具、六大势力职业内容、画廊CG、特殊入口与常规成就？足底动画隐藏成就仍需手动累计。",
+        ? "确定一键解锁常规内容？足底与供奉卖弄隐藏成就仍需手动累计。"
+        : "确定永久解锁全部道具、阵营职业内容、画廊CG、特殊入口与常规成就？足底与供奉卖弄隐藏成就仍需手动累计。",
     ));
     refreshUnlocks();
     LG.authority.subscribe(() => {

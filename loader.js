@@ -24,7 +24,7 @@
     }
   }
 
-  function loadImage(src) {
+  function loadImage(src, attempt = 0) {
     if (!src || loadedSources.has(src)) return Promise.resolve(true);
     return new Promise((resolve) => {
       const image = new Image();
@@ -41,14 +41,19 @@
       const timer = window.setTimeout(() => finish(false), IMAGE_TIMEOUT);
       image.onload = () => finish(true);
       image.onerror = () => finish(false);
-      image.src = src;
+      image.src = attempt ? LG.assetRecovery.retrySource(src, attempt) : src;
     });
   }
 
   async function loadImageWithRetry(src) {
-    if (await loadImage(src)) return true;
-    await new Promise((resolve) => window.setTimeout(resolve, 250));
-    return loadImage(src);
+    for (let attempt = 0; attempt <= 2; attempt += 1) {
+      if (await loadImage(src, attempt)) return true;
+      if (attempt < 2) {
+        await new Promise((resolve) =>
+          window.setTimeout(resolve, attempt ? 900 : 300));
+      }
+    }
+    return false;
   }
 
   async function preloadEntries(entries, message) {
@@ -86,6 +91,7 @@
 
   LG.loader = {
     start() {
+      LG.assetRecovery.install();
       progress({ phase: "start", message: "Preparing life simulation" });
     },
     waitForSdk() {
@@ -139,6 +145,15 @@
         }
       }
       await Promise.all(Array.from({ length: 2 }, worker));
+    },
+    syncRetry(attempt, retries, delay) {
+      const text = `权威存档连接繁忙，${Math.round(delay / 100) / 10}秒后重试`
+        + `（${attempt}/${retries}）`;
+      progress({
+        phase: "runtime_initializing",
+        message: text,
+      });
+      document.getElementById("bootSplashStatus").textContent = text;
     },
     ready() {
       progress({ phase: "first_frame", message: "Life begins" });

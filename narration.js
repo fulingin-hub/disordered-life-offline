@@ -31,8 +31,8 @@
   }
 
   function source(payload) {
-    return `./assets/voices/events/${voiceId}/`
-      + `${payload.id}-${textHash(payload.text)}.mp3`;
+    const filename = `${payload.id}-${textHash(payload.text)}.mp3`;
+    return LG.narrationVoiceSource(voiceId, filename);
   }
 
   function voiceDetail(prefix) {

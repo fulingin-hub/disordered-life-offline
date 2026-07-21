@@ -78,12 +78,14 @@
   }
 
   function show(page) {
-    activePage = ["equipment", "vehicle", "collection"].includes(page)
+    activePage = ["equipment", "vehicle", "collection", "soul"]
+      .includes(page)
       ? page : "traits";
     el.traitsPage.hidden = activePage !== "traits";
     el.equipmentPage.hidden = activePage !== "equipment";
     el.vehiclePage.hidden = activePage !== "vehicle";
     el.collectionPage.hidden = activePage !== "collection";
+    el.soulPage.hidden = activePage !== "soul";
     el.tabs.forEach((button) => {
       const selected = button.dataset.traitsPage === activePage;
       button.classList.toggle("selected", selected);
@@ -92,6 +94,7 @@
     if (activePage === "equipment") render();
     if (activePage === "vehicle") LG.vehicleProfileUI?.render?.();
     if (activePage === "collection") LG.collectiblesUI?.openStore?.();
+    if (activePage === "soul") LG.infernalChurchUI?.renderSoul?.();
   }
 
   LG.equipmentUI = {
@@ -101,6 +104,7 @@
       el.equipmentPage = document.getElementById("equipmentPage");
       el.vehiclePage = document.getElementById("vehiclePage");
       el.collectionPage = document.getElementById("collectionPage");
+      el.soulPage = document.getElementById("soulPage");
       el.shame = document.getElementById("equipmentShame");
       el.reduction = document.getElementById("equipmentReduction");
       el.set = document.getElementById("equipmentSet");

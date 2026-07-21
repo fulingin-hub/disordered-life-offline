@@ -1,0 +1,332 @@
+.contribution-mouth-sigil {
+  position: absolute;
+  z-index: 7;
+  left: 50%;
+  top: 24%;
+  width: min(29vw, 286px);
+  aspect-ratio: .66 / 1;
+  opacity: .74;
+  transform: translate(-50%, -50%) scale(.82);
+  transform-origin: center;
+  pointer-events: none;
+  transition: left .7s ease, top .7s ease, opacity .5s ease,
+    transform .7s ease;
+  animation: contribution-mouth-sigil-breathe 2.1s ease-in-out infinite;
+}
+
+.contribution-mouth-sigil::before {
+  content: "";
+  position: absolute;
+  inset: -28% -48%;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 38% 54%,
+      color-mix(in srgb, var(--showcase-secondary) 72%, transparent),
+      transparent 44%),
+    radial-gradient(ellipse at 66% 42%,
+      color-mix(in srgb, var(--showcase-primary) 52%, transparent),
+      transparent 46%),
+    radial-gradient(ellipse,
+      color-mix(in srgb, var(--showcase-secondary) 38%, transparent),
+      transparent 68%);
+  filter: blur(24px);
+  opacity: .82;
+  animation: contribution-magic-fog 3.2s ease-in-out infinite;
+}
+
+.sigil-disc {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  background:
+    url("./assets/generated/ritual-foot-sigil-overlay.56093ee7.webp")
+    center / contain no-repeat;
+  filter:
+    hue-rotate(var(--kiss-hue, 0deg))
+    saturate(1.3)
+    drop-shadow(0 0 16px var(--showcase-primary))
+    drop-shadow(0 0 38px var(--showcase-secondary));
+  mix-blend-mode: screen;
+}
+
+.sigil-disc::after {
+  content: "";
+  position: absolute;
+  inset: 25%;
+  border: 3px solid color-mix(in srgb, var(--showcase-primary) 72%, #fff);
+  border-radius: 50%;
+  box-shadow:
+    0 0 18px var(--showcase-primary),
+    inset 0 0 18px var(--showcase-secondary);
+  animation: contribution-magic-core-spin 7s linear infinite;
+}
+
+.sigil-disc::before {
+  content: "";
+  position: absolute;
+  inset: 11%;
+  border: 1px solid color-mix(in srgb, var(--showcase-secondary) 74%, #fff);
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from 12deg, transparent 0 13deg,
+      color-mix(in srgb, var(--showcase-primary) 62%, transparent) 14deg 16deg),
+    radial-gradient(circle, transparent 0 43%,
+      color-mix(in srgb, var(--showcase-secondary) 46%, transparent) 45% 47%,
+      transparent 49%);
+  box-shadow: inset 0 0 18px var(--showcase-primary);
+  animation: contribution-magic-core-spin 11s linear infinite reverse;
+}
+
+.sigil-mouth {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  display: block;
+  width: 34%;
+  height: 14%;
+  border: 2px solid color-mix(in srgb, var(--showcase-primary) 74%, #fff);
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--showcase-secondary) 82%, #ff8bcf),
+      color-mix(in srgb, var(--showcase-primary) 68%, #8e174f));
+  box-shadow:
+    inset 0 0 8px #fff4fb,
+    0 0 12px #fff,
+    0 0 26px var(--showcase-secondary);
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  clip-path: polygon(0 50%, 23% 10%, 50% 31%, 77% 10%, 100% 50%,
+    77% 90%, 50% 69%, 23% 90%);
+  animation: contribution-sigil-mouth-open .78s ease-in-out infinite;
+}
+
+.sigil-mouth::before {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 38%;
+  height: 24%;
+  border-radius: 50%;
+  background: #09020f;
+  box-shadow: inset 0 0 5px #000, 0 0 5px rgba(255, 255, 255, .5);
+}
+
+.sigil-mouth b {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 52%;
+  width: 24%;
+  height: 66%;
+  border-radius: 44% 44% 70% 70%;
+  background: linear-gradient(#ff8cc9, #9e255f);
+  box-shadow: inset 0 2px 3px #ffcde8, 0 0 7px #ff82c6;
+  transform: translateX(-50%);
+  transform-origin: center top;
+  animation: contribution-sigil-tongue .92s ease-in-out infinite;
+}
+
+.contribution-kiss::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 47%;
+  width: 18%;
+  height: 38%;
+  border-radius: 46% 46% 72% 72%;
+  background: linear-gradient(#ff9bd1, #9d215e);
+  box-shadow: inset 0 2px 3px #ffd7eb, 0 0 7px #ff78ba;
+  transform: translateX(-50%) rotate(-13deg);
+  transform-origin: center top;
+  animation: contribution-kiss-tongue .62s ease-in-out infinite alternate;
+}
+
+.contribution-ritual-gesture {
+  position: absolute;
+  z-index: 6;
+  left: 80%;
+  top: 28%;
+  display: none;
+  width: 56px;
+  height: 58px;
+  border: 3px solid color-mix(in srgb, var(--showcase-primary) 62%, #181019);
+  border-radius: 18px 18px 24px 24px;
+  background: linear-gradient(90deg, #271b28, #a2788d 48%, #251925);
+  box-shadow: 0 0 18px var(--showcase-secondary), 0 18px 26px #000;
+  transform: rotate(8deg);
+  pointer-events: none;
+}
+
+.contribution-ritual-gesture::before,
+.contribution-ritual-gesture::after {
+  content: "";
+  position: absolute;
+  border: 3px solid color-mix(in srgb, var(--showcase-primary) 62%, #181019);
+  background: linear-gradient(90deg, #271b28, #a2788d 48%, #251925);
+}
+
+.contribution-ritual-gesture::before {
+  left: 17px;
+  top: -58px;
+  width: 18px;
+  height: 66px;
+  border-radius: 12px;
+}
+
+.contribution-ritual-gesture::after {
+  z-index: -1;
+  left: -14px;
+  top: 12px;
+  width: 78px;
+  height: 32px;
+  border-radius: 18px;
+}
+
+.contribution-ritual-protagonist::before {
+  z-index: 0;
+  width: 68%;
+  height: 31%;
+  background:
+    radial-gradient(ellipse,
+      color-mix(in srgb, var(--showcase-secondary) 68%, transparent),
+      color-mix(in srgb, var(--showcase-primary) 28%, transparent) 48%,
+      transparent 74%);
+  filter: blur(16px) saturate(1.2);
+  opacity: .72;
+}
+
+.contribution-ritual-popup[data-ritual-mode="showcase"]
+  .contribution-mouth-sigil {
+  left: 63%;
+  top: 19%;
+  width: min(24vw, 238px);
+}
+
+.contribution-ritual-popup[data-ritual-mode="showcase"]
+  .contribution-ritual-protagonist {
+  left: 43%;
+}
+
+.contribution-ritual-popup[data-ritual-mode="offering"]
+  .contribution-mouth-sigil {
+  left: 66%;
+  top: 31%;
+  width: min(25vw, 250px);
+  opacity: .92;
+  transform: translate(-50%, -50%) rotate(12deg) scale(.78);
+}
+
+.contribution-ritual-popup[data-ritual-mode="offering"]
+  .contribution-ritual-gesture {
+  display: block;
+}
+
+.contribution-ritual-popup[data-ritual-mode="offering"]
+  .contribution-ritual-protagonist::before {
+  left: 24%;
+  top: 35%;
+  width: 40%;
+  height: 46%;
+}
+
+.contribution-ritual-popup[data-phase="display"] .contribution-mouth-sigil,
+.contribution-ritual-popup[data-phase="impact"] .contribution-mouth-sigil,
+.contribution-ritual-popup[data-ritual-mode="offering"][data-phase="upper"]
+  .contribution-mouth-sigil,
+.contribution-ritual-popup[data-ritual-mode="offering"][data-phase="lower"]
+  .contribution-mouth-sigil {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.contribution-ritual-popup.sole-impact .contribution-mouth-sigil {
+  z-index: 10;
+  left: 50%;
+  top: 50%;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(2.45);
+  animation: contribution-mouth-swallow .48s ease-in-out infinite;
+}
+
+.contribution-ritual-popup.sole-impact .sigil-mouth {
+  animation: contribution-sigil-swallow .48s ease-in-out infinite;
+}
+
+@keyframes contribution-mouth-sigil-breathe {
+  0%, 100% { opacity: .72; }
+  50% { opacity: 1; }
+}
+
+@keyframes contribution-magic-fog {
+  0%, 100% { opacity: .62; transform: scale(.86) rotate(-5deg); }
+  50% { opacity: .92; transform: scale(1.18) rotate(7deg); }
+}
+
+@keyframes contribution-magic-core-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes contribution-sigil-mouth-open {
+  0%, 100% { transform: translate(-50%, -50%) scale(1, .62); }
+  50% { transform: translate(-50%, -50%) scale(.92, 1.45); }
+}
+
+@keyframes contribution-sigil-tongue {
+  0% { transform: translateX(-50%) rotate(-32deg) translateY(2%) scaleY(.86); }
+  25% { transform: translateX(-50%) rotate(0) translateY(20%) scaleY(1.14); }
+  50% { transform: translateX(-50%) rotate(32deg) translateY(2%) scaleY(.9); }
+  75% { transform: translateX(-50%) rotate(0) translateY(-16%) scaleY(1.12); }
+  100% { transform: translateX(-50%) rotate(-32deg) translateY(2%) scaleY(.86); }
+}
+
+@keyframes contribution-kiss-tongue {
+  from { transform: translateX(-50%) rotate(-18deg); }
+  to { transform: translateX(-50%) rotate(18deg); }
+}
+
+@keyframes contribution-mouth-swallow {
+  0%, 100% { transform: translate(-50%, -50%) scale(2.2, 2.55); }
+  50% { transform: translate(-50%, -50%) scale(2.7, 2.1); }
+}
+
+@keyframes contribution-sigil-swallow {
+  0%, 100% { transform: translate(-50%, -50%) scale(.7, 2.2); }
+  50% { transform: translate(-50%, -50%) scale(1.55, .72); }
+}
+
+@media (max-width: 520px) {
+  .contribution-mouth-sigil {
+    top: 26%;
+    width: 48vw;
+  }
+
+  .contribution-ritual-popup[data-ritual-mode="showcase"]
+    .contribution-mouth-sigil {
+    left: 50%;
+    top: 15%;
+    width: 40vw;
+  }
+
+  .contribution-ritual-popup[data-ritual-mode="showcase"]
+    .contribution-ritual-protagonist {
+    left: 50%;
+  }
+
+  .contribution-ritual-popup[data-ritual-mode="offering"]
+    .contribution-mouth-sigil {
+    left: 70%;
+    top: 30%;
+    width: 44vw;
+  }
+
+  .contribution-ritual-popup[data-ritual-mode="offering"]
+    .contribution-ritual-gesture {
+    left: 83%;
+    top: 24%;
+    transform: scale(.72) rotate(8deg);
+  }
+}

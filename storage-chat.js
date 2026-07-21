@@ -109,14 +109,14 @@
         data = restoredData(messagesFrom(result));
       } catch (err) {
         unavailable = true;
-        console.warn("聊天存档读取失败，使用当前页面内存:",
+        console.warn("聊天存档读取失败，停止恢复检测:",
           err?.code, err?.message, err?.stack);
+        throw err;
       }
       return data;
     })();
     return loadPromise;
   }
-
   function snapshotMessages(keys, forceFull) {
     writesSinceFull += 1;
     const fullSnapshot = forceFull || writesSinceFull >= 10;

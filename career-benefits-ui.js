@@ -15,7 +15,7 @@
   function render(target, busy, mutate, node) {
     const data = LG.career.data();
     const certificate = node("article", "career-benefit");
-    certificate.append(node("strong", "", "六大势力的聘用证明"),
+    certificate.append(node("strong", "", "阵营聘用证明"),
       node("p", "", certificateCopy(data)));
     const menu = node("div", "career-menu-grid");
     (data.menuItems || []).forEach((item) => {

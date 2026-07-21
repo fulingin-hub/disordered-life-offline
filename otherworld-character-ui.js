@@ -28,15 +28,16 @@
   }
   function itemCard(item) {
     const owned = LG.otherworldCharacters.owns(item.id);
+    const price = LG.infernalChurch.price(item.price);
     const card = node("article", `casino-item${owned ? " owned" : ""}`);
     card.append(
-      node("span", "casino-item-state", owned ? "已拥有" : "10,000属性点"),
+      node("span", "casino-item-state", owned ? "已拥有" : `${price.toLocaleString("zh-CN")}属性点`),
       node("strong", "", item.name),
       node("p", "", item.description),
     );
     const buy = node("button", "", owned ? "已购买" : "购买");
     buy.type = "button";
-    buy.disabled = buying || owned || LG.traits.points() < item.price;
+    buy.disabled = buying || owned || LG.traits.points() < price;
     buy.addEventListener("click", () => purchase(item));
     card.append(buy);
     if (owned) {
@@ -69,7 +70,9 @@
     el.points.textContent = LG.traits.points().toLocaleString("zh-CN");
     el.progress.textContent = `基础收藏 ${regular.count}/4 · 特殊道具 ${
       progress.count === 5 ? "已获得" : regular.complete ? "已解锁" : "未解锁"}`;
-    el.items.replaceChildren(...LG.otherworldCharacters.visibleItems(selected).map(itemCard));
+    el.items.replaceChildren(...LG.otherworldCharacters.visibleItems(selected).map(itemCard),
+      LG.roomRitualUI.panel({ id: character.id, name: character.name,
+        src: character.portrait, gender: "female" }));
     el.chat.disabled = !progress.complete;
     el.gallery.disabled = !progress.complete;
     el.chat.textContent = progress.complete ? "AI对话" : "集齐五件后开放";
@@ -78,7 +81,8 @@
       ? `账单明细：${character.fee}。图鉴使用：消耗10000属性点、增加100败北、降低100人格。`
       : regular.complete
         ? "特殊道具购买资格已解锁。"
-        : `每件10000属性点；还需${4 - regular.count}件基础收藏才能显示特殊道具。`);
+        : `当前每件${LG.infernalChurch.price(10000)}属性点；还需${
+          4 - regular.count}件基础收藏才能显示特殊道具。`);
   }
   async function purchase(item) {
     if (buying) return;

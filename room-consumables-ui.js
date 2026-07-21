@@ -82,6 +82,11 @@
 
   async function use(itemId) {
     if (busy) return;
+    const character = LG.COLLECTIBLE_CHARACTERS[activeCharacter];
+    const impact = LG.buttImpactTracker?.captureRoom?.({
+      ...character,
+      src: LG.CONFIG.assets[activeCharacter],
+    }, itemId);
     busy = true;
     render("正在保存饮用记录…");
     try {
@@ -90,6 +95,7 @@
       LG.ui.render(state);
       window.dzmm?.toast?.success?.(result.message);
       LG.itemFeedback?.show?.(result.message, "normal");
+      LG.buttImpactTracker?.complete?.(impact);
       if (state.endingId) return LG.roomsUI.close();
       render(result.message);
     } catch (err) {

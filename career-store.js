@@ -39,6 +39,10 @@
     galleryUnlocked(characterId) {
       return this.privateComplete(characterId);
     },
+    buttImpactUses(characterId) {
+      return Math.max(0,
+        Number(this.data().buttImpactUses?.[characterId]) || 0);
+    },
     character(characterId) {
       return LG.CAREER_DATA.roster.find((item) => item.id === characterId) || null;
     },

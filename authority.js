@@ -4,27 +4,25 @@
   let requestQueue = Promise.resolve();
   const listeners = new Set();
   const SYNC_TIMEOUT = 30000;
-
-  function withTimeout(task) {
+  function withTimeout(task, timeoutMs = SYNC_TIMEOUT) {
     let timer;
     const timeout = new Promise((_, reject) => {
       timer = window.setTimeout(() => {
         const error = new Error("权威结算响应超时。");
         error.code = "TIMEOUT";
+        error.localTimeout = true;
         reject(error);
-      }, SYNC_TIMEOUT);
+      }, timeoutMs);
     });
     return Promise.race([task, timeout])
       .finally(() => window.clearTimeout(timer));
   }
-
   function knownEndings(next) {
     const items = [...(next.archiveView?.male || []), ...(next.archiveView?.female || [])]
       .filter((item) => item && !item.locked);
     if (next.life?.currentEnding) items.push(next.life.currentEnding);
     return [...new Map(items.map((item) => [item.id, item])).values()];
   }
-
   async function rehydrate(next) {
     snapshot = next;
     LG.ENDINGS = knownEndings(next);
@@ -37,7 +35,6 @@
     listeners.forEach((listener) => listener(next));
     return next;
   }
-
   function apply(next) {
     applying = applying.then(() => rehydrate(next));
     return applying;
@@ -58,13 +55,17 @@
     throw error;
   }
 
-  async function remote(body) {
+  async function remote(body, timeoutMs) {
     requireRemote();
-    return withTimeout(window.dzmm.fn.invoke("game-state", body));
+    const previewProfile = await LG.previewProfile.enabled();
+    return withTimeout(window.dzmm.fn.invoke("game-state", {
+      ...body, previewProfile,
+    }), timeoutMs);
   }
 
   async function confirmOperation(id) {
-    const result = await remote({ method: "operationStatus", operationId: id });
+    const result = await remote(
+      { method: "operationStatus", operationId: id }, 6000);
     if (result?.life && result?.economy) await apply(result);
     return result;
   }
@@ -126,22 +127,20 @@
           throw err;
         }
         intent.unknown = true;
-        for (const delay of [0, 350, 900, 1800]) {
-          if (delay) await new Promise((resolve) => window.setTimeout(resolve, delay));
-          try {
-            const status = await confirmOperation(intent.id);
-            if (status.operationProcessed) {
-              LG.authorityIntents.remove(key);
-              LG.achievementFeedback?.apply?.(status, method);
-              return status;
-            }
-          } catch (confirmErr) {
-            if (LG.authorityFallback?.isCaptcha?.(confirmErr)) {
-              throw LG.authorityFallback.captchaError();
-            }
-            console.warn("未知结算结果确认失败:",
-              confirmErr?.code, confirmErr?.message, confirmErr?.stack);
+        await new Promise((resolve) => window.setTimeout(resolve, 650));
+        try {
+          const status = await confirmOperation(intent.id);
+          if (status.operationProcessed) {
+            LG.authorityIntents.remove(key);
+            LG.achievementFeedback?.apply?.(status, method);
+            return status;
           }
+        } catch (confirmErr) {
+          if (LG.authorityFallback?.isCaptcha?.(confirmErr)) {
+            throw LG.authorityFallback.captchaError();
+          }
+          console.warn("未知结算结果确认失败:",
+            confirmErr?.code, confirmErr?.message, confirmErr?.stack);
         }
         const retry = new Error(
           "结算结果尚未确认。当前保持只读，请重试同一操作以继续确认。",
@@ -154,8 +153,8 @@
   }
 
   LG.authority = {
-    sync() {
-      return enqueue(syncNow);
+    sync(options) {
+      return enqueue(() => LG.authorityRetry.run(syncNow, options));
     },
     mutate(method, args) {
       return enqueue(() => mutateNow(method, args));

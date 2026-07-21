@@ -3,14 +3,12 @@
   let buying = false;
   let activeCharacter = null;
   let archivePrivacy = "private";
-
   function node(tag, className, text) {
     const item = document.createElement(tag);
     if (className) item.className = className;
     if (text !== undefined) item.textContent = text;
     return item;
   }
-
   function useButton(item, source = "character") {
     return LG.collectionUseUI.button({
       owned: true, source, roomId: item.character, itemId: item.id,
@@ -19,24 +17,22 @@
       onRefresh: () => renderCollection(item.character),
     });
   }
-
   function purchaseButton(item) {
     const tribute = item.source === "tribute";
     const roomUnlocked = LG.achievements.isUnlocked(item.character);
     const shopUnlocked = LG.collectibles.shopUnlocked();
-    const points = LG.traits.points();
+    const points = LG.traits.points(); const price = LG.infernalChurch.price(item.price);
     const button = node("button");
     button.type = "button";
     button.disabled = buying || tribute || !roomUnlocked || !shopUnlocked
-      || points < item.price;
+      || points < price;
     button.textContent = tribute ? `贡金${item.unlockAt}点自动获得`
       : !roomUnlocked ? "先解锁角色房间"
         : !shopUnlocked ? "丧志100点后购买"
-          : points < item.price ? `需要${item.price}点` : `${item.price}点购买`;
+          : points < price ? `需要${price}点` : `${price}点购买`;
     button.addEventListener("click", () => buy(item));
     return button;
   }
-
   function itemCard(item, roomMode = false) {
     const owned = LG.collectibles.owns(item.id);
     const card = node("article", `collectible-card${owned ? " owned" : ""}`);
@@ -48,7 +44,6 @@
     if (roomMode) card.append(owned ? useButton(item) : purchaseButton(item));
     return card;
   }
-
   function saintCard(item, roomMode = false) {
     const owned = LG.saintItems.owns(item.id);
     const card = node("article", `collectible-card${owned ? " owned" : ""}`);
@@ -71,14 +66,23 @@
     card.append(button);
     return card;
   }
-
   function ownedSaintItems() {
     return LG.collectibles.characters().flatMap((character) =>
       LG.saintItems.items(character.id)).filter((item) =>
       LG.saintItems.owns(item.id));
   }
-
   function renderArchive() {
+    if (archivePrivacy === "corruption") {
+      const collection = LG.infernalChurchUI.corruptionCollection();
+      el.ownedLabel.textContent = "已获得堕落收藏";
+      el.ownedCount.textContent = `${collection.count}/${collection.total}`;
+      el.status.textContent = collection.count ? `已收录 ${collection.count}/${collection.total} 件堕落收藏。` : "尚未获得堕落收藏。";
+      el.items.replaceChildren(...collection.cards);
+      el.privacyTabs.forEach((button) => button.setAttribute("aria-selected",
+        String(button.dataset.collectionPrivacy === archivePrivacy)));
+      return;
+    }
+    el.ownedLabel.textContent = "已获得角色道具";
     const regular = Object.values(LG.COLLECTIBLE_CATALOG).flat()
       .filter((item) => LG.collectibles.owns(item.id)
         && (item.privacy || "private") === archivePrivacy);
@@ -107,7 +111,6 @@
     el.privacyTabs.forEach((button) => button.setAttribute("aria-selected",
       String(button.dataset.collectionPrivacy === archivePrivacy)));
   }
-
   async function buy(item) {
     if (buying) return;
     buying = true;
@@ -129,7 +132,6 @@
       el.collectionStatus.textContent = feedback;
     }
   }
-
   async function buySaint(item) {
     if (buying) return;
     buying = true;
@@ -148,7 +150,6 @@
       el.collectionStatus.textContent = feedback;
     }
   }
-
   function renderCollection(character) {
     const meta = LG.COLLECTIBLE_CHARACTERS[character];
     const progress = LG.collectibles.progress(character);
@@ -161,9 +162,9 @@
       ...saintItems.map((item) => saintCard(item, true)),
     );
   }
-
   LG.collectiblesUI = {
     init() {
+      el.ownedLabel = document.getElementById("shopOwnedLabel");
       el.ownedCount = document.getElementById("shopOwnedCount");
       el.status = document.getElementById("shopStatus");
       el.items = document.getElementById("shopItems");

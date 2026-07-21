@@ -8,7 +8,8 @@
   function club() {
     return realm().club || {
       spent: 0, spentByQueen: {}, owned: [], consumables: {}, used: {},
-      specialUsesByQueen: {}, stompConquests: 0, equippedSet: null,
+      specialUsesByQueen: {}, buttImpactUsesByQueen: {},
+      stompConquests: 0, equippedSet: null,
     };
   }
   LG.infernalClub = {
@@ -40,6 +41,9 @@
     },
     specialUses(sin) {
       return Math.max(0, Number(club().specialUsesByQueen?.[sin]) || 0);
+    },
+    buttImpactUses(sin) {
+      return Math.max(0, Number(club().buttImpactUsesByQueen?.[sin]) || 0);
     },
     fullSet(sin) {
       const queen = LG.INFERNAL_CLUB_DATA.byId[sin];

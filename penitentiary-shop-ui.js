@@ -92,7 +92,10 @@
     if (certificate) {
       cards.push(LG.penitentiaryItemUI.card(role, role.outfit, busy, buy));
     }
-    el.items.replaceChildren(...cards.filter(Boolean));
+    el.items.replaceChildren(...cards.filter(Boolean),
+      LG.roomRitualUI.panel({
+        id: role.id, name: role.name, src: role.portrait, gender: "female",
+      }));
     el.gallery.disabled = !certificate;
     el.chat.disabled = !LG.penitentiary.canChat(role.id);
     el.gallery.textContent = certificate ? "人物画廊" : "奖状解锁画廊";

@@ -33,8 +33,9 @@
     ],
   };
 
+  const mixed = new Set(["restaurantCouple", "agencyCouple"]);
   LG.COLLECTIBLE_CHARACTERS = Object.fromEntries(characters.map(([id, name]) =>
-    [id, { id, name }]));
+    [id, { id, name, gender: mixed.has(id) ? "mixed" : "female" }]));
   LG.COLLECTIBLE_CATALOG = Object.fromEntries(characters.map(([id, name]) => [
     id,
     (tributeCatalog[id] || templates).map(([item, description, unlockAt], index) => ({

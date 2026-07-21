@@ -109,27 +109,11 @@
         male: { name: "周明德", title: "常务校长" },
         female: { name: "唐静仪", title: "校务总长" },
       },
-      "异界学科": {
-        male: { name: "韩启文", title: "院长" },
-        female: { name: "程雅君", title: "执行院长" },
-      },
-      "职业学院": {
-        male: { name: "秦正则", title: "院长" },
-        female: { name: "谢明薇", title: "执行院长" },
-      },
     },
     island: {
       "本部": {
         male: { name: "中村正人", title: "学园长" },
         female: { name: "中村奈绪", title: "校务执行长" },
-      },
-      "异界学科": {
-        male: { name: "小林诚", title: "学科长" },
-        female: { name: "小林优子", title: "院长" },
-      },
-      "职业学院": {
-        male: { name: "吉田隆之", title: "学院长" },
-        female: { name: "吉田由美", title: "执行院长" },
       },
     },
     rice: {
@@ -137,20 +121,10 @@
         male: { name: "迈克尔·格兰特", title: "校务总监" },
         female: { name: "索菲娅·格兰特", title: "执行校长" },
       },
-      "异界学科": {
-        male: { name: "本杰明·沃克", title: "执行院长" },
-        female: { name: "阿米莉亚·沃克", title: "院长" },
-      },
-      "职业学院": {
-        male: { name: "塞缪尔·库珀", title: "院长" },
-        female: { name: "伊芙琳·库珀", title: "执行院长" },
-      },
     },
   };
   const universityTitles = {
     "本部": ["学术辅导员", "教务主任"],
-    "异界学科": ["实训导师", "教研主任"],
-    "职业学院": ["职业指导员", "实训主任"],
   };
   const rankLabels = {
     university: ["学术导员", "教务主任", "校长"],

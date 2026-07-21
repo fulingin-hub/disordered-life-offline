@@ -7,7 +7,7 @@
     university: {
       name: "国立大学", proof: "国立大学入学证明",
       location: "夏国分校 / 岛国分校 / 米国分校",
-      copy: "国立大学下设夏国分校、岛国分校、米国分校。加入后可进入全部三个分校，毕业即就业，异界学科欢迎新生报考。",
+      copy: "国立大学下设夏国分校、岛国分校、米国分校。加入后可进入三个分校本部，毕业即就业。",
       ranks: LG.careerRosterIdentity.rankLabels.university, asset: "worldXiaCampus",
     },
     sanctuary: {
@@ -35,6 +35,11 @@
       copy: "想前往我们的故乡吗？加入后可免费学习异界知识，更快融入当地。",
       ranks: LG.careerRosterIdentity.rankLabels.otherworld, asset: "roomBlackStreet",
     },
+    church: {
+      name: "地狱教会", proof: "七大欲的信仰契约", location: "黑街 · 地狱教会",
+      copy: "七大欲的人间体，降临凡间，如果想成为魔纹贱畜就快点爬来跪好，接受教主的踩脸洗礼，成为光荣的魔纹贱畜吧！",
+      ranks: [], asset: "infernalChurchSanctuary",
+    },
   };
 
   function roster() {
@@ -42,7 +47,7 @@
       ["小弟", "小妹"], ["大哥", "大姐"], ["男爹", "女爹"],
     ];
     const standard = Object.entries(factions)
-      .filter(([faction]) => faction !== "university")
+      .filter(([faction]) => !["university", "church"].includes(faction))
       .flatMap(([faction, meta]) =>
       meta.ranks.flatMap((rank, rankIndex) => ["male", "female"].map((gender) => {
         const identity = LG.careerRosterIdentity.standardIdentity(

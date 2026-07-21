@@ -3,14 +3,12 @@
   let getState;
   let activeCharacter = null;
   let busy = false;
-
   function node(tag, className, text) {
     const item = document.createElement(tag);
     if (className) item.className = className;
     if (text !== undefined) item.textContent = text;
     return item;
   }
-
   function roomCard(character, onEnter) {
     const unlocked = LG.blackMarket.roomUnlocked(character.id);
     const count = LG.blackMarket.kneelingCount(character.id);
@@ -52,8 +50,8 @@
 
   function stockCard(item, state, purchased, limit) {
     const card = node("article", `market-item${item.sold ? " sold" : item.owned ? " owned" : ""}`);
-    const price = item.type !== "equipment" && LG.penitentiary.policeSetEquipped(state) ? 0 : item.price;
-    card.append(
+    const price = LG.infernalChurch.price(item.type !== "equipment"
+      && LG.penitentiary.policeSetEquipped(state) ? 0 : item.price); card.append(
       node("span", "market-kind", item.type === "equipment" ? "装备" : "药剂"),
       node("strong", "", item.name),
       node("p", "", item.description),
@@ -142,6 +140,10 @@
 
   async function usePotion(itemId) {
     if (busy) return;
+    const market = LG.BLACK_MARKET_DATA.characters[activeCharacter];
+    const impact = LG.buttImpactTracker?.captureMarket?.({
+      ...market, gender: "female", src: LG.CONFIG.assets[activeCharacter],
+    }, itemId);
     busy = true;
     render("正在保存药剂效果…");
     try {
@@ -149,10 +151,8 @@
       const state = LG.authority.state();
       LG.ui.render(state);
       window.dzmm?.toast?.success?.(result.message); LG.itemFeedback?.show?.(result.message, "normal");
-      if (state.endingId) {
-        LG.roomsUI.close();
-        return;
-      }
+      LG.buttImpactTracker?.complete?.(impact);
+      if (state.endingId) return LG.roomsUI.close();
       render(result.message);
     } catch (err) {
       console.error("黑市药剂保存失败:", err.code, err.message, err.stack);

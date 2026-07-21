@@ -56,9 +56,10 @@
       description: `${LG.potionEffects.text(effects)}；${meta.repeatable
         ? "库存充足时可重复饮用。"
         : "每轮人生限饮一次，恶魔神秘套装可额外饮用10次。"}`,
-      price: LG.penitentiary.policeSetEquipped() && blackStreet.includes(character)
+      price: LG.infernalChurch.price(
+        LG.penitentiary.policeSetEquipped() && blackStreet.includes(character)
         ? 0 : meta.seller ? meta.price : tribute ? tributePrices[kind]
-          : discounted ? 1 : LG.blackMarketPotions.roomPrice(kind),
+          : discounted ? 1 : LG.blackMarketPotions.roomPrice(kind)),
       tribute,
       purchaseUnlocked,
       tributeRequirement,

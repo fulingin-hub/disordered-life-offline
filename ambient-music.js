@@ -35,6 +35,7 @@
     qinghe: "sanctuary", ciyun: "sanctuary", agnes: "sanctuary",
   };
   let context, master, filter, timer, scene = "story", enabled = true;
+  let unavailable = false, warned = false;
   let drones = [];
 
   function sceneKey(value) {
@@ -54,17 +55,31 @@
   }
 
   function ensureContext() {
-    if (context) return context;
+    if (context || unavailable) return context;
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (!AudioContext) return null;
-    context = new AudioContext();
-    master = context.createGain();
-    filter = context.createBiquadFilter();
-    filter.type = "lowpass";
-    master.gain.value = 0;
-    filter.connect(master);
-    master.connect(context.destination);
+    try {
+      context = new AudioContext();
+      master = context.createGain();
+      filter = context.createBiquadFilter();
+      filter.type = "lowpass";
+      master.gain.value = 0;
+      filter.connect(master);
+      master.connect(context.destination);
+    } catch (error) {
+      disableDevice(error);
+    }
     return context;
+  }
+
+  function disableDevice(error) {
+    unavailable = true;
+    stopLayer();
+    if (!warned) {
+      warned = true;
+      console.info("背景音乐设备不可用，已保留固定语音与字幕:",
+        error?.message || "audio unavailable");
+    }
   }
 
   function stopLayer() {
@@ -125,7 +140,7 @@
       await audioContext.resume();
       if (!timer) startLayer();
     } catch (error) {
-      console.warn("背景音乐启动失败:", error.message, error.stack);
+      disableDevice(error);
     }
   }
 

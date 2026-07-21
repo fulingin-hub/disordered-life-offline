@@ -11,11 +11,9 @@
     if (text !== undefined) item.textContent = text;
     return item;
   };
-
   function owned(id) {
     return LG.career.data().characterItems?.includes(id);
   }
-
   async function refreshStore() {
     const requestId = ++latestStoreRequest;
     const result = await LG.authority.inspect("viewFactionStore", {
@@ -27,32 +25,44 @@
     store = result.store;
     return true;
   }
-
   async function mutate(method, body) {
     if (busy) return;
     const sacrifice = method === "useFactionSpecial"
       ? LG.factionLeaderSacrifice?.capture?.(active, view) : null;
+    const buttImpact = method === "usePotion"
+      ? LG.buttImpactPopup?.captureFaction?.(active, body?.itemId) : null;
+    let status = "";
+    let needsRefresh = false;
     busy = true;
+    render();
     try {
       const result = await LG.authority.mutate(method, body);
-      await refreshStore();
+      if (result.store?.characterId === active.id) store = result.store;
+      else needsRefresh = true;
       LG.traitsUI.refresh();
       LG.collectiblesUI.refresh();
       LG.careerUI.refresh();
       LG.equipmentUI.refresh();
-      render();
-      el.status.textContent = result.message;
+      status = result.message;
       if (method === "usePotion" || method === "useFactionSpecial") LG.itemFeedback?.show?.(
         result.message, method === "useFactionSpecial" ? "private" : "normal");
       LG.factionLeaderSacrifice?.complete?.(sacrifice, result.action);
+      LG.buttImpactPopup?.completeFaction?.(buttImpact);
     } catch (err) {
       console.error("职业角色商城结算失败:", err?.code, err?.message, err?.stack);
-      el.status.textContent = err?.message || "商城操作失败，请稍后重试。";
+      status = err?.message || "商城操作失败，请稍后重试。";
     } finally {
       busy = false;
+      render();
+      el.status.textContent = status;
+      if (needsRefresh) refreshStore().then((changed) => {
+        if (!changed) return;
+        render();
+        el.status.textContent = status;
+      }).catch((err) => console.warn("商城状态补充同步失败:",
+        err?.code, err?.message, err?.stack));
     }
   }
-
   function itemCard(item) {
     const data = LG.career.data();
     const price = store?.[view]?.find((entry) => entry.index === item.index);
@@ -80,7 +90,6 @@
     }
     return card;
   }
-
   function pieceClaim(data) {
     const mode = view === "normal" ? "master" : "consumable";
     const claimId = `${active.id}-${mode}`;
@@ -101,7 +110,6 @@
     card.append(button);
     return card;
   }
-
   function professionPanel() {
     if (active.rankIndex !== 2) return null;
     const jobs = store?.professions || [];

@@ -102,6 +102,9 @@
 
   async function consume(itemId) {
     if (busy) return;
+    const impact = LG.buttImpactTracker?.captureRoom?.({
+      ...active, gender: "female", src: active.portrait,
+    }, itemId);
     busy = true;
     render("正在保存饮用记录...");
     try {
@@ -110,6 +113,7 @@
       render(result.message);
       window.dzmm?.toast?.success?.(result.message);
       LG.itemFeedback?.show?.(result.message, "normal");
+      LG.buttImpactTracker?.complete?.(impact);
     } catch (err) {
       console.error("伊甸园角色商品饮用失败:",
         err?.code, err?.message, err?.stack);

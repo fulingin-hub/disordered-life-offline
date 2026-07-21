@@ -1,0 +1,219 @@
+.contribution-soul-stream {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .5s ease;
+}
+
+.contribution-soul-stream::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 14%;
+  width: min(34vw, 340px);
+  height: min(24vh, 210px);
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse,
+    color-mix(in srgb, var(--soul-primary, #303038) 42%, transparent),
+    color-mix(in srgb, var(--soul-secondary, #303038) 24%, transparent),
+    transparent 68%);
+  filter: blur(12px) drop-shadow(0 0 18px var(--soul-primary, #303038));
+}
+
+.contribution-soul-stream b {
+  position: absolute;
+  left: 50%;
+  bottom: 18%;
+  width: min(20vw, 180px);
+  height: min(34vh, 270px);
+  border-radius: 48% 48% 36% 36%;
+  background:
+    radial-gradient(circle at 50% 17%, rgba(255, 255, 255, .94) 0 11%,
+      transparent 12%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--soul-color, var(--soul-primary)) 86%, white),
+      color-mix(in srgb, var(--soul-accent, var(--soul-secondary)) 18%,
+        transparent));
+  filter: blur(5px) drop-shadow(0 0 22px
+    var(--soul-color, var(--soul-primary, #303038)));
+  opacity: 0;
+  transform: translateX(-50%);
+  animation: contribution-soul-core 3.1s ease-in infinite;
+  animation-delay: var(--soul-delay);
+}
+
+.contribution-soul-stream i {
+  position: absolute;
+  left: calc(50% + var(--soul-x));
+  bottom: 20%;
+  width: 11px;
+  height: 24px;
+  border-radius: 54% 54% 46% 46% / 38% 38% 62% 62%;
+  background: linear-gradient(#fff,
+    var(--soul-color, var(--soul-primary, #303038)) 42%,
+    var(--soul-accent, var(--soul-secondary, #303038)));
+  box-shadow: 0 0 8px #fff, 0 0 18px
+    var(--soul-color, var(--soul-primary, #303038));
+  opacity: 0;
+  animation: contribution-soul-rise var(--soul-duration) linear infinite;
+  animation-delay: var(--soul-delay);
+}
+
+.contribution-soul-stream i::after {
+  content: "";
+  position: absolute;
+  left: 47%;
+  top: 72%;
+  width: 4px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(
+    var(--soul-color, var(--soul-primary, #303038)), transparent);
+  transform: rotate(var(--soul-tail-rotate));
+  transform-origin: center top;
+  filter: blur(1px);
+}
+
+.contribution-sole-impact {
+  position: absolute;
+  z-index: 9;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  opacity: 0;
+  background:
+    radial-gradient(circle, rgba(255, 235, 166, .34), transparent 45%),
+    rgba(4, 2, 7, .86);
+  pointer-events: none;
+  transform: scale(.35);
+  transition: opacity .14s linear, transform .25s cubic-bezier(.2, .9, .2, 1.15);
+}
+
+.contribution-sole-impact i {
+  position: relative;
+  display: block;
+  width: min(82vw, 780px);
+  aspect-ratio: .62 / 1;
+  border: 8px solid var(--showcase-primary);
+  border-radius: 48% 48% 34% 34%;
+  background-repeat: no-repeat;
+  box-shadow:
+    inset 0 0 64px #000,
+    0 0 80px var(--showcase-secondary),
+    0 30px 90px #000;
+  filter: saturate(1.12) contrast(1.08);
+}
+
+.contribution-sole-impact i.foot-bare {
+  background-position: left center;
+  background-size: 205% auto;
+}
+
+.contribution-sole-impact i.foot-stocking {
+  background-position: right center;
+  background-size: 205% auto;
+  filter: brightness(1.08) saturate(.9) contrast(1.12);
+}
+
+.contribution-sole-impact i b {
+  position: absolute;
+  inset: 3% -3%;
+  background: url("./assets/generated/ritual-foot-sigil-overlay.56093ee7.webp")
+    center / contain no-repeat;
+  filter:
+    brightness(1.5)
+    saturate(1.3)
+    drop-shadow(0 0 12px #fff1ff)
+    drop-shadow(0 0 38px var(--showcase-secondary));
+  mix-blend-mode: screen;
+  opacity: 1;
+  animation: contribution-sole-sigil .8s ease-in-out infinite;
+}
+
+.contribution-ritual-popup[data-phase="display"] .contribution-soul-stream,
+.contribution-ritual-popup[data-phase="impact"] .contribution-soul-stream,
+.contribution-ritual-popup[data-ritual-mode="offering"][data-phase="upper"]
+  .contribution-soul-stream,
+.contribution-ritual-popup[data-ritual-mode="offering"][data-phase="lower"]
+  .contribution-soul-stream {
+  opacity: 1;
+}
+
+.contribution-ritual-popup.sole-impact .contribution-sole-impact {
+  opacity: 1;
+  transform: scale(1.2);
+  animation: contribution-sole-hit .32s linear infinite;
+}
+
+.contribution-ritual-popup.sole-impact .contribution-ritual-caption {
+  z-index: 11;
+}
+
+.contribution-ritual-popup.sole-impact > button {
+  z-index: 12;
+}
+
+@keyframes contribution-soul-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(.45);
+  }
+  14% { opacity: .9; }
+  56% {
+    opacity: .78;
+    transform: translate3d(var(--soul-mid-x), var(--soul-mid-y), 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform:
+      translate3d(var(--soul-target-x), var(--soul-target-y), 0) scale(.2);
+  }
+}
+
+@keyframes contribution-soul-core {
+  0% { opacity: 0; transform: translate(-50%, 16px) scale(.52); }
+  24% { opacity: .62; }
+  58% {
+    opacity: .82;
+    transform:
+      translate(calc(-50% + var(--soul-mid-x)), var(--soul-mid-y)) scale(.72);
+  }
+  100% {
+    opacity: 0;
+    transform:
+      translate(calc(-50% + var(--soul-target-x)), var(--soul-target-y))
+      scale(.18);
+  }
+}
+
+@keyframes contribution-sole-sigil {
+  0%, 100% { transform: scale(.9); opacity: .78; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+@keyframes contribution-sole-hit {
+  0%, 100% { translate: 0 0; filter: brightness(1); }
+  35% { translate: -7px 5px; filter: brightness(1.26); }
+  70% { translate: 7px -4px; }
+}
+
+@media (max-width: 520px) {
+  .contribution-sole-impact i {
+    width: 118vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contribution-soul-stream i {
+    animation-duration: 4s;
+  }
+
+  .contribution-ritual-popup.sole-impact .contribution-sole-impact {
+    animation-duration: 1.2s;
+  }
+}

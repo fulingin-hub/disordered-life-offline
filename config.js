@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260721-character-foot-impact",
+  buildId: "20260721-infernal-church-1",
   version: 7,
   eventRevision: 2026072101,
   stateKey: "disordered-life-state-v1",
@@ -125,6 +125,18 @@ window.LifeGame.CONFIG = {
     worldRiceSociety: "./assets/generated/world-rice-society.a4eae2dd.webp",
     worldBlackStreet: "./assets/generated/world-black-street.a63aa792.webp",
     worldSanctuaryCampus: "./assets/generated/world-sanctuary-campus.e27d12b4.webp",
+    infernalChurchSanctuary:
+      "./assets/generated/infernal-church-sanctuary.33f2c5bc.webp",
+    infernalChurchPriestess:
+      "./assets/generated/infernal-church-priestess.6afa716d.webp",
+    careerSigilApostleMale:
+      "./assets/generated/magic-gas-protagonist-male-fullbody.f5909ba8.webp",
+    careerSigilApostleFemale:
+      "./assets/generated/magic-gas-protagonist-female.webp",
+    magicGasProtagonistMale:
+      "./assets/generated/magic-gas-protagonist-male-fullbody.f5909ba8.webp",
+    magicGasProtagonistFemale:
+      "./assets/generated/magic-gas-protagonist-female.webp",
     protagonistMaleBase: "./assets/generated/protagonist-male-base.15d3eb1b.webp",
     protagonistFemaleBase: "./assets/generated/protagonist-female-base.055bb894.webp",
     protagonistMaleCharacterSet: "./assets/generated/protagonist-male-character-set-v2.10e1268e.webp",

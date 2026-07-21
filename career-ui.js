@@ -104,6 +104,7 @@
         "equipProfession", "professionId"),
       selectControl("装备职业勋章", medals, data.equippedMedal,
         "equipCareerMedal", "medalId"),
+      LG.infernalChurchUI.loadoutPanel(),
       node("h3", "", "装备职业套装"), modes, copy,
     );
   }
@@ -112,14 +113,17 @@
     const selected = joinedThisRun === item.id;
     const card = node("article", `faction-card${item.joined ? " joined" : ""}${
       selected ? " selected" : ""}`);
-    const requirement = item.threshold > 0
+    const requirement = item.id === "church"
+      ? "加入条件：无偿开放。"
+      : item.threshold > 0
       ? `加入条件：累计${item.threshold}${LG.CAREER_DATA.stats[item.stat]}。`
       : "加入条件：可怜天下父母心已免除。";
     card.append(node("span", "career-kicker", meta.location),
       node("strong", "", item.name), node("p", "", meta.copy),
       node("small", "", requirement));
     const button = node("button", "", selected ? "本轮已选择"
-      : item.joined ? "选择此势力" : "递交聘用证明");
+      : item.joined ? "选择此阵营"
+        : item.id === "church" ? "无偿加入教会" : "递交聘用证明");
     button.type = "button";
     button.disabled = busy || Boolean(joinedThisRun);
     button.addEventListener("click", () => mutate("joinFaction", { factionId: item.id }));
@@ -143,7 +147,7 @@
       roster.append(card);
     });
     el.factions.replaceChildren(grid,
-      node("h3", "", "势力职业角色 · 84人（国立大学三分校54人）"), roster);
+      node("h3", "", `阵营职业角色 · ${LG.CAREER_DATA.roster.length}人`), roster);
   }
   function render() {
     renderStats();

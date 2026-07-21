@@ -1,0 +1,297 @@
+.contribution-ritual-popup {
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: transparent;
+  color: #fff;
+}
+
+.contribution-ritual-popup::backdrop {
+  background: rgba(1, 3, 4, .96);
+  backdrop-filter: blur(5px);
+}
+
+.contribution-ritual-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    linear-gradient(125deg, rgba(114, 26, 42, .4), transparent 42%),
+    linear-gradient(235deg, rgba(24, 95, 87, .38), transparent 46%),
+    #07090b;
+}
+
+.contribution-ritual-grid {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  opacity: .28;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 78px,
+      rgba(226, 202, 122, .16) 79px 80px),
+    repeating-linear-gradient(0deg, transparent 0 78px,
+      rgba(226, 202, 122, .1) 79px 80px);
+  transform: perspective(620px) rotateX(62deg) scale(1.5);
+  transform-origin: center bottom;
+}
+
+.contribution-ritual-protagonist,
+.contribution-ritual-actor {
+  position: absolute;
+  z-index: 2;
+  transition: top .8s ease, left .8s ease, width .8s ease,
+    height .8s ease, transform .8s ease, opacity .5s ease;
+}
+
+.contribution-ritual-protagonist {
+  left: 50%;
+  bottom: -22%;
+  width: min(78vw, 760px);
+  height: 80%;
+  transform: translateX(-50%) rotate(-7deg);
+  transform-origin: center bottom;
+}
+
+.contribution-ritual-protagonist img,
+.contribution-ritual-actor img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 24px 28px #000);
+}
+
+.contribution-ritual-protagonist img {
+  transform: rotate(88deg) scale(.9);
+}
+
+.contribution-ritual-actor {
+  left: 50%;
+  top: 2%;
+  width: min(55vw, 560px);
+  height: 78%;
+  transform: translateX(-50%) scale(.92);
+  transform-origin: center bottom;
+}
+
+.contribution-ritual-actor img {
+  animation: contribution-squat 1.25s ease-in-out infinite;
+}
+
+.contribution-ritual-popup[data-kind="queen"]
+  .contribution-ritual-protagonist {
+  opacity: .08;
+}
+
+.contribution-ritual-popup[data-kind="queen"]
+  .contribution-ritual-actor {
+  width: min(92vw, 980px);
+  height: 94%;
+  top: -4%;
+}
+
+.contribution-ritual-focus {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 28%;
+  width: min(52vw, 520px);
+  height: min(24vh, 190px);
+  transform: translateX(-50%);
+  border: 2px solid rgba(239, 215, 139, .65);
+  border-radius: 6px;
+  opacity: 0;
+  box-shadow:
+    inset 0 0 42px rgba(22, 110, 100, .28),
+    0 0 26px rgba(239, 215, 139, .24);
+  transition: top .8s ease, width .8s ease, height .8s ease, opacity .4s ease;
+}
+
+.contribution-ritual-shade {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, .06), transparent 46%),
+    linear-gradient(0deg, rgba(0, 0, 0, .82), transparent 46%);
+}
+
+.contribution-ritual-caption {
+  position: absolute;
+  z-index: 7;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  width: min(720px, calc(100% - 32px));
+  padding: 12px 16px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(229, 205, 127, .72);
+  border-radius: 6px;
+  background: rgba(5, 9, 11, .92);
+  text-align: center;
+  box-shadow: 0 18px 44px #000;
+}
+
+.contribution-ritual-caption span {
+  color: #d7be76;
+  font-size: .76rem;
+}
+
+.contribution-ritual-caption strong {
+  display: block;
+  margin-top: 2px;
+  font-size: clamp(1.05rem, 3vw, 1.42rem);
+}
+
+.contribution-ritual-caption p {
+  margin: 5px 0;
+  color: #c7d8d3;
+  font-size: clamp(.8rem, 2.2vw, .96rem);
+}
+
+.contribution-ritual-caption q {
+  display: block;
+  margin: 0 0 8px;
+  color: #efd98f;
+  font-size: clamp(.76rem, 2vw, .9rem);
+  line-height: 1.4;
+}
+
+.contribution-ritual-progress {
+  height: 4px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .12);
+}
+
+.contribution-ritual-progress i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #bb5064, #e4ca78, #54a99a);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.contribution-ritual-popup > button {
+  position: absolute;
+  z-index: 8;
+  top: max(12px, env(safe-area-inset-top));
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid rgba(229, 205, 127, .72);
+  border-radius: 50%;
+  background: rgba(4, 8, 10, .88);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.contribution-ritual-close {
+  right: max(12px, env(safe-area-inset-right));
+}
+
+.contribution-ritual-advance {
+  right: max(70px, calc(env(safe-area-inset-right) + 70px));
+  font-size: 1.55rem;
+}
+
+.contribution-ritual-popup > button:active {
+  transform: scale(.94);
+}
+
+.contribution-ritual-popup.playing .contribution-ritual-progress i {
+  animation: contribution-progress var(--ritual-duration, 25s) linear forwards;
+}
+
+.contribution-ritual-popup[data-phase="upper"]
+  .contribution-ritual-actor {
+  left: 46%;
+  top: 12%;
+  width: min(68vw, 680px);
+  transform: translateX(-50%) scale(1.12);
+}
+
+.contribution-ritual-popup[data-phase="upper"]
+  .contribution-ritual-focus {
+  top: 22%;
+  opacity: 1;
+}
+
+.contribution-ritual-popup[data-phase="lower"]
+  .contribution-ritual-actor {
+  left: 54%;
+  top: 29%;
+  width: min(72vw, 720px);
+  transform: translateX(-50%) scale(1.18);
+}
+
+.contribution-ritual-popup[data-phase="lower"]
+  .contribution-ritual-focus {
+  top: 53%;
+  width: min(58vw, 580px);
+  height: min(28vh, 220px);
+  opacity: 1;
+}
+
+.contribution-ritual-popup[data-kind="queen"][data-phase="upper"]
+  .contribution-ritual-actor {
+  top: 4%;
+  width: min(110vw, 1120px);
+}
+
+.contribution-ritual-popup[data-kind="queen"][data-phase="lower"]
+  .contribution-ritual-actor {
+  top: 16%;
+  width: min(118vw, 1200px);
+}
+
+.contribution-ritual-popup[data-route="cross"]
+  .contribution-ritual-actor img {
+  filter: drop-shadow(0 24px 28px #000) saturate(1.08);
+}
+
+@keyframes contribution-squat {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  50% { transform: translateY(16px) scaleY(.97); }
+}
+
+@keyframes contribution-progress {
+  to { transform: scaleX(1); }
+}
+
+@media (max-width: 520px) {
+  .contribution-ritual-protagonist {
+    width: 116vw;
+    height: 68%;
+    bottom: -16%;
+  }
+
+  .contribution-ritual-actor {
+    width: 82vw;
+    height: 72%;
+  }
+
+  .contribution-ritual-popup[data-kind="queen"]
+    .contribution-ritual-actor {
+    width: 138vw;
+  }
+
+  .contribution-ritual-caption {
+    bottom: max(10px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contribution-ritual-actor img {
+    animation-duration: 2.5s;
+  }
+}

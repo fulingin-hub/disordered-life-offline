@@ -48,12 +48,16 @@
           try {
             const suffix = item.id.slice(role.id.length + 1);
             const potionId = `penitentiary-potion-${role.id}-${suffix}`;
+            const impact = LG.buttImpactTracker?.captureRoom?.({
+              ...role, gender: "female", src: role.portrait,
+            }, potionId);
             const result = await LG.authority.mutate("usePotion", { itemId: potionId });
             LG.ui.render(result.life);
             LG.penitentiaryShopUI.refresh();
             LG.penitentiaryUI.refresh(result.message);
             window.dzmm?.toast?.success?.(result.message);
             LG.itemFeedback?.show?.(result.message, "normal");
+            LG.buttImpactTracker?.complete?.(impact);
           } catch (err) {
             console.error("影狱饮品饮用失败:", err?.code, err?.message, err?.stack);
             LG.penitentiaryUI.status(err?.message || "饮用失败，请稍后重试。");

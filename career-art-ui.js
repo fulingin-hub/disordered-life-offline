@@ -21,7 +21,7 @@
     const panel = node("section", "career-portrait-panel");
     const tabs = node("div", "career-portrait-tabs");
     [["normal", "普通职业立绘"], ["advanced", "一转职业立绘"],
-      ["special", "特殊职业立绘"]]
+      ["special", "堕落职业立绘"]]
       .forEach(([id, label]) => {
         const button = node("button", mode === id ? "active" : "", label);
         button.type = "button";
@@ -66,13 +66,13 @@
       image.src = LG.careerPortraits.previewSource(chosen.id, previewGender);
       image.alt = `${previewGender === "female" ? "女" : "男"}主角·${chosen.name}职业CG`;
       const caption = node("figcaption", "", `${chosen.name} · ${
-        mode === "special" ? "特殊职业CG逻辑预览"
+        mode === "special" ? "堕落职业CG逻辑预览"
           : mode === "advanced" ? "一转职业全身立绘预览" : "普通职业全身立绘预览"}`);
       figure.append(image, caption);
     } else {
       figure.append(node("p", "career-portrait-empty", advancementLocked
         ? "首次装备职业大师套装后，永久解锁一转职业与一转立绘。"
-        : specialLocked ? "完成对应特殊职业解锁条件后才可查看立绘。"
+        : specialLocked ? "完成对应堕落职业解锁条件后才可查看立绘。"
         : "当前分类暂无职业资料。"));
     }
     const current = data.professionDefinitions?.find((job) =>

@@ -165,7 +165,8 @@
       LG.roomCards.scene(area, section),
       ...(section.faction
         ? LG.factionRooms.cards(section.faction, section.branch)
-        : characterCards(section.characters)),
+        : section.church ? [LG.infernalChurchUI.roomCard()]
+          : characterCards(section.characters)),
     );
   }
 

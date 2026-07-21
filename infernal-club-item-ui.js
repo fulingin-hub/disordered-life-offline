@@ -27,7 +27,11 @@
       buy.addEventListener("click", () => onBuy(queen, item));
       actions.append(buy);
       if (consumable || (!consumable && owned)) {
-        const use = node("button", "quiet-button", "使用");
+        const impact = consumable
+          && ["water", "gold"].includes(item.specialKind);
+        const progress = impact
+          ? ` · ${LG.infernalClub.buttImpactUses(queen.id) % 10}/10` : "";
+        const use = node("button", "quiet-button", `使用${progress}`);
         use.type = "button";
         use.disabled = busy || (consumable && LG.infernalClub.quantity(item.id) < 1);
         use.addEventListener("click", () => onUse(item));

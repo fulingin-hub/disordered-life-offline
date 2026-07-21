@@ -48,7 +48,9 @@
     },
     price(item) {
       const discounted = Math.ceil(item.price * (100 - this.discount()) / 100);
-      return Math.ceil(discounted * (LG.otherworldCharacters?.vehicleMarkup?.() || 1));
+      const markedUp = Math.ceil(discounted
+        * (LG.otherworldCharacters?.vehicleMarkup?.() || 1));
+      return LG.infernalChurch.price(markedUp);
     },
     owns(id) {
       return data().owned.includes(id);

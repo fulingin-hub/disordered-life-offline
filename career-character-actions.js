@@ -26,6 +26,19 @@
         LG.careerCharacterChatUI.open(character.id));
       gallery.addEventListener("click", () => LG.galleryUI.open(character.id));
       actions.append(chat, gallery);
+      if (character.rankIndex === 2) {
+        [["献上灵魂", "offerLeader"], ["洗脑榨取", "showcaseLeader"]]
+          .forEach(([label, method]) => {
+            const button = node("button", "",
+              unlocked ? label : "供奉 / 卖弄未开放");
+            button.type = "button";
+            button.disabled = busy || !unlocked;
+            button.addEventListener("click", () =>
+              LG.contributionRitual[method](character));
+            actions.append(button);
+          });
+        actions.append(LG.infernalChurchUI.magicPanel(character.name));
+      }
       panel.append(copy, actions);
       return panel;
     },

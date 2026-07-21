@@ -36,7 +36,9 @@
     const { testFree, ...owned } = item;
     const name = String(owned.name || "").replace(/^（([^）]+)）/, "$1")
       .replace("女兵的汗臭皮制内裤", "女兵的汗臭皮质内裤");
-    return { ...owned, name };
+    const prefix = name.startsWith("女兵的汗臭") ? "女兵的汗臭"
+      : name.startsWith("破坏人生的") ? "破坏人生的" : owned.prefix;
+    return { ...owned, name, prefix, setId: prefix ? `bm-${prefix}` : owned.setId };
   }
 
   LG.blackMarketUSAEquipment = { stock, ensure, normalizeOwned };

@@ -1,14 +1,12 @@
 (function (LG) {
   const lineZh = "丧志贱狗，快射出你那毫无价值的稀薄精液";
   const lineJa = "意気地なしの卑しい犬め。価値のない薄い精液を、早く吐き出しなさい。";
-  let dialog, portraits, feet, title, timer, speech;
-
+  let dialog, portraits, feet, title, timer, speech, speechId = 0;
   function count(roomId) {
     return Math.max(0, Math.floor(Number(
       LG.authority.snapshot()?.economy?.blackMarket?.roomUsage?.[roomId]?.footImpact,
     ) || 0));
   }
-
   function resolve(options) {
     const { source, roomId, itemId } = options || {};
     if (source === "character" && ["streetThug", "beggar"].includes(roomId)
@@ -23,7 +21,6 @@
     }
     return null;
   }
-
   function completeCollection(target) {
     if (target.kind === "tribute") return LG.collectibles.progress(target.roomId).complete;
     if (target.kind === "eden") return LG.edenCharacters.unlocked(target.roomId);
@@ -34,7 +31,6 @@
     }
     return LG.otherworldCharacters.progress(target.roomId).complete;
   }
-
   function members(target) {
     if (target.kind === "shadow") return LG.PENITENTIARY_DATA.roles;
     if (target.kind === "tribute") return ["streetThug", "beggar"].map((id) => ({
@@ -60,6 +56,7 @@
   }
 
   function stopSpeech() {
+    speechId += 1;
     window.clearTimeout(timer);
     window.speechSynthesis?.cancel?.();
     speech = null;
@@ -80,20 +77,49 @@
       || japanese[0] || null;
   }
 
+  function primeSpeech() {
+    if (!LG.audio?.isEnabled?.() || !window.speechSynthesis) return;
+    window.speechSynthesis.resume?.();
+    window.speechSynthesis.getVoices?.();
+  }
+
   function narrate() {
     stopSpeech();
-    if (!LG.audio?.isEnabled?.() || !window.SpeechSynthesisUtterance) {
+    const id = speechId;
+    if (!LG.audio?.isEnabled?.() || !window.speechSynthesis
+      || !window.SpeechSynthesisUtterance) {
+      if (dialog) dialog.dataset.voiceState = "unavailable";
       timer = window.setTimeout(close, 8500);
       return;
     }
-    speech = new SpeechSynthesisUtterance(lineJa);
-    speech.lang = "ja-JP";
-    speech.rate = 0.82;
-    speech.pitch = 0.92;
-    speech.voice = japaneseVoice();
-    speech.onend = () => { timer = window.setTimeout(close, 700); };
-    speech.onerror = () => { timer = window.setTimeout(close, 6500); };
-    window.speechSynthesis.speak(speech);
+    LG.narration?.stop?.();
+    dialog.dataset.voiceState = "queued";
+    window.speechSynthesis.resume?.();
+    timer = window.setTimeout(() => {
+      if (id !== speechId || !dialog?.open) return;
+      speech = new SpeechSynthesisUtterance(lineJa);
+      speech.lang = "ja-JP";
+      speech.rate = 0.82;
+      speech.pitch = 0.92;
+      speech.volume = 1;
+      const voice = japaneseVoice();
+      if (voice) speech.voice = voice;
+      speech.onstart = () => { dialog.dataset.voiceState = "playing"; };
+      speech.onend = () => {
+        if (id !== speechId) return;
+        dialog.dataset.voiceState = "ended";
+        timer = window.setTimeout(close, 700);
+      };
+      speech.onerror = (event) => {
+        if (id !== speechId) return;
+        dialog.dataset.voiceState = "error";
+        console.warn("角色足底动画日语女声播放失败:",
+          event?.error || "unknown");
+        timer = window.setTimeout(close, 6500);
+      };
+      window.speechSynthesis.speak(speech);
+      window.speechSynthesis.resume?.();
+    }, 80);
     timer = window.setTimeout(close, 14000);
   }
 
@@ -115,6 +141,7 @@
       close();
     });
     document.body.append(dialog);
+    window.addEventListener("pagehide", close);
   }
 
   function show(target, forcedSize, forcedVariants) {
@@ -150,6 +177,7 @@
   LG.characterFootImpactPopup = {
     capture(options) {
       const target = resolve(options);
+      if (target) primeSpeech();
       return target ? { target, before: count(target.roomId) } : null;
     },
     complete(token) {

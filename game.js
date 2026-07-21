@@ -11,6 +11,8 @@
     if (err?.code === "SDK_UNAVAILABLE" || err?.code === "FUNCTION_UNAVAILABLE")
       return "平台连接尚未就绪，请退出后重新进入游戏。";
     if (err?.code === "TIMEOUT") return "读取权威存档超时，请点击重试。";
+    if (LG.authorityRetry.isTransient(err))
+      return "权威存档服务暂时繁忙，请等待几秒后点击重试。";
     if (err?.code === "CAPTCHA_REQUIRED") return err.message;
     if (err?.code === "function_error") return err.message || "服务端拒绝了这次操作。";
     return "网络或结算服务暂时不可用，请稍后重试。";
@@ -128,17 +130,15 @@
     }
   }
   async function selectGender(gender) {
-    const result = await LG.authority.mutate("selectGender", { gender });
-    adopt(result);
-    LG.ui.render(state);
+    adopt(await LG.authority.mutate("selectGender", { gender })); LG.ui.render(state);
   }
   async function boot() {
     LG.loader.start();
     await LG.loader.waitForSdk();
-    await LG.loader.preload();
     await LG.saveRecoveryData.rollbackPending();
+    await LG.loader.preload();
     LG.authority.subscribe(adopt);
-    const result = await LG.authority.sync();
+    const result = await LG.authority.sync({ retries: 2 });
     adopt(result);
     await LG.loader.preloadState(state);
     LG.ui.init({
@@ -168,8 +168,8 @@
     LG.penitentiaryUI.init(() => state);
     LG.infernalUI.init();
     LG.abyssUI.init();
-    LG.infernalStompPopup.init(); LG.factionLeaderSacrifice.init(); LG.infernalClubChatUI.init();
-    LG.infernalClubUI.init();
+    LG.infernalStompPopup.init(); LG.factionLeaderSacrifice.init(); LG.infernalChurchUI.init();
+    LG.buttImpactPopup.init(); LG.infernalClubChatUI.init(); LG.infernalClubUI.init();
     LG.vehicleUI.init();
     LG.otherworldCharacterUI.init();
     LG.rooms.init(() => state);

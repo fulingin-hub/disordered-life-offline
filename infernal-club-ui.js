@@ -15,8 +15,7 @@
     el.spent.textContent = String(LG.infernalClub.spent());
     el.equipped.textContent = equipped
       ? `${LG.INFERNAL_CLUB_DATA.byId[equipped].name}套装` : "未穿戴";
-  }
-  function queenCard(queen) {
+  } function queenCard(queen) {
     const owned = queen.equipment.filter((item) => LG.infernalClub.owns(item.id)).length;
     const card = node("article", "club-room-card");
     const image = node("img", "infernal-club-scene");
@@ -77,7 +76,9 @@
       ...activeQueen.specials,
     ];
     el.items.replaceChildren(...items.map((item) =>
-      LG.infernalClubItemUI.card(activeQueen, item, busy, buy, use)));
+      LG.infernalClubItemUI.card(activeQueen, item, busy, buy, use)),
+    LG.contributionRitual.queenCard(activeQueen),
+    LG.infernalChurchUI.magicPanel(activeQueen.title, activeQueen.id));
     status(`${full ? "五件套已集齐，特殊收藏与使徒形态已经开放。"
       : "购买同一位女魔王的五件套后，可解锁特殊收藏与使徒形态。"} ${
       activeQueen.effect}`);
@@ -128,8 +129,8 @@
     mutate("infernalClubBuy", { sin: queen.id, itemId: item.id },
       "地狱俱乐部购买失败:");
   } function use(item) {
-    LG.infernalClubFeedback.track(item); mutate("infernalClubUse",
-      { itemId: item.id }, "地狱俱乐部道具使用失败:");
+    LG.infernalClubFeedback.track(item, activeQueen); mutate("infernalClubUse",
+      { itemId: item.id, sin: activeQueen.id }, "地狱俱乐部道具使用失败:");
   }
   function equip() {
     const equipped = LG.infernalClub.equippedSet() === activeQueen.id;
@@ -193,8 +194,7 @@
     },
     close() {
       LG.infernalClubChatUI.leave();
-      if (el.dialog.open) el.dialog.close();
-      LG.audio.scene("world");
+      if (el.dialog.open) el.dialog.close(); LG.audio.scene("world");
     },
     roomCard,
-  }; })(window.LifeGame);
+  };})(window.LifeGame);

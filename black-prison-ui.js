@@ -17,15 +17,15 @@
   function itemCard(item) {
     const owned = LG.blackPrison.owns(item.id);
     const locked = item.group === "demon" && !LG.blackPrison.demonUnlocked();
+    const price = LG.infernalChurch.price(item.price);
     const card = node("article", `black-prison-item${owned ? " owned" : ""}`);
-    const heading = node("div", "black-prison-item-heading");
-    heading.append(
+    const heading = node("div", "black-prison-item-heading"); heading.append(
       node("strong", "", item.name),
-      node("span", "", owned ? "已获得" : `${item.price}点`),
+      node("span", "", owned ? "已获得" : `${price}点`),
     );
     const button = node("button", "", actionLabel(item, owned, locked));
     button.type = "button";
-    button.disabled = busy || owned || locked || LG.traits.points() < item.price;
+    button.disabled = busy || owned || locked || LG.traits.points() < price;
     button.addEventListener("click", () => buy(item.id));
     card.append(heading, node("p", "", item.description), button);
     if (owned) card.append(LG.collectionUseUI.button({ owned, source: "paradise",

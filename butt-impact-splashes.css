@@ -1,0 +1,74 @@
+.butt-impact-splashes {
+  position: absolute;
+  z-index: 9;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.butt-impact-splash {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: var(--w);
+  height: var(--h);
+  opacity: 0;
+  border: 1px solid rgba(255, 226, 128, .46);
+  border-radius: 57% 43% 61% 39% / 42% 58% 37% 63%;
+  background:
+    radial-gradient(ellipse at 34% 28%, rgba(255, 252, 223, .92) 0 8%,
+      rgba(255, 204, 66, .92) 28%, rgba(179, 92, 5, .9) 64%,
+      rgba(72, 31, 2, .76) 100%);
+  box-shadow:
+    inset -10px -7px 15px rgba(84, 37, 2, .46),
+    inset 5px 4px 8px rgba(255, 245, 184, .38),
+    0 0 15px rgba(255, 184, 29, .42);
+  filter: blur(.45px) saturate(1.08);
+}
+
+.butt-impact-splash::after {
+  content: "";
+  position: absolute;
+  inset: 10% 28% 72% 14%;
+  border-radius: 50%;
+  background: rgba(255, 255, 202, .34);
+  filter: blur(4px);
+}
+
+.butt-impact-splash:nth-child(3n) {
+  border-radius: 38% 62% 45% 55% / 64% 36% 58% 42%;
+  background: linear-gradient(155deg, rgba(255, 245, 185, .92),
+    rgba(235, 151, 22, .92) 48%, rgba(112, 49, 2, .88));
+}
+
+.butt-impact-splash:nth-child(4n) {
+  border-radius: 63% 37% 54% 46% / 35% 65% 43% 57%;
+  transform-origin: 22% 73%;
+}
+
+.butt-impact-popup.playing .butt-impact-splash {
+  animation: butt-splash 2.75s cubic-bezier(.16, .72, .22, 1) both;
+  animation-delay: calc(3.05s + var(--d));
+}
+
+@keyframes butt-splash {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.08); }
+  14% { opacity: .94; transform: translate(-50%, -50%) scale(.68); }
+  45% {
+    opacity: .86;
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
+      rotate(var(--r)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
+      rotate(var(--r)) scale(1.32);
+  }
+}
+
+@media (max-width: 520px) {
+  .butt-impact-splash {
+    max-width: 126px;
+    max-height: 62px;
+  }
+}

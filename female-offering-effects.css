@@ -1,0 +1,341 @@
+.contribution-ritual-popup[data-female-offering="true"]
+  .contribution-mouth-sigil,
+.contribution-ritual-popup[data-female-offering="true"]
+  .contribution-soul-stream,
+.contribution-ritual-popup[data-female-offering="true"]
+  .contribution-ritual-gesture,
+.contribution-ritual-popup[data-female-offering="true"]
+  .contribution-ritual-focus {
+  display: none;
+}
+
+.contribution-ritual-popup[data-female-offering="true"]
+  .contribution-ritual-protagonist {
+  z-index: 4;
+  left: 16%;
+  bottom: 8%;
+  display: block;
+  width: clamp(100px, 21vw, 210px);
+  height: clamp(150px, 34vh, 320px);
+  opacity: .78;
+  transform: none;
+}
+
+.contribution-ritual-popup[data-female-offering="true"]
+  .contribution-ritual-protagonist img {
+  object-fit: contain;
+  object-position: center bottom;
+  transform: none;
+  animation: female-offering-protagonist-react .86s ease-in-out infinite;
+}
+
+.contribution-ritual-popup[data-female-offering="true"]
+  .contribution-ritual-actor {
+  z-index: 5;
+  left: auto;
+  right: max(18px, env(safe-area-inset-right));
+  top: max(70px, calc(env(safe-area-inset-top) + 70px));
+  width: clamp(92px, 17vw, 170px);
+  height: clamp(126px, 26vh, 250px);
+  overflow: hidden;
+  border: 2px solid rgba(230, 207, 130, .72);
+  border-radius: 5px;
+  background: rgba(4, 9, 11, .84);
+  box-shadow: 0 18px 38px #000;
+  transform: none;
+}
+
+.contribution-ritual-popup[data-female-offering="true"]
+  .contribution-ritual-actor img {
+  animation: none;
+  object-fit: cover;
+  object-position: center top;
+  opacity: .78;
+}
+
+.female-offering-layer {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: none;
+  pointer-events: none;
+}
+
+.contribution-ritual-popup[data-female-offering="true"]
+  .female-offering-layer {
+  display: block;
+}
+
+.female-offering-pose {
+  position: absolute;
+  left: 50%;
+  bottom: -6%;
+  width: min(91vw, 880px);
+  height: 105%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 28px 34px #000);
+  transform: translateX(-50%);
+  transform-origin: 50% 63%;
+}
+
+.contribution-ritual-popup.playing[data-female-offering="true"]
+  .female-offering-pose {
+  animation: female-offering-hip-sway .92s ease-in-out infinite;
+}
+
+.female-offering-sigil {
+  position: absolute;
+  z-index: 4;
+  display: block;
+  width: clamp(72px, 12vw, 126px);
+  aspect-ratio: 1;
+  opacity: 0;
+  filter:
+    drop-shadow(0 0 12px var(--soul-primary, #303038))
+    drop-shadow(0 0 28px var(--soul-secondary, #303038));
+  mix-blend-mode: screen;
+}
+
+.female-offering-sigil-art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: linear-gradient(135deg,
+    var(--soul-primary, #303038),
+    var(--soul-secondary, var(--soul-primary, #303038)) 52%,
+    var(--soul-tertiary, var(--soul-primary, #303038)));
+  -webkit-mask:
+    url("./assets/generated/ritual-foot-sigil-overlay.56093ee7.webp")
+    center / contain no-repeat;
+  mask:
+    url("./assets/generated/ritual-foot-sigil-overlay.56093ee7.webp")
+    center / contain no-repeat;
+}
+
+.female-offering-sigil.hip {
+  left: 50%;
+  top: 53%;
+  transform: translate(-50%, -50%);
+}
+
+.female-offering-sigil.sole {
+  bottom: 8%;
+  width: clamp(62px, 10vw, 108px);
+}
+
+.female-offering-sigil.sole.left {
+  left: 29%;
+  transform: rotate(-10deg);
+}
+
+.female-offering-sigil.sole.right {
+  right: 29%;
+  transform: rotate(10deg);
+}
+
+.female-offering-sigil.sole::before,
+.female-offering-emissions i::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 38%;
+  height: 15%;
+  border-radius: 50%;
+  background: linear-gradient(
+    color-mix(in srgb, var(--soul-primary, #303038) 64%, white),
+    color-mix(in srgb, var(--soul-secondary, #303038) 78%, #73123f));
+  box-shadow: inset 0 0 6px #fff, 0 0 10px var(--soul-primary, #303038);
+  transform: translate(-50%, -50%);
+  clip-path: polygon(0 50%, 24% 8%, 50% 31%, 76% 8%, 100% 50%,
+    76% 92%, 50% 69%, 24% 92%);
+}
+
+.female-offering-sigil.sole::after,
+.female-offering-emissions i::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 51%;
+  width: 12%;
+  height: 32%;
+  border-radius: 48% 48% 72% 72%;
+  background: linear-gradient(
+    color-mix(in srgb, var(--soul-secondary, #303038) 58%, white),
+    color-mix(in srgb, var(--soul-primary, #303038) 76%, #74123f));
+  box-shadow: 0 0 7px var(--soul-secondary, #303038);
+  transform: translateX(-50%);
+  transform-origin: center top;
+  animation: female-offering-tongue-swing .52s ease-in-out infinite;
+}
+
+.contribution-ritual-popup[data-female-offering="true"][data-phase="overview"]
+  .female-offering-sigil {
+  opacity: .92;
+  animation: female-offering-sigil-pulse .9s ease-in-out infinite;
+}
+
+.female-offering-sigil.hip b {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 42%;
+  height: 18%;
+  border-radius: 50%;
+  background: linear-gradient(
+    color-mix(in srgb, var(--soul-primary, #303038) 68%, white),
+    color-mix(in srgb, var(--soul-secondary, #303038) 78%, #74123f));
+  box-shadow: inset 0 0 8px #fff, 0 0 15px var(--soul-primary, #303038);
+  transform: translate(-50%, -50%);
+  clip-path: polygon(0 50%, 24% 8%, 50% 31%, 76% 8%, 100% 50%,
+    76% 92%, 50% 69%, 24% 92%);
+}
+
+.female-offering-sigil.hip b span {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: 28%;
+  height: 108%;
+  border-radius: 48% 48% 70% 70%;
+  background: linear-gradient(
+    color-mix(in srgb, var(--soul-secondary, #303038) 62%, white),
+    color-mix(in srgb, var(--soul-primary, #303038) 78%, #74123f));
+  box-shadow: inset 0 2px 3px #fff, 0 0 8px var(--soul-secondary, #303038);
+  transform: translateX(-50%);
+  transform-origin: center top;
+}
+
+.female-offering-vent {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 57%;
+  width: clamp(38px, 6vw, 62px);
+  aspect-ratio: 1;
+  opacity: 0;
+  border: 4px solid rgba(76, 43, 28, .9);
+  border-radius: 50%;
+  background: radial-gradient(circle, #090403 0 40%, #321b11 43% 64%,
+    #75513d 67% 73%, transparent 75%);
+  box-shadow: inset 0 0 12px #000, 0 0 22px rgba(119, 75, 50, .72);
+  transform: translate(-50%, -50%);
+}
+
+.female-offering-emissions {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  opacity: 0;
+}
+
+.female-offering-emissions i {
+  position: absolute;
+  left: 50%;
+  top: 57%;
+  width: clamp(26px, 4vw, 44px);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 0 9px var(--soul-primary, #303038));
+}
+
+.contribution-ritual-popup[data-female-offering="true"][data-phase="upper"]
+  .female-offering-vent,
+.contribution-ritual-popup[data-female-offering="true"][data-phase="upper"]
+  .female-offering-emissions {
+  opacity: 1;
+}
+
+.contribution-ritual-popup.playing[data-female-offering="true"][data-phase="upper"]
+  .female-offering-vent {
+  animation: female-offering-vent-pulse .76s ease-in-out infinite;
+}
+
+.contribution-ritual-popup.playing[data-female-offering="true"][data-phase="upper"]
+  .female-offering-emissions i {
+  animation: female-offering-emission 1.7s ease-out infinite;
+  animation-delay: var(--emission-delay);
+}
+
+.contribution-ritual-popup[data-female-offering="true"][data-phase="lower"]
+  .female-offering-sigil.hip {
+  z-index: 6;
+  left: 50%;
+  top: 48%;
+  width: min(56vw, 560px);
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+.contribution-ritual-popup.playing[data-female-offering="true"][data-phase="lower"]
+  .female-offering-sigil.hip {
+  animation: female-offering-mouth-surge .58s ease-in-out infinite;
+}
+
+.contribution-ritual-popup.playing[data-female-offering="true"][data-phase="lower"]
+  .female-offering-sigil.hip b span {
+  animation: female-offering-tongue-swing .52s ease-in-out infinite;
+}
+
+@keyframes female-offering-hip-sway {
+  0%, 100% { transform: translateX(-50%) rotate(-2.4deg) translateX(-10px); }
+  50% { transform: translateX(-50%) rotate(2.4deg) translateX(10px); }
+}
+
+@keyframes female-offering-sigil-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 9px var(--soul-primary, #303038));
+  }
+  50% {
+    filter: brightness(1.28)
+      drop-shadow(0 0 22px var(--soul-secondary, #303038));
+  }
+}
+
+@keyframes female-offering-vent-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(.82); }
+  50% { transform: translate(-50%, -50%) scale(1.12); }
+}
+
+@keyframes female-offering-emission {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.35);
+  }
+  20% { opacity: .92; }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(-50% + var(--emission-x)),
+      calc(-50% - 34vh)
+    ) rotate(220deg) scale(.9);
+  }
+}
+
+@keyframes female-offering-mouth-surge {
+  0%, 100% { transform: translate(-50%, -50%) scale(.88) rotate(-3deg); }
+  50% { transform: translate(-50%, -50%) scale(1.12) rotate(3deg); }
+}
+
+@keyframes female-offering-tongue-swing {
+  0% { transform: translateX(-50%) rotate(-42deg) translateY(2%); }
+  25% { transform: translateX(-50%) rotate(0) translateY(22%); }
+  50% { transform: translateX(-50%) rotate(42deg) translateY(2%); }
+  75% { transform: translateX(-50%) rotate(0) translateY(-16%); }
+  100% { transform: translateX(-50%) rotate(-42deg) translateY(2%); }
+}
+
+@keyframes female-offering-protagonist-react {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(8px) rotate(2deg); }
+}
+
+@media (max-width: 520px) {
+  .female-offering-pose {
+    width: 116vw;
+    height: 98%;
+  }
+
+  .female-offering-sigil.sole.left { left: 18%; }
+  .female-offering-sigil.sole.right { right: 18%; }
+}
