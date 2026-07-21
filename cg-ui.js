@@ -89,6 +89,7 @@
         specialCg: true,
         specialLabel: meta.label,
         fixedNarration: meta.fixedNarration,
+        japaneseNarration: meta.japaneseNarration,
       }, gender);
       return true;
     },

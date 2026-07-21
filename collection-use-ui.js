@@ -13,6 +13,7 @@
     busy = true;
     setButtonsBusy(true);
     options.onStatus?.("正在保存道具使用记录...");
+    const impactToken = LG.characterFootImpactPopup?.capture?.(options);
     const statusTimer = window.setTimeout(() => {
       options.onStatus?.("正在确认结算结果，请勿重复操作...");
     }, 800);
@@ -28,6 +29,7 @@
       LG.roomsUI?.refresh?.();
       window.dzmm?.toast?.success?.(result.message);
       LG.itemFeedback?.show?.(result.message, options.tone || "normal");
+      LG.characterFootImpactPopup?.complete?.(impactToken);
     } catch (err) {
       console.error("图鉴道具使用失败:", err?.code, err?.message, err?.stack);
       feedback = err?.message || "使用失败，请稍后重试。";
@@ -47,7 +49,13 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "quiet-button collection-use-button";
-      button.textContent = busy ? "使用中..." : "使用";
+      const impact = LG.characterFootImpactPopup?.state?.(options);
+      button.textContent = busy ? "使用中..." : impact?.special
+        ? `${impact.free ? "免费使用" : "使用"} · ${impact.count % 10}/10`
+        : "使用";
+      if (impact?.special) {
+        button.title = `特殊道具每使用10次触发动画；当前累计${impact.count}次`;
+      }
       button.disabled = busy;
       button.addEventListener("click", () => use(options));
       return button;
