@@ -6,9 +6,7 @@
   function today() {
     const authorityDate = LG.authority?.snapshot?.()?.serverDate;
     if (authorityDate) return authorityDate;
-    const date = new Date();
-    const part = (value) => String(value).padStart(2, "0");
-    return `${date.getFullYear()}-${part(date.getMonth() + 1)}-${part(date.getDate())}`;
+    return new Date().toISOString().slice(0, 10);
   }
 
   function seedValue(text) {
