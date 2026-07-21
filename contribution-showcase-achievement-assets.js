@@ -25,7 +25,7 @@
   Object.entries(entries).forEach(([id, meta]) => {
     LG.CG_ASSETS.specialMeta[id] = {
       ...meta,
-      label: "供奉卖弄隐藏成就CG",
+      label: "供奉支配隐藏成就CG",
     };
     LG.CG_ASSETS.special[id] = { male: src, female: src };
   });

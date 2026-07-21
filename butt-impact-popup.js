@@ -16,6 +16,8 @@
         `${Math.round(Math.sin(angle) * radius * .78 + (chunk ? 0 : 18))}vh`);
       item.style.setProperty("--r", `${Math.round(Math.random() * 320 - 160)}deg`);
       item.style.setProperty("--d", `${(Math.random() * .36).toFixed(2)}s`);
+      item.style.setProperty("--loop-delay",
+        `${(index * .08 + Math.random() * .18).toFixed(2)}s`);
       item.style.setProperty("--w",
         `${Math.round((chunk ? 16 : 9) + Math.random() * (chunk ? 34 : 13))}px`);
       item.style.setProperty("--h",
@@ -37,6 +39,8 @@
       item.style.setProperty("--y", `${Math.round(Math.sin(angle) * radius * .72)}vh`);
       item.style.setProperty("--r", `${Math.round(Math.random() * 80 - 40)}deg`);
       item.style.setProperty("--d", `${(Math.random() * .28).toFixed(2)}s`);
+      item.style.setProperty("--loop-delay",
+        `${(index * .16 + Math.random() * .18).toFixed(2)}s`);
       item.style.setProperty("--w", `${Math.round(72 + Math.random() * 96)}px`);
       item.style.setProperty("--h", `${Math.round(24 + Math.random() * 42)}px`);
       return item;
@@ -122,7 +126,7 @@
       "--impact-source", `url("${dedicatedQueenPose ? pose.src : meta.src}")`);
     el.detail.textContent = itemKind === "gold"
       ? "黄金 · 排气孔收缩热雾 · 黑褐粗蛇集中后扩散 · 主动关闭"
-      : "圣水 · 低机位仰视 · 10秒人物前奏";
+      : "圣水 · 低机位仰视 · 10秒人物前奏 · 持续滴水 · 主动关闭";
     el.title.textContent = `${meta.name} · 臀部冲积层`;
     el.dialog.dataset.kind = meta.kind;
     el.dialog.dataset.character = meta.id;
@@ -132,15 +136,16 @@
     el.dialog.dataset.poseGender = meta.gender;
     el.dialog.dataset.poseVariant = pose.variant;
     el.dialog.dataset.itemKind = itemKind;
-    el.dialog.dataset.timeline = itemKind === "gold" ? "gold-burial" : "water-impact";
-    el.dialog.dataset.autoClose = itemKind === "gold" ? "manual" : "22s";
+    el.dialog.dataset.timeline = itemKind === "gold"
+      ? "gold-burial" : "water-drip-loop";
+    el.dialog.dataset.autoClose = "manual";
     if (!el.dialog.open) el.dialog.showModal();
     el.dialog.classList.remove("playing");
     void el.dialog.offsetWidth;
     el.dialog.classList.add("playing");
     window.clearTimeout(closeTimer);
     LG.buttImpactVoice?.play?.(el.dialog, 10000);
-    closeTimer = itemKind === "gold" ? 0 : window.setTimeout(close, 22000);
+    closeTimer = 0;
     return true;
   }
 

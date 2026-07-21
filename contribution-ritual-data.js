@@ -68,17 +68,17 @@
       unlocked ? " owned" : " locked"}`;
     const heading = document.createElement("div");
     heading.className = "club-item-heading";
-    heading.innerHTML = "<strong>供奉与卖弄</strong><span></span>";
+    heading.innerHTML = "<strong>供奉与支配</strong><span></span>";
     heading.querySelector("span").textContent = unlocked ? "已开放" : "未开放";
     const copy = document.createElement("p");
     copy.textContent = unlocked
-      ? "供奉为25秒三阶段仪式；卖弄为20秒王座展示。两者共同累计隐藏成就。"
-      : "集齐该女魔王五件套与两件特殊收藏后开放供奉和卖弄。";
+      ? "供奉为25秒三阶段仪式；支配为20秒王座展示。两者共同累计隐藏成就。"
+      : "集齐该女魔王五件套与两件特殊收藏后开放供奉和支配。";
     const actions = document.createElement("div");
     actions.className = "club-item-actions";
     actions.append(
       actionButton("献上灵魂", "offering", unlocked, onShow, queen),
-      actionButton("洗脑榨取", "showcase", unlocked, onShow, queen),
+      actionButton("灵魂支配", "showcase", unlocked, onShow, queen),
     );
     card.append(heading, copy, actions);
     return card;

@@ -27,10 +27,10 @@
       gallery.addEventListener("click", () => LG.galleryUI.open(character.id));
       actions.append(chat, gallery);
       if (character.rankIndex === 2) {
-        [["献上灵魂", "offerLeader"], ["洗脑榨取", "showcaseLeader"]]
+        [["献上灵魂", "offerLeader"], ["灵魂支配", "showcaseLeader"]]
           .forEach(([label, method]) => {
             const button = node("button", "",
-              unlocked ? label : "供奉 / 卖弄未开放");
+              unlocked ? label : "供奉 / 支配未开放");
             button.type = "button";
             button.disabled = busy || !unlocked;
             button.addEventListener("click", () =>

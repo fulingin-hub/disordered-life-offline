@@ -1,0 +1,100 @@
+.butt-impact-popup.playing[data-item-kind="water"] .butt-impact-drop {
+  top: 28%;
+  animation: butt-water-drop-loop 2.2s linear
+    calc(10s + var(--loop-delay)) infinite;
+}
+
+.butt-impact-popup.playing[data-item-kind="water"] .butt-impact-splash {
+  top: 78%;
+  animation: butt-water-splash-loop 2.2s ease-out
+    calc(10.75s + var(--loop-delay)) infinite;
+}
+
+.butt-impact-popup.playing[data-item-kind="water"] .butt-impact-liquid {
+  top: 80%;
+  width: min(92vmax, 1120px);
+  height: min(36vmax, 440px);
+  animation: butt-water-pool-loop 2.2s ease-in-out 10s infinite;
+}
+
+.butt-impact-popup.playing[data-pose-gender="female"][data-item-kind="water"]
+  .butt-impact-pose {
+  animation: butt-water-pose-hold 10s ease-in-out both;
+}
+
+@keyframes butt-water-drop-loop {
+  0% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--x)), -18vh)
+      rotate(var(--r)) scale(.45, .2);
+  }
+  12% { opacity: .82; }
+  74% {
+    opacity: .9;
+    transform: translate(calc(-50% + var(--x)), 43vh)
+      rotate(var(--r)) scale(.72, 1.35);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--x)), 52vh)
+      rotate(var(--r)) scale(1.2, .45);
+  }
+}
+
+@keyframes butt-water-splash-loop {
+  0%, 52% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.08);
+  }
+  64% {
+    opacity: .84;
+    transform: translate(-50%, -50%) scale(.56);
+  }
+  82% {
+    opacity: .68;
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
+      rotate(var(--r)) scale(.92);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
+      rotate(var(--r)) scale(1.18);
+  }
+}
+
+@keyframes butt-water-pool-loop {
+  0%, 100% {
+    opacity: .28;
+    transform: translate(-50%, -50%) scale(.72, .42);
+  }
+  50% {
+    opacity: .62;
+    transform: translate(-50%, -50%) scale(1.04, .68);
+  }
+}
+
+@keyframes butt-water-pose-hold {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px) scale(.98);
+  }
+  5%, 58% { opacity: 1; }
+  8%, 20%, 32%, 44%, 56% {
+    transform: translateX(-50%) translateY(-26px) scale(1.08, 1.04);
+  }
+  14%, 26%, 38%, 50% {
+    transform: translateX(-50%) translateY(54px) scale(1.12, .94);
+  }
+  64%, 100% {
+    opacity: .72;
+    transform: translateX(-50%) translateY(66px) scale(1.18, .9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-drop,
+  .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-splash,
+  .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-liquid {
+    animation-duration: 4s;
+  }
+}

@@ -33,6 +33,13 @@
     return Math.max(0, Math.floor(Number(value?.[kind]) || 0));
   }
 
+  function totalUsage(character) {
+    const value = LG.blackMarket._data()?.roomUsage?.[character];
+    return Object.entries(value || {}).reduce((total, [kind, count]) =>
+      kind === "footImpact" ? total
+        : total + Math.max(0, Math.floor(Number(count) || 0)), 0);
+  }
+
   function makeItem(character, kind) {
     const meta = kinds[kind];
     const tribute = LG.tribute.isCharacter(character);
@@ -82,6 +89,10 @@
         .map((kind) => makeItem(character, kind));
     },
     usage,
+    totalUsage,
+    ritualUnlocked(character) {
+      return totalUsage(character) >= 100;
+    },
     qualifiesForAddress(character) {
       return usage(character, "water") > 10 && usage(character, "gold") > 10;
     },

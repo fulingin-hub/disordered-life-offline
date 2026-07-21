@@ -13,7 +13,7 @@
       timings: [5000, 10000, 5000],
       phases: ["overview", "display", "impact"],
       copy: {
-        overview: ["卖弄", "王座全景 · 轻蔑审视"],
+        overview: ["支配", "王座全景 · 轻蔑审视"],
         display: ["灵魂吸收", "VR主角立绘 · 灵魂持续流向中央魔纹唇"],
         impact: ["吞噬冲积层", "足底与张合魔纹唇即将覆盖视野"],
       },
@@ -56,7 +56,7 @@
   function build() {
     el.dialog = document.createElement("dialog");
     el.dialog.className = "contribution-ritual-popup";
-    el.dialog.setAttribute("aria-label", "贡献卖弄仪式动画");
+    el.dialog.setAttribute("aria-label", "供奉支配仪式动画");
     el.dialog.innerHTML = `<div class="contribution-ritual-scene">
       <div class="contribution-ritual-grid" aria-hidden="true"></div>
       <div class="contribution-ritual-seat" aria-hidden="true"></div>
@@ -122,7 +122,7 @@
     el.actor.alt = meta.name;
     LG.femaleOfferingEffects?.prepare?.(el.dialog, meta, mode, durations);
     el.name.textContent = `${meta.name} · ${
-      mode === "offering" ? "供奉" : "卖弄"}`;
+      mode === "offering" ? "供奉" : "支配"}`;
     el.dialog.dataset.kind = meta.kind;
     el.dialog.dataset.route = meta.route;
     el.dialog.dataset.ritualMode = mode;
@@ -165,7 +165,7 @@
       window.dzmm?.toast?.success?.(result.message);
       return play(meta, mode, timings);
     } catch (err) {
-      console.error("贡献卖弄累计失败:", err?.code, err?.message, err?.stack);
+      console.error("供奉支配累计失败:", err?.code, err?.message, err?.stack);
       window.dzmm?.toast?.error?.(err?.message || "贡献仪式暂时无法开始。");
       return false;
     } finally {
