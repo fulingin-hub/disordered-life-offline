@@ -1,9 +1,9 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260720-career-offline-unlock",
+  buildId: "20260721-parental-achievements",
   version: 7,
-  eventRevision: 2026071607,
+  eventRevision: 2026072101,
   stateKey: "disordered-life-state-v1",
   archiveKey: "disordered-life-archive-v1",
   achievementKey: "disordered-life-achievements-v1",
