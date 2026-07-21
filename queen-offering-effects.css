@@ -1,0 +1,243 @@
+.contribution-ritual-popup[data-female-offering-queen]
+  .contribution-ritual-actor {
+  display: none;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .contribution-ritual-protagonist {
+  z-index: 4;
+  left: 50%;
+  bottom: 14%;
+  width: min(42vw, 380px);
+  height: 27%;
+  opacity: .78;
+  transform: translateX(-50%);
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .contribution-ritual-protagonist img {
+  object-fit: contain;
+  object-position: center bottom;
+  animation: queen-offering-protagonist-crush .76s ease-in-out infinite;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-layer::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 1%;
+  width: min(82vw, 820px);
+  height: 18%;
+  border: 4px solid color-mix(in srgb,
+    var(--showcase-primary, #cfb76a) 68%, #130c16);
+  border-radius: 50%;
+  background: radial-gradient(ellipse,
+    color-mix(in srgb, var(--showcase-secondary, #b75ac8) 36%, #171018),
+    #07070b 68%);
+  box-shadow: inset 0 0 28px #000, 0 18px 42px #000;
+  transform: translateX(-50%) perspective(680px) rotateX(62deg);
+}
+
+.contribution-ritual-popup.playing[data-female-offering-queen]
+  .female-offering-pose {
+  animation: queen-offering-squat .82s
+    cubic-bezier(.35, 0, .45, 1) infinite;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-sigil.hip {
+  top: 60%;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-sigil.sole {
+  bottom: 18%;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-sigil.sole.left {
+  left: 20%;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-sigil.sole.right {
+  right: 20%;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-sigil-art {
+  border: 2px solid color-mix(in srgb,
+    var(--soul-primary, #303038) 72%, white);
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from 7deg,
+      transparent 0 13deg,
+      color-mix(in srgb, var(--soul-secondary, #303038) 76%, white)
+        14deg 16deg),
+    radial-gradient(circle,
+      transparent 0 28%,
+      color-mix(in srgb, var(--soul-primary, #303038) 58%, transparent)
+        30% 33%,
+      transparent 35% 48%,
+      color-mix(in srgb, var(--soul-tertiary, #303038) 72%, transparent)
+        50% 54%,
+      transparent 56%);
+  box-shadow:
+    inset 0 0 14px var(--soul-primary, #303038),
+    0 0 18px var(--soul-secondary, #303038);
+  -webkit-mask: none;
+  mask: none;
+  animation: queen-offering-sigil-spin 8s linear infinite;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-vent,
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-emissions i {
+  top: 60%;
+}
+
+.contribution-ritual-popup[data-female-offering-queen][data-phase="lower"]
+  .female-offering-sigil.hip {
+  top: 60%;
+  width: min(48vw, 460px);
+}
+
+.contribution-ritual-popup[data-female-offering-queen][data-phase="lower"]
+  .female-offering-sigil.hip .female-offering-sigil-art {
+  opacity: .42;
+  filter: brightness(.7);
+}
+
+.contribution-ritual-popup[data-female-offering-queen][data-phase="lower"]
+  .female-offering-sigil.hip b {
+  z-index: 2;
+  width: 64%;
+  height: 22%;
+  border: 2px solid color-mix(in srgb,
+    var(--soul-primary, #303038) 66%, white);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--soul-secondary, #303038) 56%, #ff91c9),
+    color-mix(in srgb, var(--soul-primary, #303038) 72%, #7a174b));
+  box-shadow:
+    inset 0 0 12px rgba(255, 255, 255, .76),
+    0 0 18px var(--soul-primary, #303038);
+}
+
+.contribution-ritual-popup[data-female-offering-queen][data-phase="lower"]
+  .female-offering-sigil.hip b span {
+  top: 56%;
+  width: 22%;
+  height: 190%;
+  background: linear-gradient(
+    color-mix(in srgb, var(--soul-secondary, #303038) 45%, #ffc0dc),
+    color-mix(in srgb, var(--soul-primary, #303038) 68%, #9d275f));
+}
+
+.female-offering-souls {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.female-offering-souls i {
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+  display: block;
+  width: clamp(7px, 1.2vw, 14px);
+  aspect-ratio: .62 / 1;
+  border-radius: 56% 44% 68% 32%;
+  background: linear-gradient(var(--soul-primary, #303038),
+    var(--soul-secondary, #303038));
+  box-shadow: 0 0 8px var(--soul-primary, #303038),
+    0 0 17px var(--soul-secondary, #303038);
+  filter: brightness(1.45);
+}
+
+.female-offering-souls i.hip {
+  --soul-target-x: 0vw;
+  --soul-target-y: -31vh;
+}
+
+.female-offering-souls i.sole-left {
+  --soul-target-x: -27vw;
+  --soul-target-y: -10vh;
+}
+
+.female-offering-souls i.sole-right {
+  --soul-target-x: 27vw;
+  --soul-target-y: -10vh;
+}
+
+.contribution-ritual-popup[data-female-offering="true"][data-phase="overview"]
+  .female-offering-souls,
+.contribution-ritual-popup[data-female-offering="true"][data-phase="lower"]
+  .female-offering-souls {
+  opacity: 1;
+}
+
+.contribution-ritual-popup.playing[data-female-offering="true"][data-phase="overview"]
+  .female-offering-souls i {
+  animation: queen-offering-soul-draw 1.32s ease-in infinite;
+  animation-delay: var(--soul-delay);
+}
+
+.contribution-ritual-popup.playing[data-female-offering="true"][data-phase="lower"]
+  .female-offering-souls i {
+  --soul-target-x: 0vw !important;
+  --soul-target-y: -31vh !important;
+  animation: queen-offering-soul-draw 1.08s ease-in infinite;
+  animation-delay: var(--soul-delay);
+}
+
+@keyframes queen-offering-squat {
+  0%, 100% {
+    transform: translateX(-50%) translateY(-28px) scale(1.07, 1.04);
+  }
+  50% {
+    transform: translateX(-50%) translateY(58px) scale(1.12, .92);
+  }
+}
+
+@keyframes queen-offering-soul-draw {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(.36) rotate(-18deg);
+  }
+  18% { opacity: .94; }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(-50% + var(--soul-target-x)),
+      var(--soul-target-y)
+    ) scale(.12) rotate(210deg);
+  }
+}
+
+@keyframes queen-offering-sigil-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes queen-offering-protagonist-crush {
+  0%, 100% { transform: rotate(90deg) translateX(-5px) scale(.76); }
+  50% { transform: rotate(90deg) translateX(9px) scale(.8, .72); }
+}
+
+@media (max-width: 520px) {
+  .contribution-ritual-popup[data-female-offering-queen]
+    .contribution-ritual-protagonist {
+    bottom: 17%;
+    width: 56vw;
+    height: 23%;
+  }
+
+  .contribution-ritual-popup[data-female-offering-queen][data-phase="lower"]
+    .female-offering-sigil.hip {
+    width: min(78vw, 380px);
+  }
+}
