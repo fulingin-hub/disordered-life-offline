@@ -46,6 +46,7 @@
         <i></i><i></i><b></b><span></span>
       </div>
       <div class="queen-offering-heat"><i></i><i></i><i></i></div>
+      <div class="female-offering-tentacles"></div>
       <div class="female-offering-emissions"></div>
       <div class="female-offering-souls"></div>
       <div class="queen-offering-conduit">
@@ -71,6 +72,17 @@
         `${(index % 5 - 2) * 1.1}vw`);
       sigil.style.setProperty("--emission-delay", `${-(index % 5) * .28}s`);
       emissions.append(sigil);
+    }
+    const tentacles = layer.querySelector(".female-offering-tentacles");
+    for (let index = 0; index < 10; index += 1) {
+      const tentacle = document.createElement("i");
+      tentacle.style.setProperty("--tentacle-angle",
+        `${(index - 4.5) * 17}deg`);
+      tentacle.style.setProperty("--tentacle-delay",
+        `${-(index % 5) * .18}s`);
+      tentacle.style.setProperty("--tentacle-reach",
+        `${58 + (index % 3) * 13}%`);
+      tentacles.append(tentacle);
     }
     const souls = layer.querySelector(".female-offering-souls");
     const targets = ["hip", "sole-left", "sole-right"];

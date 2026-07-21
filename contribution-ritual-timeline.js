@@ -36,6 +36,7 @@
         ? 0
         : Math.max(0, duration - state.finalLead), state);
     }
+    if (state.holdFinal) return;
     schedule(() => finish(state), duration, state);
   }
 

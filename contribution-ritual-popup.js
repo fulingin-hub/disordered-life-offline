@@ -21,10 +21,8 @@
   };
   const el = {}; let requesting = false;
   function close() {
-    LG.contributionRitualTimeline?.stop?.();
-    LG.contributionRitualVoice?.stop?.();
-    LG.contributionShowcaseEffects?.reset?.(el.dialog);
-    LG.femaleOfferingEffects?.reset?.(el.dialog);
+    LG.contributionRitualTimeline?.stop?.(); LG.contributionRitualVoice?.stop?.();
+    LG.contributionShowcaseEffects?.reset?.(el.dialog); LG.femaleOfferingEffects?.reset?.(el.dialog);
     el.dialog?.classList.remove("playing");
     if (el.dialog?.open) el.dialog.close();
   }
@@ -80,8 +78,7 @@
       aria-label="下一阶段" title="下一阶段">»</button>
     <button class="contribution-ritual-close" type="button"
       aria-label="关闭" title="关闭">×</button>`;
-    el.protagonist = el.dialog.querySelector(
-      ".contribution-ritual-protagonist img");
+    el.protagonist = el.dialog.querySelector(".contribution-ritual-protagonist img");
     el.actor = el.dialog.querySelector(".contribution-ritual-actor img");
     el.name = el.dialog.querySelector(".contribution-ritual-caption span");
     el.phase = el.dialog.querySelector(".contribution-ritual-caption strong");
@@ -89,10 +86,10 @@
     el.line = el.dialog.querySelector(".contribution-ritual-caption q");
     el.advance = el.dialog.querySelector(".contribution-ritual-advance");
     el.line.textContent = LG.contributionRitualVoice.textZh;
-    el.advance.addEventListener("click", () =>
-      LG.contributionRitualTimeline?.advance?.());
-    el.dialog.querySelector(".contribution-ritual-close")
-      .addEventListener("click", close);
+    el.advance.addEventListener("click",
+      () => LG.contributionRitualTimeline?.advance?.());
+    el.dialog.querySelector(".contribution-ritual-close").addEventListener(
+      "click", close);
     el.dialog.addEventListener("cancel", (event) => {
       event.preventDefault();
       close();
@@ -109,9 +106,8 @@
     const femaleOffering = LG.femaleOfferingEffects?.eligible?.(meta, mode);
     const defaults = femaleOffering ? [10000, 10000, 5000] : modes[mode].timings;
     const durations = Array.isArray(timings) && timings.length === 3
-      ? timings.map((value, index) =>
-        Math.max(index ? 50 : 20, Number(value) || defaults[index]))
-      : defaults;
+      ? timings.map((value, index) => Math.max(
+        index ? 50 : 20, Number(value) || defaults[index])) : defaults;
     const total = durations.reduce((sum, value) => sum + value, 0);
     const gender = LG.contributionRitualData.playerGender();
     const outfit = LG.contributionShowcaseEffects.prepare(
@@ -126,8 +122,11 @@
     el.dialog.dataset.kind = meta.kind;
     el.dialog.dataset.route = meta.route;
     el.dialog.dataset.ritualMode = mode;
-    if (mode === "offering") el.dialog.dataset.outfit = outfit.label;
-    if (mode === "offering") delete el.dialog.dataset.protagonistCrop;
+    if (mode === "offering") {
+      el.dialog.dataset.outfit = outfit.label;
+      delete el.dialog.dataset.protagonistCrop;
+    }
+    el.dialog.dataset.autoClose = femaleOffering ? "manual-final" : "timed";
     el.dialog.dataset.duration = String(total);
     el.dialog.dataset.impactDuration = String(durations[2]);
     el.dialog.dataset.soleDuration = String(Math.min(3000, durations[2]));
@@ -146,6 +145,7 @@
       onPhase: (name, index) => phase(name, index, mode),
       canAdvance: (context) =>
         LG.femaleOfferingEffects?.canAdvance?.(el.dialog, context) !== false,
+      holdFinal: femaleOffering,
       finalLead: mode === "showcase" ? 3000 : 0,
       onFinalLead: mode === "showcase" ? impact : null,
       onFinish: close,
