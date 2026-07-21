@@ -4,24 +4,6 @@
 }
 
 .contribution-ritual-popup[data-female-offering-queen]
-  .contribution-ritual-protagonist {
-  z-index: 4;
-  left: 50%;
-  bottom: 14%;
-  width: min(42vw, 380px);
-  height: 27%;
-  opacity: .78;
-  transform: translateX(-50%);
-}
-
-.contribution-ritual-popup[data-female-offering-queen]
-  .contribution-ritual-protagonist img {
-  object-fit: contain;
-  object-position: center bottom;
-  animation: queen-offering-protagonist-crush .76s ease-in-out infinite;
-}
-
-.contribution-ritual-popup[data-female-offering-queen]
   .female-offering-layer::before {
   content: "";
   position: absolute;
@@ -58,12 +40,22 @@
 
 .contribution-ritual-popup[data-female-offering-queen]
   .female-offering-sigil.sole.left {
-  left: 20%;
+  left: 31%;
 }
 
 .contribution-ritual-popup[data-female-offering-queen]
   .female-offering-sigil.sole.right {
-  right: 20%;
+  right: 31%;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-souls i.sole-left {
+  --soul-target-x: -15vw;
+}
+
+.contribution-ritual-popup[data-female-offering-queen]
+  .female-offering-souls i.sole-right {
+  --soul-target-x: 15vw;
 }
 
 .contribution-ritual-popup[data-female-offering-queen]
@@ -124,10 +116,28 @@
   box-shadow:
     inset 0 0 12px rgba(255, 255, 255, .76),
     0 0 18px var(--soul-primary, #303038);
+  isolation: isolate;
+  mix-blend-mode: normal;
+  opacity: 1;
+}
+
+.contribution-ritual-popup[data-female-offering-queen][data-phase="lower"]
+  .female-offering-sigil.hip b::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 29% 14%;
+  border-radius: 50%;
+  background: #12040d;
+  box-shadow:
+    inset 0 0 7px #000,
+    0 0 8px color-mix(in srgb,
+      var(--soul-secondary, #303038) 58%, #ff8fc8);
 }
 
 .contribution-ritual-popup[data-female-offering-queen][data-phase="lower"]
   .female-offering-sigil.hip b span {
+  z-index: 2;
   top: 56%;
   width: 22%;
   height: 190%;
@@ -223,17 +233,25 @@
   to { transform: rotate(360deg); }
 }
 
-@keyframes queen-offering-protagonist-crush {
-  0%, 100% { transform: rotate(90deg) translateX(-5px) scale(.76); }
-  50% { transform: rotate(90deg) translateX(9px) scale(.8, .72); }
-}
-
 @media (max-width: 520px) {
   .contribution-ritual-popup[data-female-offering-queen]
-    .contribution-ritual-protagonist {
-    bottom: 17%;
-    width: 56vw;
-    height: 23%;
+    .female-offering-sigil.sole.left {
+    left: 20%;
+  }
+
+  .contribution-ritual-popup[data-female-offering-queen]
+    .female-offering-sigil.sole.right {
+    right: 20%;
+  }
+
+  .contribution-ritual-popup[data-female-offering-queen]
+    .female-offering-souls i.sole-left {
+    --soul-target-x: -22vw;
+  }
+
+  .contribution-ritual-popup[data-female-offering-queen]
+    .female-offering-souls i.sole-right {
+    --soul-target-x: 22vw;
   }
 
   .contribution-ritual-popup[data-female-offering-queen][data-phase="lower"]

@@ -4,18 +4,18 @@
     stocking: "./assets/generated/female-soul-offering-stockings.668cd139.webp",
   };
   const queenAssets = {
-    greed: "./assets/generated/infernal-greed-queen-offering-squat.d1ac2bea.webp",
-    lust: "./assets/generated/infernal-lust-queen-offering-squat.86d71803.webp",
-    wrath: "./assets/generated/infernal-wrath-queen-offering-squat.d1017c90.webp",
-    sloth: "./assets/generated/infernal-sloth-queen-offering-squat.5db5e3d3.webp",
-    pride: "./assets/generated/infernal-pride-queen-offering-squat.a8ef7daf.webp",
-    envy: "./assets/generated/infernal-envy-queen-offering-squat.1d9490fb.webp",
+    greed: "./assets/generated/infernal-greed-queen-offering-squat.ac1304b1.webp",
+    lust: "./assets/generated/infernal-lust-queen-offering-squat.3e82c11f.webp",
+    wrath: "./assets/generated/infernal-wrath-queen-offering-squat.e223f759.webp",
+    sloth: "./assets/generated/infernal-sloth-queen-offering-squat.623091ad.webp",
+    pride: "./assets/generated/infernal-pride-queen-offering-squat.b990ff4b.webp",
+    envy: "./assets/generated/infernal-envy-queen-offering-squat.e1da65a6.webp",
     gluttony:
-      "./assets/generated/infernal-gluttony-queen-offering-squat.30d146db.webp",
+      "./assets/generated/infernal-gluttony-queen-offering-squat.a4a0235c.webp",
   };
   const copy = {
     overview: ["灵魂牵引", "前10秒 · 臀部上下晃动，臀部与双足魔纹同步吸取灵魂"],
-    upper: ["排气魔纹", "后10秒 · 褐色排气纹口释放小型魔纹继续牵引"],
+    upper: ["外置排气魔纹", "后10秒 · 外置褐色纹口释放小型魔纹继续牵引"],
     lower: ["魔纹收束", "最后5秒 · 臀部魔纹唇放大，灵舌向四向甩动吸魂"],
   };
 
@@ -41,8 +41,20 @@
         <u class="female-offering-sigil-art"></u>
       </i>
       <i class="female-offering-vent"></i>
+      <div class="queen-offering-device">
+        <i></i><i></i><b></b><span></span>
+      </div>
+      <div class="queen-offering-heat"><i></i><i></i><i></i></div>
       <div class="female-offering-emissions"></div>
-      <div class="female-offering-souls"></div>`;
+      <div class="female-offering-souls"></div>
+      <div class="queen-offering-conduit">
+        <div class="queen-offering-conduit-portrait"><img alt=""></div>
+        <i class="queen-offering-conduit-core"></i>
+        <b class="queen-offering-conduit-ring ring-a"></b>
+        <b class="queen-offering-conduit-ring ring-b"></b>
+      </div>
+      <div class="queen-offering-persona"></div>
+      <div class="queen-offering-view"></div>`;
     const emissions = layer.querySelector(".female-offering-emissions");
     for (let index = 0; index < 10; index += 1) {
       const sigil = document.createElement("i");
@@ -64,6 +76,14 @@
       soul.style.setProperty("--soul-delay", `${-(index % 8) * .16}s`);
       souls.append(soul);
     }
+    const persona = layer.querySelector(".queen-offering-persona");
+    for (let index = 0; index < 12; index += 1) {
+      const shard = document.createElement("i");
+      shard.style.setProperty("--persona-index", index);
+      shard.style.setProperty("--persona-delay", `${-(index % 6) * .18}s`);
+      shard.style.setProperty("--persona-x", `${(index % 7 - 3) * 8}vw`);
+      persona.append(shard);
+    }
     dialog.querySelector(".contribution-ritual-scene").append(layer);
     return layer;
   }
@@ -79,7 +99,13 @@
     pose.alt = `${meta.name}献上灵魂仪式动作`;
     dialog.dataset.femaleOffering = "true";
     dialog.dataset.femaleOfferingVariant = variant;
-    if (queenSource) dialog.dataset.femaleOfferingQueen = meta.id;
+    if (queenSource) {
+      dialog.dataset.femaleOfferingQueen = meta.id;
+      const source = dialog.querySelector(".contribution-ritual-protagonist img");
+      const conduit = layer.querySelector(".queen-offering-conduit img");
+      conduit.src = source?.src || "";
+      conduit.alt = source?.alt ? `${source.alt}灵魂投影` : "主角灵魂投影";
+    }
     return true;
   }
 
@@ -92,6 +118,11 @@
     delete dialog.dataset.femaleOffering;
     delete dialog.dataset.femaleOfferingVariant;
     delete dialog.dataset.femaleOfferingQueen;
+    const conduit = dialog.querySelector(".queen-offering-conduit img");
+    if (conduit) {
+      conduit.removeAttribute("src");
+      conduit.alt = "";
+    }
   }
 
   LG.femaleOfferingEffects = { eligible, prepare, phaseCopy, reset };

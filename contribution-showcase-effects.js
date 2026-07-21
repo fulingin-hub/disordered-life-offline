@@ -102,6 +102,7 @@
 
   function align(dialog) {
     if (!dialog?.open) return false;
+    LG.contributionSigilPosition?.align?.(dialog);
     const stream = dialog.querySelector(".contribution-soul-stream");
     const mouth = dialog.querySelector(".contribution-mouth-sigil .sigil-mouth");
     if (!stream || !mouth) return false;
@@ -188,6 +189,7 @@
 
   function reset(dialog) {
     dialog?.classList.remove("sole-impact");
+    LG.contributionSigilPosition?.reset?.(dialog);
   }
 
   LG.contributionShowcaseEffects = { prepare, align, settle, startSole, reset };

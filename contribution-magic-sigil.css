@@ -201,9 +201,9 @@
 
 .contribution-ritual-popup[data-ritual-mode="showcase"]
   .contribution-mouth-sigil {
-  left: 63%;
-  top: 19%;
-  width: min(24vw, 238px);
+  left: var(--sigil-actor-left, 50%);
+  top: var(--sigil-actor-top, 32%);
+  width: var(--sigil-actor-width, min(27vw, 268px));
 }
 
 .contribution-ritual-popup[data-ritual-mode="showcase"]
@@ -306,9 +306,9 @@
 
   .contribution-ritual-popup[data-ritual-mode="showcase"]
     .contribution-mouth-sigil {
-    left: 50%;
-    top: 15%;
-    width: 40vw;
+    left: var(--sigil-actor-left, 50%);
+    top: var(--sigil-actor-top, 31%);
+    width: var(--sigil-actor-width, 44vw);
   }
 
   .contribution-ritual-popup[data-ritual-mode="showcase"]
