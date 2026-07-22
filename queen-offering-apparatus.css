@@ -18,8 +18,8 @@
   left: 50%;
   bottom: 10%;
   display: block;
-  width: clamp(88px, 15vw, 148px);
-  height: 31%;
+  width: clamp(110px, 18vw, 190px);
+  height: 34%;
   overflow: hidden;
   border: 1px solid color-mix(in srgb,
     var(--soul-primary, #303038) 72%, transparent);
@@ -43,24 +43,36 @@
 .queen-offering-conduit-portrait {
   position: absolute;
   z-index: 2;
-  left: 12%;
-  right: 12%;
-  top: 5%;
-  height: 58%;
+  left: 7%;
+  right: 7%;
+  bottom: 3%;
+  height: 66%;
   overflow: hidden;
-  border-radius: 46% 46% 32% 32%;
-  filter: grayscale(.4) contrast(1.18);
-  mix-blend-mode: screen;
-  opacity: .58;
-  -webkit-mask-image: linear-gradient(#000 45%, transparent 100%);
-  mask-image: linear-gradient(#000 45%, transparent 100%);
+  border-radius: 45% 45% 20% 20%;
+  filter:
+    saturate(.76)
+    brightness(1.32)
+    contrast(1.18)
+    drop-shadow(0 0 7px var(--soul-primary, #303038));
+  mix-blend-mode: normal;
+  opacity: .9;
+  -webkit-mask-image:
+    linear-gradient(transparent 0, #000 9% 90%, transparent 100%);
+  mask-image:
+    linear-gradient(transparent 0, #000 9% 90%, transparent 100%);
 }
 
 .queen-offering-conduit-portrait img {
   width: 100%;
-  height: 145%;
+  height: 100%;
   object-fit: contain;
-  object-position: center top;
+  object-position: center bottom;
+  transform-origin: center bottom;
+}
+
+.contribution-ritual-popup.playing[data-female-offering-queen]
+  .queen-offering-conduit-portrait img {
+  animation: queen-offering-protagonist-struggle .88s ease-in-out infinite;
 }
 
 .queen-offering-conduit-core {
@@ -322,6 +334,15 @@
   50% { opacity: .9; transform: translateX(-50%) scale(.95, .92); }
 }
 
+@keyframes queen-offering-protagonist-struggle {
+  0%, 100% {
+    transform: translateX(-2%) rotate(-1.6deg) scale(.98, 1);
+  }
+  50% {
+    transform: translateX(2%) rotate(1.6deg) scale(1.02, .98);
+  }
+}
+
 @keyframes queen-offering-conduit-ring {
   0%, 100% {
     opacity: .42;
@@ -372,7 +393,7 @@
   .contribution-ritual-popup[data-female-offering-queen]
     .queen-offering-conduit {
     bottom: 13%;
-    width: 23vw;
-    height: 27%;
+    width: 27vw;
+    height: 30%;
   }
 }

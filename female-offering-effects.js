@@ -58,7 +58,15 @@
       </div>
       <div class="female-offering-target-corruption"></div>
       <div class="queen-offering-persona"></div>
-      <div class="female-offering-mouth-impact"><b><span></span></b></div>
+      <div class="female-offering-mouth-impact">
+        <b>
+          <em class="female-offering-throat"></em>
+          <u class="female-offering-teeth upper"></u>
+          <u class="female-offering-teeth lower"></u>
+          <span></span>
+          <small class="female-offering-mouth-vents"></small>
+        </b>
+      </div>
       <div class="queen-offering-view"></div>`;
     const emissions = layer.querySelector(".female-offering-emissions");
     for (let index = 0; index < 10; index += 1) {
@@ -77,7 +85,7 @@
     for (let index = 0; index < 10; index += 1) {
       const tentacle = document.createElement("i");
       tentacle.style.setProperty("--tentacle-angle",
-        `${(index - 4.5) * 17}deg`);
+        `${(index - 4.5) * 5.5}deg`);
       tentacle.style.setProperty("--tentacle-delay",
         `${-(index % 5) * .18}s`);
       tentacle.style.setProperty("--tentacle-reach",
@@ -101,6 +109,17 @@
       shard.style.setProperty("--persona-delay", `${-(index % 6) * .18}s`);
       shard.style.setProperty("--persona-x", `${(index % 7 - 3) * 8}vw`);
       persona.append(shard);
+    }
+    const mouthVents = layer.querySelector(".female-offering-mouth-vents");
+    for (let index = 0; index < 14; index += 1) {
+      const mouth = document.createElement("i");
+      const angle = index * (360 / 14);
+      const radians = angle * Math.PI / 180;
+      mouth.style.setProperty("--mouth-angle", `${angle}deg`);
+      mouth.style.setProperty("--mouth-x", `${50 + Math.cos(radians) * 38}%`);
+      mouth.style.setProperty("--mouth-y", `${50 + Math.sin(radians) * 32}%`);
+      mouth.style.setProperty("--mouth-delay", `${-(index % 7) * .17}s`);
+      mouthVents.append(mouth);
     }
     dialog.querySelector(".contribution-ritual-scene").append(layer);
     return layer;

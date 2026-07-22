@@ -12,12 +12,12 @@
   position: absolute;
   z-index: 7;
   left: 50%;
-  top: 57%;
+  top: 60%;
   display: block;
   width: min(58vw, 620px);
-  height: min(48vh, 470px);
+  height: min(38vh, 380px);
   opacity: 0;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 }
 
 .contribution-ritual-popup[data-female-offering-queen]
@@ -28,49 +28,54 @@
 .female-offering-tentacles i {
   position: absolute;
   left: 50%;
-  bottom: 48%;
-  width: clamp(5px, .8vw, 10px);
+  top: 0;
+  width: clamp(4px, .65vw, 8px);
   height: var(--tentacle-reach);
-  border: 1px solid rgba(167, 121, 83, .86);
-  border-radius: 70% 70% 42% 42%;
+  border: 1px solid rgba(176, 132, 98, .72);
+  border-radius: 48% 52% 62% 38%;
   background:
     repeating-linear-gradient(0deg,
-      rgba(36, 18, 11, .96) 0 7px,
-      rgba(119, 75, 48, .98) 8px 13px,
-      rgba(73, 39, 24, .98) 14px 19px);
+      rgba(48, 24, 16, .94) 0 9px,
+      rgba(137, 91, 61, .96) 10px 15px,
+      rgba(71, 39, 26, .96) 16px 23px);
   box-shadow:
-    inset 2px 0 3px rgba(215, 170, 124, .35),
+    inset 2px 0 3px rgba(226, 181, 139, .28),
     inset -2px 0 3px #1a0b06,
-    0 0 8px rgba(113, 69, 42, .82);
+    0 0 9px rgba(113, 69, 42, .76);
   transform: translateX(-50%) rotate(var(--tentacle-angle));
-  transform-origin: 50% 100%;
+  transform-origin: 50% 0;
 }
 
 .female-offering-tentacles i::before {
   content: "";
   position: absolute;
-  inset: 5% -2px;
-  border-radius: inherit;
-  background: repeating-linear-gradient(0deg,
-    transparent 0 11px, rgba(224, 177, 126, .34) 12px 14px);
+  left: 48%;
+  top: 12%;
+  width: 155%;
+  height: 92%;
+  border: 2px solid rgba(182, 130, 91, .58);
+  border-width: 0 0 0 2px;
+  border-radius: 58% 42% 52% 48%;
+  filter: drop-shadow(0 0 3px rgba(187, 129, 86, .6));
+  transform: rotate(8deg);
+  transform-origin: center top;
 }
 
 .female-offering-tentacles i::after {
   content: "";
   position: absolute;
   left: 50%;
-  top: -14px;
-  width: clamp(18px, 3vw, 32px);
-  height: clamp(13px, 2.2vw, 24px);
-  border: 2px solid #9f7658;
-  border-radius: 48% 48% 62% 62%;
-  background:
-    radial-gradient(circle at 50% 72%, #1b0c08 0 18%, transparent 20%),
-    linear-gradient(135deg, #3a1c11, #a47450 52%, #2d150d);
-  box-shadow: inset 0 0 6px #160805, 0 0 9px rgba(147, 97, 61, .84);
-  clip-path: polygon(0 0, 42% 12%, 50% 48%, 58% 12%, 100% 0,
-    82% 74%, 56% 100%, 44% 100%, 18% 74%);
-  transform: translateX(-50%);
+  bottom: -5%;
+  width: clamp(8px, 1.1vw, 13px);
+  height: 18%;
+  border-radius: 50%;
+  background: linear-gradient(
+    rgba(157, 107, 74, .86),
+    rgba(67, 34, 22, .18));
+  box-shadow: 0 0 7px rgba(147, 97, 61, .7);
+  filter: blur(.4px);
+  transform: translateX(-50%) rotate(-6deg);
+  transform-origin: center top;
 }
 
 .female-offering-souls i.hip {
@@ -105,13 +110,15 @@
 
 .contribution-ritual-popup.playing[data-female-offering="true"][data-phase="upper"]
   .female-offering-tentacles i {
-  animation: female-offering-tentacle-snatch 1.12s
+  animation: female-offering-jellyfish-tendril 1.18s
     cubic-bezier(.45, 0, .55, 1) var(--tentacle-delay) infinite;
 }
 
 .contribution-ritual-popup.playing[data-female-offering="true"][data-phase="upper"]
+  .female-offering-tentacles i::before,
+.contribution-ritual-popup.playing[data-female-offering="true"][data-phase="upper"]
   .female-offering-tentacles i::after {
-  animation: female-offering-tentacle-claw .56s ease-in-out
+  animation: female-offering-tendril-tip .7s ease-in-out
     var(--tentacle-delay) infinite;
 }
 
@@ -133,18 +140,22 @@
 
 .contribution-ritual-popup.playing[data-female-offering="true"][data-phase="lower"]
   .female-offering-mouth-impact b {
-  width: min(62vw, 620px);
-  height: min(62vw, 620px);
-  border: 0;
-  border-radius: 50%;
+  width: min(70vw, 700px);
+  height: min(39vw, 390px);
+  border: clamp(17px, 3vw, 34px) solid
+    color-mix(in srgb, var(--showcase-secondary, #b75ac8) 58%, #8c3652);
+  border-width: clamp(24px, 4vw, 42px) clamp(15px, 2.5vw, 27px);
+  border-radius: 52% 48% 50% 50% / 47% 47% 53% 53%;
   opacity: 1;
   background:
-    radial-gradient(circle,
-      #090202 0 20%, #3c0d1c 22% 35%, #8d3650 37% 52%,
-      #9a6549 54% 69%, #4a281d 71%);
-  clip-path: polygon(50% 0, 62% 18%, 82% 7%, 77% 31%,
-    100% 44%, 80% 57%, 88% 82%, 62% 75%, 50% 100%,
-    38% 75%, 12% 82%, 20% 57%, 0 44%, 23% 31%, 18% 7%, 38% 18%);
+    radial-gradient(ellipse at 50% 56%,
+      #090102 0 12%, #23030b 25%, #4a0c18 50%, #160105 78%);
+  box-shadow:
+    inset 0 0 44px #000,
+    inset 0 0 0 8px rgba(78, 8, 23, .74),
+    0 0 26px var(--showcase-primary, #cfb76a),
+    0 0 64px var(--showcase-secondary, #b75ac8);
+  clip-path: none;
   animation: female-offering-trumpet-bloom 2.1s ease-in-out infinite;
 }
 
@@ -152,16 +163,68 @@
   .female-offering-mouth-impact b::before,
 .contribution-ritual-popup[data-phase="lower"]
   .female-offering-mouth-impact b::after {
-  left: 18%;
-  right: 18%;
-  height: 28%;
-  background: radial-gradient(ellipse,
-    rgba(219, 132, 143, .82), rgba(102, 42, 42, .72) 58%, transparent 72%);
-  box-shadow: inset 0 0 12px rgba(255, 224, 203, .45);
+  left: 10%;
+  right: 10%;
+  height: 22%;
+  background: radial-gradient(ellipse at 50% 100%,
+    color-mix(in srgb, var(--showcase-secondary, #b75ac8) 68%, #f5a0af),
+    color-mix(in srgb, var(--showcase-primary, #cfb76a) 44%, #7b203d) 64%,
+    transparent 70%);
+  box-shadow: inset 0 0 15px rgba(255, 224, 203, .38);
+  opacity: .78;
+}
+
+.contribution-ritual-popup[data-phase="lower"]
+  .female-offering-mouth-impact b::before {
+  top: -10%;
+}
+
+.contribution-ritual-popup[data-phase="lower"]
+  .female-offering-mouth-impact b::after {
+  bottom: -10%;
+  transform: rotate(180deg);
+}
+
+.female-offering-throat {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 53%;
+  width: 42%;
+  height: 58%;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 50% 48%,
+      #020101 0 28%, #2b0710 40%, #650f23 68%, transparent 72%);
+  box-shadow: inset 0 0 25px #000, 0 0 16px rgba(129, 19, 44, .65);
+  transform: translate(-50%, -50%);
+}
+
+.female-offering-teeth {
+  position: absolute;
+  z-index: 4;
+  left: 14%;
+  right: 14%;
+  display: block;
+  height: 19%;
+  border-radius: 46% 46% 38% 38%;
+  background: repeating-linear-gradient(90deg,
+    #d7cab4 0 7%, #6e6256 7.5% 9%, #f1e7d2 9.5% 16%);
+  box-shadow: inset 0 -7px 8px rgba(73, 54, 45, .72), 0 2px 8px #000;
+  text-decoration: none;
+  clip-path: polygon(0 0, 100% 0, 94% 76%, 85% 94%, 72% 78%,
+    58% 96%, 45% 78%, 31% 96%, 17% 78%, 6% 94%);
+}
+
+.female-offering-teeth.upper { top: 7%; }
+.female-offering-teeth.lower {
+  bottom: 7%;
+  transform: rotate(180deg);
 }
 
 .contribution-ritual-popup.playing[data-female-offering="true"][data-phase="lower"]
   .female-offering-mouth-impact b span {
+  z-index: 6;
   top: 48%;
   width: 16%;
   height: 76%;
@@ -170,24 +233,74 @@
   animation: female-offering-tongue-feed .82s ease-in-out infinite;
 }
 
-@keyframes female-offering-tentacle-snatch {
+.female-offering-mouth-vents {
+  position: absolute;
+  z-index: 3;
+  inset: 13% 12%;
+  display: block;
+}
+
+.female-offering-mouth-vents i {
+  position: absolute;
+  left: var(--mouth-x);
+  top: var(--mouth-y);
+  display: block;
+  width: clamp(12px, 2vw, 24px);
+  height: clamp(7px, 1vw, 12px);
+  border: 2px solid color-mix(in srgb,
+    var(--showcase-secondary, #b75ac8) 60%, #9a4661);
+  border-radius: 50%;
+  background: radial-gradient(ellipse,
+    #070102 0 42%, #72233f 47% 68%, #bc6680 72%);
+  box-shadow: 0 0 7px var(--showcase-secondary, #b75ac8);
+  transform:
+    translate(-50%, -50%)
+    rotate(calc(var(--mouth-angle) + 90deg));
+  transform-origin: center;
+  animation: female-offering-small-mouth-pulse .58s ease-in-out
+    var(--mouth-delay) infinite;
+}
+
+.female-offering-mouth-vents i::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 62%;
+  width: 70%;
+  height: clamp(42px, 7vw, 78px);
+  border-radius: 50%;
+  background: linear-gradient(0deg,
+    color-mix(in srgb,
+      var(--showcase-primary, #cfb76a) 62%, transparent),
+    color-mix(in srgb,
+      var(--showcase-secondary, #b75ac8) 42%, transparent) 54%,
+    transparent);
+  filter: blur(4px);
+  opacity: 0;
+  transform: translateX(-50%) scale(.4);
+  transform-origin: center bottom;
+  animation: female-offering-themed-mouth-steam 1.08s ease-out
+    var(--mouth-delay) infinite;
+}
+
+@keyframes female-offering-jellyfish-tendril {
   0%, 100% {
     transform: translateX(-50%)
-      rotate(calc(var(--tentacle-angle) - 12deg)) scaleY(.82);
+      rotate(calc(var(--tentacle-angle) - 6deg)) scaleY(.9) skewX(-3deg);
   }
-  45% {
+  46% {
     transform: translateX(-50%)
-      rotate(calc(var(--tentacle-angle) + 14deg)) scaleY(1.08);
+      rotate(calc(var(--tentacle-angle) + 7deg)) scaleY(1.08) skewX(4deg);
   }
-  72% {
+  74% {
     transform: translateX(-50%)
-      rotate(calc(var(--tentacle-angle) - 4deg)) scaleY(.94);
+      rotate(calc(var(--tentacle-angle) - 2deg)) scaleY(.97) skewX(-2deg);
   }
 }
 
-@keyframes female-offering-tentacle-claw {
-  0%, 100% { transform: translateX(-50%) scaleX(.66) rotate(-8deg); }
-  48% { transform: translateX(-50%) scaleX(1.18) rotate(8deg); }
+@keyframes female-offering-tendril-tip {
+  0%, 100% { transform: translateX(-50%) rotate(-9deg) scaleY(.82); }
+  48% { transform: translateX(-50%) rotate(10deg) scaleY(1.16); }
 }
 
 @keyframes female-offering-tentacle-soul-catch {
@@ -227,15 +340,32 @@
   }
 }
 
+@keyframes female-offering-small-mouth-pulse {
+  0%, 100% { filter: brightness(.78); opacity: .68; }
+  50% { filter: brightness(1.38); opacity: 1; }
+}
+
+@keyframes female-offering-themed-mouth-steam {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0) scale(.35, .18);
+  }
+  24% { opacity: .82; }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-78%) scale(1.25, 1.7);
+  }
+}
+
 @media (max-width: 520px) {
   .female-offering-tentacles {
     width: 86vw;
-    height: 42vh;
+    height: 34vh;
   }
 
   .contribution-ritual-popup.playing[data-female-offering="true"][data-phase="lower"]
     .female-offering-mouth-impact b {
     width: 92vw;
-    height: 92vw;
+    height: 56vw;
   }
 }
