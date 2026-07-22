@@ -131,8 +131,11 @@
   <script>
     (() => {
       let settled = false;
-      let timer = 0;
+      let idleTimer = 0;
+      let hardTimer = 0;
       let heartbeat = 0;
+      const IDLE_TIMEOUT = 35000;
+      const HARD_TIMEOUT = 150000;
       const report = (message = "Loading game code") => {
         try {
           const result = window.dzmm?.loading?.progress?.({
@@ -142,10 +145,19 @@
           Promise.resolve(result).catch(() => {});
         } catch (_) {}
       };
+      const touch = () => {
+        if (settled) return;
+        window.clearTimeout(idleTimer);
+        idleTimer = window.setTimeout(
+          () => fail("游戏启动长时间没有进展，请检查网络后重试。"),
+          IDLE_TIMEOUT,
+        );
+      };
       const stop = () => {
         if (settled) return;
         settled = true;
-        window.clearTimeout(timer);
+        window.clearTimeout(idleTimer);
+        window.clearTimeout(hardTimer);
         window.clearInterval(heartbeat);
         document.getElementById("bootSplash")?.remove();
       };
@@ -162,11 +174,14 @@
           Promise.resolve(result).catch(() => {});
         } catch (_) {}
       };
-      timer = window.setTimeout(
-        () => fail("游戏启动超时，请退出后重新进入。"), 90000);
+      touch();
+      hardTimer = window.setTimeout(
+        () => fail("游戏启动超过两分半，请检查网络后重试。"),
+        HARD_TIMEOUT,
+      );
       heartbeat = window.setInterval(
         () => report("Loading game files"), 4000);
-      window.LifeGameBoot = { ready: stop, stop, fail };
+      window.LifeGameBoot = { ready: stop, stop, fail, touch };
       window.addEventListener("dzmm:ready", report, { once: true });
       window.addEventListener("error", (event) => {
         if (settled) return;

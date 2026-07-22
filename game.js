@@ -139,9 +139,9 @@
   }
   async function boot() {
     LG.loader.start(); await LG.loader.waitForSdk();
-    await LG.saveRecoveryData.rollbackPending(); await LG.loader.preload();
-    LG.authority.subscribe(adopt);
-    const result = await LG.authority.sync({ retries: 2 }); adopt(result);
+    LG.loader.stage("正在检查存档完整性"); await LG.saveRecoveryData.rollbackPending();
+    await LG.loader.preload(); LG.authority.subscribe(adopt);
+    LG.loader.stage("正在连接权威存档"); const result = await LG.authority.sync({ retries: 1 }); adopt(result);
     await LG.loader.preloadState(state);
     LG.ui.init({
       onChoice: choose,
@@ -150,7 +150,6 @@
       onSound: toggleSound,
     });
     LG.audio.init(); LG.narration.init();
-    await LG.cinemaNarrator.init();
     LG.achievementFeedback.init();
     LG.dialogueUI.init({
       onSend: sendDialogue,
@@ -185,6 +184,7 @@
     LG.ui.updateSound(LG.audio.isEnabled());
     LG.loader.ready(() => {
       if (result.contentMode && state.gender) LG.narration.reveal();
+      LG.loader.defer(() => LG.cinemaNarrator.init());
     });
   }
   boot().catch((err) => {

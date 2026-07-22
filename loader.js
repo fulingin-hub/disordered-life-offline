@@ -5,6 +5,7 @@
   const loadedSources = new Set();
 
   function progress(payload) {
+    window.LifeGameBoot?.touch?.();
     LG.loadingUI.update(payload);
     try {
       Promise.resolve(window.dzmm?.loading?.progress?.(payload)).catch((err) => {
@@ -123,6 +124,9 @@
         message: "Loading save data",
       });
     },
+    stage(message) {
+      progress({ phase: "runtime_initializing", message });
+    },
     async warm() {
       await waitForIdle();
       const entries = Object.entries(LG.CONFIG.assets)
@@ -168,7 +172,7 @@
     },
     defer(task) {
       window.setTimeout(() => Promise.resolve().then(task).catch((err) => {
-        console.warn("启动后存档同步失败:", err?.code, err?.message, err?.stack);
+        console.warn("启动后延迟任务失败:", err?.code, err?.message, err?.stack);
       }), 0);
     },
     error(err) {
