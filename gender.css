@@ -58,7 +58,6 @@
 .gender-options button:hover,
 .gender-options button:focus-visible {
   background: #2a313d;
-  transform: translateY(-2px);
 }
 
 .gender-options strong,

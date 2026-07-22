@@ -12,13 +12,13 @@
 .contribution-ritual-popup[data-female-offering="true"]
   .contribution-ritual-protagonist {
   z-index: 4;
-  left: 16%;
+  left: 50%;
   bottom: 8%;
   display: block;
   width: clamp(100px, 21vw, 210px);
   height: clamp(150px, 34vh, 320px);
   opacity: .78;
-  transform: none;
+  transform: translateX(-50%);
 }
 
 .contribution-ritual-popup[data-female-offering="true"]
@@ -79,6 +79,19 @@
   transform-origin: 50% 63%;
 }
 
+.contribution-ritual-popup[data-female-offering-owner="character"]
+  .female-offering-pose {
+  bottom: 0;
+  width: min(70vw, 700px);
+  height: 96%;
+  object-position: center bottom;
+}
+
+.contribution-ritual-popup[data-female-offering-owner="character"]
+  .contribution-ritual-actor {
+  display: none;
+}
+
 .contribution-ritual-popup.playing[data-female-offering="true"]
   .female-offering-pose {
   animation: female-offering-hip-sway .92s ease-in-out infinite;
@@ -106,10 +119,10 @@
     var(--soul-secondary, var(--soul-primary, #303038)) 52%,
     var(--soul-tertiary, var(--soul-primary, #303038)));
   -webkit-mask:
-    url("./assets/generated/ritual-foot-sigil-overlay.56093ee7.webp")
+    url("./assets/generated/ritual-foot-sigil-overlay.eb1b74f8.webp")
     center / contain no-repeat;
   mask:
-    url("./assets/generated/ritual-foot-sigil-overlay.56093ee7.webp")
+    url("./assets/generated/ritual-foot-sigil-overlay.eb1b74f8.webp")
     center / contain no-repeat;
 }
 

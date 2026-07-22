@@ -43,21 +43,16 @@
     eden: "伊甸园套装",
     penitentiaryPolice: "影狱套装",
   };
-  let wrap;
-  let image;
-  let mountImage;
-
+  let wrap, image, mountImage;
   function eventAge(event) {
     const age = Number(event?.age);
     return Number.isFinite(age) ? age : 0;
   }
-
   function currentAge(state) {
     const activeAge = eventAge(LG.engine?.current?.(state));
     return Math.max(activeAge, Number(state?.lastEventAge) || 0,
       state?.endingId ? 18 : 0);
   }
-
   function equippedItems(state) {
     return LG.EQUIPMENT_SLOTS
       .map((slot) => LG.equipment.item(state.equipment?.[slot.id]))
@@ -101,17 +96,16 @@
   }
 
   function source(state) {
-    const gender = state?.gender === "female" ? "female"
-      : state?.gender === "male" ? "male" : null;
+    const gender = state?.gender === "female" ? "female" : state?.gender === "male" ? "male" : null;
     if (!gender || currentAge(state) < 18) return null;
     const career = LG.careerMainPortrait?.get?.(gender);
-    if (career) return career.src;
     const vehicle = LG.vehicleStore?.equipped?.();
-    if (vehicle) {
-      const mounted = LG.vehicleStore.displayMode() === "ride"
-        ? LG.vehicleStore.mountedAsset(vehicle, gender) : "";
-      return mounted || LG.vehicleStore.riderAsset(vehicle.store, gender);
+    if (vehicle && LG.vehicleStore.displayMode() === "ride") {
+      const mounted = LG.vehicleStore.mountedAsset(vehicle, gender);
+      return career?.src || mounted
+        || LG.vehicleStore.riderAsset(vehicle.store, gender);
     }
+    if (career) return career.src;
     const outfit = category(state);
     if (outfit === "realm") {
       return LG.CONFIG.assets[gender === "female"
@@ -149,18 +143,21 @@
       const outfit = category(state);
       image.src = src;
       const career = LG.careerMainPortrait?.get?.(gender);
-      const vehicle = career ? null : LG.vehicleStore?.equipped?.();
+      const vehicle = LG.vehicleStore?.equipped?.();
       if (vehicle) {
         const mode = LG.vehicleStore.displayMode();
-        const mounted = mode === "ride"
+        const mounted = mode === "ride" && !career
           ? LG.vehicleStore.mountedAsset(vehicle, gender) : "";
         const identity = LG.VEHICLE_DATA.stores[vehicle.store].outfit;
-        image.alt = `${gender === "female" ? "女" : "男"}主角·${identity}·${
+        const role = career?.name || identity;
+        image.alt = `${gender === "female" ? "女" : "男"}主角·${role}·${
           mode === "ride" ? "乘骑" : "跟随"}${vehicle.name}`;
-        image.className = mounted
-          ? `protagonist-mounted-portrait tone-${vehicle.tone}`
-          : `protagonist-rider-portrait${mode === "ride"
-            ? ` tone-${vehicle.tone}` : ""}`;
+        image.className = mounted ? `protagonist-mounted-portrait tone-${vehicle.tone}`
+          : career ? `career-main-portrait${mode === "ride"
+            ? " career-vehicle-rider" : ""}`
+          : mode === "ride"
+            ? `protagonist-rider-portrait tone-${vehicle.tone}`
+            : "protagonist-rider-portrait";
         if (mounted) {
           mountImage.removeAttribute("src");
           mountImage.hidden = true;
@@ -170,7 +167,8 @@
           mountImage.className = `protagonist-mount-portrait tone-${vehicle.tone}`;
           mountImage.hidden = false;
         }
-        wrap.dataset.category = `vehicle-${vehicle.store}`;
+        wrap.dataset.category = career && mode === "follow"
+          ? `career-${career.category}` : `vehicle-${vehicle.store}`;
         wrap.dataset.vehicleFamily = vehicle.family;
         wrap.dataset.vehicleTone = vehicle.tone;
         wrap.dataset.vehicleMode = mode;
@@ -179,8 +177,7 @@
         wrap.hidden = false;
         return;
       }
-      if (career) return LG.careerMainPortrait.apply(
-        { wrap, image, mountImage, gender, career });
+      if (career) return LG.careerMainPortrait.apply({ wrap, image, mountImage, gender, career });
       const clubName = outfit.startsWith("club-")
         ? `${LG.INFERNAL_CLUB_DATA.byId[outfit.slice(5)]?.name || "地狱"}魔王使徒`
         : outfit === "realm" ? "异界魔境骑士" : labels[outfit];

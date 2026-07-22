@@ -22,7 +22,7 @@
   function captureRoom(character, value) {
     const meta = LG.buttImpactMeta.room(character);
     const kind = itemKind(value);
-    if (meta?.gender !== "female" || !kind) return null;
+    if (!meta || !kind) return null;
     LG.buttImpactVoice?.prime?.();
     return { meta, kind, source: "room", before: roomCount(meta.id, kind) };
   }
@@ -31,7 +31,7 @@
     const item = LG.blackMarket.potions().find((entry) => entry.id === itemId);
     const meta = LG.buttImpactMeta.room(character);
     const kind = itemKind(item?.specialKind);
-    if (meta?.gender !== "female" || !kind) return null;
+    if (!meta || !kind) return null;
     LG.buttImpactVoice?.prime?.();
     return { meta, kind, source: "market", before: marketCount(kind) };
   }

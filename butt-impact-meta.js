@@ -35,6 +35,14 @@
     if (meta?.kind === "queen" && queenPoses[meta.id]) {
       return { variant: `queen-${meta.id}`, src: queenPoses[meta.id] };
     }
+    const model = LG.characterAnimationModels?.profile?.(meta);
+    if (model) {
+      return {
+        variant: `character-${model.group}`,
+        src: model.src,
+        dedicated: true,
+      };
+    }
     if (meta?.gender !== "female") {
       return { variant: "male", src: poses.male };
     }
@@ -77,6 +85,9 @@
       gender: raw.gender || LG.COLLECTIBLE_CHARACTERS?.[raw.id]?.gender,
       name: raw.name || LG.COLLECTIBLE_CHARACTERS?.[raw.id]?.name || raw.id,
       src: raw.src,
+      country: raw.country,
+      faction: raw.faction,
+      host: raw.host,
     };
   }
 

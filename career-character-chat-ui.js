@@ -84,7 +84,7 @@
       active = characterId;
       requestId += 1;
       const scene = LG.dialogueScenes.room(active);
-      el.portrait.src = LG.careerPortraits.characterSource(character);
+      el.portrait.src = LG.careerRoomPortraits.source(character, "private");
       el.portrait.alt = character.role || character.name;
       el.location.textContent = character.branchLabel
         || LG.CAREER_DATA.factions[character.faction].name;

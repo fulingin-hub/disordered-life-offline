@@ -142,11 +142,15 @@
     const layer = ensure(dialog);
     const variant = LG.buttImpactMeta.femaleVariant(meta.id);
     const queenSource = meta.kind === "queen" ? queenAssets[meta.id] : null;
+    const priestessSource = meta.id === "priestess" ? assets[variant] : null;
+    const model = LG.characterAnimationModels?.profile?.(meta);
     const pose = layer.querySelector(".female-offering-pose");
-    pose.src = queenSource || assets[variant];
+    pose.src = queenSource || priestessSource || model?.offeringSrc || meta.src;
     pose.alt = `${meta.name}献上灵魂仪式动作`;
     dialog.dataset.femaleOffering = "true";
     dialog.dataset.femaleOfferingVariant = variant;
+    dialog.dataset.femaleOfferingOwner = queenSource
+      ? "queen" : priestessSource ? "priestess" : "character";
     dialog.dataset.corruptionComplete = "false";
     configureTimings(dialog, durations);
     if (queenSource) {
@@ -176,6 +180,7 @@
     delete dialog.dataset.femaleOffering;
     delete dialog.dataset.femaleOfferingVariant;
     delete dialog.dataset.femaleOfferingQueen;
+    delete dialog.dataset.femaleOfferingOwner;
     delete dialog.dataset.corruptionComplete;
     dialog.style.removeProperty("--female-offering-upper-duration");
     dialog.style.removeProperty("--female-offering-impact-delay");

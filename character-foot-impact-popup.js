@@ -1,6 +1,6 @@
 (function (LG) {
-  const lineZh = "丧志贱狗，快射出你那毫无价值的稀薄精液";
-  const lineJa = "意気地なしの卑しい犬め。価値のない薄い精液を、早く吐き出しなさい。";
+  const lineZh = "丧志贱狗，快射出你那毫无价值的稀薄精液", lineJa =
+    "意気地なしの卑しい犬め。価値のない薄い精液を、早く吐き出しなさい。";
   let dialog, portraits, feet, title, timer, speech, speechId = 0;
   function count(roomId) {
     return Math.max(0, Math.floor(Number(
@@ -32,6 +32,7 @@
     return LG.otherworldCharacters.progress(target.roomId).complete;
   }
   function members(target) {
+    if (target.kind === "gallery") return target.members || [];
     if (target.kind === "shadow") return LG.PENITENTIARY_DATA.roles;
     if (target.kind === "tribute") return ["streetThug", "beggar"].map((id) => ({
       id, name: LG.COLLECTIBLE_CHARACTERS[id].name, portrait: LG.CONFIG.assets[id],
@@ -40,7 +41,6 @@
     return LG.OTHERWORLD_CHARACTER_DATA.characters.filter((item) =>
       target.kind === "expo" ? item.host === "expo" : item.host === "infernal");
   }
-
   function groupFor(target, forcedSize) {
     const all = members(target);
     const current = all.find((item) => item.id === target.roomId);
@@ -54,20 +54,17 @@
       : target.kind === "expo" ? 1 : 2;
     return [current, ...others].filter(Boolean).slice(0, size);
   }
-
   function stopSpeech() {
     speechId += 1;
     window.clearTimeout(timer);
     window.speechSynthesis?.cancel?.();
     speech = null;
   }
-
   function close() {
     stopSpeech();
     dialog?.classList.remove("playing");
     if (dialog?.open) dialog.close();
   }
-
   function japaneseVoice() {
     const voices = window.speechSynthesis?.getVoices?.() || [];
     const japanese = voices.filter((voice) => /^ja(?:-|_)/i.test(voice.lang)
@@ -76,13 +73,11 @@
       /female|woman|nanami|kyoko|haruka|ayumi|女/i.test(voice.name))
       || japanese[0] || null;
   }
-
   function primeSpeech() {
     if (!LG.audio?.isEnabled?.() || !window.speechSynthesis) return;
     window.speechSynthesis.resume?.();
     window.speechSynthesis.getVoices?.();
   }
-
   function narrate() {
     stopSpeech();
     const id = speechId;
@@ -122,7 +117,6 @@
     }, 80);
     timer = window.setTimeout(close, 14000);
   }
-
   function build() {
     dialog = document.createElement("dialog");
     dialog.className = "character-foot-impact-popup";
@@ -143,10 +137,14 @@
     document.body.append(dialog);
     window.addEventListener("pagehide", close);
   }
-
   function show(target, forcedSize, forcedVariants) {
-    if (!dialog) build();
     const group = groupFor(target, forcedSize);
+    const names = group.map((item) => item.name).join("、");
+    if (LG.contentMode?.guardAnimation?.(`${names} · 足底场景`,
+      "角色们从高处逼近，脚步与命令声压过视野。15+模式以文字略过动态画面，使用次数与成就累计照常结算。")) {
+      return group;
+    }
+    if (!dialog) build();
     portraits.replaceChildren(...group.map((character, index) => {
       const image = document.createElement("img");
       image.src = character.portrait;
@@ -162,7 +160,7 @@
       foot.style.setProperty("--index", index);
       return foot;
     }));
-    title.textContent = group.map((item) => item.name).join("、");
+    title.textContent = names;
     dialog.dataset.kind = target.kind;
     dialog.dataset.groupSize = String(group.length);
     dialog.dataset.group = group.map((item) => item.id).join(",");
@@ -173,11 +171,10 @@
     narrate();
     return group;
   }
-
   LG.characterFootImpactPopup = {
     capture(options) {
       const target = resolve(options);
-      if (target) primeSpeech();
+      if (target && !LG.contentMode?.isTeen?.()) primeSpeech();
       return target ? { target, before: count(target.roomId) } : null;
     },
     complete(token) {
@@ -196,5 +193,4 @@
     resolve,
     show,
     close,
-  };
-})(window.LifeGame);
+  };})(window.LifeGame);

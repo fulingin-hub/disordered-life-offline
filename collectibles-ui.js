@@ -66,18 +66,17 @@
     card.append(button);
     return card;
   }
-  function ownedSaintItems() {
-    return LG.collectibles.characters().flatMap((character) =>
-      LG.saintItems.items(character.id)).filter((item) =>
-      LG.saintItems.owns(item.id));
-  }
   function renderArchive() {
     if (archivePrivacy === "corruption") {
-      const collection = LG.infernalChurchUI.corruptionCollection();
+      const collection = LG.corruptedCollectionUI.view();
       el.ownedLabel.textContent = "已获得堕落收藏";
-      el.ownedCount.textContent = `${collection.count}/${collection.total}`;
-      el.status.textContent = collection.count ? `已收录 ${collection.count}/${collection.total} 件堕落收藏。` : "尚未获得堕落收藏。";
+      el.ownedCount.textContent = `${collection.count}/${collection.total} · 库存${collection.quantity}`;
+      el.status.textContent = collection.count
+        ? `已收录${collection.count}/${collection.total}种堕落收藏；重复获取会增加库存。`
+        : "尚未获得堕落收藏。";
       el.items.replaceChildren(...collection.cards);
+      if (!collection.cards.length) el.items.append(node(
+        "p", "system-status", "没有符合当前筛选条件的堕落收藏。"));
       el.privacyTabs.forEach((button) => button.setAttribute("aria-selected",
         String(button.dataset.collectionPrivacy === archivePrivacy)));
       return;
@@ -86,28 +85,29 @@
     const regular = Object.values(LG.COLLECTIBLE_CATALOG).flat()
       .filter((item) => LG.collectibles.owns(item.id)
         && (item.privacy || "private") === archivePrivacy);
-    const saint = ownedSaintItems();
+    const saint = LG.collectionFilters.ownedSaintItems();
     const visibleSaint = archivePrivacy === "normal" ? saint : [];
     const careerItems = LG.factionStoreUI?.ownedItems?.(archivePrivacy) || [];
     const all = Object.values(LG.COLLECTIBLE_CATALOG).flat()
       .filter((item) => (item.privacy || "private") === archivePrivacy);
     const total = all.length + (archivePrivacy === "normal" ? 5 : 0);
     const careerTotal = (LG.CAREER_DATA?.roster?.length || 0) * 5;
+    const entries = LG.collectionFilters.entries(
+      regular, visibleSaint, careerItems);
+    LG.collectionFilters.updateCharacters(entries);
+    const visible = LG.collectionFilters.apply(entries);
     el.ownedCount.textContent = `${regular.length + visibleSaint.length + careerItems.length}/${
       total + careerTotal}`;
     el.status.textContent = regular.length || visibleSaint.length || careerItems.length
       ? `${archivePrivacy === "private" ? "私密" : "普通"}收藏仅供查看，不能在角色收藏页面使用道具。`
       : `尚未获得${archivePrivacy === "private" ? "私密" : "普通"}角色道具。`;
-    el.items.replaceChildren(
-      ...regular.map((item) => itemCard(item)),
-      ...visibleSaint.map((item) => saintCard(item)),
-      ...careerItems.map((item) => {
-        const card = node("article", "collectible-card owned");
-        card.append(node("span", "collectible-mark", "已获得"),
-          node("strong", "", item.name), node("p", "", item.description));
-        return card;
-      }),
-    );
+    el.items.replaceChildren(...visible.map((entry) => {
+      if (entry.kind === "regular") return itemCard(entry.item);
+      if (entry.kind === "saint") return saintCard(entry.item);
+      return LG.collectionFilters.ownedCard(entry.item);
+    }));
+    if (!visible.length) el.items.append(node(
+      "p", "system-status", "没有符合当前筛选条件的收藏。"));
     el.privacyTabs.forEach((button) => button.setAttribute("aria-selected",
       String(button.dataset.collectionPrivacy === archivePrivacy)));
   }

@@ -1,5 +1,5 @@
 (function (LG) {
-  let enabled = true;
+  let enabled = false;
 
   function tone(frequency, duration, volume) {
     if (!enabled) return;
@@ -13,6 +13,8 @@
   LG.audio = {
     init() {
       LG.music?.init?.();
+      LG.music?.setEnabled?.(false);
+      LG.cinemaNarrator?.setMasterEnabled?.(false);
       LG.music?.setScene?.("story");
     },
     choose() {
@@ -29,6 +31,7 @@
       enabled = !enabled;
       LG.music?.setEnabled?.(enabled);
       LG.cinemaNarrator?.setMasterEnabled?.(enabled);
+      if (!enabled) LG.contributionRitualVoice?.stop?.();
       return enabled;
     },
     scene(value) {

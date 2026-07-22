@@ -100,7 +100,8 @@
       return;
     }
     const gender = state.gender === "female" ? "female" : "male";
-    const mounted = mode === "ride"
+    const career = LG.careerMainPortrait?.get?.(gender);
+    const mounted = mode === "ride" && !career
       ? LG.vehicleStore.mountedAsset(equipped, gender) : "";
     el.riderWrap.classList.toggle("vehicle-profile-composite", Boolean(mounted));
     if (mounted) {
@@ -114,12 +115,16 @@
       el.empty.hidden = true;
       return;
     }
-    el.rider.src = LG.vehicleStore.riderAsset(equipped.store, gender);
+    el.rider.src = career?.src
+      || LG.vehicleStore.riderAsset(equipped.store, gender);
     el.rider.alt = `${gender === "female" ? "女" : "男"}主角·${
-      LG.VEHICLE_DATA.stores[equipped.store].outfit}`;
-    el.rider.className = "";
+      career?.name || LG.VEHICLE_DATA.stores[equipped.store].outfit}`;
+    el.rider.className = career
+      ? `career-main-portrait${mode === "ride" ? " career-vehicle-rider" : ""}`
+      : "";
     el.riderCaption.textContent = mode === "follow"
-      ? "跟随·角色立绘" : "骑乘·角色立绘";
+      ? `跟随·${career ? "职业" : "角色"}立绘`
+      : `骑乘·${career ? "职业" : "角色"}立绘`;
     el.mount.src = LG.CONFIG.assets[equipped.asset];
     el.mount.alt = equipped.name;
     el.mount.className = `vehicle-profile-mount tone-${equipped.tone}`;

@@ -31,6 +31,7 @@
 
   function showEndings() {
     if (busy) return;
+    if (LG.contentMode?.guardGallery?.()) return;
     const state = LG.authority.state();
     if (!state || !LG.ui?.showArchive) {
       el.status.textContent = "人生结局正在同步，请稍后再试。";
@@ -66,6 +67,8 @@
     if (item.unlocked && item.specialCg) {
       const button = node("button", "life-achievement-cg-button", "查看特殊CG");
       button.type = "button";
+      button.dataset.adultGallery = "true";
+      button.dataset.adultGallery = "true";
       button.addEventListener("click", () => {
         LG.cgUI?.openSpecial?.(item.specialCg,
           LG.authority.state()?.gender || "male");

@@ -18,14 +18,11 @@
         impact: ["吞噬冲积层", "足底与张合魔纹唇即将覆盖视野"],
       },
     },
-  };
-  const el = {}; let requesting = false;
-  function close() {
-    LG.contributionRitualTimeline?.stop?.(); LG.contributionRitualVoice?.stop?.();
-    LG.contributionShowcaseEffects?.reset?.(el.dialog); LG.femaleOfferingEffects?.reset?.(el.dialog);
-    el.dialog?.classList.remove("playing");
-    if (el.dialog?.open) el.dialog.close();
-  }
+  }; const el = {}; let requesting = false;
+  function close() { LG.contributionRitualTimeline?.stop?.();
+    LG.contributionRitualVoice?.stop?.(); LG.contributionShowcaseEffects?.reset?.(el.dialog);
+    LG.femaleOfferingEffects?.reset?.(el.dialog); el.dialog?.classList.remove("playing");
+    if (el.dialog?.open) el.dialog.close(); }
   function phase(name, index, mode) {
     if (!el.dialog?.open) return;
     const copy = LG.femaleOfferingEffects?.phaseCopy?.(el.dialog, name)
@@ -99,10 +96,10 @@
   }
   function play(meta, mode = "showcase", timings) {
     if (!meta) return false;
-    if (Array.isArray(mode)) [timings, mode] = [mode, "showcase"];
-    mode = mode === "offering" ? "offering" : "showcase";
-    if (!el.dialog) build();
-    close();
+    if (Array.isArray(mode)) [timings, mode] = [mode, "showcase"]; mode = mode === "offering" ? "offering" : "showcase";
+    const label = mode === "offering" ? "灵魂供奉" : "灵魂支配";
+    if (LG.contentMode?.guardAnimation?.(`${meta.name} · ${label}`, `${label}按既定阶段完成。15+模式以文字叙述代替动态画面，权威存档中的累计与奖励照常保存。`)) return true;
+    if (!el.dialog) build(); close();
     const femaleOffering = LG.femaleOfferingEffects?.eligible?.(meta, mode);
     const defaults = femaleOffering ? [10000, 10000, 5000] : modes[mode].timings;
     const durations = Array.isArray(timings) && timings.length === 3
@@ -112,9 +109,10 @@
     const gender = LG.contributionRitualData.playerGender();
     const outfit = LG.contributionShowcaseEffects.prepare(
       el.dialog, meta, gender, mode);
+    const model = LG.characterAnimationModels?.profile?.(meta);
     el.protagonist.src = outfit.src;
     el.protagonist.alt = `${gender === "female" ? "女" : "男"}主角·${outfit.label}`;
-    el.actor.src = meta.src;
+    el.actor.src = mode === "offering" && model?.offeringSrc ? model.offeringSrc : meta.src;
     el.actor.alt = meta.name;
     LG.femaleOfferingEffects?.prepare?.(el.dialog, meta, mode, durations);
     el.name.textContent = `${meta.name} · ${
@@ -132,6 +130,7 @@
     el.dialog.dataset.soleDuration = String(Math.min(3000, durations[2]));
     el.dialog.style.setProperty("--ritual-duration", `${total}ms`);
     LG.contributionShowcase.apply(el.dialog, meta.showcase);
+    LG.characterAnimationModels?.apply?.(el.dialog, meta, mode);
     if (!el.dialog.open) el.dialog.showModal();
     LG.contributionShowcaseEffects?.settle?.(el.dialog);
     el.dialog.classList.remove("playing");
@@ -150,11 +149,10 @@
       onFinalLead: mode === "showcase" ? impact : null,
       onFinish: close,
     });
-    return true;
-  }
+    return true; }
   async function request(meta, mode, timings) {
     if (!meta || requesting || el.dialog?.open) return false;
-    LG.contributionRitualVoice?.prime?.(mode);
+    if (!LG.contentMode?.isTeen?.()) LG.contributionRitualVoice?.prime?.(mode);
     requesting = true;
     try {
       const result = await LG.authority.mutate("recordContributionRitual", {
@@ -165,6 +163,9 @@
       window.dzmm?.toast?.success?.(result.message);
       return play(meta, mode, timings);
     } catch (err) {
+      if (err?.code === "AUTHORITY_RESULT_UNKNOWN") { console.warn(
+        "供奉支配累计等待确认:", err?.code, err?.message, err?.stack);
+        window.dzmm?.toast?.warning?.("结算仍在确认中。再次点击可继续确认且不会重复累计。"); return false; }
       console.error("供奉支配累计失败:", err?.code, err?.message, err?.stack);
       window.dzmm?.toast?.error?.(err?.message || "贡献仪式暂时无法开始。");
       return false;
@@ -196,5 +197,4 @@
       LG.contributionRitualData.leaderMeta(character), "showcase", timings),
     showRoom: (character, mode, timings) => request(
       LG.contributionRitualData.roomMeta(character), mode, timings),
-    close,
-  };})(window.LifeGame);
+    preview: play, close };})(window.LifeGame);

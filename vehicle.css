@@ -287,6 +287,13 @@
   object-position: center bottom;
 }
 
+.vehicle-profile-stage .career-vehicle-rider {
+  clip-path: inset(0 0 24% 0);
+  object-position: center top;
+  transform: scale(1.08);
+  transform-origin: center top;
+}
+
 .vehicle-profile-stage figcaption {
   position: absolute;
   right: 8px;

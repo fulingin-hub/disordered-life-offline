@@ -42,6 +42,7 @@
     window.speechSynthesis?.cancel?.();
     if (player) {
       player.pause();
+      player.loop = false;
       player.onplay = null;
       player.onended = null;
       player.onerror = null;
@@ -57,25 +58,33 @@
       dialog.dataset.voiceState = "unavailable";
       return false;
     }
-    utterance = new SpeechSynthesisUtterance(track.ja);
-    utterance.lang = "ja-JP";
-    utterance.rate = 0.78;
-    utterance.pitch = 0.9;
-    utterance.volume = 1;
-    const voice = japaneseVoice();
-    if (voice) utterance.voice = voice;
-    utterance.onstart = () => {
-      dialog.dataset.voiceState = "playing";
-      dialog.dataset.voiceSource = "system";
+    const repeat = () => {
+      if (id !== playId || !dialog.open || !LG.audio?.isEnabled?.()) return;
+      utterance = new SpeechSynthesisUtterance(track.ja);
+      utterance.lang = "ja-JP";
+      utterance.rate = 0.78;
+      utterance.pitch = 0.9;
+      utterance.volume = 1;
+      const voice = japaneseVoice();
+      if (voice) utterance.voice = voice;
+      utterance.onstart = () => {
+        dialog.dataset.voiceState = "playing";
+        dialog.dataset.voiceSource = "system";
+        dialog.dataset.voiceLoop = "true";
+      };
+      utterance.onend = () => {
+        if (id === playId && dialog.open) {
+          dialog.dataset.voiceState = "queued";
+          timer = window.setTimeout(repeat, 120);
+        }
+      };
+      utterance.onerror = () => {
+        if (id === playId) dialog.dataset.voiceState = "error";
+      };
+      synth.resume?.();
+      synth.speak(utterance);
     };
-    utterance.onend = () => {
-      if (id === playId) dialog.dataset.voiceState = "ended";
-    };
-    utterance.onerror = () => {
-      if (id === playId) dialog.dataset.voiceState = "error";
-    };
-    synth.resume?.();
-    synth.speak(utterance);
+    repeat();
     return true;
   }
 
@@ -85,13 +94,12 @@
     media.src = track.src;
     media.currentTime = 0;
     media.volume = 1;
+    media.loop = true;
     media.onplay = () => {
       if (id !== playId) return;
       dialog.dataset.voiceState = "playing";
       dialog.dataset.voiceSource = "fixed";
-    };
-    media.onended = () => {
-      if (id === playId) dialog.dataset.voiceState = "ended";
+      dialog.dataset.voiceLoop = "true";
     };
     media.onerror = () => fallback(dialog, track, id);
     try {

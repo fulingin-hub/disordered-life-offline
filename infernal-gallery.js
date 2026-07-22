@@ -1,11 +1,11 @@
 (function (LG) {
   const throneCg = {
-    greed: "./assets/generated/infernal-gallery-greed-throne.314d68ee.webp",
+    greed: "./assets/generated/infernal-gallery-greed-throne.0f2c7615.webp",
     lust: "./assets/generated/infernal-gallery-lust-throne.42772a0a.webp",
     wrath: "./assets/generated/infernal-gallery-wrath-throne.ea814b13.webp",
-    sloth: "./assets/generated/infernal-gallery-sloth-throne.7f6e657a.webp",
-    pride: "./assets/generated/infernal-gallery-pride-throne.c0594895.webp",
-    envy: "./assets/generated/infernal-gallery-envy-throne.76de7bbc.webp",
+    sloth: "./assets/generated/infernal-gallery-sloth-throne.a53dc46b.webp",
+    pride: "./assets/generated/infernal-gallery-pride-throne.a22eb384.webp",
+    envy: "./assets/generated/infernal-gallery-envy-throne.c8251574.webp",
     gluttony: "./assets/generated/infernal-gallery-gluttony-throne.d235ffe4.webp",
   };
   const throneCaptions = {
@@ -23,12 +23,6 @@
     envy: "./assets/generated/infernal-envy-queen-apostle-pose.b03bb16b.webp",
     gluttony: "./assets/generated/infernal-gluttony-queen-apostle-pose.cfd71635.webp",
   };
-  const sevenApostles = {
-    male: "./assets/generated/cg-ending-infernal-seven-apostles-male.872a1513.webp",
-    female: "./assets/generated/cg-ending-infernal-seven-apostles-female.669ffe41.webp",
-  };
-  const sevenQueens =
-    "./assets/generated/infernal-club-seven-queens.204fcd99.webp";
   LG.INFERNAL_CLUB_DATA.queens.forEach((queen) => {
     const layer = LG.INFERNAL_DATA.byId[queen.id];
     const assetName = queen.id[0].toUpperCase() + queen.id.slice(1);
@@ -78,30 +72,6 @@
         fit: "contain",
         position: "center bottom",
       },
-      {
-        title: "七大女魔王合影",
-        caption: `包含${queen.name}女魔王在内的七大女魔王完整合影。`,
-        src: sevenQueens,
-        alt: "七大女魔王完整合影CG",
-        fit: "contain",
-        position: "center",
-      },
-      {
-        title: "七罪使徒·男主",
-        caption: "七位女魔王与男主使徒共同完成的七罪使徒仪式CG。",
-        src: sevenApostles.male,
-        alt: "男主七罪使徒完整CG",
-        fit: "contain",
-        position: "center",
-      },
-      {
-        title: "七罪使徒·女主",
-        caption: "七位女魔王与女主使徒共同完成的七罪使徒仪式CG。",
-        src: sevenApostles.female,
-        alt: "女主七罪使徒完整CG",
-        fit: "contain",
-        position: "center",
-      },
     ];
     [
       ["男主", seatedMale, LG.CONFIG.assets[queen.apostleMale]],
@@ -138,6 +108,19 @@
     LG.GALLERY_ASSETS[queen.character] = {
       name: queen.title,
       items,
+    };
+  });
+  LG.INFERNAL_DATA.layers.forEach((layer) => {
+    LG.GALLERY_ASSETS[layer.witchCharacter] = {
+      name: layer.mobTitle,
+      items: [{
+        title: `${layer.name}魔女立绘`,
+        caption: `${layer.mobTitle}以完整魔境礼装现身，可回放五套画廊动画。`,
+        src: LG.CONFIG.assets[layer.witch],
+        alt: `${layer.mobTitle}角色立绘`,
+        fit: "contain",
+        position: "center bottom",
+      }],
     };
   });
 })(window.LifeGame);

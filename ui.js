@@ -1,6 +1,5 @@
 (function (LG) {
-  const el = {};
-  let callbacks = {};
+  const el = {}; let callbacks = {};
 
   function node(tag, className, text) {
     const item = document.createElement(tag);
@@ -65,7 +64,6 @@
     el.eventText.textContent = typeof event.text === "function" ? event.text(state) : event.text;
     el.eventQuote.textContent = event.quote || "";
     el.eventQuote.hidden = !event.quote;
-    LG.narration?.speakEvent?.(event, state);
     el.progressFill.style.width = `${Math.min(96, Math.round(event.age / 28 * 100))}%`;
     el.choiceList.replaceChildren();
     event.choices.forEach((choice, index) => addChoice(choice, index, state));
@@ -73,6 +71,7 @@
     if (hasCg) el.portraitWrap.hidden = true;
     else setPortrait(event);
     LG.dialogueUI.configure(state, event);
+    requestAnimationFrame(() => LG.narration?.speakEvent?.(event, state));
   }
 
   function renderEnding(state) {
@@ -106,10 +105,12 @@
 
     const restart = node("button", "choice-button primary");
     restart.type = "button";
+    restart.dataset.restartLife = "true";
     restart.append(node("span", "", "再次出生"), node("small", "", "重新选择"));
     restart.addEventListener("click", () => callbacks.onRestart(true));
     const archive = node("button", "choice-button");
     archive.type = "button";
+    archive.dataset.adultGallery = "true";
     archive.append(node("span", "", "查看人生结局"), node("small", "", "收集进度"));
     archive.addEventListener("click", callbacks.onArchive);
     const traits = node("button", "choice-button");
@@ -149,15 +150,25 @@
     setRestarting(active) {
       el.restartButton.disabled = active;
       el.restartButton.textContent = active ? "正在重新出生…" : "重新出生";
+      el.choiceList.querySelectorAll("[data-restart-life]").forEach((button) => {
+        button.disabled = active;
+        button.querySelector("span").textContent =
+          active ? "正在重新出生…" : "再次出生";
+      });
     },
-    showOutcome(text) {
-      el.outcomeToast.textContent = text;
+    showOutcome(text, retry) {
+      el.outcomeToast.replaceChildren(node("span", "", text));
+      if (retry) {
+        const button = node("button", "quiet-button", "重新尝试");
+        button.type = "button"; button.addEventListener("click", retry); el.outcomeToast.append(" ", button);
+      }
       el.outcomeToast.hidden = false;
     },
     hideOutcome() {
       el.outcomeToast.hidden = true;
     },
     showArchive(collection, gender) {
+      if (LG.contentMode?.guardGallery?.()) return;
       const count = LG.endingArchive.count(collection, gender);
       const endings = LG.authority.archiveView(gender);
       el.archiveCount.textContent = `${LG.endingArchive.label(gender)} 已发现 ${count}/${

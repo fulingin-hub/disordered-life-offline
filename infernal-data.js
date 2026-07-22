@@ -9,6 +9,7 @@
     ["gluttony", "暴食", "infernalGluttonyWitch", "infernalGluttonyQueen"],
   ].map(([id, name, witch, queen]) => ({
     id, name, witch, queen,
+    witchCharacter: `infernalWitch${id[0].toUpperCase()}${id.slice(1)}`,
     mobTitle: `${name}地狱的魔女`,
     bossTitle: `支配·${name}地狱的女魔王`,
   }));
@@ -16,6 +17,8 @@
   LG.INFERNAL_DATA = {
     layers,
     byId: Object.fromEntries(layers.map((item) => [item.id, item])),
+    byWitchCharacter: Object.fromEntries(
+      layers.map((item) => [item.witchCharacter, item])),
     access: { personality: 1000, ending: "saint" },
     reputationRewards: [
       {

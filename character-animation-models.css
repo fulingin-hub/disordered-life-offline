@@ -1,0 +1,129 @@
+.butt-impact-popup[data-dedicated-model="true"] .butt-impact-scene {
+  background:
+    radial-gradient(circle at 50% 54%,
+      color-mix(in srgb, var(--character-model-primary) 24%, transparent),
+      transparent 45%),
+    linear-gradient(145deg,
+      color-mix(in srgb, var(--character-model-secondary) 28%, #050608),
+      #020303 72%);
+}
+
+.butt-impact-popup[data-dedicated-model="true"] .butt-impact-character {
+  display: none;
+}
+
+.butt-impact-popup[data-dedicated-model="true"] .butt-impact-pose {
+  bottom: -4%;
+  width: min(94vw, 820px);
+  height: 108%;
+  filter:
+    brightness(1.08)
+    contrast(1.04)
+    saturate(1.04)
+    drop-shadow(0 28px 34px #000)
+    drop-shadow(0 0 26px
+      color-mix(in srgb, var(--character-model-primary) 38%, transparent));
+}
+
+.butt-impact-popup[data-dedicated-model="true"] .butt-impact-stockings {
+  border-color:
+    color-mix(in srgb, var(--character-model-primary) 45%, #101516);
+  box-shadow:
+    inset 0 -46px 80px #000,
+    inset 0 0 35px
+      color-mix(in srgb, var(--character-model-secondary) 30%, transparent),
+    0 36px 80px #000;
+}
+
+.butt-impact-popup[data-dedicated-model="true"]
+  .butt-impact-stockings::after {
+  opacity: .42;
+  filter: contrast(1.2) saturate(.88);
+}
+
+.contribution-ritual-popup[data-dedicated-model="true"]
+  .contribution-ritual-scene {
+  background:
+    radial-gradient(circle at 50% 34%,
+      color-mix(in srgb, var(--character-model-secondary) 31%, transparent),
+      transparent 38%),
+    linear-gradient(125deg,
+      color-mix(in srgb, var(--character-model-primary) 28%, transparent),
+      transparent 45%),
+    #07080c;
+}
+
+.contribution-ritual-popup[data-dedicated-model="true"]
+  .contribution-ritual-actor {
+  width: min(68vw, 680px);
+  height: 82%;
+  overflow: visible;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.contribution-ritual-popup[data-dedicated-model="true"]
+  .contribution-ritual-actor img {
+  height: 100%;
+  object-position: center bottom;
+  filter:
+    drop-shadow(0 24px 28px #000)
+    drop-shadow(0 0 24px
+      color-mix(in srgb, var(--character-model-primary) 34%, transparent));
+}
+
+.contribution-ritual-popup[data-dedicated-model="true"]
+  .contribution-ritual-feet i {
+  border-color:
+    color-mix(in srgb, var(--character-model-primary) 62%, #171217);
+}
+
+.gallery-animation-preview[data-animation-model],
+.gallery-animation-thumb-art[data-animation-model] {
+  --model-primary: var(--character-model-primary, #d6b85e);
+  --model-secondary: var(--character-model-secondary, #6e8fa4);
+  background:
+    linear-gradient(145deg,
+      color-mix(in srgb, var(--model-secondary) 30%, transparent),
+      transparent 48%),
+    #080a0f;
+}
+
+.gallery-animation-preview[data-animation-model]::before,
+.gallery-animation-thumb-art[data-animation-model]::before {
+  content: "";
+  position: absolute;
+  inset: 4% 18% 0;
+  background: var(--animation-portrait) center bottom / contain no-repeat;
+  filter: drop-shadow(0 12px 18px #000);
+  opacity: .74;
+}
+
+.gallery-animation-preview[data-animation-model] > div,
+.gallery-animation-preview[data-animation-model] > button,
+.gallery-animation-thumb-art[data-animation-model] i {
+  position: relative;
+  z-index: 1;
+}
+
+.gallery-animation-thumb-art[data-animation-model] {
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-animation-thumb-art[data-animation-model] i {
+  opacity: .45;
+}
+
+@media (max-width: 520px) {
+  .butt-impact-popup[data-dedicated-model="true"] .butt-impact-pose {
+    bottom: -2%;
+    width: 124vw;
+    height: 106%;
+  }
+
+  .contribution-ritual-popup[data-dedicated-model="true"]
+    .contribution-ritual-actor {
+    width: 92vw;
+  }
+}

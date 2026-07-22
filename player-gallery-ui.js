@@ -12,7 +12,7 @@
     image.loading = "lazy";
     image.decoding = "async";
     image.alt = known ? `${ending.title}CG` : "未解锁结局";
-    if (known) image.src = LG.CG_ASSETS.endingSrc(ending.id, selectedGender);
+    if (known && ending.cg) image.src = ending.cg;
     const body = document.createElement("span");
     body.textContent = known ? ending.title : "尚未发现";
     item.append(image, body);
@@ -57,10 +57,12 @@
       document.getElementById("closePlayerRoomButton").addEventListener("click", () => el.dialog.close());
     },
     open() {
+      if (LG.contentMode?.guardGallery?.()) return false;
       selectedGender = getState()?.gender || "male";
       el.hint.textContent = "点击未解锁的CG可查看解锁条件。";
       render();
       el.dialog.showModal();
+      return true;
     },
     summary() {
       const archive = getArchive?.() || { male: [], female: [] };

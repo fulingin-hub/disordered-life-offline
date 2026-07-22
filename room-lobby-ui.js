@@ -122,6 +122,7 @@
     el.cards.replaceChildren(
       LG.roomCards.player(callbacks.onEnterPlayer),
       LG.casinoUI.roomCard(callbacks.onEnterCasino),
+      LG.goldenHorizonUI.roomCard(),
       paradiseCard(),
       LG.vehicleUI.roomCard(callbacks.onEnterVehicle),
       LG.infernalUI.roomCard(),
@@ -163,9 +164,11 @@
     el.cards.replaceChildren(
       toolbar(area, section),
       LG.roomCards.scene(area, section),
+      ...(section.guild ? [LG.adventureGuildUI.roomCard()] : []),
       ...(section.faction
         ? LG.factionRooms.cards(section.faction, section.branch)
         : section.church ? [LG.infernalChurchUI.roomCard()]
+          : section.holyLight ? [LG.holyLightUI.roomCard(area.id)]
           : characterCards(section.characters)),
     );
   }

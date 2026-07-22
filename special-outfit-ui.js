@@ -16,6 +16,16 @@
       fullName: "影狱的人格丧志套装",
       effect: "来自无尽的欲望：羞耻度固定为满值250点",
     },
+    {
+      id: "holy-inquisitor", name: "圣光审判官",
+      fullName: "圣光审判官五件套",
+      effect: "圣者永存：显示圣光审判官二阶职业专属立绘",
+    },
+    {
+      id: "sigil-lord", name: "魔纹领主",
+      fullName: "魔纹领主套装",
+      effect: "七大欲的宠奴：显示魔纹领主二阶职业专属立绘",
+    },
   ];
   let buttons;
   let effect;
@@ -24,6 +34,8 @@
   let busy = false;
 
   function current() {
+    const careerOutfit = LG.holyLight?.data?.().specialOutfit;
+    if (careerOutfit) return careerOutfit;
     if (LG.penitentiary.outfitEquipped()) return "penitentiary";
     return LG.blackPrison.equippedOutfit() || "normal";
   }
@@ -32,6 +44,14 @@
     if (id === "normal") return true;
     if (id === "penitentiary") {
       return LG.penitentiary.access().allowed && LG.penitentiary.outfitComplete();
+    }
+    if (id === "holy-inquisitor") {
+      const holy = LG.holyLight?.data?.();
+      return holy?.judgeSetOwned === true
+        && holy?.professionUnlocks?.holyInquisitor === true;
+    }
+    if (id === "sigil-lord") {
+      return LG.holyLight?.has?.("seven-desires-pet") === true;
     }
     return LG.blackPrison.access().allowed && LG.blackPrison.canEquip(id);
   }
@@ -95,6 +115,10 @@
     try {
       let result;
       if (id === "normal") {
+        if (LG.holyLight?.data?.().specialOutfit) {
+          result = await LG.authority.mutate("equipCareerSpecialOutfit",
+            { outfitId: null });
+        }
         if (LG.penitentiary.outfitEquipped()) {
           result = await LG.authority.mutate("penitentiaryEquip", { equipped: false });
         }
@@ -103,6 +127,9 @@
         }
       } else if (id === "penitentiary") {
         result = await LG.authority.mutate("penitentiaryEquip", { equipped: true });
+      } else if (["holy-inquisitor", "sigil-lord"].includes(id)) {
+        result = await LG.authority.mutate("equipCareerSpecialOutfit",
+          { outfitId: id });
       } else {
         result = await LG.authority.mutate("blackPrisonEquip", { group: id });
       }

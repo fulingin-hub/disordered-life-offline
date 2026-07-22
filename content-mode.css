@@ -1,0 +1,177 @@
+.content-mode-gate {
+  position: fixed;
+  z-index: 60;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: max(14px, env(safe-area-inset-top))
+    max(14px, env(safe-area-inset-right))
+    max(14px, env(safe-area-inset-bottom))
+    max(14px, env(safe-area-inset-left));
+  background:
+    linear-gradient(rgba(8, 10, 14, 0.84), rgba(8, 10, 14, 0.96)),
+    url("./assets/generated/life-crossroads-bg.6dc93a1f.webp") center / cover;
+}
+
+.content-mode-panel {
+  width: min(720px, 100%);
+  max-height: calc(100dvh - 28px);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: clamp(17px, 3vw, 28px);
+  background: rgba(17, 21, 28, 0.98);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.52);
+}
+
+.content-mode-panel h1 {
+  margin: 6px 0 8px;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: clamp(27px, 5vw, 38px);
+}
+
+.content-mode-lead,
+.content-mode-status {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.content-mode-notice {
+  height: clamp(190px, 32dvh, 250px);
+  margin: 14px 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 16px 18px 28px;
+  background: rgba(8, 10, 14, 0.64);
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.content-mode-notice h2 {
+  margin: 16px 0 6px;
+  color: var(--gold);
+  font-size: 16px;
+}
+
+.content-mode-notice h2:first-child {
+  margin-top: 0;
+}
+
+.content-mode-notice p {
+  margin: 0;
+  color: #d8d5ce;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.content-mode-reached {
+  margin-top: 22px !important;
+  color: var(--paper) !important;
+  font-weight: 700;
+  text-align: center;
+}
+
+.content-mode-ack {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--paper);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.content-mode-ack input {
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--gold);
+}
+
+.content-mode-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.content-mode-options button {
+  min-height: 88px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: #202631;
+  text-align: left;
+}
+
+.content-mode-options button:first-child {
+  border-top: 4px solid var(--steel);
+}
+
+.content-mode-options button:last-child {
+  border-top: 4px solid var(--red);
+}
+
+.content-mode-options strong,
+.content-mode-options span {
+  display: block;
+}
+
+.content-mode-options strong {
+  margin-bottom: 6px;
+  font-size: 19px;
+}
+
+.content-mode-options span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.content-mode-confirm,
+.content-mode-text-scene {
+  width: min(520px, calc(100vw - 28px));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 22px;
+  background: #171b22;
+  color: var(--paper);
+}
+
+.content-mode-confirm::backdrop,
+.content-mode-text-scene::backdrop {
+  background: rgba(4, 5, 7, 0.86);
+}
+
+.content-mode-confirm h2,
+.content-mode-text-scene h2 {
+  margin: 6px 0 12px;
+}
+
+.content-mode-confirm p,
+.content-mode-text-scene p {
+  color: #d2cfc8;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.content-mode-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+html[data-content-mode="15"] [data-adult-gallery="true"] {
+  display: none !important;
+}
+
+@media (max-width: 560px) {
+  .content-mode-options {
+    grid-template-columns: 1fr;
+  }
+
+  .content-mode-options button {
+    min-height: 74px;
+  }
+}

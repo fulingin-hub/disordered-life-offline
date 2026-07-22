@@ -39,13 +39,11 @@
     applying = applying.then(() => rehydrate(next));
     return applying;
   }
-
   function enqueue(task) {
     const next = requestQueue.then(task, task);
     requestQueue = next.then(() => {}, () => {});
     return next;
   }
-
   function requireRemote() {
     if (window.dzmm?.fn?.invoke) return;
     const error = new Error(
@@ -54,22 +52,21 @@
     error.code = "AUTHORITY_READ_ONLY";
     throw error;
   }
-
-  async function remote(body, timeoutMs) {
+  async function remote(body, timeoutMs, options) {
     requireRemote();
-    const previewProfile = await LG.previewProfile.enabled();
-    return withTimeout(window.dzmm.fn.invoke("game-state", {
-      ...body, previewProfile,
-    }), timeoutMs);
+    return withTimeout(window.dzmm.fn.invoke("game-state", body, options), timeoutMs);
   }
-
   async function confirmOperation(id) {
     const result = await remote(
-      { method: "operationStatus", operationId: id }, 6000);
+      { method: "operationStatus", operationId: id }, 15000, { retry: true });
     if (result?.life && result?.economy) await apply(result);
     return result;
   }
-
+  function failedAction(message) {
+    const error = new Error(message);
+    error.code = "AUTHORITY_ACTION_FAILED";
+    return error;
+  }
   async function syncNow() {
     try {
       const result = await remote({ method: "sync" });
@@ -83,19 +80,22 @@
       throw err;
     }
   }
-
   async function mutateNow(method, args) {
     const tracked = LG.authorityIntents.get(method, args);
     const key = tracked.key;
     const intent = tracked.intent;
-
     if (intent.unknown) {
       try {
         const status = await LG.authorityRetry.confirm(
-          () => confirmOperation(intent.id), (result) => result?.operationProcessed);
+          () => confirmOperation(intent.id), (result) =>
+            result?.operationProcessed || result?.operationFailed);
         if (status.operationProcessed) {
           LG.authorityIntents.remove(key);
           return status;
+        }
+        if (status.operationFailed) {
+          LG.authorityIntents.remove(key);
+          throw failedAction("上一次结算失败，请再次点击以创建新的操作。");
         }
       } catch (err) {
         if (LG.authorityFallback?.isCaptcha?.(err)) {
@@ -104,7 +104,6 @@
         throw err;
       }
     }
-
     for (let attempt = 0; attempt < 2; attempt += 1) {
       const body = {
         ...(args || {}),
@@ -131,11 +130,16 @@
         await new Promise((resolve) => window.setTimeout(resolve, 650));
         try {
           const status = await LG.authorityRetry.confirm(
-            () => confirmOperation(intent.id), (result) => result?.operationProcessed);
+            () => confirmOperation(intent.id), (result) =>
+              result?.operationProcessed || result?.operationFailed);
           if (status.operationProcessed) {
             LG.authorityIntents.remove(key);
             LG.achievementFeedback?.apply?.(status, method);
             return status;
+          }
+          if (status.operationFailed) {
+            LG.authorityIntents.remove(key);
+            throw failedAction("本次结算未完成，请再次点击以创建新的操作。");
           }
         } catch (confirmErr) {
           if (LG.authorityFallback?.isCaptcha?.(confirmErr)) {
@@ -153,7 +157,6 @@
     }
     throw new Error("权威存档版本持续冲突，请刷新后重试。");
   }
-
   LG.authority = {
     sync(options) {
       return enqueue(() => LG.authorityRetry.run(syncNow, options));

@@ -13,7 +13,7 @@
   LG.authorityRetry = {
     isTransient,
     async confirm(task, isDone) {
-      const delays = [650, 1400];
+      const delays = [900, 2200, 4200];
       let result;
       for (let attempt = 0; attempt <= delays.length; attempt += 1) {
         try {

@@ -13,14 +13,14 @@
   <meta name="apple-mobile-web-app-title" content="失序人生">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" type="image/png" sizes="192x192"
-    href="./assets/generated/app-icon-192.f870da22.png">
+    href="./assets/generated/app-icon-golden-horizon-192.0441af8a.png">
   <link rel="apple-touch-icon" sizes="192x192"
-    href="./assets/generated/app-icon-192.f870da22.png">
+    href="./assets/generated/app-icon-golden-horizon-192.0441af8a.png">
   <link rel="preload" as="image"
-    href="./assets/generated/loading-keyart-portrait.a4a18834.webp"
+    href="./assets/generated/loading-golden-horizon-portrait.feecfb5f.webp"
     media="(orientation: portrait)">
   <link rel="preload" as="image"
-    href="./assets/generated/loading-keyart-landscape.f69b3765.webp"
+    href="./assets/generated/loading-golden-horizon-landscape.8dc51091.webp"
     media="(orientation: landscape)">
   <title>失序人生 · 离线版</title>
   <style>
@@ -40,14 +40,14 @@
       display: grid;
       box-sizing: border-box;
       place-items: end center;
-      padding: 24px 18px max(7vh, calc(env(safe-area-inset-bottom) + 24px));
+      padding: 24px 18px max(8vh, calc(env(safe-area-inset-bottom) + 28px));
       background-color: #101319;
       background-image:
         linear-gradient(to bottom, rgba(5, 7, 13, 0.08) 38%,
           rgba(5, 7, 13, 0.5) 68%, rgba(5, 7, 13, 0.94) 100%),
-        url("./assets/generated/loading-keyart-portrait.a4a18834.webp");
-      background-position: center;
-      background-size: cover;
+        url("./assets/generated/loading-golden-horizon-portrait.feecfb5f.webp");
+      background-position: center, center top;
+      background-size: 100% 100%, 100% auto;
       background-repeat: no-repeat;
       color: #f2eadb;
       font-family: "Noto Serif SC", "Songti SC", serif;
@@ -55,52 +55,64 @@
 
     .boot-splash__content {
       position: relative;
-      width: min(72vw, 320px);
+      width: min(86vw, 520px);
       text-align: center;
       text-shadow: 0 2px 12px #000;
     }
 
     .boot-splash__title {
-      display: block;
-      margin-bottom: 10px;
-      font-size: clamp(24px, 7vw, 40px);
-      font-weight: 700;
-      letter-spacing: 0;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
     }
 
     .boot-splash__status {
-      margin: 0 0 20px;
-      color: #b8ae9e;
-      font-size: 14px;
+      margin: 0;
+      color: #fff8e8;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .boot-splash__progress-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    .boot-splash__percent {
+      min-width: 48px;
+      color: #ffe2a4;
+      font-family: system-ui, sans-serif;
+      font-size: 18px;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
     }
 
     .boot-splash__track {
-      height: 2px;
+      height: 10px;
       overflow: hidden;
-      background: #34322f;
+      border: 1px solid rgba(255, 226, 164, 0.48);
+      border-radius: 3px;
+      background: rgba(8, 10, 14, 0.82);
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.72);
     }
 
     .boot-splash__bar {
       display: block;
-      width: 38%;
+      width: 5%;
       height: 100%;
-      background: #c6a66b;
-      animation: boot-progress 1.2s ease-in-out infinite;
-    }
-
-    @keyframes boot-progress {
-      from {
-        transform: translateX(-110%);
-      }
-      to {
-        transform: translateX(290%);
-      }
+      background: #e9bd68;
+      box-shadow: 0 0 14px rgba(233, 189, 104, 0.72);
+      transition: width 280ms ease-out;
     }
 
     @media (prefers-reduced-motion: reduce) {
       .boot-splash__bar {
-        width: 100%;
-        animation: none;
+        transition: none;
       }
     }
 
@@ -110,7 +122,9 @@
         background-image:
           linear-gradient(to bottom, rgba(5, 7, 13, 0.02) 45%,
             rgba(5, 7, 13, 0.55) 76%, rgba(5, 7, 13, 0.96) 100%),
-          url("./assets/generated/loading-keyart-landscape.f69b3765.webp");
+          url("./assets/generated/loading-golden-horizon-landscape.8dc51091.webp");
+        background-position: center;
+        background-size: cover;
       }
     }
   </style>
@@ -168,71 +182,65 @@
       report();
     })();
   </script>
-  <link rel="stylesheet" href="./base.css">
-  <link rel="stylesheet" href="./game.css?v=20260718-1">
-  <link rel="stylesheet" href="./dialogue.css?v=20260717-3">
-  <link rel="stylesheet" href="./cg.css?v=20260718-1">
-  <link rel="stylesheet" href="./rooms.css?v=20260717-2">
-  <link rel="stylesheet" href="./casino.css?v=20260717-1">
-  <link rel="stylesheet" href="./black-prison.css?v=20260717-3">
-  <link rel="stylesheet" href="./eden-character.css?v=20260717-1">
-  <link rel="stylesheet" href="./penitentiary.css?v=20260717-3">
-  <link rel="stylesheet" href="./penitentiary-control.css?v=20260717-1">
-  <link rel="stylesheet" href="./infernal.css?v=20260718-2">
-  <link rel="stylesheet" href="./infernal-reputation.css?v=20260719-1">
-  <link rel="stylesheet" href="./abyss.css?v=20260718-1">
-  <link rel="stylesheet" href="./infernal-club.css?v=20260718-2">
-  <link rel="stylesheet" href="./infernal-stomp-popup.css?v=20260721-2">
-  <link rel="stylesheet" href="./faction-leader-sacrifice-popup.css?v=20260721-2">
-  <link rel="stylesheet" href="./character-foot-impact-popup.css?v=20260721-1">
-  <link rel="stylesheet" href="./butt-impact-popup.css?v=20260721-5">
-  <link rel="stylesheet" href="./butt-impact-splashes.css?v=20260721-3">
-  <link rel="stylesheet" href="./butt-impact-timeline.css?v=20260721-1">
-  <link rel="stylesheet" href="./butt-impact-camera.css?v=20260721-3">
-  <link rel="stylesheet" href="./butt-impact-variants.css?v=20260721-6">
-  <link rel="stylesheet" href="./butt-impact-water-loop.css?v=20260721-1">
-  <link rel="stylesheet" href="./contribution-ritual-popup.css?v=20260721-3">
-  <link rel="stylesheet" href="./contribution-showcase.css?v=20260721-7">
-  <link rel="stylesheet" href="./contribution-showcase-effects.css?v=20260721-4">
-  <link rel="stylesheet" href="./contribution-magic-sigil.css?v=20260721-4">
-  <link rel="stylesheet" href="./contribution-ritual-modes.css?v=20260721-5">
-  <link rel="stylesheet" href="./female-offering-effects.css?v=20260721-4">
-  <link rel="stylesheet" href="./queen-offering-effects.css?v=20260721-5">
-  <link rel="stylesheet" href="./queen-offering-apparatus.css?v=20260721-2">
-  <link rel="stylesheet" href="./female-offering-corruption.css?v=20260721-1">
-  <link rel="stylesheet" href="./female-offering-organic-motion.css?v=20260721-2">
-  <link rel="stylesheet" href="./tribute.css">
-  <link rel="stylesheet" href="./gallery.css">
-  <link rel="stylesheet" href="./traits.css">
-  <link rel="stylesheet" href="./traits-interaction.css">
-  <link rel="stylesheet" href="./equipment.css">
-  <link rel="stylesheet" href="./vehicle.css?v=20260719-5">
-  <link rel="stylesheet" href="./otherworld-characters.css?v=20260719-1">
-  <link rel="stylesheet" href="./protagonist.css?v=20260719-5">
-  <link rel="stylesheet" href="./black-market.css">
-  <link rel="stylesheet" href="./room-consumables.css">
-  <link rel="stylesheet" href="./item-feedback.css?v=20260720-3">
-  <link rel="stylesheet" href="./gender.css">
-  <link rel="stylesheet" href="./player-room.css">
-  <link rel="stylesheet" href="./systems.css?v=20260718-3">
-  <link rel="stylesheet" href="./career.css?v=20260720-5">
-  <link rel="stylesheet" href="./faction-rooms.css?v=20260720-1">
-  <link rel="stylesheet" href="./infernal-church.css?v=20260721-1">
-  <link rel="stylesheet" href="./infernal-church-baptism.css?v=20260721-1">
-  <link rel="stylesheet" href="./save-recovery.css?v=20260718-3">
-  <link rel="stylesheet" href="./responsive.css">
+  <link rel="stylesheet" href="./app.bundle.css?v=1ee942e76299">
   <link rel="stylesheet" href="./offline.css">
 </head>
 <body>
   <div id="bootSplash" class="boot-splash" role="status" aria-live="polite">
     <div class="boot-splash__content">
       <strong class="boot-splash__title">失序人生</strong>
-      <p id="bootSplashStatus" class="boot-splash__status">正在载入人生</p>
-      <div class="boot-splash__track" aria-hidden="true">
-        <span class="boot-splash__bar"></span>
+      <div class="boot-splash__progress-row">
+        <p id="bootSplashStatus" class="boot-splash__status">正在载入人生</p>
+        <strong id="bootSplashPercent" class="boot-splash__percent">5%</strong>
+      </div>
+      <div id="bootSplashTrack" class="boot-splash__track" role="progressbar"
+        aria-label="游戏加载进度" aria-valuemin="0" aria-valuemax="100"
+        aria-valuenow="5">
+        <span id="bootSplashBar" class="boot-splash__bar"></span>
       </div>
     </div>
   </div>
+
+  <section id="contentModeGate" class="content-mode-gate" hidden
+    aria-labelledby="contentModeTitle">
+    <div class="content-mode-panel">
+      <span class="event-type">开始前声明</span>
+      <h1 id="contentModeTitle">请选择适合你的内容模式</h1>
+      <p class="content-mode-lead">请完整阅读以下声明。滚动到最底部并确认后，才可选择模式。</p>
+      <div id="contentModeNotice" class="content-mode-notice" tabindex="0">
+        <h2>虚构内容声明</h2>
+        <p>本游戏中的人物、组织、地点与事件均为虚构创作。部分剧情包含强烈情绪、压迫关系、黑暗幻想与成人向主题，请根据自己的年龄、接受程度和现实处境谨慎选择。</p>
+        <h2>18+ 模式年龄提醒</h2>
+        <p>18+模式包含成人向文字、CG与动画，仅适合已年满18周岁的玩家。不建议未成年人体验18+内容；若你尚未成年，请选择15+模式。若两种模式都不适合你，也请关闭并删除本游戏，感谢理解。</p>
+        <h2>15+ 模式内容范围</h2>
+        <p>15+模式不会解锁或显示画廊。黄金、圣水及其余成人动画不会播放，相关情节改为文字场景；道具数值效果、任务结算、成就累计与其他正常玩法仍然保留。</p>
+        <h2>永久选择规则</h2>
+        <p>18+模式可以在游戏中随时永久切换为15+模式。15+模式一经保存，当前存档不能切换回18+模式，也不会出现升级入口。</p>
+        <h2>重新选择方式</h2>
+        <p>如选择15+后确实需要重新选择，只能删除当前游戏存档并重新开始；离线版需要删除游戏数据，并重新下载或安装。删除会同时清除人生进度与跨周目收集，请慎重操作。</p>
+        <h2>防止误选</h2>
+        <p>你的选择会写入权威存档。阅读到底、勾选确认、点击模式按钮后，系统还会再次显示最终确认，不会因一次误触立即保存。</p>
+        <p class="content-mode-reached">声明已阅读完毕</p>
+      </div>
+      <label class="content-mode-ack">
+        <input id="contentModeAck" type="checkbox" disabled>
+        <span>我已完整阅读并理解年龄要求、内容差异、永久降级与删除存档规则。</span>
+      </label>
+      <div class="content-mode-options">
+        <button type="button" data-content-mode="15" disabled>
+          <strong>选择 15+</strong>
+          <span>不开放画廊，成人动画改为文字；保存后不能升级为18+。</span>
+        </button>
+        <button type="button" data-content-mode="18" disabled>
+          <strong>选择 18+</strong>
+          <span>仅限已满18周岁；可随时永久降级为15+。</span>
+        </button>
+      </div>
+      <p id="contentModeStatus" class="content-mode-status" role="status">
+        请将声明滚动至最底部。
+      </p>
+    </div>
+  </section>
 
   <section id="genderGate" class="gender-gate" hidden aria-labelledby="genderTitle">
     <div class="gender-panel">
@@ -267,8 +275,12 @@
         <button id="traitsButton" class="quiet-button" type="button">主角面板</button>
         <button id="careerButton" class="quiet-button" type="button">职业</button>
         <button id="tasksButton" class="quiet-button" type="button">任务</button>
+        <button id="goldenHorizonButton" class="quiet-button" type="button">金色地平线</button>
         <button id="roomsButton" class="quiet-button" type="button">世界</button>
         <button id="recoveryButton" class="quiet-button" type="button">人生电影院</button>
+        <button id="contentModeButton" class="quiet-button danger" type="button" hidden>
+          永久切换15+
+        </button>
         <button id="restartButton" class="quiet-button danger" type="button">重新出生</button>
       </div>
       <div class="life-progress" aria-label="人生进度">
@@ -376,7 +388,8 @@
         </div>
         <div class="room-actions">
           <button id="roomItemsButton" class="quiet-button" type="button">道具图鉴</button>
-          <button id="roomGalleryButton" class="quiet-button" type="button">CG画廊</button>
+          <button id="roomGalleryButton" class="quiet-button" type="button"
+            data-adult-gallery="true">CG画廊</button>
           <button id="roomCareerSpecialButton" class="quiet-button"
             type="button" hidden>职业福利</button>
           <button id="backRoomsButton" class="quiet-button" type="button">返回世界区域</button>
@@ -512,7 +525,8 @@
         <div id="casinoShopItems" class="casino-shop-items"></div>
         <div class="casino-shop-actions">
           <button id="casinoChatButton" type="button">AI对话</button>
-          <button id="casinoGalleryButton" type="button">角色画廊</button>
+          <button id="casinoGalleryButton" type="button"
+            data-adult-gallery="true">角色画廊</button>
         </div>
       </section>
     </section>
@@ -605,7 +619,8 @@
             </div>
             <div>
               <button id="edenCharacterChatButton" type="button" disabled>AI对话</button>
-              <button id="edenCharacterGalleryButton" type="button" disabled>角色画廊</button>
+              <button id="edenCharacterGalleryButton" type="button" disabled
+                data-adult-gallery="true">角色画廊</button>
             </div>
           </div>
           <p id="edenCharacterHint" class="eden-character-hint"></p>
@@ -753,7 +768,8 @@
           </div>
           <div class="penitentiary-shop-actions">
             <button id="penitentiaryChatButton" type="button">AI对话</button>
-            <button id="penitentiaryGalleryButton" type="button">人物画廊</button>
+            <button id="penitentiaryGalleryButton" type="button"
+              data-adult-gallery="true">人物画廊</button>
           </div>
         </section>
         <section id="penitentiaryChatView" hidden>
@@ -805,6 +821,11 @@
       <button id="closeGalleryButton" class="quiet-button" type="button">关闭</button>
     </div>
     <figure class="gallery-feature">
+      <div id="galleryAnimationPreview" class="gallery-animation-preview"
+        data-template="foot" hidden>
+        <div aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <button id="galleryAnimationPlay" type="button">播放动画</button>
+      </div>
       <img id="galleryFeatureImage" alt="">
       <figcaption>
         <strong id="galleryFeatureTitle"></strong>
@@ -836,7 +857,7 @@
   <dialog id="infernalChurchDialog" class="infernal-church-dialog">
     <div class="dialog-heading">
       <div>
-        <span class="event-type">黑街 · 地狱教会</span>
+        <span class="event-type">黑街 · 魔纹教会</span>
         <h2>七大欲女祭司的祭祀所</h2>
       </div>
       <button id="closeInfernalChurchButton" class="quiet-button"
@@ -844,20 +865,55 @@
     </div>
     <div class="infernal-church-scroll">
       <section class="infernal-church-hero">
-        <img src="./assets/generated/infernal-church-priestess.6afa716d.webp"
+        <img src="./assets/generated/infernal-church-priestess.a0c2cd06.webp"
           alt="七大欲女祭司">
         <div class="infernal-church-copy">
           <span class="event-type">七大欲的代言人 · 教主</span>
-          <h3>七大欲的人间体降临凡间</h3>
+          <h3>七大欲女祭司的祭祀所</h3>
           <p>七大欲的人间体，降临凡间，如果想成为魔纹贱畜就快点爬来跪好，接受教主的踩脸洗礼，成为光荣的魔纹贱畜吧！</p>
           <strong id="infernalChurchState"></strong>
         </div>
       </section>
       <p id="infernalChurchStatus" class="system-status" role="status"></p>
       <div class="church-actions church-baptism-action">
-        <p>地狱教会无偿加入。入教洗礼不会消耗属性点、人格或败北值。</p>
+        <p>魔纹教会无偿加入。入教洗礼不会消耗属性点、人格或败北值。</p>
         <button id="infernalChurchBaptismButton" type="button">入教洗礼</button>
       </div>
+      <div class="church-actions">
+        <p>与女主教对话，执行圣光教团每周讨伐任务。</p>
+        <button id="priestessTrialButton" type="button">女主教对话</button>
+        <button id="priestessGalleryButton" type="button" disabled
+          data-adult-gallery="true">
+          放过女司祭后解锁画廊
+        </button>
+      </div>
+      <section class="infernal-mission-panel">
+        <div class="infernal-mission-heading">
+          <div><span class="event-type">女司祭 · 职业晋升</span>
+            <h3 id="infernalPromotionTitle">魔纹职业晋升</h3></div>
+          <button id="infernalPromotionButton" type="button">检查晋升</button>
+        </div>
+        <p id="infernalPromotionRequirement"></p>
+      </section>
+      <section class="infernal-mission-panel">
+        <div class="infernal-mission-heading">
+          <div><span class="event-type">魔纹教会 · 每日刷新</span>
+            <h3>魔纹日常 · 每日20项</h3></div>
+          <span id="infernalDailyDate"></span>
+        </div>
+        <p>由女司祭发布；传教、传播七大欲福音与备战物资任务随机刷新。</p>
+        <div id="infernalDailyTasks" class="holy-task-grid"></div>
+      </section>
+      <section class="infernal-mission-panel">
+        <div class="infernal-mission-heading">
+          <div><span class="event-type">每周一刷新</span>
+            <h3 id="infernalWeeklyTitle">攻打圣光教团</h3></div>
+          <button id="infernalWeeklyButton" type="button">前往圣光房间</button>
+        </div>
+        <p id="infernalWeeklyDescription"></p>
+        <small id="infernalWeeklyReward"></small>
+        <div id="infernalChurchAchievements" class="holy-achievements"></div>
+      </section>
       <h3>七大欲的赏赐</h3>
       <div id="infernalChurchFaiths" class="faith-grid"></div>
       <div class="church-actions">
@@ -879,7 +935,7 @@
       <div class="magic-gas-sigil" aria-hidden="true"><i></i></div>
       <div class="magic-gas-copy">
         <span class="event-type">魔纹术式 · 魔气入脑</span>
-        <h2 id="magicGasSource">魔纹贱畜</h2>
+        <h2 id="magicGasSource">魔纹使徒</h2>
         <p>魔气包裹头部并保持面部可见，灵魂被快速牵引至魔纹核心。</p>
         <strong id="magicGasResult" role="status">等待术式发动。</strong>
       </div>
@@ -988,6 +1044,13 @@
         <button type="button" role="tab" data-collection-privacy="private">私密收藏</button>
         <button type="button" role="tab" data-collection-privacy="corruption">堕落收藏</button>
       </div>
+      <div class="collection-filter-bar">
+        <input id="collectionSearch" type="search" maxlength="40"
+          placeholder="搜索角色或道具" aria-label="搜索收藏">
+        <select id="collectionCharacterFilter" aria-label="按角色筛选收藏">
+          <option value="">全部角色</option>
+        </select>
+      </div>
       <p id="shopStatus" class="system-status">
         角色收藏仅供查看，不能在此使用道具。
       </p>
@@ -1001,7 +1064,26 @@
           <h3 id="soulName">黑色灵魂之火</h3>
           <strong id="soulTotal">累计人格 0</strong>
           <p id="soulLore"></p>
+          <p id="soulNext" class="soul-next"></p>
+          <ul id="soulEffects" class="soul-effects"></ul>
         </div>
+      </div>
+      <div class="soul-archive">
+        <div class="soul-archive-intro">
+          <strong>灵魂之火档案</strong>
+          人格值只按跨周目累计总数决定灵魂档位。达到十万人格后，
+          每次重开会从彩虹七色池随机锁定本轮颜色；累计人格每增加十万，
+          本轮灵魂便多点燃一种颜色，最多同时拥有七种。
+        </div>
+        <h3>凡世灵魂</h3>
+        <div id="soulTierGuide" class="soul-guide-grid"></div>
+        <div class="soul-archive-intro">
+          <strong>古籍中的彩色灵魂</strong>
+          神明拥有彩色灵魂；金色也只是拥有善良人格的存在而已。
+          十万人格以上的灵魂每局重新抽取颜色，并在本轮人生中获得对应临时增益。
+        </div>
+        <h3>彩虹七色池</h3>
+        <div id="soulColorGuide" class="soul-color-grid"></div>
       </div>
     </section>
   </dialog>
@@ -1095,6 +1177,8 @@
         <p>进入个人商店与图鉴</p>
       </div>
       <div id="otherworldGuildCharacters" class="otherworld-character-strip"></div>
+      <button id="infernalGuildButton" class="adventure-guild-entry"
+        type="button">进入冒险者公会 · 补给 / 装备 / 堕落收藏</button>
       <div id="infernalReputationRewards" class="infernal-reputation-board"></div>
       <p id="infernalEmpty" class="infernal-empty" hidden>任务正在刷新。</p>
       <div id="infernalTasks" class="infernal-task-list"></div>
@@ -1123,11 +1207,47 @@
             <button id="infernalSkipButton" type="button" hidden>直面女魔王</button>
             <button id="infernalDesireButton" type="button" hidden>完成随机任务</button>
             <button id="infernalBreakButton" type="button" hidden>直接破局</button>
+            <button id="infernalWitchGalleryButton" type="button" hidden
+              data-adult-gallery="true">
+              查看魔女画廊
+            </button>
             <button id="infernalRetreatButton" type="button">撤离本次挑战</button>
           </div>
         </div>
       </article>
     </section>
+  </dialog>
+
+  <dialog id="adventureGuildDialog" class="adventure-guild-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span class="event-type">异界魔境 · 各地图社会区域</span>
+        <h2>异界冒险者公会</h2>
+      </div>
+      <button id="closeAdventureGuildButton" class="quiet-button"
+        type="button">关闭</button>
+    </div>
+    <div id="adventureGuildCharacters"
+      class="adventure-guild-characters"></div>
+    <div class="adventure-guild-summary">
+      <div><span>可用属性点</span><strong id="adventureGuildPoints">0</strong></div>
+      <div><span>付费刷新</span><strong id="adventureGuildRefreshCount">0/3</strong></div>
+      <div><span>战利品宝箱</span><strong id="adventureGuildChestCount">0</strong></div>
+    </div>
+    <div class="adventure-guild-actions">
+      <button id="adventureGuildRefreshButton" type="button">刷新库存</button>
+      <button id="adventureGuildChestButton" type="button">开启战利品宝箱</button>
+    </div>
+    <nav class="adventure-guild-tabs" role="tablist" aria-label="公会商品分类">
+      <button type="button" role="tab" data-guild-view="supply">食物 / 药剂</button>
+      <button type="button" role="tab" data-guild-view="equipment">一阶装备</button>
+      <button type="button" role="tab" data-guild-view="corrupted">堕落藏品</button>
+      <button type="button" role="tab" data-guild-view="inventory">公会仓库</button>
+    </nav>
+    <p id="adventureGuildStatus" class="system-status" role="status">
+      正在同步公会库存。
+    </p>
+    <div id="adventureGuildItems" class="adventure-guild-items"></div>
   </dialog>
 
   <dialog id="abyssDialog" class="infernal-dialog abyss-dialog">
@@ -1231,7 +1351,8 @@
             <p id="infernalClubProgress"></p>
             <div class="club-detail-actions">
               <button id="infernalClubChatButton" type="button">AI 对话</button>
-              <button id="infernalClubGalleryButton" type="button">角色画廊</button>
+              <button id="infernalClubGalleryButton" type="button"
+                data-adult-gallery="true">角色画廊</button>
               <button id="infernalClubEquipButton" type="button">穿戴五件套</button>
             </div>
           </div>
@@ -1335,7 +1456,8 @@
         <div id="otherworldCharacterItems" class="casino-shop-items"></div>
         <div class="otherworld-character-actions">
           <button id="otherworldCharacterChat" type="button">AI对话</button>
-          <button id="otherworldCharacterGallery" type="button">角色画廊</button>
+          <button id="otherworldCharacterGallery" type="button"
+            data-adult-gallery="true">角色画廊</button>
         </div>
       </div>
     </div>
@@ -1420,7 +1542,8 @@
         <strong>前世今生</strong>
         <span>检测并恢复旧存档，或删除当前存档</span>
       </button>
-      <button id="cinemaEndingsButton" class="life-cinema-option" type="button">
+      <button id="cinemaEndingsButton" class="life-cinema-option" type="button"
+        data-adult-gallery="true">
         <strong>人生结局</strong>
         <span>查看男女主角已发现的结局与CG</span>
       </button>
@@ -1503,6 +1626,16 @@
     <p id="bootErrorText">资源加载失败，请刷新重试。</p>
     <button id="bootRetryButton" type="button">重试</button>
   </div>
+
+  <dialog id="contentModeConfirm" class="content-mode-confirm">
+    <span class="event-type">最终确认</span>
+    <h2 id="contentModeConfirmTitle">确认内容模式</h2>
+    <p id="contentModeConfirmText"></p>
+    <div class="content-mode-confirm-actions">
+      <button id="cancelContentModeButton" class="quiet-button" type="button">返回检查</button>
+      <button id="confirmContentModeButton" type="button">确认并保存</button>
+    </div>
+  </dialog>
   <script src="./offline-db.js"></script>
   <script src="./offline-game-state.js"></script>
   <script src="./offline-dialogue-engine.js"></script>
@@ -1521,10 +1654,12 @@
   <script src="./offline-tools.js"></script>
   <script src="./offline-pwa.js"></script>
   <script src="./config.js"></script>
+  <script src="./content-mode.js"></script>
   <script src="./potion-effects.js"></script>
   <script src="./career-roster-identities.js"></script>
   <script src="./career-university-data.js"></script>
   <script src="./career-data.js"></script>
+  <script src="./golden-horizon-data.js"></script>
   <script src="./vehicle-assets.js"></script>
   <script src="./vehicle-data.js"></script>
   <script src="./infernal-club-assets.js"></script>
@@ -1533,6 +1668,7 @@
   <script src="./black-market-data.js"></script>
   <script src="./casino-data.js"></script>
   <script src="./otherworld-character-data.js"></script>
+  <script src="./adventure-guild-data.js"></script>
   <script src="./black-prison-data.js"></script>
   <script src="./eden-character-data.js"></script>
   <script src="./penitentiary-data.js"></script>
@@ -1550,15 +1686,15 @@
   <script src="./equipment.js"></script>
   <script src="./collectibles-data.js"></script>
   <script src="./cg-assets.js"></script>
+  <script src="./event-scene-assets.js"></script>
   <script src="./foot-impact-achievement-assets.js"></script>
   <script src="./contribution-showcase-achievement-assets.js"></script>
   <script src="./parental-cg-assets.js"></script>
   <script src="./ending-gender-assets.js"></script>
-  <script src="./infernal-ending-assets.js"></script>
-  <script src="./ending-fixed-assets.js"></script>
   <script src="./career-roster-assets.js"></script>
   <script src="./career-advancement-data.js"></script>
   <script src="./career-portrait-data.js"></script>
+  <script src="./career-room-portraits.js"></script>
   <script src="./ending-archive.js"></script>
   <script src="./dialogue-usa.js"></script>
   <script src="./dialogue-sanctuary.js"></script>
@@ -1576,13 +1712,16 @@
   <script src="./save-file.js"></script>
   <script src="./save-file-import.js"></script>
   <script src="./casino-store.js"></script>
+  <script src="./golden-horizon-store.js"></script>
   <script src="./otherworld-character-store.js"></script>
+  <script src="./adventure-guild-store.js"></script>
   <script src="./black-prison-store.js"></script>
   <script src="./eden-character-store.js"></script>
   <script src="./penitentiary-store.js"></script>
   <script src="./infernal-store.js"></script>
   <script src="./infernal-club-store.js"></script>
   <script src="./infernal-church-store.js"></script>
+  <script src="./holy-light-store.js"></script>
   <script src="./casino-rules.js"></script>
   <script src="./black-market-potions.js"></script>
   <script src="./black-market-store.js"></script>
@@ -1613,6 +1752,7 @@
   <script src="./foot-variant-data.js"></script>
   <script src="./character-foot-impact-popup.js"></script>
   <script src="./butt-impact-voice.js"></script>
+  <script src="./character-animation-models.js"></script>
   <script src="./butt-impact-meta.js"></script>
   <script src="./butt-impact-popup.js"></script>
   <script src="./butt-impact-tracker.js"></script>
@@ -1630,7 +1770,6 @@
   <script src="./authority-fallback.js"></script>
   <script src="./authority-intents.js"></script>
   <script src="./authority-retry.js"></script>
-  <script src="./preview-profile.js"></script>
   <script src="./authority.js"></script>
   <script src="./daily-clock.js"></script>
   <script src="./vehicle-store.js"></script>
@@ -1638,26 +1777,37 @@
   <script src="./engine.js"></script>
   <script src="./casino-access.js"></script>
   <script src="./asset-recovery.js"></script>
+  <script src="./loading-ui.js"></script>
   <script src="./loader.js"></script>
   <script src="./dialogue-request-lock.js"></script>
   <script src="./dialogue-authority.js"></script>
   <script src="./dialogue-ai.js"></script>
   <script src="./dialogue-ui.js"></script>
   <script src="./gallery-assets.js"></script>
+  <script src="./priestess-gallery.js"></script>
   <script src="./infernal-gallery.js"></script>
   <script src="./casino-gallery.js"></script>
   <script src="./eden-character-gallery.js"></script>
   <script src="./penitentiary-gallery.js"></script>
   <script src="./otherworld-character-gallery.js"></script>
   <script src="./career-character-gallery.js"></script>
-  <script src="./gallery-local-variants.js"></script>
+  <script src="./gallery-animation-templates.js"></script>
   <script src="./gallery-ui.js"></script>
+  <script src="./content-mode-ui.js"></script>
   <script src="./gender-ui.js"></script>
   <script src="./player-gallery-ui.js"></script>
   <script src="./black-market-refresh-ui.js"></script>
   <script src="./black-market-ui.js"></script>
+  <script src="./holy-light-purification-cinema.js"></script>
+  <script src="./holy-light-ui.js"></script>
+  <script src="./priestess-trial-ui.js"></script>
+  <script src="./saint-trial-cinema.js"></script>
+  <script src="./saint-trial-ui.js"></script>
+  <script src="./priestess-gallery-ui.js"></script>
   <script src="./infernal-church-baptism.js"></script>
+  <script src="./soul-flame-guide-ui.js"></script>
   <script src="./infernal-church-ui.js"></script>
+  <script src="./infernal-church-missions-ui.js"></script>
   <script src="./collection-use-ui.js"></script>
   <script src="./room-consumables-ui.js"></script>
   <script src="./casino-chat-ui.js"></script>
@@ -1679,6 +1829,7 @@
   <script src="./penitentiary-chat-ui.js"></script>
   <script src="./penitentiary-ui.js"></script>
   <script src="./room-cards.js"></script>
+  <script src="./adventure-guild-cards.js"></script>
   <script src="./infernal-ui.js"></script>
   <script src="./abyss-ui.js"></script>
   <script src="./infernal-club-item-ui.js"></script>
@@ -1687,6 +1838,11 @@
   <script src="./infernal-club-chat-ui.js"></script>
   <script src="./infernal-club-ui.js"></script>
   <script src="./vehicle-ui.js"></script>
+  <script src="./golden-horizon-panels.js"></script>
+  <script src="./golden-horizon-extra-panels.js"></script>
+  <script src="./golden-horizon-reports.js"></script>
+  <script src="./golden-horizon-tavern.js"></script>
+  <script src="./golden-horizon-ui.js"></script>
   <script src="./room-lobby-ui.js"></script>
   <script src="./rooms-ui.js"></script>
   <script src="./tribute-ui.js"></script>
@@ -1703,11 +1859,15 @@
   <script src="./faction-leader-sacrifice-popup.js"></script>
   <script src="./faction-store-ui.js"></script>
   <script src="./casino-faction-ui.js"></script>
+  <script src="./collection-filters.js"></script>
+  <script src="./corrupted-collection-ui.js"></script>
   <script src="./collectibles-ui.js"></script>
+  <script src="./adventure-guild-ui.js"></script>
   <script src="./career-stat-input.js"></script>
   <script src="./career-benefits-ui.js"></script>
   <script src="./career-ui.js"></script>
   <script src="./daily-tasks-ui.js"></script>
+  <script src="./fallen-seven-cg.js"></script>
   <script src="./cg-ui.js"></script>
   <script src="./ui.js"></script>
   <script src="./game.js"></script>

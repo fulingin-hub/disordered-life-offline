@@ -14,6 +14,8 @@
       wave: "sawtooth", interval: 2800, filter: 420, volume: 0.022 },
     sanctuary: { notes: [261.63, 329.63, 392, 523.25], drone: [65.41, 98],
       wave: "sine", interval: 3000, filter: 1800, volume: 0.024 },
+    purification: { notes: [261.63, 293.66, 349.23, 392], drone: [65.41, 130.81],
+      wave: "sine", interval: 2600, filter: 2400, volume: 0.022, chord: true },
     casino: { notes: [220, 277.18, 329.63, 440], drone: [55, 110],
       wave: "square", interval: 850, filter: 1350, volume: 0.018 },
     eden: { notes: [261.63, 329.63, 392, 523.25], drone: [65.41, 130.81],
@@ -109,7 +111,13 @@
   function schedule() {
     const preset = presets[scene];
     const frequency = preset.notes[Math.floor(Math.random() * preset.notes.length)];
-    note(frequency, Math.min(2.8, preset.interval / 700), preset.volume, preset.wave);
+    const duration = Math.min(3.4, preset.interval / 650);
+    if (preset.chord) {
+      [1, 1.25, 1.5].forEach((ratio, index) =>
+        note(frequency * ratio, duration, preset.volume / (index + 1), preset.wave));
+    } else {
+      note(frequency, duration, preset.volume, preset.wave);
+    }
   }
 
   function startLayer() {

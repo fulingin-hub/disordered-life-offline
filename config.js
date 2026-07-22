@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260721-magic-brain-1",
+  buildId: "20260722-weekly-frontline-1",
   version: 7,
   eventRevision: 2026072101,
   stateKey: "disordered-life-state-v1",
@@ -44,14 +44,16 @@ window.LifeGame.CONFIG = {
     roomIslandFlag: "./assets/generated/room-flag-island.a99422fd.webp",
     roomRiceFlag: "./assets/generated/room-flag-rice.d41a6d65.webp",
     roomCasino: "./assets/generated/room-casino-ensemble.2fce8260.webp",
-    paradiseGate: "./assets/generated/paradise-gate-scene.97d3951d.webp",
+    paradiseGate: "./assets/generated/paradise-gate-scene.c092d499.webp",
     paradiseDistantView:
       "./assets/generated/paradise-distant-view.d681e1f7.webp",
-    edenGoldenDistrict: "./assets/generated/eden-golden-district.1e333955.webp",
-    edenRestaurantDistantEntry:
-      "./assets/generated/eden-restaurant-distant-entry.b37a620a.webp",
+    edenGoldenDistrict: "./assets/generated/eden-golden-district.bf85038f.webp",
+    goldenHorizonCapital: "./assets/generated/golden-horizon-capital.75d9c1d7.webp",
+    goldenHorizonSi: "./assets/generated/golden-horizon-si.aad4a261.webp",
+    goldenHorizonKa: "./assets/generated/golden-horizon-ka.d9a3ca8e.webp",
+    edenRestaurantDistantEntry: "./assets/generated/eden-restaurant-distant-entry.b37a620a.webp",
     edenFashionDistantEntry:
-      "./assets/generated/eden-fashion-distant-entry.04daa4f1.webp",
+      "./assets/generated/eden-fashion-distant-entry.29028c6c.webp",
     shadowPrisonComplex: "./assets/generated/shadow-prison-complex.4913e4d3.webp",
     shadowPrisonGateGuards:
       "./assets/generated/shadow-prison-gate-guards.76106af5.webp",
@@ -113,8 +115,8 @@ window.LifeGame.CONFIG = {
       "./assets/generated/gallery-shadow-prison-warden-patrol.42c1bb09.webp",
     galleryShadowPrisonOwner:
       "./assets/generated/gallery-shadow-prison-owner-office-rest.1ece4a88.webp",
-    edenWelcomeGate: "./assets/generated/eden-welcome-gate.98e82a62.webp",
-    blackPrisonStreet: "./assets/generated/black-prison-golden-street.a1e972a4.webp",
+    edenWelcomeGate: "./assets/generated/eden-welcome-gate.ae8736ea.webp",
+    blackPrisonStreet: "./assets/generated/black-prison-golden-street.44404b6c.webp",
     roomBlackStreet: "./assets/generated/room-black-street.e37ab187.webp",
     roomSanctuaryCampus: "./assets/generated/room-sanctuary-campus.87998322.webp",
     worldXiaCampus: "./assets/generated/world-xia-campus.6dd7254d.webp",
@@ -126,9 +128,9 @@ window.LifeGame.CONFIG = {
     worldBlackStreet: "./assets/generated/world-black-street.a63aa792.webp",
     worldSanctuaryCampus: "./assets/generated/world-sanctuary-campus.e27d12b4.webp",
     infernalChurchSanctuary:
-      "./assets/generated/infernal-church-sanctuary.33f2c5bc.webp",
+      "./assets/generated/infernal-church-sanctuary.550ab617.webp",
     infernalChurchPriestess:
-      "./assets/generated/infernal-church-priestess.6afa716d.webp",
+      "./assets/generated/infernal-church-priestess.a0c2cd06.webp",
     careerSigilApostleMale:
       "./assets/generated/magic-gas-protagonist-male-haired.9022a9ae.webp",
     careerSigilApostleFemale:

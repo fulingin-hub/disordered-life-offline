@@ -40,7 +40,7 @@
   inset: 0;
   display: block;
   background:
-    url("./assets/generated/ritual-foot-sigil-overlay.56093ee7.webp")
+    url("./assets/generated/ritual-foot-sigil-overlay.eb1b74f8.webp")
     center / contain no-repeat;
   filter:
     hue-rotate(var(--kiss-hue, 0deg))

@@ -93,7 +93,7 @@
     },
     ruth: {
       tights: "gallery-ruth-tights.d0aacb2f.webp",
-      barefoot: "gallery-ruth-barefoot.802520e1.webp",
+      barefoot: "gallery-ruth-barefoot.91912f10.webp",
       lingerie: "gallery-ruth-lingerie.5b68a736.webp",
       bodysuit: "gallery-ruth-bodysuit.62b6ec56.webp",
       footDetail: "gallery-ruth-foot-detail.18918d7d.webp",

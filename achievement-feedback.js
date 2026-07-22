@@ -2,6 +2,7 @@
   const known = new Set();
   const silentMethods = new Set([
     "sync", "unlockAllEndings", "unlockAllCollections", "selectGender",
+    "selectContentMode",
   ]);
   let initialized = false;
   let dialog;

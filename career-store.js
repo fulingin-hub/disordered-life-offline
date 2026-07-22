@@ -29,7 +29,14 @@
         && data.characterItems?.includes(`${item.id}-private-5`)).map((item) => ({
         id: `special:${item.id}`, name: `${item.name}的特殊图鉴勋章`,
       }));
-      return [...master, ...special];
+      const names = {
+        "holy-cleric": "圣职者职业勋章",
+        "infernal-believer": "教徒职业勋章",
+      };
+      const faction = (data.factionMedals || []).map((id) => ({
+        id: `faction:${id}`, name: names[id] || id,
+      }));
+      return [...faction, ...master, ...special];
     },
     privateComplete(characterId) {
       const owned = new Set(this.data().characterItems || []);

@@ -109,11 +109,19 @@
 
   function show(meta, count = 10, itemKind = "water") {
     if (!meta) return false;
+    const itemName = itemKind === "gold" ? "黄金" : "圣水";
+    if (LG.contentMode?.guardAnimation?.(`${meta.name} · ${itemName}场景`,
+      `${itemName}仪式已经完成。15+模式不播放近距离动画，道具数值效果、使用次数与任务结算保持不变。`)) {
+      return true;
+    }
     if (!el.dialog) build();
     const pose = LG.buttImpactMeta.pose(meta);
     const dedicatedQueenPose = meta.kind === "queen";
-    el.character.hidden = dedicatedQueenPose;
-    if (dedicatedQueenPose) {
+    const dedicatedModel = Boolean(pose.dedicated);
+    const model = LG.characterAnimationModels?.apply?.(
+      el.dialog, meta, itemKind);
+    el.character.hidden = dedicatedQueenPose || dedicatedModel;
+    if (el.character.hidden) {
       el.character.removeAttribute("src");
       el.character.alt = "";
     } else {
@@ -123,10 +131,10 @@
     el.pose.src = pose.src;
     el.pose.alt = `${meta.name}低机位仪式动作`;
     el.stockings.style.setProperty(
-      "--impact-source", `url("${dedicatedQueenPose ? pose.src : meta.src}")`);
+      "--impact-source", `url("${pose.src || meta.src}")`);
     el.detail.textContent = itemKind === "gold"
-      ? "黄金 · 排气孔收缩热雾 · 黑褐粗蛇集中后扩散 · 主动关闭"
-      : "圣水 · 低机位仰视 · 10秒人物前奏 · 持续滴水 · 主动关闭";
+      ? `${model?.label || "黄金"} · 角色自身模型 · 黄金冲积 · 主动关闭`
+      : `${model?.label || "圣水"} · 角色自身模型 · 持续滴水 · 主动关闭`;
     el.title.textContent = `${meta.name} · 臀部冲积层`;
     el.dialog.dataset.kind = meta.kind;
     el.dialog.dataset.character = meta.id;

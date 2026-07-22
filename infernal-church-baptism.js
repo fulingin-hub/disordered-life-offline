@@ -62,12 +62,12 @@
     if (el.dialog) return;
     el.dialog = document.createElement("dialog");
     el.dialog.className = "infernal-baptism-dialog";
-    el.dialog.setAttribute("aria-label", "地狱教会入教洗礼");
+    el.dialog.setAttribute("aria-label", "魔纹教会入教洗礼");
     el.dialog.innerHTML = `
       <div class="infernal-baptism-scene">
         <button class="quiet-button baptism-close" type="button">关闭</button>
         <div class="baptism-copy">
-          <span class="event-type">地狱教会 · 入教洗礼</span>
+          <span class="event-type">魔纹教会 · 入教洗礼</span>
           <h2>七欲魔纹同时抽取灵魂</h2>
           <p>教主踏近面前，七种大魔纹与四周臭脚小魔纹共同牵引灵魂。</p>
         </div>
@@ -149,7 +149,7 @@
       }
       play();
     } catch (err) {
-      console.error("地狱教会入教洗礼失败:", err?.code, err?.message, err?.stack);
+      console.error("魔纹教会入教洗礼失败:", err?.code, err?.message, err?.stack);
       document.getElementById("infernalChurchStatus").textContent =
         err?.message || "入教洗礼暂时无法进行。";
     } finally {

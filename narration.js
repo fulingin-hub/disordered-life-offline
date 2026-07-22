@@ -3,7 +3,7 @@
   let player, button, replayButton, pendingEvent, currentEvent;
   let voiceId = "female-b", lastEvent = "";
   let enabled = true, online = false, primed = false;
-  let gestureListening = false, playId = 0;
+  let gestureListening = false, sceneVisible = false, playId = 0;
 
   function setStatus(status, detail) {
     if (!button) return;
@@ -47,7 +47,7 @@
   }
 
   function listenForGesture() {
-    if (gestureListening || primed || !online || !enabled) return;
+    if (gestureListening || primed || !sceneVisible || !online || !enabled) return;
     document.addEventListener("pointerdown", primeFromGesture, true);
     document.addEventListener("keydown", primeFromGesture, true);
     gestureListening = true;
@@ -67,7 +67,7 @@
   }
 
   async function speak(payload, options = {}) {
-    if (!online || !enabled || !payload || payload === sample) return false;
+    if (!sceneVisible || !online || !enabled || !payload || payload === sample) return false;
     const id = ++playId;
     const remember = options.remember !== false;
     LG.cinemaNarrator?.stop?.();
@@ -114,7 +114,7 @@
 
   function primeFromGesture(event) {
     if (event?.target?.id === "narrationButton") return;
-    if (!online || !enabled || primed) return;
+    if (!sceneVisible || !online || !enabled || primed) return;
     primed = true;
     stopGestureListening();
     speak(pendingEvent || currentEvent, {
@@ -123,7 +123,7 @@
   }
 
   function activate() {
-    if (!online || !enabled) return false;
+    if (!sceneVisible || !online || !enabled) return false;
     primed = true;
     stopGestureListening();
     return speak(pendingEvent || currentEvent, {
@@ -131,16 +131,19 @@
     });
   }
 
-  function updateReplay(payload) {
-    currentEvent = payload;
-    if (replayButton) replayButton.hidden = !payload || !online;
-  }
+  function updateReplay(payload) { currentEvent = payload;
+    if (replayButton) replayButton.hidden = !payload || !online; }
 
   function speakEvent(event, state) {
     const payload = eventPayload(event, state);
     updateReplay(payload);
     if (!online || !enabled || !payload) return;
     if (payload.key === lastEvent || payload.key === pendingEvent?.key) return;
+    if (!sceneVisible) {
+      pendingEvent = payload;
+      setStatus("waiting", "游戏画面显示后启用固定旁白");
+      return;
+    }
     if (!primed) {
       pendingEvent = payload;
       setStatus("locked", "点击任意游戏按钮启用固定旁白");
@@ -158,21 +161,24 @@
       online = LG.narratorCatalog.available().length > 0;
       player = new Audio();
       player.preload = "none";
-      setStatus("locked", "点击任意游戏按钮启用固定旁白");
-      listenForGesture();
+      setStatus("waiting", "游戏画面显示后启用固定旁白");
     },
     speakEvent,
-    speakText() {
-      return false;
-    },
+    speakText() { return false; },
     activate,
     stop,
+    reveal() {
+      if (sceneVisible) return;
+      sceneVisible = true; setStatus(primed ? "ready" : "locked",
+        primed ? voiceDetail("当前语音") : "点击任意游戏按钮启用固定旁白");
+      if (primed) speak(pendingEvent || currentEvent);
+      else listenForGesture();
+    },
+    conceal() { sceneVisible = false; stop(); },
     setEnabled(value) {
       enabled = Boolean(value);
       if (!enabled) {
-        stop();
-        setStatus("disabled", "总声音已关闭");
-        return;
+        stop(); setStatus("disabled", "总声音已关闭"); return;
       }
       setStatus(primed ? "ready" : "locked",
         primed ? voiceDetail("当前语音") : "点击任意游戏按钮启用固定旁白");
@@ -187,8 +193,7 @@
         primed ? voiceDetail("当前语音")
           : `已选择${LG.NARRATOR_VOICE_PROFILES[voiceId].label}`);
     },
-    selected: () => voiceId,
-    online: () => online,
+    selected: () => voiceId, online: () => online,
     ready: () => primed,
     source: (event, state) => source(eventPayload(event, state)),
   };

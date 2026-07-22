@@ -1,0 +1,381 @@
+.holy-light-dialog,
+.priestess-trial-dialog {
+  width: min(920px, calc(100% - 24px));
+  max-height: calc(100dvh - 24px);
+  border: 1px solid rgba(244, 213, 116, .42);
+  background: #10151a;
+  color: #f4f0e4;
+  padding: 0;
+}
+.holy-light-dialog::backdrop,
+.priestess-trial-dialog::backdrop {
+  background: rgba(2, 5, 8, .82);
+}
+.holy-light-dialog header,
+.trial-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+.holy-light-dialog h2,
+.holy-light-dialog h3,
+.priestess-trial-dialog h2 {
+  margin: 0;
+  letter-spacing: 0;
+}
+.holy-light-dialog main {
+  display: grid;
+  gap: 12px;
+  padding: 0 18px 18px;
+}
+.holy-hero {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  align-items: center;
+  min-height: 190px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  background: linear-gradient(90deg, #182532, #2b2618);
+}
+.holy-hero img {
+  width: 150px;
+  height: 190px;
+  object-fit: cover;
+  object-position: top;
+}
+.holy-hero div {
+  padding: 18px;
+}
+.holy-light-dialog > .system-status {
+  margin: 12px 18px;
+}
+.holy-panel {
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: #151c22;
+}
+.holy-panel p {
+  margin: 8px 0;
+  line-height: 1.55;
+}
+.holy-actions,
+.trial-actions,
+.holy-achievements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.holy-actions button,
+.trial-actions button,
+.holy-light-dialog header button,
+.trial-heading button {
+  min-height: 44px;
+}
+.holy-blessing,
+.holy-achievements span {
+  padding: 9px 12px;
+  border: 1px solid rgba(244, 213, 116, .48);
+  color: #f4d574;
+}
+.holy-task-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.holy-task {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 10px;
+  align-items: center;
+  padding: 10px;
+  border-left: 3px solid #d6b64e;
+  background: #0d1216;
+}
+.holy-task span,
+.holy-task small {
+  color: #b8c2c8;
+}
+.holy-task small {
+  grid-column: 1 / -1;
+}
+.holy-task button {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  min-height: 44px;
+}
+.holy-task.claimed {
+  opacity: .62;
+}
+.holy-room-card {
+  border-color: rgba(244, 213, 116, .45);
+}
+.purification-balance {
+  margin: 12px 0;
+  padding: 10px 12px;
+  border-left: 3px solid #f4d574;
+  background: #0d1216;
+  color: #dce5e9;
+  line-height: 1.5;
+}
+.purification-cinema-dialog {
+  width: min(980px, calc(100% - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 229, 139, .68);
+  background: #080b0d;
+  color: #fff9e7;
+}
+.purification-cinema-dialog::backdrop {
+  background: rgba(1, 3, 4, .92);
+}
+.purification-cinema-dialog header,
+.purification-cinema-dialog footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+}
+.purification-cinema-dialog header {
+  border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
+.purification-cinema-dialog footer {
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  color: #d4d9d9;
+}
+.purification-cinema-dialog h2 {
+  margin: 2px 0 0;
+  font-size: 20px;
+  letter-spacing: 0;
+}
+.purification-cinema-dialog button {
+  min-width: 88px;
+  min-height: 44px;
+}
+.purification-stage {
+  position: relative;
+  min-height: min(64dvh, 620px);
+  overflow: hidden;
+  isolation: isolate;
+  background: #d9e7dc;
+}
+.purification-bg,
+.purification-scene,
+.purification-saint {
+  position: absolute;
+  display: block;
+}
+.purification-bg {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.78) brightness(1.05);
+}
+.purification-scene {
+  inset: 5% 27% 22% 4%;
+  width: 69%;
+  height: 73%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 1.4s ease, transform 5.2s ease;
+  box-shadow: 0 0 42px rgba(255, 246, 189, .5);
+}
+.purification-scene.active {
+  opacity: .86;
+  transform: scale(1);
+}
+.purification-saint {
+  z-index: 3;
+  right: -1%;
+  bottom: -10%;
+  width: min(37%, 350px);
+  height: 104%;
+  object-fit: cover;
+  object-position: center top;
+  filter: drop-shadow(-10px 4px 18px rgba(255, 245, 190, .44));
+  animation: purification-saint-breathe 5.5s ease-in-out infinite;
+}
+.purification-radiance {
+  position: absolute;
+  z-index: 2;
+  inset: -30%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 249, 205, .2) 0deg 7deg,
+    transparent 7deg 18deg
+  );
+  animation: purification-radiance 24s linear infinite;
+}
+.purification-radiance::before,
+.purification-radiance::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 226, .72);
+  box-shadow: 90px 130px 0 rgba(255, 255, 226, .48),
+    210px 40px 0 rgba(255, 255, 226, .52),
+    340px 170px 0 rgba(255, 255, 226, .38),
+    490px 80px 0 rgba(255, 255, 226, .55);
+  animation: purification-motes 7s ease-in-out infinite;
+}
+.purification-radiance::before {
+  width: 7px;
+  height: 7px;
+  left: 18%;
+  bottom: 32%;
+}
+.purification-radiance::after {
+  width: 4px;
+  height: 4px;
+  left: 34%;
+  bottom: 18%;
+  animation-delay: -3.5s;
+}
+.purification-copy {
+  position: absolute;
+  z-index: 4;
+  left: 4%;
+  bottom: 4%;
+  width: min(64%, 610px);
+  padding: 14px 16px;
+  border-left: 3px solid #fff2ad;
+  background: rgba(8, 13, 15, .86);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .28);
+}
+.purification-copy span {
+  color: #ffe98b;
+  font-size: 13px;
+}
+.purification-copy blockquote {
+  margin: 6px 0;
+  font-size: clamp(17px, 2.2dvh, 24px);
+  line-height: 1.55;
+}
+.purification-copy p {
+  margin: 0;
+  color: #dfe8e6;
+}
+@keyframes purification-radiance {
+  to { transform: rotate(360deg); }
+}
+@keyframes purification-saint-breathe {
+  50% { transform: translateY(-8px); }
+}
+@keyframes purification-motes {
+  50% { transform: translateY(-80px); opacity: .28; }
+}
+.priestess-trial-dialog {
+  padding-bottom: 18px;
+}
+.priestess-trial-dialog > img {
+  display: block;
+  width: 100%;
+  height: min(42dvh, 390px);
+  object-fit: cover;
+  object-position: center 18%;
+}
+.trial-copy,
+.priestess-trial-dialog > .system-status,
+.trial-actions {
+  margin: 14px 18px 0;
+}
+.trial-copy {
+  line-height: 1.65;
+  white-space: pre-line;
+}
+.saint-dialogue-panel > button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 10px;
+}
+.saint-trial-gift {
+  display: block;
+  margin: 14px 18px 0;
+  color: #d8a84e;
+}
+.saint-cinema-dialog {
+  width: min(760px, calc(100% - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(244, 213, 116, .42);
+  background: #070a0d;
+  color: #f4f0e4;
+}
+.saint-cinema-dialog::backdrop {
+  background: rgba(2, 5, 8, .9);
+}
+.saint-cinema-dialog header,
+.saint-cinema-dialog footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+}
+.saint-cinema-dialog header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+.saint-cinema-dialog header button,
+.saint-cinema-dialog footer button {
+  min-height: 44px;
+}
+.saint-cinema-dialog > img {
+  display: block;
+  width: 100%;
+  height: min(68dvh, 680px);
+  object-fit: contain;
+  background: #050607;
+}
+.saint-cinema-dialog footer strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 680px) {
+  .holy-hero {
+    grid-template-columns: 108px 1fr;
+  }
+  .holy-hero img {
+    width: 108px;
+  }
+  .holy-task-grid {
+    grid-template-columns: 1fr;
+  }
+  .saint-cinema-dialog footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .purification-stage {
+    min-height: min(68dvh, 560px);
+  }
+  .purification-scene {
+    inset: 4% 4% 35%;
+    width: 92%;
+    height: 61%;
+  }
+  .purification-saint {
+    right: -8%;
+    bottom: 17%;
+    width: 46%;
+    height: 62%;
+  }
+  .purification-copy {
+    left: 4%;
+    bottom: 3%;
+    width: 92%;
+  }
+  .purification-cinema-dialog footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

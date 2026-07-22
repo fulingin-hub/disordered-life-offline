@@ -20,6 +20,7 @@
       const gallery = node("button", "", unlocked ? "角色画廊" : "画廊未解锁");
       chat.type = "button";
       gallery.type = "button";
+      gallery.dataset.adultGallery = "true";
       chat.disabled = busy || !unlocked;
       gallery.disabled = busy || !unlocked;
       chat.addEventListener("click", () =>

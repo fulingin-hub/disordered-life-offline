@@ -137,12 +137,15 @@
       grid.append(factionCard(item, data.joinedThisRun)));
     const roster = node("div", "career-roster");
     LG.CAREER_DATA.roster.forEach((item) => {
+      const joined = item.faction === "holy-light"
+        ? LG.holyLight.data().joined || LG.holyLight.data().baptized
+        : data.memberships?.includes(item.faction);
       const card = node("button", "", LG.CAREER_DATA.characterLabel(item));
       card.type = "button";
       card.style.backgroundImage = `linear-gradient(rgba(11,14,19,.18),rgba(11,14,19,.94)),url("${
         LG.careerPortraits.characterSource(item)}")`;
       card.title = `${LG.CAREER_DATA.factions[item.faction].name} · 售卖${item.pieces}个套装部件`;
-      card.disabled = !data.memberships?.includes(item.faction);
+      card.disabled = !joined;
       card.addEventListener("click", () => LG.factionStoreUI.open(item.id));
       roster.append(card);
     });

@@ -20,10 +20,10 @@
 
   function close() {
     window.clearTimeout(fallbackTimer);
-    audio.pause();
-    audio.currentTime = 0;
-    dialog.classList.remove("playing");
-    if (dialog.open) dialog.close();
+    audio?.pause?.();
+    if (audio) audio.currentTime = 0;
+    dialog?.classList.remove("playing");
+    if (dialog?.open) dialog.close();
   }
 
   function build() {
@@ -92,19 +92,24 @@
   }
 
   function show(forcedId, forcedVariant, forcedGroupSize) {
-    if (!dialog) build();
     const queen = queens.find((item) => item.id === forcedId);
     if (!queen) return "";
-    const src = LG.CONFIG.assets[queen.asset];
     const group = groupFor(queen, forcedGroupSize);
+    const groupName = group.length === 7 ? "七大地狱女魔王"
+      : group.map((item) => item.name).join("、") + "地狱女魔王";
+    if (LG.contentMode?.guardAnimation?.(`${groupName} · 惩罚场景`,
+      "女魔王的惩罚从高处压近，主角在威压中完成本次结算。15+模式以文字略过动态画面，累计进度保持不变。")) {
+      return queen.id;
+    }
+    if (!dialog) build();
+    const src = LG.CONFIG.assets[queen.asset];
     const variant = LG.footVariants.normalize(
       forcedVariant || LG.footVariants.pick());
     renderGroup(group);
     LG.footVariants.apply(foot, variant, src);
     foot.style.setProperty("--foot-x", queen.x);
     foot.style.setProperty("--foot-y", queen.y);
-    title.textContent = group.length === 7 ? "七大地狱女魔王"
-      : group.map((item) => item.name).join("、") + "地狱女魔王";
+    title.textContent = groupName;
     line.textContent = group.length > 1
       ? "いい子ね。私たちの前で、もっと深く堕ちなさい。"
       : "いい子ね、堕落した家畜奴隷。堕ちながら射精しなさい。";

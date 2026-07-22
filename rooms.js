@@ -66,6 +66,7 @@
       LG.roomsUI.init({
         onEnter: (character) => LG.roomsUI.enter(character),
         onEnterPlayer: () => {
+          if (LG.contentMode?.guardGallery?.()) return;
           LG.roomsUI.close();
           LG.playerGalleryUI.open();
         },

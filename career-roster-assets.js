@@ -9,8 +9,8 @@
     "female": "./assets/generated/career-roster-university-xia-director-female.5386f485.webp"
   },
   "university-xia-leader": {
-    "male": "./assets/generated/career-roster-university-xia-leader-male.a248af46.webp",
-    "female": "./assets/generated/career-roster-university-xia-leader-female.5b77859d.webp"
+    "male": "./assets/generated/career-roster-university-xia-leader-male.c2b9c095.webp",
+    "female": "./assets/generated/career-roster-university-xia-leader-female.5739039d.webp"
   },
   "university-island-guide": {
     "male": "./assets/generated/career-roster-university-island-guide-male.af8d365e.webp",
@@ -45,8 +45,8 @@
     "female": "./assets/generated/career-roster-sanctuary-mentor-female.668d24bf.webp"
   },
   "sanctuary-leader": {
-    "male": "./assets/generated/career-roster-sanctuary-leader-male.97f38bb7.webp",
-    "female": "./assets/generated/career-roster-sanctuary-leader-female.d2a24cb6.webp"
+    "male": "./assets/generated/career-roster-sanctuary-leader-male.4254f4cf.webp",
+    "female": "./assets/generated/career-roster-sanctuary-leader-female.8155e38a.webp"
   },
   "ranch-herder": {
     "male": "./assets/generated/career-roster-ranch-herder-male.ffc7eccc.webp",
@@ -57,7 +57,7 @@
     "female": "./assets/generated/career-roster-ranch-owner-female.e3351f00.webp"
   },
   "ranch-leader": {
-    "male": "./assets/generated/career-roster-ranch-leader-male.94c25306.webp",
+    "male": "./assets/generated/career-roster-ranch-leader-male.d7927d05.webp",
     "female": "./assets/generated/career-roster-ranch-leader-female.8664acd1.webp"
   },
   "paradise-employee": {
@@ -69,8 +69,8 @@
     "female": "./assets/generated/career-roster-paradise-teamlead-female.c349f808.webp"
   },
   "paradise-leader": {
-    "male": "./assets/generated/career-roster-paradise-leader-male.1edcc8bd.webp",
-    "female": "./assets/generated/career-roster-paradise-leader-female.c54acaae.webp"
+    "male": "./assets/generated/career-roster-paradise-leader-male.1355ca47.webp",
+    "female": "./assets/generated/career-roster-paradise-leader-female.fb9384d6.webp"
   },
   "domain-follower": {
     "male": "./assets/generated/career-roster-domain-follower-male.f9532d81.webp",
@@ -81,8 +81,8 @@
     "female": "./assets/generated/career-roster-domain-senior-female.cff25ba1.webp"
   },
   "domain-leader": {
-    "male": "./assets/generated/career-roster-domain-leader-male.2ba64262.webp",
-    "female": "./assets/generated/career-roster-domain-leader-female.f8ba913c.webp"
+    "male": "./assets/generated/career-roster-domain-leader-male.14dd3250.webp",
+    "female": "./assets/generated/career-roster-domain-leader-female.70f8e266.webp"
   },
   "otherworld-captain": {
     "male": "./assets/generated/career-roster-otherworld-captain-male.3926cbb2.webp",
@@ -93,8 +93,8 @@
     "female": "./assets/generated/career-roster-otherworld-manager-female.d053f2a0.webp"
   },
   "otherworld-leader": {
-    "male": "./assets/generated/career-roster-otherworld-leader-male.1ddf3c58.webp",
-    "female": "./assets/generated/career-roster-otherworld-leader-female.6e1b4280.webp"
+    "male": "./assets/generated/career-roster-otherworld-leader-male.96f56a4d.webp",
+    "female": "./assets/generated/career-roster-otherworld-leader-female.9df7b3b2.webp"
   }
 };
 })(window.LifeGame);

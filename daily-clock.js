@@ -26,6 +26,8 @@
       economy.career?.menu?.date,
       economy.blackMarket?.daily?.japan?.date,
       economy.blackMarket?.daily?.usa?.date,
+      economy.goldenHorizon?.arenas?.date,
+      economy.adventureGuild?.date,
     ].filter(Boolean);
     return dates.some((value) => value !== date);
   }
@@ -47,6 +49,8 @@
     LG.dailyTasksUI?.refresh?.();
     LG.blackMarketUI?.refresh?.();
     LG.careerUI?.refresh?.();
+    LG.goldenHorizonUI?.refresh?.();
+    LG.adventureGuildUI?.render?.();
   }
 
   async function refresh(reason) {

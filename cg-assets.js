@@ -42,61 +42,11 @@
       "usa-corporate-success": `${base}cg-ending-usa-corporate-success.71bc538d.webp`,
       "usa-spy-controlled": `${base}cg-ending-usa-spy-controlled.32a75eea.webp`,
       "corporate-setback": `${base}cg-ending-office-shadow.a65e0862.webp`,
-      "beautiful-life": `${base}cg-ending-beautiful-life.ad7367c5.webp`,
-      "fallen-life": `${base}cg-ending-fallen-life.66337cfc.webp`,
-      "character-kept-life": `${base}cg-ending-character-kept-life.c136336e.webp`,
-      "japan-brainwashed-life": `${base}cg-ending-japan-brainwashed-life.d1d9761a.webp`,
-      "usa-consumed-material": `${base}cg-ending-usa-consumed-material.e60cf7c0.webp`,
-      "trait-energy-depleted-life": `${base}cg-ending-trait-energy-depleted-life.2c052a6a.webp`,
-      "tribute-drained-life": `${base}cg-ending-tribute-drained-life.4a92bf7a.webp`,
-      "toilet-life": `${base}cg-ending-toilet-life.aa4c4c38.webp`,
-      "casino-did-you-win": `${base}cg-ending-casino-did-you-win.fc553cbb.webp`,
-      "casino-god-of-gambling": `${base}cg-ending-casino-god-of-gambling.83d4a904.webp`,
-      "casino-desire-slave": `${base}cg-ending-casino-desire-slave.104fb95d.webp`,
-      "casino-abyss-choice": `${base}cg-ending-casino-abyss-choice.facbea8c.webp`,
-      "casino-gambling-abyss": `${base}cg-ending-casino-gambling-abyss.5e155c8e.webp`,
-      "casino-red-eyed-gambler": `${base}cg-ending-casino-red-eyed-gambler.af852ace.webp`,
-      "black-prison-dominator":
-        `${base}cg-ending-paradise-dominator-male.2974c80e.webp`,
-      "black-prison-feast": `${base}cg-ending-paradise-feast-male.1526b914.webp`,
-      "black-prison-apex": `${base}cg-ending-paradise-apex-male.1a7cd958.webp`,
-      "black-prison-demon": `${base}cg-ending-paradise-demon-male.df17fb54.webp`,
-      "black-prison-luxury": `${base}protagonist-male-luxury-set.31723302.webp`,
-      "black-prison-infernal": `${base}protagonist-male-infernal-set.00703f80.webp`,
-      "penitentiary-personality-destroyed":
-        `${base}protagonist-male-penitentiary-set.6822ef9d.webp`,
-      "penitentiary-redeemed": `${base}cg-ending-penitentiary-redeemed.eac99d3f.webp`,
-      "penitentiary-released": `${base}cg-ending-penitentiary-released.70170ed6.webp`,
-      "penitentiary-believer": `${base}cg-ending-penitentiary-believer.547991fd.webp`,
-      "penitentiary-dependent": `${base}cg-ending-penitentiary-dependent.b834fc89.webp`,
-      "penitentiary-true-redemption":
-        `${base}cg-ending-penitentiary-true-redemption.65a8bd1f.webp`,
-      "penitentiary-reborn":
-        `${base}cg-ending-penitentiary-reborn-male.9bde823f.webp`,
-      "penitentiary-eternal-cage":
-        `${base}cg-ending-penitentiary-eternal-cage-male.12a6678e.webp`,
-      "healthy-life": `${base}cg-ending-healthy-life-male.cf3c0d09.webp`,
-      "reject-temptation":
-        `${base}cg-ending-reject-temptation-male.59f9f307.webp`,
-      saint: `${base}cg-ending-saint-male.44da103f.webp`,
     },
   };
   LG.CG_ASSETS.genderEndings = {
     male: { ...LG.CG_ASSETS.endings },
-    female: {
-      "black-prison-luxury": `${base}protagonist-female-luxury-set.22e88363.webp`,
-      "black-prison-infernal": `${base}protagonist-female-infernal-set.77399fe3.webp`,
-      "penitentiary-personality-destroyed":
-        `${base}protagonist-female-penitentiary-set.e547b5ea.webp`,
-      "penitentiary-reborn":
-        `${base}cg-ending-penitentiary-reborn-female.0cad5069.webp`,
-      "penitentiary-eternal-cage":
-        `${base}cg-ending-penitentiary-eternal-cage-female.58f38480.webp`,
-      "healthy-life": `${base}cg-ending-healthy-life-female.f322f653.webp`,
-      "reject-temptation":
-        `${base}cg-ending-reject-temptation-female.60f0772a.webp`,
-      saint: `${base}cg-ending-saint-female.55adfac7.webp`,
-    },
+    female: {},
   };
   LG.CG_ASSETS.specialMeta = {
     "battlefield-hero": {

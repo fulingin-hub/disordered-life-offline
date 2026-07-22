@@ -36,9 +36,14 @@
       ranks: LG.careerRosterIdentity.rankLabels.otherworld, asset: "roomBlackStreet",
     },
     church: {
-      name: "地狱教会", proof: "七大欲的信仰契约", location: "黑街 · 地狱教会",
-      copy: "七大欲的人间体，降临凡间，如果想成为魔纹贱畜就快点爬来跪好，接受教主的踩脸洗礼，成为光荣的魔纹贱畜吧！",
+      name: "魔纹教会", proof: "七大欲的信仰契约", location: "黑街 · 魔纹教会",
+      copy: "接受魔纹洗礼解锁魔纹贱畜，十万羞耻晋升魔纹使徒，再以七层地狱战绩成为魔纹领主。",
       ranks: [], asset: "infernalChurchSanctuary",
+    },
+    "holy-light": {
+      name: "圣光教团", proof: "圣光追随者证明", location: "圣徒据点",
+      copy: "由圣徒建立的圣光追随者教团。",
+      ranks: [], asset: "worldSanctuaryCampus",
     },
   };
 
@@ -65,7 +70,19 @@
           asset: meta.asset,
         };
       })));
-    return [...LG.CAREER_UNIVERSITY_DATA.roster, ...standard];
+    const doctrine = [
+      {
+        id: "church-priestess", faction: "church", rankIndex: 0,
+        gender: "female", name: "七大欲女司祭", role: "魔纹教会·教主",
+        pieces: 1, asset: "infernalChurchPriestess",
+      },
+      {
+        id: "holy-light-saint", faction: "holy-light", rankIndex: 0,
+        gender: "female", name: "圣徒", role: "圣光教团·建立者",
+        pieces: 1, asset: "protagonistFemaleSaintSet",
+      },
+    ];
+    return [...LG.CAREER_UNIVERSITY_DATA.roster, ...standard, ...doctrine];
   }
 
   const normalItems = [

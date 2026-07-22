@@ -1,0 +1,78 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "android/**"
+      - ".github/workflows/build-apk.yml"
+      - "assets/**"
+      - "*.html"
+      - "*.js"
+      - "*.css"
+      - "manifest.webmanifest"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ANDROID_VERSION_CODE: "10"
+      ANDROID_VERSION_NAME: "1.0.10"
+      ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android/release-keystore.p12
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android platform
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
+
+      - name: Restore release signing key
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/release-keystore.p12
+
+      - name: Build installable APK
+        run: gradle -p android --no-daemon assembleRelease
+
+      - name: Prepare artifact
+        run: cp android/app/build/outputs/apk/release/app-release.apk disordered-life-offline.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: disordered-life-offline-apk
+          path: disordered-life-offline.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Remove signing key
+        if: always()
+        run: rm -f android/release-keystore.p12

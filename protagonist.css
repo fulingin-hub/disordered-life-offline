@@ -38,6 +38,15 @@
     drop-shadow(0 18px 22px rgba(0, 0, 0, 0.48));
 }
 
+.protagonist-wrap.mounted .career-vehicle-rider {
+  z-index: 2;
+  left: 30%;
+  width: 66%;
+  height: 94%;
+  clip-path: inset(0 0 24% 0);
+  object-position: center top;
+}
+
 .protagonist-wrap.mounted .protagonist-mount-portrait {
   z-index: 1;
   top: 24%;

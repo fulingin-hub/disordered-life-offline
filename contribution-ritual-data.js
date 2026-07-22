@@ -47,7 +47,10 @@
       name: character.name,
       src: character.src,
       showcase: LG.contributionShowcase.leader({
-        name: character.name, faction: character.id,
+        id: character.id,
+        name: character.name,
+        src: character.src,
+        faction: character.id,
       }),
     } : null;
   }

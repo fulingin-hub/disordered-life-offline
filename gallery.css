@@ -26,12 +26,68 @@
   background: #0b0d12;
 }
 
-.gallery-feature img {
+.gallery-feature img,
+.gallery-animation-preview {
   display: block;
   width: 100%;
   aspect-ratio: 3 / 2;
+}
+
+.gallery-feature img {
   object-fit: contain;
 }
+
+.gallery-animation-preview {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(223, 89, 128, .2), transparent 46%),
+    radial-gradient(circle at 50% 62%, rgba(89, 197, 218, .18), transparent 42%),
+    #080a0f;
+}
+
+.gallery-animation-preview[hidden] {
+  display: none;
+}
+
+.gallery-animation-preview > div {
+  position: absolute;
+  inset: 14% 9% 24%;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 5%;
+}
+
+.gallery-animation-preview i,
+.gallery-animation-thumb-art i {
+  display: block;
+  width: 11%;
+  border: 1px solid rgba(255,255,255,.52);
+  border-radius: 3px 3px 0 0;
+  background: var(--animation-accent, #d6b85e);
+  box-shadow: 0 0 18px var(--animation-accent, #d6b85e);
+}
+
+.gallery-animation-preview i:nth-child(1) { height: 32%; }
+.gallery-animation-preview i:nth-child(2) { height: 61%; }
+.gallery-animation-preview i:nth-child(3) { height: 92%; }
+.gallery-animation-preview i:nth-child(4) { height: 68%; }
+.gallery-animation-preview i:nth-child(5) { height: 42%; }
+
+.gallery-animation-preview button {
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  min-width: 132px;
+  transform: translateX(-50%);
+}
+
+[data-template="foot"] { --animation-accent: #df596f; }
+[data-template="gold"] { --animation-accent: #e3bd4e; }
+[data-template="water"] { --animation-accent: #55bfd2; }
+[data-template="offering"] { --animation-accent: #9d6ae1; }
+[data-template="showcase"] { --animation-accent: #e072a4; }
 
 .gallery-feature figcaption {
   display: flex;
@@ -76,6 +132,27 @@
   object-fit: cover;
   filter: saturate(0.72);
 }
+
+.gallery-animation-thumb-art {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 5%;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  padding: 18% 10%;
+  background: #0b0d12;
+}
+
+.gallery-animation-thumb-art i {
+  width: 12%;
+}
+
+.gallery-animation-thumb-art i:nth-child(1) { height: 35%; }
+.gallery-animation-thumb-art i:nth-child(2) { height: 62%; }
+.gallery-animation-thumb-art i:nth-child(3) { height: 88%; }
+.gallery-animation-thumb-art i:nth-child(4) { height: 58%; }
+.gallery-animation-thumb-art i:nth-child(5) { height: 42%; }
 
 .gallery-thumb span {
   display: block;

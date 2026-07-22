@@ -1,0 +1,46 @@
+.infernal-mission-panel {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0;
+  padding: 14px;
+  border: 1px solid rgba(204, 78, 112, .28);
+  background: #15131a;
+}
+
+.infernal-mission-panel p,
+.infernal-mission-panel small {
+  margin: 0;
+  color: #c8bec8;
+  line-height: 1.55;
+}
+
+.infernal-mission-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.infernal-mission-heading h3 {
+  margin: 2px 0 0;
+}
+
+.infernal-mission-heading button {
+  min-width: 128px;
+  min-height: 44px;
+}
+
+.infernal-mission-panel .holy-task-grid {
+  max-height: 430px;
+}
+
+.infernal-mission-panel .holy-task {
+  border-left-color: #bd416b;
+}
+
+@media (max-width: 620px) {
+  .infernal-mission-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

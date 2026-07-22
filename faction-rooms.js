@@ -14,9 +14,12 @@
     const owned = new Set(data.characterItems || []);
     const count = items.filter((item) => owned.has(item.id)).length;
     const leader = character.rankIndex === 2;
-    const card = node("article", `room-card faction-room-card${joined ? " unlocked" : ""}`);
+    const card = node("article", `room-card faction-room-card ${privacy}${
+      joined ? " unlocked" : ""}`);
+    card.dataset.roomCharacter = character.id;
+    card.dataset.roomPrivacy = privacy;
     const image = node("img");
-    image.src = LG.careerPortraits.characterSource(character);
+    image.src = LG.careerRoomPortraits.source(character, privacy);
     image.alt = `${character.name}的${privacy === "normal" ? "正常" : "丧志"}房间`;
     image.loading = "lazy";
     image.decoding = "async";

@@ -5,16 +5,7 @@
   const loadedSources = new Set();
 
   function progress(payload) {
-    const status = document.getElementById("bootSplashStatus");
-    if (status) {
-      const labels = {
-        start: "正在启动人生",
-        resource_loading: "正在加载画面资源",
-        runtime_initializing: "正在读取权威存档",
-        first_frame: "人生即将开始",
-      };
-      status.textContent = labels[payload?.phase] || "正在载入人生";
-    }
+    LG.loadingUI.update(payload);
     try {
       Promise.resolve(window.dzmm?.loading?.progress?.(payload)).catch((err) => {
         console.warn("加载状态上报失败:", err?.message, err?.stack);
@@ -153,9 +144,9 @@
         phase: "runtime_initializing",
         message: text,
       });
-      document.getElementById("bootSplashStatus").textContent = text;
+      LG.loadingUI.update({ phase: "runtime_initializing" }, text);
     },
-    ready() {
+    ready(onVisible) {
       progress({ phase: "first_frame", message: "Life begins" });
       let notified = false;
       const notify = () => {
@@ -163,6 +154,7 @@
         notified = true;
         document.getElementById("bootSplash")?.remove();
         window.LifeGameBoot?.ready?.();
+        requestAnimationFrame(() => onVisible?.());
         try {
           Promise.resolve(window.dzmm?.loading?.ready?.()).catch((err) => {
             console.warn("首帧状态上报失败:", err?.message, err?.stack);

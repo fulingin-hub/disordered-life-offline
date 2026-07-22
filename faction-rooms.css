@@ -14,8 +14,25 @@
   filter: grayscale(0.72) brightness(0.62);
 }
 
+.faction-room-card.normal > img {
+  object-fit: contain;
+  background: #202833;
+}
+
+.faction-room-card.private > img {
+  background: #160f16;
+}
+
 .faction-room-card.unlocked > img {
   filter: saturate(0.82) brightness(0.78);
+}
+
+.faction-room-card.normal.unlocked > img {
+  filter: saturate(0.94) brightness(0.94);
+}
+
+.faction-room-card.private.unlocked > img {
+  filter: saturate(0.76) brightness(0.66) contrast(1.08);
 }
 
 .faction-room-card .event-type {

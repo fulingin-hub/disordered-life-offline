@@ -1,13 +1,20 @@
 (function (LG) {
-  const retryable = new Set(["runtime_unavailable", "runtime_busy", "too_many_requests"]);
-  const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
   let cancelActiveRoom = null;
+  function actionId(prefix) {
+    try {
+      const bytes = new Uint8Array(16);
+      window.crypto.getRandomValues(bytes);
+      return `${prefix}:${[...bytes].map((value) =>
+        value.toString(16).padStart(2, "0")).join("")}`;
+    } catch (_) {
+      return `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2, 10)}`;
+    }
+  }
   function despairAddress(reply) {
     const active = LG.traits?.active?.();
     if (active?.id !== "despair" || active.tier < 100) return reply;
     return reply.startsWith("丧志贱狗") ? reply : `丧志贱狗，${reply}`;
   }
-
   function casinoTone(reply, scene) {
     if (!LG.casino?.isCharacter?.(scene.character)) return reply;
     const losses = LG.casino.losses();
@@ -16,7 +23,6 @@
     if (losses >= 10) return `累计${losses}次失败，你该学会听从命令了。${reply}`;
     return reply;
   }
-
   function roomAddress(reply, scene, event) {
     const active = LG.traits?.active?.();
     if (!String(event?.id || "").startsWith("room-") || active?.id === "despair"
@@ -35,13 +41,11 @@
     const lead = LG.traits?.fallbackLead?.() || "";
     return roomAddress(despairAddress(lead ? `${lead}${reply}` : reply), scene, event);
   }
-
   function serverError(chunk) {
     const error = new Error(chunk.message || "角色暂时没有回应。");
     error.code = chunk.code || "AI_FAILED";
     return error;
   }
-
   async function streamReply(body, requestId, onUpdate) {
     let content = "";
     let completed = false;
@@ -61,7 +65,6 @@
     });
     return content.trim();
   }
-
   LG.dialogueAI = {
     async request(scene, event, state, userText, onUpdate) {
       const requestId = LG.dialogueRequestLock.begin();
@@ -83,6 +86,7 @@
         characterId: scene.character,
         userText,
         runId: state.runId,
+        actionId: room ? transaction.id : actionId("dialogue"),
       };
       if (room) body.operationId = transaction.id;
       let authorized = false;
@@ -97,28 +101,24 @@
           await transaction.begin();
           authorized = true;
         }
-        for (let attempt = 0; attempt < 2; attempt += 1) {
-          try {
-            const response = await streamReply(body, requestId, onUpdate);
-            if (!LG.dialogueRequestLock.current(requestId)) return null;
-            const finalReply = response || localReply(scene, state, event);
-            if (room) {
-              await transaction.complete();
-              settled = true;
-            }
-            return finalReply;
-          } catch (err) {
-            if (!LG.dialogueRequestLock.current(requestId)) return null;
-            if (err.code === "function_error" && body.kind !== "room") {
-              const fallback = localReply(scene, state, event);
-              onUpdate(fallback);
-              return fallback;
-            }
-            if (!retryable.has(err.code) || attempt === 1) throw err;
-            await sleep(1000 * (2 ** attempt));
+        try {
+          const response = await streamReply(body, requestId, onUpdate);
+          if (!LG.dialogueRequestLock.current(requestId)) return null;
+          const finalReply = response || localReply(scene, state, event);
+          if (room) {
+            await transaction.complete();
+            settled = true;
           }
+          return finalReply;
+        } catch (err) {
+          if (!LG.dialogueRequestLock.current(requestId)) return null;
+          if (err.code === "function_error" && body.kind !== "room") {
+            const fallback = localReply(scene, state, event);
+            onUpdate(fallback);
+            return fallback;
+          }
+          throw err;
         }
-        return null;
       } finally {
         if (room && authorized && !settled) await cancelRoom();
         if (cancelActiveRoom === cancelRoom) cancelActiveRoom = null;

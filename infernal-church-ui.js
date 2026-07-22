@@ -28,8 +28,14 @@
     el.soulName.textContent = `${soul.name}灵魂之火`;
     el.soulTotal.textContent = `累计人格 ${soul.total}`;
     el.soulLore.textContent = LG.INFERNAL_CHURCH_DATA.soulLore[soul.tier];
-  }
-  function corruptionCollection() {
+    el.soulNext.textContent = soul.tier === "rainbow" && soul.colors.length === 7
+      ? "彩虹七色已经全部点燃" : `下一档人格阈值 ${soul.nextThreshold}`;
+    el.soulEffects.replaceChildren(...soul.effects.map((effect) =>
+      node("li", "", effect)), ...(soul.protectionRemaining
+      ? [node("li", "soul-protection", `本局魔气保护剩余 ${soul.protectionRemaining} 秒`)]
+      : []));
+    LG.soulFlameGuideUI.render(soul);
+  } function corruptionCollection() {
     const data = LG.infernalChurch.data();
     const owned = new Set(data.ownedBooks);
     const cards = LG.INFERNAL_CHURCH_DATA.books.map((book) => {
@@ -44,8 +50,8 @@
   function renderChurch() {
     const data = LG.infernalChurch.data();
     el.churchState.textContent = !data.joined
-      ? "尚未加入地狱教会。"
-      : !data.selectedThisRun ? "本轮尚未选择地狱教会阵营。"
+      ? "尚未加入魔纹教会。"
+      : !data.selectedThisRun ? "本轮尚未选择魔纹教会阵营。"
         : data.activeBooks.length ? `本轮信仰：${
           LG.infernalChurch.faith(data.faith)?.name || "无"}`
           : "女祭司正在等待你的选择。";
@@ -75,7 +81,7 @@
       LG.equipmentUI.refresh();
       renderChurch(); renderSoul(); LG.collectiblesUI?.refresh?.();
     } catch (err) {
-      console.error("地狱教会信仰结算失败:", err?.code, err?.message, err?.stack);
+      console.error("魔纹教会信仰结算失败:", err?.code, err?.message, err?.stack);
       el.churchStatus.textContent = err?.message || "信仰选择失败，请稍后重试。";
     } finally {
       busy = false; renderChurch();
@@ -118,7 +124,7 @@
     const card = node("article", "room-card area-room-card church-room-card unlocked");
     const image = node("img");
     image.src = LG.INFERNAL_CHURCH_DATA.assets.sanctuary;
-    image.alt = "地狱教会祭祀所";
+    image.alt = "魔纹教会祭祀所";
     image.loading = "lazy";
     const body = node("div", "room-card-body");
     const button = node("button", "", "进入祭祀所");
@@ -147,7 +153,7 @@
       ? `本轮增益 ${data.activeBooks.length}项` : "本轮未获得魔纹增益"),
     node("p", "", LG.infernalChurch.activeBooks()
       .map((book) => `${book.name}：${book.effect}`).join("；")
-      || "选择地狱教会阵营后，前往祭祀所领取赏赐。"), button);
+      || "选择魔纹教会阵营后，前往祭祀所领取赏赐。"), button);
     return panel;
   }
   function magicPanel(source, explicitSin = null) {
@@ -166,6 +172,7 @@
         ["activeBooks", "infernalChurchActiveBooks"], ["noFaith", "infernalChurchNoFaith"],
         ["soulFlames", "soulFlames"], ["soulName", "soulName"],
         ["soulTotal", "soulTotal"], ["soulLore", "soulLore"],
+        ["soulNext", "soulNext"], ["soulEffects", "soulEffects"],
         ["magicDialog", "magicGasDialog"],
         ["magicSource", "magicGasSource"], ["magicResult", "magicGasResult"],
         ["magicTarget", "magicGasTarget"]]
@@ -175,6 +182,8 @@
       document.getElementById("closeMagicGasButton")
         .addEventListener("click", () => el.magicDialog.close());
       el.noFaith.addEventListener("click", () => choose(null));
+      document.getElementById("priestessTrialButton")
+        .addEventListener("click", () => LG.priestessTrialUI.open());
       el.magicDialog.addEventListener("cancel", (event) => {
         event.preventDefault(); el.magicDialog.close();
       });

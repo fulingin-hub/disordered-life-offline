@@ -43,11 +43,11 @@
   };
   const specialAssets = {
     "university-xia-hound": {
-      male: "./assets/generated/career-special-university-xia-hound-male.0371e221.webp",
-      female: "./assets/generated/career-special-university-xia-hound-female.78b203d3.webp",
+      male: "./assets/generated/career-special-university-xia-hound-male.39a53bf0.webp",
+      female: "./assets/generated/career-special-university-xia-hound-female.a4c737e9.webp",
     },
     "university-island-hound": {
-      male: "./assets/generated/career-special-university-island-hound-male.ae875a56.webp",
+      male: "./assets/generated/career-special-university-island-hound-male.4ee2b2ce.webp",
       female: "./assets/generated/career-special-university-island-hound-female.940b83fb.webp",
     },
     "university-rice-hound": {
@@ -55,33 +55,31 @@
       female: "./assets/generated/career-special-university-rice-hound-female.5555a128.webp",
     },
     "ranch-livestock": {
-      male: "./assets/generated/career-special-ranch-livestock-respirator-male.9ecaf8b8.webp",
+      male: "./assets/generated/career-special-ranch-livestock-respirator-male.f75386fa.webp",
       female: "./assets/generated/career-special-ranch-livestock-respirator-female.ec106369.webp",
     },
     "sanctuary-essence": {
-      male: "./assets/generated/career-special-sanctuary-essence-ritual-male.b55a3ece.webp",
-      female: "./assets/generated/career-special-sanctuary-essence-ritual-female.2f1deb60.webp",
+      male: "./assets/generated/career-special-sanctuary-essence-ritual-male.180f726b.webp",
+      female: "./assets/generated/career-special-sanctuary-essence-ritual-female.48641d2e.webp",
     },
     "paradise-foot": {
       male: "./assets/generated/career-special-paradise-foot-soul-male.e258c981.webp",
       female: "./assets/generated/career-special-paradise-foot-soul-female.cd406732.webp",
     },
     "domain-toilet": {
-      male: "./assets/generated/career-special-domain-toilet-alchemy-male.eca9c359.webp",
+      male: "./assets/generated/career-special-domain-toilet-alchemy-male.34f87e8a.webp",
       female: "./assets/generated/career-special-domain-toilet-alchemy-female.4dd7a4d7.webp",
     },
     "otherworld-tribute": {
-      male: "./assets/generated/career-special-otherworld-tribute-command-male.4b31cebc.webp",
+      male: "./assets/generated/career-special-otherworld-tribute-command-male.423dd331.webp",
       female: "./assets/generated/career-special-otherworld-tribute-command-female.371c2d14.webp",
     },
-    "sigil-apostle": {
-      male: LG.CONFIG.assets.careerSigilApostleMale,
-      female: LG.CONFIG.assets.careerSigilApostleFemale,
-    },
+    "sigil-thrall": { male: "./assets/generated/magic-gas-thrall-male-bald.webp",
+      female: "./assets/generated/magic-gas-thrall-female-bald.webp" },
   };
   const specialIds = new Set([
     "ranch-livestock", "sanctuary-essence",
-    "paradise-foot", "domain-toilet", "otherworld-tribute", "sigil-apostle",
+    "paradise-foot", "domain-toilet", "otherworld-tribute", "sigil-thrall",
   ]);
   const universityJobs = {
     "本部": ["scholar", "doctor", "engineer"],
@@ -103,7 +101,9 @@
   };
 
   function category(id) {
-    if (id?.startsWith("first-")) return "advanced";
+    if (id?.startsWith("second-")) return "second";
+    if (id?.startsWith("first-")
+      || ["holy-emissary", "sigil-apostle"].includes(id)) return "advanced";
     return specialIds.has(id) || /^university-(xia|island|rice)-hound$/.test(id)
       ? "special" : "normal";
   }
@@ -120,7 +120,7 @@
 
   function mainSource(id, gender) {
     if (!id) return null;
-    if (category(id) === "advanced") {
+    if (["advanced", "second"].includes(category(id))) {
       return LG.careerAdvancements?.source?.(id, gender) || null;
     }
     if (category(id) === "special") {
@@ -169,9 +169,14 @@
 
   function bonus(job) {
     if (!job) return "尚未装备职业。";
-    if (job.tier === 1) {
+    if (job.id === "sigil-thrall") {
+      return "堕落职业：完成魔纹教会入教洗礼后解锁；继续累计十万羞耻可晋升魔纹使徒。";
+    }
+    if (job.tier === 1 || job.tier === 2
+      || ["holy-emissary", "sigil-apostle"].includes(job.id)) {
       const label = (id) => LG.CAREER_DATA.stats[id] || id;
-      return `人生事件${label(job.base)}获得量×10；职业大师套装使${
+      const tier = job.tier === 2 ? "二阶职业" : "一阶职业";
+      return `${tier}：人生事件${label(job.base)}获得量×10；职业大师套装使${
         label(job.mode)}获得量×7；职业耗材套装使羞耻获得量×7。专精：${
         job.mastery || "进阶职业能力"}。`;
     }

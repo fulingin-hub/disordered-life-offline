@@ -3,6 +3,9 @@
     joined: false, selectedThisRun: false, faith: null,
     activeBooks: [], ownedBooks: [], books: [], baptized: false,
     roomCastCount: 0,
+    resistedMagic: 0, achievements: [],
+    daily: { tasks: [] }, weekly: {}, saintTrial: null,
+    promotion: { label: "完成入教洗礼", canPromote: false, requirement: "" },
     soul: { tier: "black", name: "黑色", total: 0, colors: ["black"], effects: [] },
   };
   LG.infernalChurch = {

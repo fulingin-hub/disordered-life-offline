@@ -54,7 +54,7 @@
         ? `${impact.free ? "免费使用" : "使用"} · ${impact.count % 10}/10`
         : "使用";
       if (impact?.special) {
-        button.title = `特殊道具每使用10次触发动画；当前累计${impact.count}次`;
+        button.title = `特殊道具每使用10次触发场景；当前累计${impact.count}次`;
       }
       button.disabled = busy;
       button.addEventListener("click", () => use(options));

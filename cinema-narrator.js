@@ -23,6 +23,7 @@
   }
 
   function render() {
+    if (!el.buttons || !el.current || !el.toggle) return;
     el.buttons.forEach((button) => {
       const active = button.dataset.narratorId === selected;
       button.classList.toggle("selected", active);

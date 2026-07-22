@@ -32,6 +32,21 @@
   }
 
   function leader(character) {
+    const meta = {
+      id: character.id,
+      name: character.name,
+      src: character.src || LG.careerPortraits?.characterSource?.(character),
+    };
+    const model = LG.characterAnimationModels?.profile?.(meta);
+    if (model) {
+      return {
+        id: `leader-${model.id}`,
+        colors: [model.primary, model.secondary],
+        hue: "0deg",
+        colorMode: "character-fixed",
+        kiss: `${character.name}的专属仪式印记`,
+      };
+    }
     const [colors, hue] = randomThemes[
       Math.floor(Math.random() * randomThemes.length)];
     return {

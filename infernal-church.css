@@ -29,7 +29,7 @@
   border: 1px solid #5e5268;
   background:
     linear-gradient(90deg, rgba(8, 9, 13, .08), rgba(8, 9, 13, .94)),
-    url("./assets/generated/infernal-church-sanctuary.33f2c5bc.webp") center/cover;
+    url("./assets/generated/infernal-church-sanctuary.550ab617.webp") center/cover;
 }
 
 .infernal-church-hero img {
@@ -213,6 +213,27 @@
 .soul-flame[data-color="blue"] { --flame: #4d8fe7; }
 .soul-flame[data-color="silver"] { --flame: #c7d0dd; }
 .soul-flame[data-color="purple"] { --flame: #9b65dc; }
+.soul-next {
+  color: #d5b968;
+  font-weight: 700;
+}
+.soul-effects {
+  display: grid;
+  gap: 7px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.soul-effects li {
+  padding: 9px 11px;
+  border-left: 3px solid #7fa7bc;
+  background: rgba(255, 255, 255, .055);
+  line-height: 1.45;
+}
+.soul-effects .soul-protection {
+  border-left-color: #62c482;
+  color: #9ae0ad;
+}
 
 .magic-gas-dialog {
   --magic-color: #9b65dc;

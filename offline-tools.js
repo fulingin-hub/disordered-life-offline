@@ -141,6 +141,14 @@
     const topActions = document.querySelector(".top-actions");
     topActions?.prepend(languageSelect());
     topActions?.append(button);
+    const contentPanel = document.querySelector(".content-mode-panel");
+    const contentNotice = contentPanel?.querySelector(".content-mode-notice");
+    const contentLanguageRow = node("label",
+      "offline-language-row content-language-row", "语言");
+    const contentLanguage = languageSelect();
+    contentLanguage.classList.add("offline-language-gate");
+    contentLanguageRow.append(contentLanguage);
+    contentNotice?.before(contentLanguageRow);
     const genderPanel = document.querySelector(".gender-panel");
     const genderOptions = genderPanel?.querySelector(".gender-options");
     const gateLanguageRow = node("label",

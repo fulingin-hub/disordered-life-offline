@@ -24,7 +24,7 @@
       color-mix(in srgb, var(--baptism-soul-primary, #303038) 25%, transparent),
       transparent 34%),
     linear-gradient(rgba(7, 5, 10, .28), rgba(4, 5, 8, .96)),
-    url("./assets/generated/infernal-church-sanctuary.33f2c5bc.webp")
+    url("./assets/generated/infernal-church-sanctuary.550ab617.webp")
       center / cover;
 }
 

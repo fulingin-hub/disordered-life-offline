@@ -1,23 +1,24 @@
 (function (LG) {
-  const el = {};
-  let view = "hall", busy = false, latest = 0;
+  const el = {}; let view = "hall", busy = false, latest = 0;
   function node(tag, className, text) {
-    const item = document.createElement(tag);
-    if (className) item.className = className; if (text !== undefined) item.textContent = text;
-    return item;
+    const item = document.createElement(tag); if (className) item.className = className;
+    if (text !== undefined) item.textContent = text; return item;
   } function setView(next) {
     view = next === "run" ? "run" : "hall";
-    el.hall.hidden = view !== "hall";
-    el.run.hidden = view !== "run";
-    el.tabs.forEach((button) => button.classList.toggle("active",
-      button.dataset.infernalView === view));
+    el.hall.hidden = view !== "hall"; el.run.hidden = view !== "run";
+    el.close.textContent = view === "run" ? "返回悬赏大厅" : "关闭";
+    el.tabs.forEach((button) => button.classList.toggle("active", button.dataset.infernalView === view));
+  }
+  function close() {
+    latest += 1;
+    if (view === "run") { setView("hall");
+      render("已返回悬赏大厅，当前七层进度已保留。"); return; }
+    el.dialog.close(); LG.audio.scene("world");
   }
   function renderStats() {
     const stats = LG.infernalRealm.stats();
-    el.defeat.textContent = String(stats.defeat);
-    el.personality.textContent = String(stats.personality);
-    el.reputation.textContent = String(stats.reputation);
-    el.clears.textContent = String(stats.clears);
+    el.defeat.textContent = String(stats.defeat); el.personality.textContent = String(stats.personality);
+    el.reputation.textContent = String(stats.reputation); el.clears.textContent = String(stats.clears);
   }
   function taskCard(task) {
     const target = Math.max(10, Number(task.target) || 10);
@@ -72,6 +73,9 @@
       ? saint ? `悬赏目标：${encounter.bountyName}。圣徒礼赞拒绝满足欲望，只能消耗${encounter.cost}点人格直接破局。` : `悬赏目标：${encounter.bountyName}。满足“${encounter.desireLabel}”任务会增加败北值；也可消耗${encounter.cost}点人格直接破局。`
       : `本次挑战消耗${encounter.cost}点人格。成功后返还10点人格；人格不足仍可挑战，但会立即败北撤离。`;
     el.mob.hidden = boss;
+    el.gallery.hidden = boss;
+    el.gallery.dataset.character = layer.witchCharacter;
+    el.gallery.textContent = `查看${layer.name}魔女画廊`;
     el.skip.hidden = boss || !LG.infernalRealm.canSkipMobs();
     el.desire.hidden = !boss;
     el.break.hidden = !boss;
@@ -151,7 +155,8 @@
   }
   LG.infernalUI = {
     init() {
-      [["dialog", "infernalDialog"], ["hall", "infernalHall"], ["run", "infernalRun"],
+      [["dialog", "infernalDialog"], ["close", "closeInfernalButton"],
+        ["hall", "infernalHall"], ["run", "infernalRun"],
         ["defeat", "infernalDefeat"], ["personality", "infernalPersonality"],
         ["reputation", "infernalReputation"], ["clears", "infernalClears"],
         ["round", "infernalRound"], ["tasks", "infernalTasks"],
@@ -162,6 +167,7 @@
         ["copy", "infernalEventCopy"], ["desireDetail", "infernalDesireDetail"],
       ["mob", "infernalMobButton"], ["skip", "infernalSkipButton"],
         ["desire", "infernalDesireButton"], ["break", "infernalBreakButton"],
+        ["gallery", "infernalWitchGalleryButton"],
         ["retreat", "infernalRetreatButton"], ["status", "infernalStatus"]]
         .forEach(([key, id]) => { el[key] = document.getElementById(id); });
       el.tabs = [...document.querySelectorAll("[data-infernal-view]")];
@@ -176,17 +182,16 @@
       el.skip.addEventListener("click", () => act("skip-mobs"));
       el.desire.addEventListener("click", () => act("boss-desire"));
       el.break.addEventListener("click", () => act("boss-break"));
+      el.gallery.addEventListener("click", () =>
+        LG.galleryUI.open(el.gallery.dataset.character));
       el.retreat.addEventListener("click", () => act("retreat"));
-      document.getElementById("closeInfernalButton").addEventListener("click", () => {
-        latest += 1; el.dialog.close(); LG.audio.scene("world"); });
-      el.dialog.addEventListener("cancel", (event) => { event.preventDefault();
-        document.getElementById("closeInfernalButton").click(); });
+      el.close.addEventListener("click", close); el.dialog.addEventListener(
+        "cancel", (event) => { event.preventDefault(); close(); });
       LG.authority.subscribe(() => { if (el.dialog.open) render(); });
     },
     open() {
       if (!LG.infernalRealm.access().allowed) return;
-      LG.audio.scene("infernal");
-      setView(LG.infernalRealm.run() ? "run" : "hall");
+      LG.audio.scene("infernal"); setView(LG.infernalRealm.run() ? "run" : "hall");
       render("临时阵地已同步最新悬赏。");
       el.dialog.showModal();
     },
