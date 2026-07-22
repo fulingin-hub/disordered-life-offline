@@ -311,6 +311,7 @@
 }
 
 .butt-impact-caption {
+  display: none;
   position: absolute;
   z-index: 12;
   left: 50%;

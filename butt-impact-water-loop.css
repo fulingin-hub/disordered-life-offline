@@ -4,6 +4,31 @@
     calc(10s + var(--loop-delay)) infinite;
 }
 
+.butt-impact-popup.playing[data-item-kind="water"] .butt-impact-body {
+  animation:
+    butt-pre-rumble 1s ease-in-out 10 both,
+    butt-water-body-release 2.2s ease-in-out 10s infinite;
+}
+
+.butt-impact-popup.playing[data-item-kind="water"] .butt-impact-stockings {
+  animation:
+    butt-pre-show .8s ease-out both,
+    butt-water-impact-hold 2.2s ease-in-out 10s infinite;
+}
+
+.butt-impact-popup.playing[data-item-kind="water"] .butt-impact-mist {
+  animation: butt-water-mist-release 2.2s ease-in-out 10s infinite;
+}
+
+.butt-impact-popup.playing[data-item-kind="water"] .butt-impact-chunk {
+  animation: butt-water-release-loop 2.2s ease-in
+    calc(10.3s + var(--loop-delay)) infinite;
+}
+
+.butt-impact-popup.playing[data-item-kind="water"] .butt-impact-flash {
+  animation: butt-water-flash-loop 2.2s linear 10s infinite;
+}
+
 .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-splash {
   top: 78%;
   animation: butt-water-splash-loop 2.2s ease-out
@@ -39,6 +64,48 @@
     transform: translate(calc(-50% + var(--x)), 52vh)
       rotate(var(--r)) scale(1.2, .45);
   }
+}
+
+@keyframes butt-water-body-release {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(1.2%) scale(1.025); }
+}
+
+@keyframes butt-water-impact-hold {
+  0%, 100% {
+    opacity: .88;
+    transform: translate(-50%, -50%) perspective(760px)
+      rotateX(-8deg) scale(1.22);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) perspective(760px)
+      rotateX(-8deg) scale(1.4);
+  }
+}
+
+@keyframes butt-water-mist-release {
+  0%, 100% { opacity: .42; transform: scale(1.08) rotate(-2deg); }
+  50% { opacity: .76; transform: scale(1.34) rotate(2deg); }
+}
+
+@keyframes butt-water-release-loop {
+  0% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--x)), -16vh)
+      rotate(var(--r)) scale(.35);
+  }
+  16%, 76% { opacity: .72; }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--x)), 49vh)
+      rotate(var(--r)) scale(1.08);
+  }
+}
+
+@keyframes butt-water-flash-loop {
+  0%, 100% { opacity: .16; }
+  50% { opacity: .42; }
 }
 
 @keyframes butt-water-splash-loop {
@@ -92,9 +159,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-body,
+  .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-stockings,
+  .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-mist,
+  .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-chunk,
   .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-drop,
   .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-splash,
-  .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-liquid {
+  .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-liquid,
+  .butt-impact-popup.playing[data-item-kind="water"] .butt-impact-flash {
     animation-duration: 4s;
   }
 }

@@ -12,6 +12,20 @@
 
   LG.authorityRetry = {
     isTransient,
+    async confirm(task, isDone) {
+      const delays = [650, 1400];
+      let result;
+      for (let attempt = 0; attempt <= delays.length; attempt += 1) {
+        try {
+          result = await task();
+          if (isDone(result)) return result;
+        } catch (err) {
+          if (attempt >= delays.length || !isTransient(err)) throw err;
+        }
+        if (attempt < delays.length) await sleep(delays[attempt]);
+      }
+      return result;
+    },
     async run(task, options = {}) {
       const retries = Math.max(0, Math.min(
         RETRY_DELAYS.length, Number(options.retries) || 0));

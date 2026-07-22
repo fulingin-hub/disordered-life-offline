@@ -91,7 +91,8 @@
 
     if (intent.unknown) {
       try {
-        const status = await confirmOperation(intent.id);
+        const status = await LG.authorityRetry.confirm(
+          () => confirmOperation(intent.id), (result) => result?.operationProcessed);
         if (status.operationProcessed) {
           LG.authorityIntents.remove(key);
           return status;
@@ -129,7 +130,8 @@
         intent.unknown = true;
         await new Promise((resolve) => window.setTimeout(resolve, 650));
         try {
-          const status = await confirmOperation(intent.id);
+          const status = await LG.authorityRetry.confirm(
+            () => confirmOperation(intent.id), (result) => result?.operationProcessed);
           if (status.operationProcessed) {
             LG.authorityIntents.remove(key);
             LG.achievementFeedback?.apply?.(status, method);

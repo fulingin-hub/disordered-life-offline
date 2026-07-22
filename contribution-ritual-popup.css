@@ -126,6 +126,7 @@
 }
 
 .contribution-ritual-caption {
+  display: none;
   position: absolute;
   z-index: 7;
   left: 50%;
