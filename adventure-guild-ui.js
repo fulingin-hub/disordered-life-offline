@@ -8,7 +8,8 @@
     el.status.textContent = text;
   }
   function setActive(next) {
-    active = ["supply", "equipment", "corrupted", "inventory"].includes(next)
+    active = ["supply", "equipment", "corrupted", "inventory", "rewards"]
+      .includes(next)
       ? next : "supply";
     el.tabs.forEach((button) => button.setAttribute("aria-selected",
       String(button.dataset.guildView === active)));
@@ -34,11 +35,15 @@
     el.points.textContent = String(data.points || 0);
     el.refreshCount.textContent = `${data.refreshesUsed || 0}/3`;
     el.chestCount.textContent = String(data.lootBoxes || 0);
+    el.shareCount.textContent = `${data.rewards?.abyssShares || 0}/5`;
     el.refresh.textContent = data.refreshesRemaining > 0
       ? `刷新库存 · ${data.refreshCost}点` : "今日刷新已用完";
     el.refresh.disabled = busy || data.refreshesRemaining < 1;
     el.chest.disabled = busy || data.lootBoxes < 1;
     if (active === "inventory") renderInventory();
+    else if (active === "rewards") {
+      LG.adventureGuildRewardsUI.render(el.items, data, busy, act);
+    }
     else {
       const offers = LG.adventureGuild.stock(active);
       el.items.replaceChildren(...offers.map((offer) =>
@@ -104,7 +109,7 @@
     return card;
   }
   function open(initialView = "supply") {
-    active = ["supply", "equipment", "corrupted", "inventory"]
+    active = ["supply", "equipment", "corrupted", "inventory", "rewards"]
       .includes(initialView) ? initialView : "supply";
     setStatus("每日限量补给、职业装备与十件堕落收藏已经同步。");
     render();
@@ -115,6 +120,7 @@
       ["status", "adventureGuildStatus"], ["points", "adventureGuildPoints"],
       ["refreshCount", "adventureGuildRefreshCount"],
       ["chestCount", "adventureGuildChestCount"],
+      ["shareCount", "adventureGuildShareCount"],
       ["refresh", "adventureGuildRefreshButton"],
       ["chest", "adventureGuildChestButton"],
       ["characters", "adventureGuildCharacters"]]

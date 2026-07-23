@@ -6,7 +6,8 @@
 }
 
 .traits-dialog > .dialog-heading,
-.traits-dialog > .traits-pages {
+.traits-dialog > .traits-pages,
+.traits-dialog > .panel-subpages {
   flex: 0 0 auto;
 }
 
@@ -18,6 +19,13 @@
 }
 
 #equipmentPage:not([hidden]) {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+#infernalTitlePage:not([hidden]) {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;

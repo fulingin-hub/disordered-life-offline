@@ -78,21 +78,28 @@
   }
 
   function show(page) {
-    activePage = ["equipment", "vehicle", "collection", "soul"]
-      .includes(page)
-      ? page : "traits";
+    activePage = ["infernalTitle", "equipment", "collection", "soul"]
+      .includes(page) ? page : "traits";
+    const group = ["traits", "soul"].includes(activePage)
+      ? "identity" : "collection";
     el.traitsPage.hidden = activePage !== "traits";
+    el.infernalTitlePage.hidden = activePage !== "infernalTitle";
     el.equipmentPage.hidden = activePage !== "equipment";
-    el.vehiclePage.hidden = activePage !== "vehicle";
     el.collectionPage.hidden = activePage !== "collection";
     el.soulPage.hidden = activePage !== "soul";
+    el.identityTabs.hidden = group !== "identity";
+    el.collectionTabs.hidden = group !== "collection";
     el.tabs.forEach((button) => {
-      const selected = button.dataset.traitsPage === activePage;
+      const selected = button.dataset.traitsPage === group;
       button.classList.toggle("selected", selected);
       button.setAttribute("aria-selected", String(selected));
     });
+    el.identityButtons.forEach((button) => button.setAttribute(
+      "aria-selected", String(button.dataset.identityPage === activePage)));
+    el.collectionButtons.forEach((button) => button.setAttribute(
+      "aria-selected", String(button.dataset.collectionPage === activePage)));
+    if (activePage === "infernalTitle") LG.infernalTitleUI?.render?.();
     if (activePage === "equipment") render();
-    if (activePage === "vehicle") LG.vehicleProfileUI?.render?.();
     if (activePage === "collection") LG.collectiblesUI?.openStore?.();
     if (activePage === "soul") LG.infernalChurchUI?.renderSoul?.();
   }
@@ -101,10 +108,12 @@
     init(nextProviders) {
       providers = nextProviders;
       el.traitsPage = document.getElementById("traitsPage");
+      el.infernalTitlePage = document.getElementById("infernalTitlePage");
       el.equipmentPage = document.getElementById("equipmentPage");
-      el.vehiclePage = document.getElementById("vehiclePage");
       el.collectionPage = document.getElementById("collectionPage");
       el.soulPage = document.getElementById("soulPage");
+      el.identityTabs = document.getElementById("identityPages");
+      el.collectionTabs = document.getElementById("collectionPages");
       el.shame = document.getElementById("equipmentShame");
       el.reduction = document.getElementById("equipmentReduction");
       el.set = document.getElementById("equipmentSet");
@@ -112,7 +121,13 @@
       el.slots = document.getElementById("equipmentSlots");
       el.tabs = [...document.querySelectorAll("[data-traits-page]")];
       el.tabs.forEach((button) => button.addEventListener("click", () =>
-        show(button.dataset.traitsPage)));
+        show(button.dataset.traitsPage === "identity" ? "traits" : "collection")));
+      el.identityButtons = [...document.querySelectorAll("[data-identity-page]")];
+      el.identityButtons.forEach((button) => button.addEventListener("click", () =>
+        show(button.dataset.identityPage)));
+      el.collectionButtons = [...document.querySelectorAll("[data-collection-page]")];
+      el.collectionButtons.forEach((button) => button.addEventListener("click", () =>
+        show(button.dataset.collectionPage)));
       show("traits");
     },
     show,

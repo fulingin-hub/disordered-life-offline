@@ -11,7 +11,6 @@
   const dirtyKeys = new Set();
   let writesSinceFull = 9;
   let unavailable = false;
-
   function messagesFrom(result) {
     if (Array.isArray(result)) return result;
     return Array.isArray(result?.messages) ? result.messages : [];
@@ -111,6 +110,7 @@
         unavailable = true;
         console.warn("聊天存档读取失败，停止恢复检测:",
           err?.code, err?.message, err?.stack);
+        if (LG.playerRuntime?.activateFor?.(err)) return data;
         throw err;
       }
       return data;

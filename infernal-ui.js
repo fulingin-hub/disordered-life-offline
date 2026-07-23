@@ -40,7 +40,7 @@
     el.round.textContent = `第${board.round + 1}轮 · ${board.tasks.length}项悬赏`;
     el.tasks.replaceChildren(...board.tasks.map(taskCard));
     LG.infernalReputationUI.render(el.reputationRewards);
-    el.start.textContent = run ? "继续七层地狱" : "进入七层地狱";
+    el.start.textContent = run ? "继续七层地狱" : LG.infernalRealm.stats().clears ? "进入七层地狱" : "开始首征 · 约2–3分钟";
     el.start.dataset.action = run ? "resume" : "start";
     el.empty.hidden = board.tasks.length > 0;
   }
@@ -61,17 +61,17 @@
     }
     const encounter = run.encounter || {};
     const layer = LG.INFERNAL_DATA.byId[encounter.sin || run.order[run.floor]];
-    const boss = encounter.type === "boss", saint = LG.infernalRealm.saintActive();
+    const boss = encounter.type === "boss", saint = LG.infernalRealm.saintActive(), firstClear = encounter.firstClear === true;
     el.floors.replaceChildren(...floorTrack(run));
     el.portrait.src = LG.CONFIG.assets[boss ? layer.queen : layer.witch];
     el.portrait.alt = boss ? layer.bossTitle : layer.mobTitle;
     el.eventType.textContent = boss
       ? `第${run.floor + 1}层 · 关底女魔王`
-      : `第${run.floor + 1}层 · 小怪 ${encounter.index}/6`;
+      : `第${run.floor + 1}层 · 魔女 ${encounter.index}/${encounter.mobTarget || 6}`;
     el.title.textContent = boss ? layer.bossTitle : layer.mobTitle;
     el.copy.textContent = boss
       ? saint ? `悬赏目标：${encounter.bountyName}。圣徒礼赞拒绝满足欲望，只能消耗${encounter.cost}点人格直接破局。` : `悬赏目标：${encounter.bountyName}。满足“${encounter.desireLabel}”任务会增加败北值；也可消耗${encounter.cost}点人格直接破局。`
-      : `本次挑战消耗${encounter.cost}点人格。成功后返还10点人格；人格不足仍可挑战，但会立即败北撤离。`;
+      : firstClear ? `首征护航已将本层压缩为两场遭遇。消耗${encounter.cost}点人格，胜利返还10点；保留人格并在Boss处接受欲望考验，可以稳定走完全程。` : `本次挑战消耗${encounter.cost}点人格。成功后返还10点人格；人格不足仍可挑战，但会立即败北撤离。`;
     el.mob.hidden = boss;
     el.gallery.hidden = boss;
     el.gallery.dataset.character = layer.witchCharacter;
@@ -81,7 +81,7 @@
     el.break.hidden = !boss;
     el.mob.textContent = encounter.cost > LG.infernalRealm.stats().personality
       ? `强行挑战（人格不足）` : `挑战魔女 · ${encounter.cost}人格`;
-    el.desire.textContent = boss ? saint ? "圣徒礼赞：拒绝满足欲望" : `完成随机任务：${encounter.desireLabel}` : "";
+    el.desire.textContent = boss ? saint ? "圣徒礼赞：拒绝满足欲望" : `接受欲望考验 · 0人格：${encounter.desireLabel}` : "";
     el.break.textContent = boss ? `直接破局 · ${encounter.cost}人格` : "";
     el.mob.disabled = busy; el.skip.disabled = busy; el.desire.disabled = busy || saint;
     el.retreat.disabled = busy;
@@ -140,11 +140,11 @@
     image.alt = "群魔环绕的地狱大门";
     image.loading = "lazy";
     const body = node("div", "room-card-body");
-    body.append(node("span", "event-type", "地狱的入口 · 终局玩法"),
+    body.append(node("span", "event-type", "地狱的入口 · 幸福人生RPG"),
     node("h3", "", "异界魔境"),
     node("p", "", access.allowed
       ? `人格 ${stats.personality} · 声望 ${stats.reputation} · 通关 ${stats.clears}`
-      : `圣人结局 ${access.saint ? "已完成" : "未完成"} · 人格 ${access.personality}/${access.required}`));
+      : `模拟人生 ${access.simulationCompletions}/${access.required}`));
     const button = node("button", "", access.allowed ? "进入临时阵地" : "尚未满足解锁条件");
     button.type = "button";
     button.disabled = !access.allowed;

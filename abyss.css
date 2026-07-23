@@ -32,6 +32,85 @@
   background: #31281f;
 }
 
+.abyss-party-panel {
+  flex: 0 0 auto;
+  margin: 8px 0 12px;
+  border: 1px solid rgba(63, 126, 151, 0.5);
+  padding: 10px;
+  background: #0a141b;
+}
+
+.abyss-party-heading,
+.abyss-party-member-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.abyss-party-heading h3 {
+  margin: 3px 0 0;
+}
+
+.abyss-party-heading > span,
+.abyss-party-member-heading span,
+.abyss-party-member small {
+  color: #9eb7c2;
+  font-size: 11px;
+}
+
+.abyss-captain-copy {
+  margin: 8px 0;
+  color: #c8dce4;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.abyss-party-team {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.abyss-party-member {
+  min-width: 0;
+  border: 1px solid var(--line);
+  padding: 7px;
+  background: #101b22;
+}
+
+.abyss-party-member.captain {
+  border-color: #b28a4d;
+  background: #241e16;
+}
+
+.abyss-party-member p {
+  margin: 5px 0;
+  color: #d8e4e8;
+  font-size: 11px;
+}
+
+.abyss-assignments {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.abyss-assignments button {
+  min-width: 0;
+  min-height: 42px;
+  border: 1px solid #355c6c;
+  background: #142833;
+  font-size: 11px;
+}
+
+.abyss-assignments button[aria-pressed="true"] {
+  border-color: #d0a85d;
+  background: #463820;
+  color: #fff0c8;
+}
+
 .abyss-task-list .infernal-task {
   border-left-color: #3e819c;
 }
@@ -88,6 +167,15 @@
   background: #071016;
 }
 
+.infernal-run-view[data-encounter="witch"] .abyss-encounter {
+  border-color: #75506f;
+  box-shadow: inset 0 0 24px rgba(126, 67, 118, .16);
+}
+
+.infernal-run-view[data-encounter="witch"] .abyss-encounter > img {
+  background: #160b17;
+}
+
 #abyssDesireButton {
   background: #654b72;
 }
@@ -104,5 +192,27 @@
 @media (max-width: 700px) {
   .abyss-milestones {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .abyss-party-team {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-bottom: 4px;
+  }
+
+  .abyss-party-member {
+    flex: 0 0 154px;
+  }
+
+  .abyss-assignments {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-bottom: 4px;
+  }
+
+  .abyss-assignments button {
+    flex: 0 0 116px;
   }
 }

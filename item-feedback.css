@@ -30,6 +30,19 @@
   color: #fff0f8;
 }
 
+.item-use-banner[data-tone="teen"] {
+  grid-template-columns: minmax(0, 1fr);
+  border-color: #ffe39a;
+  background: linear-gradient(90deg, #4f3a10, #c4942f, #4f3a10);
+  color: #fff7d8;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .48),
+    0 0 20px rgba(216, 168, 78, .34);
+}
+
+.item-use-banner[data-tone="teen"] .item-use-foot {
+  display: none;
+}
+
 .item-use-banner.show {
   transform: translate(-50%, 0);
   opacity: 1;

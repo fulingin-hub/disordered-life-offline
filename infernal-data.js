@@ -19,7 +19,7 @@
     byId: Object.fromEntries(layers.map((item) => [item.id, item])),
     byWitchCharacter: Object.fromEntries(
       layers.map((item) => [item.witchCharacter, item])),
-    access: { personality: 1000, ending: "saint" },
+    access: { simulationCompletions: 40 },
     reputationRewards: [
       {
         id: "realm-hunter", title: "异界猎人套装", kind: "equipment",

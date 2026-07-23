@@ -46,10 +46,11 @@
     error.code = chunk.code || "AI_FAILED";
     return error;
   }
-  async function streamReply(body, requestId, onUpdate) {
+  async function streamReply(body, requestId, onUpdate, fallbackText) {
     let content = "";
     let completed = false;
-    for await (const chunk of window.dzmm.fn.invokeStream("dialogue", body, { timeout: 60000 })) {
+    for await (const chunk of LG.playerRuntime.stream(
+      "dialogue", body, { timeout: 60000 }, fallbackText)) {
       if (!LG.dialogueRequestLock.current(requestId)) return null;
       if (chunk?.type === "error") throw serverError(chunk);
       if (chunk?.type === "delta") {
@@ -92,7 +93,7 @@
       let authorized = false;
       let settled = false;
       try {
-        if (!window.dzmm?.fn?.invokeStream) {
+        if (!LG.playerRuntime.active() && !window.dzmm?.fn?.invokeStream) {
           const error = new Error("权威对话服务不可用。");
           error.code = "FUNCTION_UNAVAILABLE";
           throw error;
@@ -102,7 +103,8 @@
           authorized = true;
         }
         try {
-          const response = await streamReply(body, requestId, onUpdate);
+          const response = await streamReply(
+            body, requestId, onUpdate, () => localReply(scene, state, event));
           if (!LG.dialogueRequestLock.current(requestId)) return null;
           const finalReply = response || localReply(scene, state, event);
           if (room) {
@@ -125,13 +127,8 @@
         LG.dialogueRequestLock.finish(requestId);
       }
     },
-    cancel() {
-      void cancelActiveRoom?.();
-      LG.dialogueRequestLock.cancel();
-    },
-    isBusy() {
-      return LG.dialogueRequestLock.busy();
-    },
+    cancel() { void cancelActiveRoom?.(); LG.dialogueRequestLock.cancel(); },
+    isBusy() { return LG.dialogueRequestLock.busy(); },
     roomPass(character) {
       return LG.dialogueAuthority.pass(character);
     },

@@ -3,6 +3,77 @@
   background: #24191d !important;
 }
 
+.golden-endgame {
+  border-color: rgba(229, 190, 96, 0.48);
+  background: rgba(28, 24, 17, 0.94);
+}
+
+.golden-endgame-progress {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.golden-endgame-progress article {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.golden-endgame-progress article.cleared {
+  border-color: rgba(130, 210, 152, 0.5);
+  background: rgba(34, 91, 54, 0.18);
+}
+
+.golden-endgame-progress article > span {
+  color: #d9b85f;
+  font-size: 11px;
+}
+
+.golden-endgame-progress article > strong {
+  line-height: 1.35;
+}
+
+.golden-endgame-progress article > p {
+  min-height: 4.2em;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.golden-endgame-progress button {
+  align-self: end;
+  min-height: 38px;
+}
+
+.golden-endgame-count {
+  display: block;
+  margin-bottom: 10px;
+  color: #f0cf76;
+}
+
+@media (max-width: 800px) {
+  .golden-endgame-progress {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .golden-endgame-progress {
+    grid-template-columns: 1fr;
+  }
+
+  .golden-endgame-progress article > p {
+    min-height: 0;
+  }
+}
+
 .golden-mischief-button {
   width: 100%;
   min-height: 48px;

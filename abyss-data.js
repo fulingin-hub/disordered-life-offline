@@ -31,6 +31,29 @@
   LG.ABYSS_DATA = {
     bosses: entries,
     byId: Object.fromEntries(entries.map((item) => [item.id, item])),
-    unlockClears: 100,
+    unlockClears: 2,
+    segments: [1, 21, 41, 61, 81],
+    expeditionTeam: [
+      {
+        id: "tavernExplorer", name: "赫克托", role: "队长",
+        duty: "负责整队判断与撤离命令",
+      },
+      {
+        id: "tavernMedic", name: "赛琳", role: "战地医师",
+        duty: "负责伤势控制与恢复窗口",
+      },
+      {
+        id: "tavernRuneSmith", name: "塔维", role: "魔导器匠",
+        duty: "负责破除楼层封锁与装备维护",
+      },
+      {
+        id: "tavernScout", name: "凯恩", role: "异界斥候",
+        duty: "负责侦察下一层的欲望集成体",
+      },
+      {
+        id: "player", name: "你", role: "第五席队员",
+        duty: "服从队长分配并完成个人负责区段",
+      },
+    ],
   };
 })(window.LifeGame);

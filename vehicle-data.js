@@ -33,6 +33,12 @@
       rider: { male: "protagonistMaleInfernalSet", female: "protagonistFemaleInfernalSet" },
       outfit: "恶魔的神秘套装",
     },
+    champion: {
+      label: "冠军奖状", short: "黄金都城冠军奖励",
+      copy: "只能在六大势力角斗场的冠军奖状商城兑换。",
+      rider: { male: "protagonistMaleLuxurySet", female: "protagonistFemaleLuxurySet" },
+      outfit: "黄金都城远征装",
+    },
   };
   const vipTiers = [
     ["青铜", 10000, 5], ["白银", 50000, 10], ["黄金", 100000, 15],
@@ -43,7 +49,7 @@
     black: "黑色", white: "白色", red: "红色", silver: "银色", gold: "金色",
   };
   const rideSkipBonus =
-    "骑乘时可跳过七层地狱小怪事件，直接面对本层Boss；跟随时不生效";
+    "先锋协同时可跳过七层地狱小怪事件，直接面对本层Boss；跟随支援时不生效";
   const standardMountEffect = {
     title: "直面首领",
     bonuses: [rideSkipBonus],
@@ -97,7 +103,7 @@
       id: `${store}-${family}-${tone}`, store, family, tone,
       name: `${colorNames[tone]}${label}`, price, asset, tier,
       effect: standardMountEffect, skipMobsOnRide: true,
-      note: "骑乘时可跳过小怪事件直面Boss；跟随时不生效。",
+      note: "先锋协同时可跳过小怪事件直面Boss；跟随支援时不生效。",
     }));
   }
 
@@ -112,48 +118,59 @@
       id: "points-otherworld-male", store: "points", family: "otherworld",
       tone: "base", name: "异界公畜", price: 5000, asset: "vehicleOtherworldMale", tier: 4,
       effect: otherworldMountEffect, skipMobsOnRide: true,
-      note: "在异界是最常见的载具；骑乘时可跳过小怪直面Boss，跟随时不生效。",
+      note: "异界常见战斗伙伴；先锋协同时可跳过小怪直面Boss。",
     },
     {
       id: "points-otherworld-female", store: "points", family: "otherworld",
       tone: "base", name: "异界母畜", price: 5000, asset: "vehicleOtherworldFemale", tier: 4,
       effect: otherworldMountEffect, skipMobsOnRide: true,
-      note: "在异界是最常见的载具；骑乘时可跳过小怪直面Boss，跟随时不生效。",
+      note: "异界常见战斗伙伴；先锋协同时可跳过小怪直面Boss。",
     },
     {
       id: "achievement-lost-griffin", store: "achievement", family: "griffin",
       tone: "base", name: "迷失方向的狮鹫", price: 500,
       asset: "vehicleLostGriffin", tier: 1,
       effect: achievementMountEffect, skipMobsOnRide: true,
-      note: "异界奖励与任务奖励×3；骑乘时可跳过小怪直面Boss，跟随时不生效。",
+      note: "异界奖励与任务奖励×3；先锋协同时可跳过小怪直面Boss。",
     },
     {
       id: "achievement-reborn-phoenix", store: "achievement", family: "phoenix",
       tone: "base", name: "涅槃重生的玄凤", price: 500,
       asset: "vehicleRebornPhoenix", tier: 1,
       effect: achievementMountEffect, skipMobsOnRide: true,
-      note: "异界奖励与任务奖励×3；骑乘时可跳过小怪直面Boss，跟随时不生效。",
+      note: "异界奖励与任务奖励×3；先锋协同时可跳过小怪直面Boss。",
     },
     {
       id: "reputation-blood-wolf", store: "reputation", family: "blood-wolf",
       tone: "base", name: "魔境的血色狼王", price: 0,
       asset: "vehicleBloodWolf", tier: 1, rewardAt: 1500,
       effect: reputationMountEffects.wolf, skipMobsOnRide: true,
-      note: "声望达到1500点获得；骑乘时可跳过小怪直面Boss，跟随时不生效。",
+      note: "声望达到1500点获得；先锋协同时可跳过小怪直面Boss。",
     },
     {
       id: "reputation-blood-tiger", store: "reputation", family: "blood-tiger",
       tone: "base", name: "魔境的血色虎王", price: 0,
       asset: "vehicleBloodTiger", tier: 2, rewardAt: 2000,
       effect: reputationMountEffects.tiger, skipMobsOnRide: true,
-      note: "声望达到2000点获得；骑乘时可跳过小怪直面Boss，跟随时不生效。",
+      note: "声望达到2000点获得；先锋协同时可跳过小怪直面Boss。",
     },
     {
       id: "reputation-blood-trex", store: "reputation", family: "blood-dragon",
       tone: "base", name: "魔境的血色龙王", price: 0,
       asset: "vehicleBloodDragon", tier: 3, rewardAt: 3000,
       effect: reputationMountEffects.dragon, skipMobsOnRide: true,
-      note: "声望达到3000点获得；骑乘时可跳过小怪直面Boss，跟随时不生效。",
+      note: "声望达到3000点获得；先锋协同时可跳过小怪直面Boss。",
+    },
+    {
+      id: "champion-salukas-sky-dragon", store: "champion",
+      family: "salukas-sky-dragon", tone: "base",
+      name: "萨卢卡斯的天空龙", price: 100000,
+      asset: "vehicleSalukasSkyDragon", tier: 5, followOnly: true,
+      effect: {
+        title: "无视地形",
+        bonuses: ["萨卢卡斯每日挑战选错门时不会失败", "天空龙只能跟随支援"],
+      },
+      note: "冠军奖状商城限定战斗伙伴；无视萨卢卡斯地形与错误界门。",
     },
   );
   [

@@ -294,6 +294,16 @@
   transform-origin: center top;
 }
 
+.vehicle-profile-stage img.career-vehicle-sprite {
+  position: absolute;
+  top: calc(var(--sprite-row) * -100%);
+  left: calc(var(--sprite-column) * -100%);
+  width: calc(var(--sprite-columns) * 100%);
+  max-width: none;
+  height: calc(var(--sprite-rows) * 300px);
+  object-fit: fill;
+}
+
 .vehicle-profile-stage figcaption {
   position: absolute;
   right: 8px;
@@ -326,6 +336,75 @@
   padding: 0 10px;
   background: #101319;
   color: var(--paper);
+}
+
+.vehicle-achievement-gallery {
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.vehicle-achievement-gallery-heading,
+.vehicle-achievement-cg-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.vehicle-achievement-gallery-heading span,
+.vehicle-achievement-cg-heading span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.vehicle-achievement-cg-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.vehicle-achievement-cg {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 9px;
+  background: #101319;
+}
+
+.vehicle-achievement-cg.unlocked {
+  border-color: rgba(216, 168, 78, 0.58);
+}
+
+.vehicle-achievement-cg-heading strong {
+  min-width: 0;
+  font-size: 12px;
+}
+
+.vehicle-achievement-cg img {
+  display: block;
+  width: 100%;
+  height: 150px;
+  margin-top: 8px;
+  object-fit: cover;
+  object-position: center top;
+  background: #090b0e;
+}
+
+.vehicle-achievement-cg p {
+  min-height: 44px;
+  margin: 9px 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.vehicle-achievement-cg button {
+  width: 100%;
+  min-height: 40px;
+  margin-top: 8px;
 }
 
 .tone-black {
@@ -399,5 +478,13 @@
 
   .vehicle-profile-controls {
     grid-template-columns: 1fr;
+  }
+
+  .vehicle-achievement-cg-list {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicle-achievement-cg img {
+    height: 210px;
   }
 }

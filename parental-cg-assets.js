@@ -7,4 +7,25 @@
     fixedNarration: false,
   };
   LG.CG_ASSETS.special["parental-heart"] = { male: src, female: src };
+  const memories = {
+    "restaurant-family-good": {
+      src: "./assets/generated/restaurant-couple-portrait.ffeb13e8.webp",
+      title: "餐饮店留下的灯",
+      text: "毕业前，你留下帮周启明与罗雯收店。三个人围着最后一桌饭菜坐下，也从那天开始真正成为一家人。",
+    },
+    "agency-family-good": {
+      src: "./assets/generated/agency-couple-portrait.ee5f0b66.webp",
+      title: "中介店的旧沙发",
+      text: "你陪杜衡与许曼整理完最后一叠档案。旧沙发旁的合影，后来成为魔灾前最珍贵的一段普通生活。",
+    },
+  };
+  Object.entries(memories).forEach(([id, memory]) => {
+    LG.CG_ASSETS.specialMeta[id] = {
+      title: memory.title,
+      label: "模拟人生幸福线CG",
+      text: memory.text,
+      fixedNarration: false,
+    };
+    LG.CG_ASSETS.special[id] = { male: memory.src, female: memory.src };
+  });
 })(window.LifeGame);

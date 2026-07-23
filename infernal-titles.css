@@ -1,0 +1,87 @@
+.infernal-title-page {
+  min-height: 0;
+}
+
+.infernal-title-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.infernal-title-summary > div {
+  border: 1px solid var(--line);
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.infernal-title-summary span,
+.infernal-title-heading span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.infernal-title-summary strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--gold);
+}
+
+.infernal-title-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 52dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.infernal-title-card {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 11px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.infernal-title-card.locked {
+  opacity: 0.58;
+}
+
+.infernal-title-card.equipped {
+  border-color: var(--gold);
+  background: rgba(216, 168, 78, 0.12);
+}
+
+.infernal-title-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.infernal-title-heading span {
+  text-align: right;
+}
+
+.infernal-title-card p {
+  min-height: 34px;
+  margin: 8px 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.infernal-title-card button {
+  width: 100%;
+}
+
+.infernal-title-card.equipped button {
+  border-color: var(--gold);
+  color: #f4dfae;
+}
+
+@media (max-width: 700px) {
+  .infernal-title-summary,
+  .infernal-title-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

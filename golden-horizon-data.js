@@ -19,14 +19,7 @@
     "fallen-land": ["陨落之地", "日之门", "隐藏地图，天空仍燃烧着旧日余烬。"],
     "despair-plain": ["绝望平原", "月之门", "隐藏地图，沉默会放大每一次犹豫。"],
   };
-  const arenas = [
-    ["university", "国立大学角斗场"],
-    ["sanctuary", "机构园区角斗场"],
-    ["ranch", "米国牧场角斗场"],
-    ["paradise", "乐园角斗场"],
-    ["domain", "异域角斗场"],
-    ["otherworld", "异界角斗场"],
-  ].map(([id, name]) => ({ id, name }));
+  const arenas = LG.GOLDEN_ARENA_DATA.arenas;
   const setPieces = [
     ["salukas-crown", "萨卢卡斯远望冠",
       "最初没有门也没有路只有一个念头想让失序拥有可以选择的人生"],
@@ -108,20 +101,7 @@
       copy: "相信判断与行动的价值，同行成功时奖励更高。",
     },
   };
-  const tavernResidents = [
-    {
-      id: "tavernKeeper", name: "奥伦老板", role: "酒馆老板",
-      intro: "记得每一位常客的职业，也最爱讨论《黄金日报》的头条。",
-    },
-    {
-      id: "tavernCourier", name: "米娅", role: "两界信使",
-      intro: "刚从东部要塞回来，随身邮袋里总有未经刊印的消息。",
-    },
-    {
-      id: "tavernExplorer", name: "赫克托", role: "退役探索者",
-      intro: "更关心深渊远征与职业者，而不是贵族们的宴会。",
-    },
-  ];
+  const tavernResidents = LG.goldenHorizonResidents.all;
   LG.GOLDEN_HORIZON_DATA = {
     gates, maps, arenas, setPieces, collectibles, exchanges, professions,
     socialChoices, characters, tavernResidents,

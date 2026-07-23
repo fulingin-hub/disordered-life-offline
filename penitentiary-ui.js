@@ -10,7 +10,8 @@
   function stageButton(role) {
     const unlocked = LG.penitentiary.stageUnlocked(role.stage);
     const button = node("button", role.stage === activeStage ? "active" : "",
-      unlocked ? `${role.stage} · ${role.name}` : `${role.stage} · 未解锁`);
+      unlocked ? `${role.stage} · ${LG.characterDemographics.label(
+        role.id, role.name)}` : `${role.stage} · 未解锁`);
     button.type = "button";
     button.disabled = !unlocked;
     button.addEventListener("click", () => { activeStage = role.stage; refresh(); });

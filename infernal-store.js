@@ -17,18 +17,23 @@
     return economy().infernalRealm || empty();
   }
 
+  function gameModes() {
+    return LG.authority.snapshot()?.gameModes || {};
+  }
+
   LG.infernalRealm = {
     access() {
-      const personality = Math.max(0, Number(economy().penitentiary?.personality) || 0);
-      const saint = economy().saint?.endingTriggered === true;
-      const unlocked = data().unlocked === true;
+      const modes = gameModes();
+      const simulationCompletions = Math.max(
+        0, Number(modes.simulationCompletions) || 0);
+      const required = Math.max(1, Number(modes.infernalTarget)
+        || LG.INFERNAL_DATA.access.simulationCompletions);
+      const unlocked = data().unlocked === true || modes.infernalUnlocked === true;
       const testing = LG.TEST_MODE?.unlockAllRooms === true;
       return {
-        allowed: testing || unlocked
-          || (saint && personality >= LG.INFERNAL_DATA.access.personality),
-        saint: testing || saint,
-        personality,
-        required: LG.INFERNAL_DATA.access.personality,
+        allowed: testing || unlocked || simulationCompletions >= required,
+        simulationCompletions,
+        required,
       };
     },
     stats() {

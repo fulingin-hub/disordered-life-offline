@@ -8,6 +8,11 @@
     return LG.authority?.snapshot?.()?.contentMode || fallbackMode;
   }
 
+  function adultSimulation() {
+    return mode() === "18"
+      && LG.authority?.state?.()?.gameMode === "simulation";
+  }
+
   function buildTextDialog() {
     textDialog = document.createElement("dialog");
     textDialog.className = "content-mode-text-scene";
@@ -38,23 +43,24 @@
   }
 
   function guardAnimation(title, description) {
-    if (mode() !== "15") return false;
+    if (adultSimulation()) return false;
     return showTextScene(title, description
-      || "该段动态画面已由15+模式替换为文字叙述，游戏结算与累计效果保持不变。");
+      || "当前时间线使用15+表现，该段动态画面已替换为文字叙述，游戏结算与累计效果保持不变。");
   }
 
   function guardGallery() {
-    if (mode() !== "15") return false;
+    if (adultSimulation()) return false;
     showTextScene("画廊未开放",
-      "15+模式不会解锁或显示任何画廊与CG内容。当前存档仍可正常游玩其他系统。");
-    window.dzmm?.toast?.info?.("15+模式不开放画廊");
+      "画廊只在选择18+内容模式后，于模拟人生时间线开放。幸福人生始终使用15+表现。");
+    window.dzmm?.toast?.info?.("画廊仅在18+模拟人生开放");
     return true;
   }
 
   function sync(snapshot) {
     fallbackMode = snapshot?.contentMode || null;
-    document.documentElement.dataset.contentMode = fallbackMode || "unselected";
-    if (fallbackMode !== "15") return;
+    document.documentElement.dataset.contentMode = fallbackMode
+      ? adultSimulation() ? "18" : "15" : "unselected";
+    if (adultSimulation()) return;
     ["galleryDialog", "playerRoomDialog", "cgDialog", "archiveDialog"]
       .forEach((id) => {
         const dialog = document.getElementById(id);
@@ -68,8 +74,9 @@
 
   LG.contentMode = {
     mode,
-    isTeen: () => mode() === "15",
-    allowsGallery: () => mode() === "18",
+    adultSimulation,
+    isTeen: () => !adultSimulation(),
+    allowsGallery: adultSimulation,
     guardAnimation,
     guardGallery,
     showTextScene,

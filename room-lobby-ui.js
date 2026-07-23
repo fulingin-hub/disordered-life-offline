@@ -113,20 +113,21 @@
 
   function renderWorld() {
     LG.audio.scene("world");
+    const simulation = LG.authority.state()?.gameMode === "simulation";
+    const adultSimulation = LG.contentMode?.adultSimulation?.() === true;
     currentArea = null;
     currentSection = null;
     el.title.textContent = "世界区域";
-    el.intro.textContent = "选择场景区域或特殊功能场所。万界载具博览会馆在任一长期资源超过1000点后永久开放。";
+    el.intro.textContent = "选择场景区域或特殊功能场所。战斗伙伴已归入职业系统。";
     const areaCards = LG.worldAreas.all()
       .map((area) => LG.roomCards.area(area, renderArea));
     el.cards.replaceChildren(
       LG.roomCards.player(callbacks.onEnterPlayer),
-      LG.casinoUI.roomCard(callbacks.onEnterCasino),
-      LG.goldenHorizonUI.roomCard(),
-      paradiseCard(),
-      LG.vehicleUI.roomCard(callbacks.onEnterVehicle),
+      ...(simulation ? [LG.casinoUI.roomCard(callbacks.onEnterCasino)] : []),
+      ...(simulation ? [] : [LG.goldenHorizonUI.roomCard()]),
+      ...(simulation ? [paradiseCard()] : []),
       LG.infernalUI.roomCard(),
-      LG.infernalClubUI.roomCard(),
+      ...(adultSimulation ? [LG.infernalClubUI.roomCard()] : []),
       ...areaCards,
     );
   }
@@ -168,7 +169,11 @@
       ...(section.faction
         ? LG.factionRooms.cards(section.faction, section.branch)
         : section.church ? [LG.infernalChurchUI.roomCard()]
-          : section.holyLight ? [LG.holyLightUI.roomCard(area.id)]
+          : section.holyLight ? [
+            LG.holyLightUI.roomCard(area.id),
+            ...(LG.contentMode?.adultSimulation?.()
+              ? [LG.fallenSaintRoom.roomCard()] : []),
+          ]
           : characterCards(section.characters)),
     );
   }

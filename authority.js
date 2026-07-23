@@ -1,7 +1,5 @@
 (function (LG) {
-  let snapshot = null;
-  let applying = Promise.resolve();
-  let requestQueue = Promise.resolve();
+  let snapshot = null, applying = Promise.resolve(), requestQueue = Promise.resolve();
   const listeners = new Set();
   const SYNC_TIMEOUT = 30000;
   function withTimeout(task, timeoutMs = SYNC_TIMEOUT) {
@@ -14,8 +12,7 @@
         reject(error);
       }, timeoutMs);
     });
-    return Promise.race([task, timeout])
-      .finally(() => window.clearTimeout(timer));
+    return Promise.race([task, timeout]).finally(() => window.clearTimeout(timer));
   }
   function knownEndings(next) {
     const items = [...(next.archiveView?.male || []), ...(next.archiveView?.female || [])]
@@ -45,7 +42,10 @@
     return next;
   }
   function requireRemote() {
-    if (window.dzmm?.fn?.invoke) return;
+    if (LG.playerRuntime?.active?.() || window.dzmm?.fn?.invoke) return;
+    const unavailable = Object.assign(new Error("权威结算服务不可用。"),
+      { code: "FUNCTION_UNAVAILABLE" });
+    if (LG.playerRuntime?.activate?.(unavailable)) return;
     const error = new Error(
       "权威结算服务不可用。当前为只读模式，不会创建本地分叉存档。",
     );
@@ -54,7 +54,15 @@
   }
   async function remote(body, timeoutMs, options) {
     requireRemote();
-    return withTimeout(window.dzmm.fn.invoke("game-state", body, options), timeoutMs);
+    if (LG.playerRuntime?.active?.())
+      return withTimeout(LG.playerRuntime.invoke(body), timeoutMs);
+    try {
+      return await withTimeout(window.dzmm.fn.invoke(
+        "game-state", body, options), timeoutMs);
+    } catch (error) {
+      if (!LG.playerRuntime?.activateFor?.(error)) throw error;
+      return withTimeout(LG.playerRuntime.invoke(body), timeoutMs);
+    }
   }
   async function confirmOperation(id) {
     const result = await remote(
@@ -63,9 +71,7 @@
     return result;
   }
   function failedAction(message) {
-    const error = new Error(message);
-    error.code = "AUTHORITY_ACTION_FAILED";
-    return error;
+    return Object.assign(new Error(message), { code: "AUTHORITY_ACTION_FAILED" });
   }
   async function syncNow() {
     try {
@@ -74,9 +80,8 @@
       LG.achievementFeedback?.apply?.(result, "sync");
       return result;
     } catch (err) {
-      if (LG.authorityFallback?.isCaptcha?.(err)) {
+      if (LG.authorityFallback?.isCaptcha?.(err))
         throw LG.authorityFallback.captchaError();
-      }
       throw err;
     }
   }
@@ -158,18 +163,12 @@
     throw new Error("权威存档版本持续冲突，请刷新后重试。");
   }
   LG.authority = {
-    sync(options) {
-      return enqueue(() => LG.authorityRetry.run(syncNow, options));
-    },
-    mutate(method, args) {
-      return enqueue(() => mutateNow(method, args));
-    },
+    sync: (options) => enqueue(() => LG.authorityRetry.run(syncNow, options)),
+    mutate: (method, args) => enqueue(() => mutateNow(method, args)),
     inspect(method, args) {
       return enqueue(() => remote({ ...(args || {}), method }));
     },
-    exportSave() {
-      return enqueue(() => remote({ method: "exportSave" }));
-    },
+    exportSave: () => enqueue(() => remote({ method: "exportSave" })),
     snapshot() { return snapshot; },
     state() { return snapshot?.life || null; },
     archive() { return snapshot?.archive || { male: [], female: [] }; },

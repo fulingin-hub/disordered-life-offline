@@ -29,20 +29,6 @@
       penitentiaryPolice: "protagonistFemalePenitentiaryPoliceSet",
     },
   };
-  const labels = {
-    base: "常规装束",
-    character: "角色收藏套装",
-    tribute: "贡金角色套装",
-    japan: "岛国黑市套装",
-    usa: "米国黑市套装",
-    trait: "属性套装",
-    luxury: "权贵奢华套装",
-    infernal: "乐园王袍套装",
-    penitentiary: "影狱人格丧志套装",
-    saint: "圣徒礼赞套装",
-    eden: "伊甸园套装",
-    penitentiaryPolice: "影狱套装",
-  };
   let wrap, image, mountImage;
   function eventAge(event) {
     const age = Number(event?.age);
@@ -100,10 +86,10 @@
     if (!gender || currentAge(state) < 18) return null;
     const career = LG.careerMainPortrait?.get?.(gender);
     const vehicle = LG.vehicleStore?.equipped?.();
-    if (vehicle && LG.vehicleStore.displayMode() === "ride") {
-      const mounted = LG.vehicleStore.mountedAsset(vehicle, gender);
-      return career?.src || mounted
-        || LG.vehicleStore.riderAsset(vehicle.store, gender);
+    if (vehicle) {
+      const resolved = LG.vehicleCareerPortraits.resolve(
+        vehicle, gender, LG.vehicleStore.displayMode());
+      if (resolved?.primarySrc) return resolved.primarySrc;
     }
     if (career) return career.src;
     const outfit = category(state);
@@ -130,68 +116,10 @@
     source,
     render(state) {
       if (!wrap || !image) this.init();
-      const gender = state?.gender === "female" ? "female"
-        : state?.gender === "male" ? "male" : null;
-      const src = source(state);
-      if (!src) {
-        wrap.hidden = true;
-        image.removeAttribute("src");
-        mountImage.removeAttribute("src");
-        mountImage.hidden = true;
-        return;
-      }
-      const outfit = category(state);
-      image.src = src;
-      const career = LG.careerMainPortrait?.get?.(gender);
-      const vehicle = LG.vehicleStore?.equipped?.();
-      if (vehicle) {
-        const mode = LG.vehicleStore.displayMode();
-        const mounted = mode === "ride" && !career
-          ? LG.vehicleStore.mountedAsset(vehicle, gender) : "";
-        const identity = LG.VEHICLE_DATA.stores[vehicle.store].outfit;
-        const role = career?.name || identity;
-        image.alt = `${gender === "female" ? "女" : "男"}主角·${role}·${
-          mode === "ride" ? "乘骑" : "跟随"}${vehicle.name}`;
-        image.className = mounted ? `protagonist-mounted-portrait tone-${vehicle.tone}`
-          : career ? `career-main-portrait${mode === "ride"
-            ? " career-vehicle-rider" : ""}`
-          : mode === "ride"
-            ? `protagonist-rider-portrait tone-${vehicle.tone}`
-            : "protagonist-rider-portrait";
-        if (mounted) {
-          mountImage.removeAttribute("src");
-          mountImage.hidden = true;
-        } else {
-          mountImage.src = LG.CONFIG.assets[vehicle.asset];
-          mountImage.alt = vehicle.name;
-          mountImage.className = `protagonist-mount-portrait tone-${vehicle.tone}`;
-          mountImage.hidden = false;
-        }
-        wrap.dataset.category = career && mode === "follow"
-          ? `career-${career.category}` : `vehicle-${vehicle.store}`;
-        wrap.dataset.vehicleFamily = vehicle.family;
-        wrap.dataset.vehicleTone = vehicle.tone;
-        wrap.dataset.vehicleMode = mode;
-        wrap.classList.toggle("mounted", mode === "ride");
-        wrap.classList.toggle("following", mode === "follow");
-        wrap.hidden = false;
-        return;
-      }
-      if (career) return LG.careerMainPortrait.apply({ wrap, image, mountImage, gender, career });
-      const clubName = outfit.startsWith("club-")
-        ? `${LG.INFERNAL_CLUB_DATA.byId[outfit.slice(5)]?.name || "地狱"}魔王使徒`
-        : outfit === "realm" ? "异界魔境骑士" : labels[outfit];
-      image.alt = `${gender === "female" ? "女" : "男"}主角·${clubName}`;
-      image.className = "";
+      wrap.hidden = true;
+      image.removeAttribute("src");
       mountImage.removeAttribute("src");
       mountImage.hidden = true;
-      wrap.dataset.category = outfit;
-      delete wrap.dataset.vehicleFamily;
-      delete wrap.dataset.vehicleTone;
-      delete wrap.dataset.vehicleMode;
-      wrap.classList.remove("mounted");
-      wrap.classList.remove("following");
-      wrap.hidden = false;
     },
   };
 })(window.LifeGame);

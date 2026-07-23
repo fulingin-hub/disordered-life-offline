@@ -66,9 +66,10 @@
     const unlocked = LG.edenCharacters.unlocked(active.id);
     el.points.textContent = String(LG.traits.points());
     el.progress.textContent = `装备图鉴 ${owned}/${active.items.length}`;
-    el.hint.textContent = active.id === "edenChef"
+    const identity = LG.characterDemographics.label(active.id, active.name, active.role);
+    el.hint.textContent = `${identity}。${active.id === "edenChef"
       ? "原有奇珍与恶魔菜单全部完成后开放商城；13项图鉴全部激活后，两类餐饮均降为1点。"
-      : "首次购买永久激活装备图鉴；两项全部激活后开放AI对话与画廊。";
+      : "首次购买永久激活装备图鉴；两项全部激活后开放AI对话与画廊。"}`;
     el.items.replaceChildren(...active.items.map(card));
     el.chat.disabled = busy || !unlocked;
     el.gallery.disabled = busy || !unlocked;

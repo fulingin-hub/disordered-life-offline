@@ -62,7 +62,7 @@
 }
 
 .adventure-guild-summary {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .adventure-guild-summary > div {
@@ -137,6 +137,25 @@
   border-color: rgba(160, 78, 99, 0.5);
 }
 
+.adventure-guild-item.reward {
+  border-color: rgba(91, 140, 166, 0.55);
+}
+
+.adventure-guild-item.reward.claimed {
+  border-color: rgba(82, 137, 102, 0.55);
+}
+
+.adventure-guild-reward-select {
+  width: 100%;
+  min-height: 44px;
+  margin: 8px 0;
+  border: 1px solid rgba(205, 181, 125, 0.3);
+  border-radius: 4px;
+  padding: 0 8px;
+  background: #10141a;
+  color: #f1eadc;
+}
+
 .adventure-guild-item-heading {
   display: flex;
   align-items: start;
@@ -199,6 +218,10 @@
 
   .adventure-guild-items {
     grid-template-columns: 1fr;
+  }
+
+  .adventure-guild-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .adventure-guild-tabs button {

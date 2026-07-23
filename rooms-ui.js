@@ -46,10 +46,7 @@
         el.status.textContent = LG.collectibles.galleryHint(activeCharacter);
       });
       el.careerSpecial.addEventListener("click", () => {
-        const target = document.querySelector('[data-career-view="benefits"]');
-        this.close();
-        document.getElementById("careerButton").click();
-        target.click();
+        LG.careerBenefitsUI?.open?.(activeCharacter);
       });
       el.dialog.addEventListener("cancel", (event) => {
         event.preventDefault();
@@ -105,7 +102,8 @@
       el.portrait.src = LG.CONFIG.assets[character];
       el.portrait.alt = scene.name;
       el.location.textContent = scene.location;
-      el.character.textContent = scene.name;
+      el.character.textContent =
+        LG.characterDemographics.label(character, scene.name);
       el.items.hidden = market; el.gallery.hidden = !LG.GALLERY_ASSETS[character]?.items.length;
       el.careerSpecial.hidden = !["agencyCouple", "restaurantCouple"].includes(character);
       el.careerSpecial.textContent = character === "agencyCouple"

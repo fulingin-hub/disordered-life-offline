@@ -5,9 +5,8 @@
     console.error(fallback, err?.code, err?.message, err?.stack);
     if (err?.code === "function_not_published")
       return "权威结算服务尚未发布，请先保存游戏。";
-    if (String(err?.code || "").toLowerCase().includes("forbidden_dev_mode")) {
-      return "平台结算模式暂不可用，请退出后重新进入游戏。";
-    }
+    if (["FORBIDDEN", "UNAUTHORIZED", "TOKEN_EXPIRED"].includes(err?.code))
+      return "登录状态已失效，请退出后重新进入游戏。";
     if (err?.code === "SDK_UNAVAILABLE" || err?.code === "FUNCTION_UNAVAILABLE")
       return "平台连接尚未就绪，请退出后重新进入游戏。";
     if (err?.code === "TIMEOUT") return "读取权威存档超时，请点击重试。";
@@ -53,7 +52,7 @@
       LG.dailyTasksUI.refresh();
       window.setTimeout(() => {
         LG.ui.hideOutcome();
-        LG.ui.transition(() => LG.ui.render(state));
+        LG.ui.transition(() => { LG.ui.render(state); LG.endgameUnlockUI.show(state); });
       }, 650);
     } catch (err) {
       if (!await recoverStaleEvent(err)) {
@@ -129,8 +128,8 @@
       LG.dialogueUI.fail(LG.dialogueAI.errorMessage(err));
     }
   }
-  async function selectGender(gender) { adopt(await LG.authority.mutate(
-    "selectGender", { gender })); LG.ui.render(state);
+  async function selectGender(gender, gameMode) { adopt(await LG.authority.mutate(
+    "selectGender", { gender, gameMode })); LG.ui.render(state); LG.goldenHorizonEntry.queue(state);
     requestAnimationFrame(() => LG.narration?.reveal?.()); }
   async function selectContentMode(contentMode, downgraded) {
     const result = await LG.authority.mutate("selectContentMode", { contentMode }); adopt(result);
@@ -149,7 +148,7 @@
       onArchive: openArchive,
       onSound: toggleSound,
     });
-    LG.audio.init(); LG.narration.init();
+    LG.audio.init(); LG.narration.init(); LG.endgameUnlockUI.init();
     LG.achievementFeedback.init();
     LG.dialogueUI.init({
       onSend: sendDialogue,
@@ -169,21 +168,22 @@
     LG.abyssUI.init();
     LG.infernalStompPopup.init(); LG.factionLeaderSacrifice.init(); LG.infernalChurchUI.init(); LG.infernalChurchMissionsUI.init(); LG.buttImpactPopup.init();
     LG.infernalClubChatUI.init(); LG.infernalClubUI.init();
-    LG.vehicleUI.init(); LG.otherworldCharacterUI.init(); LG.goldenHorizonUI.init();
+    LG.vehicleUI.init(); LG.otherworldCharacterUI.init(); LG.goldenHorizonUI.init(); LG.goldenHorizonEntry.init();
     LG.rooms.init(() => state);
-    LG.traitsUI.init();
+    LG.traitsUI.init(); LG.infernalTitleUI.init();
     LG.specialOutfitUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
     LG.equipmentUI.init({ getState: () => state, onChange: () => LG.ui.render(state) });
     LG.vehicleProfileUI.init({ getState: () => state });
-    LG.collectiblesUI.init(), LG.careerCharacterChatUI.init(),
+    LG.collectiblesUI.init(), LG.careerBenefitsUI.init(), LG.careerCharacterChatUI.init(),
     LG.factionStoreUI.init(), LG.casinoFactionUI.init(),
     LG.careerUI.init(); LG.dailyTasksUI.init();
-    LG.ui.render(state);
+    LG.ui.render(state); LG.endgameUnlockUI.show(state);
     if (!result.contentMode) LG.contentModeUI.open();
     else if (!state.gender) LG.genderUI.open();
     LG.ui.updateSound(LG.audio.isEnabled());
     LG.loader.ready(() => {
       if (result.contentMode && state.gender) LG.narration.reveal();
+      if (result.contentMode && state.gender) LG.goldenHorizonEntry.queue(state);
       LG.loader.defer(() => LG.cinemaNarrator.init());
     });
   }

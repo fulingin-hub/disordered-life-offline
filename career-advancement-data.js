@@ -75,6 +75,10 @@
   "second-sigil-lord": {
     "male": "./assets/generated/career-second-sigil-lord-male.a33f412d.webp",
     "female": "./assets/generated/career-second-sigil-lord-female.1353bde6.webp"
+  },
+  "second-king-of-kings": {
+    "male": "./assets/generated/career-second-king-of-kings-male.2a1aa754.webp",
+    "female": "./assets/generated/career-second-king-of-kings-female.b60c8f9e.webp"
   }
 };
   const professionAssets = {
@@ -96,7 +100,8 @@
   "holy-emissary": "holy-emissary",
   "sigil-apostle": "sigil-apostle",
   "second-holy-inquisitor": "second-holy-inquisitor",
-  "second-sigil-lord": "second-sigil-lord"
+  "second-sigil-lord": "second-sigil-lord",
+  "second-king-of-kings": "second-king-of-kings"
 };
 
   LG.careerAdvancements = {

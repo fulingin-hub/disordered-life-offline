@@ -68,8 +68,10 @@
       const lives = this.completedLives();
       const points = this.lifetimePoints();
       const testing = LG.TEST_MODE?.unlockAllRooms;
+      const cinemaAccess = LG.authority.snapshot()?.life?.gameMode === "simulation"
+        && LG.authority.snapshot()?.lifeCinema?.simulationMaps?.allUnlocked === true;
       return {
-        allowed: testing || (lives >= requirements.lives
+        allowed: testing || cinemaAccess || (lives >= requirements.lives
           && points >= requirements.lifetimePoints),
         lives,
         points,

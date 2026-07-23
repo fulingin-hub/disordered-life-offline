@@ -40,7 +40,7 @@
       const character = LG.CASINO_DATA.byId[pending.character];
       el.temptationPortrait.src = character.portrait;
       el.temptationPortrait.alt = character.role;
-      el.temptationRole.textContent = `${character.role} · ${character.name}`;
+      el.temptationRole.textContent = LG.characterDemographics.label(character.id, character.name, character.role);
       el.temptationText.textContent = `“${pending.temptation}” 接受将直接输掉${
         pending.stake}点；拒绝才会公布系统结果。`;
     }

@@ -8,7 +8,7 @@
   const raw = [
     {
       id: "expoSaleswoman", name: "莉泽尔", role: "异界商行女销售",
-      location: "万界载具博览会馆", host: "expo",
+      location: "万界战斗伙伴公会馆", host: "expo",
       portrait: "./assets/generated/otherworld-saleswoman-portrait.67e99d46.webp",
       gallery: "./assets/generated/gallery-otherworld-saleswoman.0cf54a9f.webp",
       special: ["private-room-card", "女销售的密室房卡",

@@ -40,8 +40,7 @@
       male: "./assets/generated/career-cultivator-male.7b51144e.webp",
       female: "./assets/generated/career-cultivator-female.91a542a2.webp",
     },
-  };
-  const specialAssets = {
+  }; const specialAssets = {
     "university-xia-hound": {
       male: "./assets/generated/career-special-university-xia-hound-male.39a53bf0.webp",
       female: "./assets/generated/career-special-university-xia-hound-female.a4c737e9.webp",
@@ -76,8 +75,7 @@
     },
     "sigil-thrall": { male: "./assets/generated/magic-gas-thrall-male-bald.webp",
       female: "./assets/generated/magic-gas-thrall-female-bald.webp" },
-  };
-  const specialIds = new Set([
+  }; const specialIds = new Set([
     "ranch-livestock", "sanctuary-essence",
     "paradise-foot", "domain-toilet", "otherworld-tribute", "sigil-thrall",
   ]);
@@ -99,19 +97,16 @@
     domain: ["follower", "senior", "leader"],
     otherworld: ["captain", "manager", "leader"],
   };
-
   function category(id) {
     if (id?.startsWith("second-")) return "second";
     if (id?.startsWith("first-")
       || ["holy-emissary", "sigil-apostle"].includes(id)) return "advanced";
-    return specialIds.has(id) || /^university-(xia|island|rice)-hound$/.test(id)
-      ? "special" : "normal";
+    return specialIds.has(id) || LG.restrictedCareerPortraits?.has?.(id)
+      || /^university-(xia|island|rice)-hound$/.test(id) ? "special" : "normal";
   }
-
   function genderKey(gender) {
     return gender === "female" ? "Female" : "Male";
   }
-
   function normalKey(id) {
     if (/^university-(xia|island|rice)-doctor$/.test(id)) return "doctor";
     if (/^university-(xia|island|rice)-agent$/.test(id)) return "agent";
@@ -124,6 +119,8 @@
       return LG.careerAdvancements?.source?.(id, gender) || null;
     }
     if (category(id) === "special") {
+      const restricted = LG.restrictedCareerPortraits?.source?.(id, gender);
+      if (restricted) return restricted;
       return specialAssets[id]?.[gender === "female" ? "female" : "male"]
         || LG.CONFIG.assets[`protagonist${genderKey(gender)}PenitentiarySet`]
         || null;
@@ -132,7 +129,10 @@
     return normalAssets[key]?.[gender === "female" ? "female" : "male"] || null;
   }
 
-  function previewSource(id, gender) {
+  function previewSource(id, gender, displayCategory) {
+    if (id === "sigil-thrall" && displayCategory === "normal") {
+      return LG.CONFIG.assets[`magicGasProtagonist${genderKey(gender)}`] || null;
+    }
     return mainSource(id, gender);
   }
 
@@ -166,9 +166,9 @@
       || LG.CONFIG.assets[character.asset]
       || LG.CONFIG.assets.background;
   }
-
   function bonus(job) {
     if (!job) return "尚未装备职业。";
+    if (job.id === "second-king-of-kings") return "二阶职业：黄金都城角斗胜利获得的冠军奖状×50；重甲构装无法乘骑，所有坐骑自动切换为跟随模式。";
     if (job.id === "sigil-thrall") {
       return "堕落职业：完成魔纹教会入教洗礼后解锁；继续累计十万羞耻可晋升魔纹使徒。";
     }
@@ -187,7 +187,6 @@
     return `人生事件${label(job.base)}获得量×5；职业大师套装使${
       label(job.mode)}获得量×5；职业耗材套装使羞耻获得量×5。`;
   }
-
   LG.careerPortraits = {
     category,
     characterSource,

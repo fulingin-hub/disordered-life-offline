@@ -25,9 +25,9 @@
       flame.dataset.color = color;
       return flame;
     }));
-    el.soulName.textContent = `${soul.name}灵魂之火`;
+    const tier = LG.INFERNAL_CHURCH_DATA.soulTiers.find((entry) => entry.id === soul.tier); el.soulName.textContent = tier?.title ? `${tier.title} · 灵魂之火` : `${soul.name}灵魂之火`;
     el.soulTotal.textContent = `累计人格 ${soul.total}`;
-    el.soulLore.textContent = LG.INFERNAL_CHURCH_DATA.soulLore[soul.tier];
+    el.soulLore.textContent = soul.tier === "black" && soul.darklineUnlocked ? LG.INFERNAL_CHURCH_DATA.blackTruth : LG.INFERNAL_CHURCH_DATA.soulLore[soul.tier];
     el.soulNext.textContent = soul.tier === "rainbow" && soul.colors.length === 7
       ? "彩虹七色已经全部点燃" : `下一档人格阈值 ${soul.nextThreshold}`;
     el.soulEffects.replaceChildren(...soul.effects.map((effect) =>

@@ -56,7 +56,8 @@
     el.tasks.replaceChildren(...board.tasks.map(taskCard));
     LG.infernalReputationUI.render(el.reputationRewards);
     el.empty.hidden = board.tasks.length > 0;
-    el.start.textContent = run ? "继续无尽深渊" : "进入无尽深渊";
+    LG.abyssPartyUI.render(run, busy);
+    el.start.textContent = run ? "归队继续负责区段" : "接受赫克托的区段分配";
     el.start.dataset.action = run ? "resume" : "start";
   }
 
@@ -68,23 +69,28 @@
       return;
     }
     const encounter = run.encounter || {};
-    const boss = LG.ABYSS_DATA.byId[encounter.bossId]
-      || LG.ABYSS_DATA.bosses[0];
+    const witch = encounter.type === "abyss-witch";
+    const layer = witch ? LG.INFERNAL_DATA.byId[encounter.witchSin] : null;
+    const boss = LG.ABYSS_DATA.byId[encounter.bossId] || LG.ABYSS_DATA.bosses[0];
     const stats = LG.infernalRealm.stats();
     const saint = LG.infernalRealm.saintActive();
     const floor = Math.max(1, Number(encounter.floor) || Number(run.floor) + 1);
-    el.floorLabel.textContent = `第${floor}层 / 100层`;
+    el.floorLabel.textContent = `负责${run.segmentStart}—${run.segmentEnd}层 · 第${floor}层`;
     el.clearCount.textContent = `完整通关 ${stats.abyssClears}次`;
     el.floorProgress.value = floor;
     el.milestones.replaceChildren(...milestones.map((target) =>
       node("span", stats.abyssHighest >= target ? "reached" : "", `${target}层`)));
-    el.portrait.src = boss.portrait;
-    el.portrait.alt = `${boss.name}欲望集成体`;
-    el.eventType.textContent = `无尽深渊 · 第${floor}层事件Boss`;
-    el.title.textContent = `${boss.name}欲望集成体`;
-    el.copy.textContent = saint
-      ? `圣徒礼赞拒绝满足欲望，只能消耗${encounter.cost}点人格直接破局，计入对应悬赏击杀。`
-      : `完成“${encounter.desireLabel}”会增加败北值并进入下一层；也可消耗${encounter.cost}点人格直接破局，计入对应悬赏击杀。`;
+    el.run.dataset.encounter = witch ? "witch" : "desire";
+    el.portrait.src = witch && layer ? LG.CONFIG.assets[layer.witch] : boss.portrait;
+    el.portrait.alt = witch ? "深渊魔女" : `${boss.name}欲望集成体`;
+    el.eventType.textContent = witch
+      ? `无尽深渊 · 第${floor}层额外Boss` : `无尽深渊 · 第${floor}层事件Boss`;
+    el.title.textContent = witch ? "深渊魔女" : `${boss.name}欲望集成体`;
+    const copy = saint
+      ? `圣徒礼赞拒绝满足欲望，只能消耗${encounter.cost}点人格直接破局。`
+      : `完成“${encounter.desireLabel}”会增加败北值；也可消耗${encounter.cost}点人格直接破局。${
+        witch ? "战胜她后才算真正突破本层。" : "每逢十层还会出现额外Boss。"}`;
+    el.copy.textContent = copy + LG.abyssPartyUI.encounterSupport(encounter);
     el.desireDetail.textContent = encounter.desireText || "";
     el.desire.textContent = saint ? "圣徒礼赞：拒绝满足欲望"
       : `完成随机任务：${encounter.desireLabel || "满足欲望"}`;
@@ -101,7 +107,7 @@
     if (message !== undefined) el.status.textContent = message;
   }
 
-  async function act(action) {
+  async function act(action, args = {}) {
     if (busy) return;
     busy = true;
     const requestId = ++latest;
@@ -109,7 +115,7 @@
     el.status.textContent = "正在进行权威结算...";
     try {
       const result = await LG.authority.mutate("infernalAction",
-        { action: `abyss-${action}` });
+        { action: `abyss-${action}`, ...args });
       if (requestId !== latest) return;
       setView(LG.infernalRealm.abyssRun() ? "run" : "hall");
       render(result.message || "结算完成。");
@@ -156,7 +162,9 @@
       }));
       el.transfer.addEventListener("click", () => this.open());
       el.start.addEventListener("click", () => el.start.dataset.action === "resume"
-        ? (setView("run"), render()) : act("start"));
+        ? (setView("run"), render()) : act("start", {
+          segmentStart: LG.abyssPartyUI.selectedSegment(),
+        }));
       el.return.addEventListener("click", () => {
         latest += 1;
         el.dialog.close();
@@ -171,6 +179,7 @@
         close();
       });
       LG.authority.subscribe(() => renderTransfer());
+      LG.abyssPartyUI.init();
       renderTransfer();
     },
     open() {

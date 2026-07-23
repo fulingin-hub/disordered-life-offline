@@ -24,15 +24,15 @@
 
   function confirmationCopy(mode, isDowngrade) {
     if (isDowngrade) {
-      return "确认永久切换为15+模式？切换后画廊不再开放，成人动画改为文字场景，"
-        + "而且当前存档不能恢复为18+模式。";
+      return "确认进入自律人生并永久切换为15+模式？切换后模拟人生不再开放画廊、特殊职业、"
+        + "角色丧志房间、私密收藏和特殊药剂，成人场景改为文字，而且不能恢复为18+。";
     }
     if (mode === "15") {
-      return "确认选择15+模式？当前存档将永久锁定为15+，画廊不开放，成人动画改为"
-        + "文字场景。如需重新选择，只能删除存档；离线版需删除后重新下载。";
+      return "确认选择15+模式？幸福人生与模拟人生都使用15+表现，画廊、特殊职业、"
+        + "角色丧志房间和私密道具不开放。如需重新选择，只能删除存档。";
     }
-    return "确认你已年满18周岁并选择18+模式？此模式包含成人向文字、CG与动画。"
-      + "之后可以永久切换为15+，但降级后不能恢复。";
+    return "确认你已年满18周岁并选择18+模式？幸福人生仍为15+，只有模拟人生"
+      + "开放成人IF线、画廊、特殊职业与私密收藏。之后可永久降级，但不能恢复。";
   }
 
   function request(mode, isDowngrade = false) {
@@ -40,7 +40,7 @@
     pendingMode = mode;
     downgrade = isDowngrade;
     el.confirmTitle.textContent = isDowngrade
-      ? "永久切换为15+" : `确认选择${mode}+模式`;
+      ? "自律人生 · 永久15+" : `确认选择${mode}+模式`;
     el.confirmText.textContent = confirmationCopy(mode, isDowngrade);
     el.confirm.showModal();
   }

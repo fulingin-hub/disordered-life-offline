@@ -108,33 +108,14 @@
       node("h3", "", "装备职业套装"), modes, copy,
     );
   }
-  function factionCard(item, joinedThisRun) {
-    const meta = LG.CAREER_DATA.factions[item.id];
-    const selected = joinedThisRun === item.id;
-    const card = node("article", `faction-card${item.joined ? " joined" : ""}${
-      selected ? " selected" : ""}`);
-    const requirement = item.id === "church"
-      ? "加入条件：无偿开放。"
-      : item.threshold > 0
-      ? `加入条件：累计${item.threshold}${LG.CAREER_DATA.stats[item.stat]}。`
-      : "加入条件：可怜天下父母心已免除。";
-    card.append(node("span", "career-kicker", meta.location),
-      node("strong", "", item.name), node("p", "", meta.copy),
-      node("small", "", requirement));
-    const button = node("button", "", selected ? "本轮已选择"
-      : item.joined ? "选择此阵营"
-        : item.id === "church" ? "无偿加入教会" : "递交聘用证明");
-    button.type = "button";
-    button.disabled = busy || Boolean(joinedThisRun);
-    button.addEventListener("click", () => mutate("joinFaction", { factionId: item.id }));
-    card.append(button);
-    return card;
-  }
   function renderFactions() {
     const data = LG.career.data();
     const grid = node("div", "faction-grid");
     (data.factions || []).forEach((item) =>
-      grid.append(factionCard(item, data.joinedThisRun)));
+      grid.append(LG.careerFactionCard.create(item, data.joinedThisRun, {
+        busy, node,
+        onJoin: (factionId) => mutate("joinFaction", { factionId }),
+      })));
     const roster = node("div", "career-roster");
     LG.CAREER_DATA.roster.forEach((item) => {
       const joined = item.faction === "holy-light"
@@ -152,13 +133,19 @@
     el.factions.replaceChildren(grid,
       node("h3", "", `阵营职业角色 · ${LG.CAREER_DATA.roster.length}人`), roster);
   }
+  function open(nextView = view) {
+    view = ["stats", "loadout", "factions", "companions"].includes(nextView)
+      ? nextView : "stats";
+    render();
+    if (!el.dialog.open) el.dialog.showModal();
+  }
   function render() {
     renderStats();
     renderLoadout();
     renderFactions();
-    LG.careerBenefitsUI.render(el.benefits, busy, mutate, node);
+    if (view === "companions") LG.vehicleProfileUI?.render?.();
     Object.entries({ stats: el.stats, loadout: el.loadout,
-      factions: el.factions, benefits: el.benefits })
+      factions: el.factions, companions: el.companions })
       .forEach(([id, section]) => { section.hidden = id !== view; });
     el.tabs.forEach((button) =>
       button.setAttribute("aria-selected", String(button.dataset.careerView === view)));
@@ -171,15 +158,22 @@
       el.stats = document.getElementById("careerStatsView");
       el.loadout = document.getElementById("careerLoadoutView");
       el.factions = document.getElementById("careerFactionsView");
-      el.benefits = document.getElementById("careerBenefitsView");
+      el.companions = document.getElementById("careerCompanionsView");
+      const vehiclePage = document.getElementById("vehiclePage");
+      vehiclePage.hidden = false;
+      el.companions.append(vehiclePage);
       el.tabs = [...document.querySelectorAll("[data-career-view]")];
-      el.button.addEventListener("click", () => { render(); el.dialog.showModal(); });
+      el.button.addEventListener("click", () => open());
       document.getElementById("closeCareerButton")
         .addEventListener("click", () => el.dialog.close());
       el.tabs.forEach((button) => button.addEventListener("click", () => {
         view = button.dataset.careerView;
         render();
       }));
+    },
+    open,
+    close() {
+      if (el.dialog?.open) el.dialog.close();
     },
     refresh() { if (el.dialog?.open) render(); },
   };

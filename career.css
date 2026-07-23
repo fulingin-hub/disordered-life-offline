@@ -3,6 +3,21 @@
   max-height: min(880px, calc(100dvh - 24px));
 }
 
+.career-benefits-dialog {
+  width: min(720px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+}
+
+.career-benefits-dialog #careerBenefitsContent {
+  max-height: min(640px, calc(100dvh - 180px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+#careerCompanionsView .vehicle-profile-page {
+  display: block;
+}
+
 .career-tabs,
 .task-category-tabs,
 .collection-privacy-tabs {
@@ -238,6 +253,42 @@
 .faction-card {
   display: grid;
   gap: 7px;
+}
+
+.faction-career-paths {
+  display: grid;
+  gap: 5px;
+  padding: 8px;
+  border-left: 2px solid rgba(216, 168, 78, 0.55);
+  background: rgba(8, 10, 14, 0.55);
+}
+
+.faction-career-heading {
+  color: #e4d7b4;
+  font-size: 12px;
+}
+
+.faction-career-route {
+  display: grid;
+  grid-template-columns: minmax(0, auto) auto minmax(0, 1fr);
+  gap: 5px;
+  align-items: baseline;
+  font-size: 12px;
+}
+
+.faction-career-route small {
+  grid-column: 1 / -1;
+}
+
+.faction-career-route b {
+  color: #d8a84e;
+}
+
+.faction-career-hidden {
+  margin: 2px 0 0;
+  color: #bd8ea1;
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 .faction-card.joined {

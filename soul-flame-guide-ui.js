@@ -12,7 +12,7 @@
     card.dataset.color = entry.color;
     card.append(
       node("i", "soul-guide-spark"),
-      node("strong", "", `${entry.name} · ${entry.range}`),
+      node("strong", "", `${entry.title || entry.name} · ${entry.range}`),
       node("p", "", entry.lore),
       node("span", "", entry.effect),
     );
@@ -36,11 +36,13 @@
     render(soul) {
       const tiers = document.getElementById("soulTierGuide");
       const colors = document.getElementById("soulColorGuide");
+      const darkline = document.getElementById("soulDarkline");
       if (!tiers || !colors) return;
       tiers.replaceChildren(...LG.INFERNAL_CHURCH_DATA.soulTiers
         .map((entry) => tierCard(entry, soul)));
       colors.replaceChildren(...LG.INFERNAL_CHURCH_DATA.soulColors
         .map((entry) => colorCard(entry, soul)));
+      if (darkline) darkline.hidden = soul.darklineUnlocked !== true;
     },
   };
 })(window.LifeGame);

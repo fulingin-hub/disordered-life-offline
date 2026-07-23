@@ -9,6 +9,7 @@
   let reports = { state: "idle", reports: null, error: "" };
   const P = () => LG.goldenHorizonPanels;
   const E = () => LG.goldenHorizonExtraPanels;
+  const A = () => LG.goldenHorizonArena;
   const R = () => LG.goldenHorizonReports;
   const T = () => LG.goldenHorizonTavern;
 
@@ -43,6 +44,8 @@
         if (board) online = { state: "ready", board, error: "" };
       }
       render(result.message);
+      if (method === "goldenTrial"
+        && result.economy?.goldenHorizon?.cityUnlocked) startCityFeeds();
       LG.traitsUI?.refresh?.();
       LG.dailyTasksUI?.refresh?.();
     } catch (err) {
@@ -87,6 +90,11 @@
       scheduleReports();
     }, 30_000);
   }
+  function startCityFeeds() {
+    if (online.state === "idle") void loadSocial();
+    if (reports.state === "idle") void loadReports();
+    scheduleReports();
+  }
   function hero(data) {
     const section = P().node("section", "golden-hero");
     const image = P().node("img");
@@ -108,12 +116,10 @@
       : data.today.attempted ? "金色地平线·今日失败" : "金色地平线";
     if (!content) return;
     if (message !== undefined && status) status.textContent = message || "";
-    content.replaceChildren(
-      hero(data),
-      P().companions(data, guide, (id) => { guide = id; render(); }, busy),
-      P().weekly(data),
-      P().trial(data, guide, act, busy),
-      P().arenas(data, act, busy),
+    const cityContent = data.cityUnlocked ? [
+      ...(LG.goldenHorizonEntry?.isPrimary?.()
+        ? [LG.goldenHorizonEndgame.panel(data, act, busy)] : []),
+      A().panel(data, act, busy, () => render()),
       E().mischief(data, act, busy),
       E().social(data, online,
         (choice) => act("goldenSocialVote", { choice }), loadSocial, busy),
@@ -123,6 +129,13 @@
       P().inventory(data, act, busy),
       P().exchange(data, act, busy),
       P().hidden(data, act, busy),
+    ] : [P().cityGate(data)];
+    content.replaceChildren(
+      hero(data),
+      P().companions(data, guide, (id) => { guide = id; render(); }, busy),
+      P().weekly(data),
+      P().trial(data, guide, act, busy),
+      ...cityContent,
     );
   }
   function build() {
@@ -150,20 +163,24 @@
     if (!dialog) build();
     render();
     if (!dialog.open) dialog.showModal();
-    if (online.state === "idle") void loadSocial();
-    if (reports.state === "idle") void loadReports();
-    scheduleReports();
+    if (LG.goldenHorizon.data().cityUnlocked) startCityFeeds();
   }
   function roomCard() {
     const data = LG.goldenHorizon.data();
-    const card = P().node("article", "room-card area-room-card golden-room-card unlocked");
+    const unlocked = data.cityUnlocked === true;
+    const card = P().node("article",
+      `room-card area-room-card golden-room-card${unlocked ? " unlocked" : ""}`);
     const image = P().node("img"); image.src = LG.CONFIG.assets.goldenHorizonCapital;
     image.alt = "黄金都城"; image.loading = "lazy";
     const body = P().node("div", "room-card-body");
-    body.append(P().node("span", "event-type", "无入场要求"),
+    body.append(P().node("span", "event-type",
+      unlocked ? "萨卢卡斯七日见证 · 已入城" : "萨卢卡斯七日见证 · 城门外"),
       P().node("h3", "", "黄金都城"),
-      P().node("p", "", `萨卢卡斯印记 ${data.clearedDays.length}/7 · 商行点数 ${data.currency}`));
-    const enter = P().node("button", "", "进入金色的地平线");
+      P().node("p", "", unlocked
+        ? `本周成功印记 ${data.clearedDays.length}/7 · 商行点数 ${data.currency}`
+        : `入城见证 ${Math.min(7, Number(data.entryDays) || 0)}/7 · 成败都计入`));
+    const enter = P().node("button", "",
+      unlocked ? "进入黄金都城" : "前往萨卢卡斯界门");
     enter.type = "button"; enter.addEventListener("click", open);
     body.append(enter); card.append(image, body); return card;
   }

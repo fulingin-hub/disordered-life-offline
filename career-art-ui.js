@@ -11,7 +11,8 @@
 
   function jobs(data) {
     return (data.professionDefinitions || []).filter((job) =>
-      LG.careerPortraits.category(job.id) === mode);
+      LG.careerPortraits.category(job.id) === mode
+      || (mode === "normal" && job.id === "sigil-thrall"));
   }
 
   function build(data) {
@@ -60,14 +61,20 @@
       panel.replaceWith(build(LG.career.data()));
     });
     const figure = node("figure", "career-cg-art");
-    if (chosen?.id === "sigil-thrall") figure.classList.add("career-thrall-head");
+    if (chosen?.id === "sigil-thrall" && mode === "special") {
+      figure.classList.add("career-thrall-head");
+    }
     const locked = chosen && !chosen.unlocked;
     if (chosen && !locked) {
       const image = node("img");
-      image.src = LG.careerPortraits.previewSource(chosen.id, previewGender);
+      image.src = LG.careerPortraits.previewSource(
+        chosen.id, previewGender, mode);
       image.alt = `${previewGender === "female" ? "女" : "男"}主角·${chosen.name}职业CG`;
       const caption = node("figcaption", "", `${chosen.name} · ${
-        chosen.id === "sigil-thrall" ? "堕落职业头部立绘"
+        chosen.id === "sigil-thrall" && mode === "special"
+          ? "堕落职业头部立绘"
+          : chosen.id === "sigil-thrall"
+            ? "普通职业完整立绘预览"
           : mode === "special" ? "堕落职业CG逻辑预览"
           : mode === "second" ? "二阶职业套装立绘预览"
             : mode === "advanced" ? "一阶职业全身立绘预览"

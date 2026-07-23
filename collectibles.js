@@ -9,8 +9,10 @@
   function normalize(saved) {
     const next = emptyData();
     if (!saved || typeof saved !== "object") return next;
-    const validIds = new Set(Object.values(LG.COLLECTIBLE_CATALOG)
-      .flat().map((item) => item.id));
+    const validIds = new Set([
+      ...Object.values(LG.COLLECTIBLE_CATALOG).flat(),
+      ...(LG.LORE_COLLECTION_DATA?.items || []),
+    ].map((item) => item.id));
     next.owned = [...new Set(Array.isArray(saved.owned) ? saved.owned : [])]
       .filter((id) => validIds.has(id));
     return next;
@@ -31,6 +33,10 @@
     },
     items(character) {
       return LG.COLLECTIBLE_CATALOG[character] || [];
+    },
+    loreItems() {
+      return (LG.LORE_COLLECTION_DATA?.items || [])
+        .filter((item) => !item.hidden || data.owned.includes(item.id));
     },
     owns(itemId) {
       const item = Object.values(LG.COLLECTIBLE_CATALOG).flat()

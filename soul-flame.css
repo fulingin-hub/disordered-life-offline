@@ -12,6 +12,16 @@
   line-height: 1.65;
 }
 
+#soulLore,
+.soul-darkline {
+  white-space: pre-line;
+}
+
+.soul-darkline {
+  border-left-color: #7b657f;
+  background: #111015;
+}
+
 .soul-archive-intro strong {
   display: block;
   margin-bottom: 5px;

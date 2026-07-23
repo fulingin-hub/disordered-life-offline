@@ -30,6 +30,73 @@
   line-height: 1.65;
 }
 
+.endgame-unlock-dialog {
+  width: min(520px, calc(100vw - 28px));
+  padding: 24px;
+}
+
+.endgame-unlock-heading h2 {
+  margin: 6px 0 0;
+  font-size: 30px;
+}
+
+.endgame-unlock-copy {
+  margin: 18px 0;
+  color: #e9e1d2;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.endgame-unlock-progress {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0 22px;
+}
+
+.endgame-unlock-track {
+  height: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(216, 168, 78, 0.48);
+  border-radius: 4px;
+  background: #0c1016;
+}
+
+.endgame-unlock-track span {
+  display: block;
+  width: 50%;
+  height: 100%;
+  background: var(--gold);
+  transition: width 360ms ease-out;
+}
+
+.endgame-unlock-progress strong {
+  min-width: 42px;
+  color: var(--gold);
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.endgame-unlock-actions {
+  display: grid;
+  gap: 9px;
+}
+
+.endgame-unlock-actions .choice-button {
+  width: 100%;
+  min-height: 64px;
+}
+
+.endgame-unlock-actions .quiet-button {
+  width: 100%;
+}
+
+.endgame-unlock-dialog .system-status {
+  margin-bottom: 0;
+  text-align: center;
+}
+
 .system-status {
   min-height: 20px;
   margin: 14px 0 12px;

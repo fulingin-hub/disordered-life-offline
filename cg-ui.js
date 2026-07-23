@@ -43,12 +43,11 @@
       });
     },
     showEvent(event) {
-      if (LG.contentMode?.isTeen?.()) return setBackdrop(null);
-      const scene = LG.CG_ASSETS.events[event?.id];
-      if (typeof scene === "string") return setBackdrop(scene);
-      if (!scene?.src) return setBackdrop(null);
+      const scene = LG.eventSceneAssets.resolve(event, {
+        safeOnly: LG.contentMode?.isTeen?.() === true,
+      });
       setBackdrop(scene.src);
-      return scene.keepPortrait !== true;
+      return false;
     },
     showEnding(ending, gender) {
       if (LG.contentMode?.isTeen?.()) return setBackdrop(null);

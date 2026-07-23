@@ -1,9 +1,9 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260722-weekly-frontline-1",
+  buildId: "20260723-panel-reorganization-1",
   version: 7,
-  eventRevision: 2026072101,
+  eventRevision: 2026072302,
   stateKey: "disordered-life-state-v1",
   archiveKey: "disordered-life-archive-v1",
   achievementKey: "disordered-life-achievements-v1",

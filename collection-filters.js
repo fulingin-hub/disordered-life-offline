@@ -35,7 +35,7 @@
       });
       return card;
     },
-    entries(regular, saint, career) {
+    entries(regular, saint, career, lore = []) {
       const roomName = (item) =>
         LG.COLLECTIBLE_CHARACTERS[item.character]?.name || item.character;
       const careerName = (item) => LG.CAREER_DATA.roster
@@ -47,6 +47,7 @@
         ...regular.map((item) => wrap("regular", item, roomName(item))),
         ...saint.map((item) => wrap("saint", item, roomName(item))),
         ...career.map((item) => wrap("career", item, careerName(item))),
+        ...lore.map((item) => wrap("lore", item, "古老手札")),
       ];
     },
     apply(entries) {

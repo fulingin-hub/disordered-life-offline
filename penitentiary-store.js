@@ -54,8 +54,10 @@
       const apex = hidden("black-prison-apex");
       const infernal = hidden("black-prison-infernal");
       const testing = LG.TEST_MODE?.unlockAllRooms;
+      const cinemaAccess = LG.authority.snapshot()?.life?.gameMode === "simulation"
+        && LG.authority.snapshot()?.lifeCinema?.simulationMaps?.allUnlocked === true;
       return {
-        allowed: testing || (paradise && data.zeroedPoints >= 50
+        allowed: testing || cinemaAccess || (paradise && data.zeroedPoints >= 50
           && data.edenPurchases >= 10 && apex && infernal),
         paradise, apex, infernal,
         zeroedPoints: data.zeroedPoints, edenPurchases: data.edenPurchases,

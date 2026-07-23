@@ -1,6 +1,5 @@
 (function (LG) {
   const el = {}; let callbacks = {};
-
   function node(tag, className, text) {
     const item = document.createElement(tag);
     if (className) item.className = className;
@@ -26,7 +25,6 @@
       el.stats.append(stat);
     });
   }
-
   function addChoice(choice, index, state) {
     const button = node("button", `choice-button${index === 0 ? " primary" : ""}`);
     const details = [choice.hint, choice.requirementText].filter(Boolean).join(" · ");
@@ -38,21 +36,21 @@
     el.choiceList.append(button);
   }
 
-  function setPortrait(event) {
-    if (!event.portrait) {
-      el.portraitWrap.hidden = true;
-      return;
-    }
-    el.portrait.src = LG.CONFIG.assets[event.portrait];
-    el.portrait.alt = event.speaker || "成年角色";
-    el.portraitName.textContent = event.speaker || "";
-    el.portraitWrap.hidden = false;
+  function setSpeaker(event, state) {
+    el.portrait.removeAttribute("src");
+    el.portraitWrap.hidden = true;
+    el.eventSpeaker.textContent =
+      LG.characterDemographics?.speaker?.(event, state) || event.speaker || "";
+    el.eventSpeaker.hidden = !el.eventSpeaker.textContent;
   }
 
   function renderEvent(state) {
     const event = LG.engine.current(state);
     el.app.dataset.chapter = event.chapter;
-    el.chapterLabel.textContent = `${event.chapter} · ${event.age}岁 · ${LG.endingArchive.label(state.gender)}`;
+    const age = state.timeline?.ageYears ?? event.age,
+      ageText = LG.characterDemographics.ageLabel(state.timeline, event.age);
+    el.chapterLabel.textContent = `${event.chapter} · ${ageText} · ${
+      LG.endingArchive.label(state.gender)}`;
     el.eventType.textContent = "人生事件";
     el.routeLabel.textContent = state.route === "university"
       ? "大学路线" : state.route === "work" ? "工作路线"
@@ -64,12 +62,11 @@
     el.eventText.textContent = typeof event.text === "function" ? event.text(state) : event.text;
     el.eventQuote.textContent = event.quote || "";
     el.eventQuote.hidden = !event.quote;
-    el.progressFill.style.width = `${Math.min(96, Math.round(event.age / 28 * 100))}%`;
+    el.progressFill.style.width = `${Math.min(96, Math.round(age / 28 * 100))}%`;
     el.choiceList.replaceChildren();
     event.choices.forEach((choice, index) => addChoice(choice, index, state));
-    const hasCg = LG.cgUI.showEvent(event);
-    if (hasCg) el.portraitWrap.hidden = true;
-    else setPortrait(event);
+    LG.cgUI.showEvent(event);
+    setSpeaker(event, state);
     LG.dialogueUI.configure(state, event);
     requestAnimationFrame(() => LG.narration?.speakEvent?.(event, state));
   }
@@ -78,14 +75,15 @@
     const ending = state.currentEnding;
     if (!ending) return;
     el.app.dataset.chapter = "结局";
-    const endingAge = state.lastEventAge || 28;
+    const endingAge = LG.characterDemographics.ageLabel(state.timeline,
+      state.lastEventAge || 28);
     const gender = LG.endingArchive.label(state.gender);
     el.chapterLabel.textContent = ending.universal
-      ? `隐藏结局 · ${endingAge}岁 · 通用`
+      ? `隐藏结局 · ${endingAge} · 通用`
       : ending.hidden
-      ? `隐藏结局 · ${endingAge}岁 · ${gender}`
+      ? `隐藏结局 · ${endingAge} · ${gender}`
       : state.endingId === "dignity-zero"
-      ? `尊严归零 · ${endingAge}岁 · ${gender}` : `结局 · ${endingAge}岁 · ${gender}`;
+      ? `尊严归零 · ${endingAge} · ${gender}` : `结局 · ${endingAge} · ${gender}`;
     el.eventType.textContent = "人生结局";
     el.routeLabel.textContent = ending.hidden
       ? ending.ordinary ? "隐藏普通结局" : "隐藏失败结局"
@@ -125,19 +123,21 @@
       callbacks = nextCallbacks;
       [
         "app", "chapterLabel", "stats", "portraitWrap", "portrait", "portraitName",
-        "eventPanel", "eventType", "routeLabel", "eventTitle", "eventText", "eventQuote",
+        "eventPanel", "eventType", "routeLabel", "eventTitle", "eventSpeaker",
+        "eventText", "eventQuote",
         "choiceList", "progressFill", "outcomeToast", "archiveDialog",
         "archiveCount", "archiveList", "soundButton", "restartButton",
       ].forEach((id) => { el[id] = document.getElementById(id); });
       document.getElementById("closeArchiveButton").addEventListener("click", () => el.archiveDialog.close());
-      el.restartButton.addEventListener("click", () => callbacks.onRestart(false));
+      el.restartButton.addEventListener("click", () => { document.getElementById("recoveryDialog")?.close(); callbacks.onRestart(false); });
       el.soundButton.addEventListener("click", callbacks.onSound);
     },
     render(state) {
-      el.app.dataset.gender = state.gender || "";
+      el.app.dataset.gender = state.gender || ""; el.app.dataset.mode = state.gameMode || "";
       LG.audio.scene(state.endingId ? "ending" : "story");
-      renderStats(state);
-      if (state.endingId) renderEnding(state);
+      el.stats.hidden = state.gameMode === "endgame"; renderStats(state);
+      if (state.gameMode === "endgame") LG.endgameHome.render(state);
+      else if (state.endingId) renderEnding(state);
       else renderEvent(state);
       LG.protagonistPortrait?.render?.(state);
       LG.equipmentUI?.refresh?.();

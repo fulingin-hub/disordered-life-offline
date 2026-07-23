@@ -1,6 +1,6 @@
 (function (LG) {
-  let dialog, log, input, send, residentTitle, residentCopy, newsHost;
-  let selected = "tavernKeeper";
+  let dialog, log, input, send, residentTitle, residentCopy, newsHost, lettersHost;
+  let residentsNav, slogan, schedule, selected = "tavernKeeper";
   let busy = false;
   let requestSequence = 0;
   let viewGeneration = 0;
@@ -8,23 +8,10 @@
   const threads = {};
   const D = () => LG.GOLDEN_HORIZON_DATA;
   const P = () => LG.goldenHorizonPanels;
-
   function resident(id = selected) {
-    return D().tavernResidents.find((item) => item.id === id)
-      || D().tavernResidents[0];
+    const source = schedule?.residents || D().tavernResidents;
+    return source.find((item) => item.id === id) || source[0];
   }
-
-  function actionId() {
-    try {
-      const bytes = new Uint8Array(16);
-      window.crypto.getRandomValues(bytes);
-      return `tavern:${[...bytes].map((value) =>
-        value.toString(16).padStart(2, "0")).join("")}`;
-    } catch (_) {
-      return `tavern:${Date.now()}:${Math.random().toString(36).slice(2, 10)}`;
-    }
-  }
-
   function appendMessage(role, text) {
     threads[selected] = threads[selected] || [];
     threads[selected].push({ role, text });
@@ -33,12 +20,13 @@
     log.scrollTop = log.scrollHeight;
     return row;
   }
-
   function renderThread() {
     log.replaceChildren();
     const items = threads[selected] || [];
     if (!items.length) {
-      appendMessage("npc", `${resident().name}向你点头，示意你坐下聊聊今天的新闻。`);
+      appendMessage("npc", LG.goldenHorizonResidents.welcome(resident(),
+        LG.infernalRealm.stats().reputation, LG.authority.snapshot()
+          ?.economy?.infernalTitles?.active?.title));
       return;
     }
     items.forEach((item) => {
@@ -51,17 +39,30 @@
     if (busy) return;
     selected = id;
     const item = resident();
-    residentTitle.textContent = `${item.name} · ${item.role}`;
-    residentCopy.textContent = item.intro;
+    residentTitle.textContent = LG.goldenHorizonResidents.label(item);
+    residentCopy.textContent = LG.goldenHorizonResidents.warmIntro(
+      item, LG.infernalRealm.stats().reputation);
     dialog.querySelectorAll("[data-tavern-resident]").forEach((button) => {
       button.classList.toggle("selected", button.dataset.tavernResident === id);
     });
     renderThread();
   }
 
+  function refreshResidents() {
+    const roster = LG.goldenHorizonTavernRoster.refresh(
+      residentsNav, selected, setResident, P().node);
+    schedule = roster.schedule; selected = roster.selected;
+    slogan.textContent = LG.goldenHorizonResidents.tavernSlogan(
+      schedule, LG.infernalRealm.stats().reputation);
+    setResident(selected);
+  }
   function renderNews() {
     newsHost.replaceChildren(LG.goldenHorizonReports.newspaper(
       "酒馆墙上的【今日快讯】", currentReports?.week));
+  }
+  function renderLetters() {
+    LG.goldenHorizonTavernSupport.renderLetters(
+      lettersHost, LG.goldenHorizon.data(), P().node);
   }
 
   function serverError(chunk) {
@@ -76,6 +77,7 @@
     if (!text || busy) return;
     const requestId = ++requestSequence;
     const generation = viewGeneration;
+    const residentId = selected;
     busy = true;
     input.value = "";
     send.disabled = true;
@@ -85,13 +87,15 @@
     let content = "";
     let completed = false;
     try {
-      for await (const chunk of window.dzmm.fn.invokeStream("dialogue", {
+      const localText = () => LG.goldenHorizonResidents.localReply(
+        resident(), text, LG.infernalRealm.stats().reputation);
+      for await (const chunk of LG.playerRuntime.stream("dialogue", {
         kind: "tavern",
         sceneId: "golden-tavern",
-        characterId: selected,
+        characterId: residentId,
         userText: text,
-        actionId: actionId(),
-      }, { timeout: 60_000 })) {
+        actionId: LG.goldenHorizonTavernSupport.actionId(),
+      }, { timeout: 60_000 }, localText)) {
         if (requestId !== requestSequence || generation !== viewGeneration) continue;
         if (chunk?.type === "error") throw serverError(chunk);
         if (chunk?.type === "delta") {
@@ -109,6 +113,20 @@
         reply.textContent = content || "居民若有所思地点了点头。";
         reply.classList.remove("pending");
         threads[selected][threads[selected].length - 1].text = reply.textContent;
+      }
+      try {
+        await LG.authority.mutate("goldenTavernBond", {
+          resident: residentId,
+        });
+        if (generation === viewGeneration) {
+          residentTitle.textContent = LG.goldenHorizonResidents.label(resident());
+          residentCopy.textContent = LG.goldenHorizonResidents.warmIntro(
+            resident(), LG.infernalRealm.stats().reputation);
+          renderLetters();
+        }
+      } catch (bondError) {
+        console.warn("酒馆关系记录失败:",
+          bondError?.code, bondError?.message, bondError?.stack);
       }
     } catch (error) {
       console.error("黄金城酒馆对话失败:",
@@ -139,17 +157,11 @@
     close.type = "button";
     close.addEventListener("click", () => dialog.close());
     heading.append(title, close);
-    const slogan = P().node("p", "golden-tavern-slogan",
+    slogan = P().node("p", "golden-tavern-slogan",
       "你并不孤独。所有职业者，都在共同改变这个世界。");
     newsHost = P().node("section", "golden-tavern-news");
-    const residents = P().node("nav", "golden-tavern-residents");
-    D().tavernResidents.forEach((item) => {
-      const button = P().node("button", "", item.name);
-      button.type = "button";
-      button.dataset.tavernResident = item.id;
-      button.addEventListener("click", () => setResident(item.id));
-      residents.append(button);
-    });
+    lettersHost = P().node("section", "golden-tavern-letter-host");
+    residentsNav = P().node("nav", "golden-tavern-residents");
     residentTitle = P().node("h3");
     residentCopy = P().node("p", "golden-tavern-resident-copy");
     log = P().node("div", "golden-tavern-log");
@@ -162,11 +174,10 @@
     send.type = "submit";
     form.append(input, send);
     form.addEventListener("submit", submit);
-    dialog.append(heading, slogan, newsHost, residents,
+    dialog.append(heading, slogan, newsHost, lettersHost, residentsNav,
       residentTitle, residentCopy, log, form);
     dialog.addEventListener("close", () => { viewGeneration += 1; });
     document.body.append(dialog);
-    setResident(selected);
   }
 
   function open(reports) {
@@ -174,25 +185,15 @@
     if (!dialog) build();
     send.disabled = busy; send.textContent = busy ? "交谈中…" : "发送";
     renderNews();
+    renderLetters();
+    refreshResidents();
     if (!dialog.open) dialog.showModal();
   }
 
   function panel(reportState) {
-    const section = P().node("section", "golden-panel golden-tavern-entry");
-    const top = reportState.reports?.week?.professionRanking?.[0];
-    section.append(P().node("span", "event-type", "居民AI对话"),
-      P().node("h3", "", "金杯与远路酒馆"),
-      P().node("p", "", top
-        ? `酒馆里都在谈论本周活跃的${top.name}。去听听居民怎么说。`
-        : "远征者与商旅正在交换今天的消息。"),
-      P().node("p", "golden-tavern-note",
-        "AI回复约需数秒；每次发送只请求一次，失败后由你决定是否重试。"));
-    const button = P().node("button", "", "进入酒馆");
-    button.type = "button";
-    button.addEventListener("click", () => open(reportState.reports));
-    section.append(button);
-    return section;
+    return LG.goldenHorizonTavernSupport.entryPanel(
+      reportState, open, P().node, LG.goldenHorizon.data());
   }
 
-  LG.goldenHorizonTavern = { panel, open };
+  LG.goldenHorizonTavern = { panel, open, refreshResidents };
 })(window.LifeGame);

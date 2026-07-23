@@ -19,11 +19,17 @@
     vehicleUnicorn: "./assets/generated/mount-unicorn.533d0c93.webp",
     vehiclePegasus: "./assets/generated/mount-pegasus.5dc37d39.webp",
     vehicleHeavenDragon: "./assets/generated/mount-heaven-dragon.35c16e32.webp",
+    vehicleSalukasSkyDragon:
+      "./assets/generated/mount-salukas-sky-dragon.5f25fa8a.webp",
     vehicleXuanwu: "./assets/generated/mount-xuanwu.142cb474.webp",
     vehicleLostGriffin: "./assets/generated/mount-lost-griffin.4848918f.webp",
     vehicleRebornPhoenix: "./assets/generated/mount-reborn-phoenix.db4c73ad.webp",
     vehiclePersonalityMale: "./assets/generated/rider-personality-male.0552c3d4.webp",
     vehiclePersonalityFemale: "./assets/generated/rider-personality-female.45dbc001.webp",
+    careerMountedMercenaryHorseMale:
+      "./assets/generated/career-mounted-mercenary-horse-male.5008a7af.webp",
+    careerMountedMercenaryHorseFemale:
+      "./assets/generated/career-mounted-mercenary-horse-female.4583e6de.webp",
     "mounted-points-horse-male":
       "./assets/generated/mounted-points-horse-male.cca7314b.webp",
     "mounted-points-horse-female":

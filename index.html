@@ -197,7 +197,7 @@
       report();
     })();
   </script>
-  <link rel="stylesheet" href="./app.bundle.css?v=1ee942e76299">
+  <link rel="stylesheet" href="./app.bundle.css?v=55bee5d69cb7">
   <link rel="stylesheet" href="./offline.css">
 </head>
 <body>
@@ -226,9 +226,9 @@
         <h2>虚构内容声明</h2>
         <p>本游戏中的人物、组织、地点与事件均为虚构创作。部分剧情包含强烈情绪、压迫关系、黑暗幻想与成人向主题，请根据自己的年龄、接受程度和现实处境谨慎选择。</p>
         <h2>18+ 模式年龄提醒</h2>
-        <p>18+模式包含成人向文字、CG与动画，仅适合已年满18周岁的玩家。不建议未成年人体验18+内容；若你尚未成年，请选择15+模式。若两种模式都不适合你，也请关闭并删除本游戏，感谢理解。</p>
+        <p>18+只作用于人生电影院中的模拟人生，包含旧版成人IF线、画廊、特殊职业、私密收藏及相关CG与动画，仅适合已年满18周岁的玩家。幸福人生始终使用15+表现。</p>
         <h2>15+ 模式内容范围</h2>
-        <p>15+模式不会解锁或显示画廊。黄金、圣水及其余成人动画不会播放，相关情节改为文字场景；道具数值效果、任务结算、成就累计与其他正常玩法仍然保留。</p>
+        <p>15+模式下，幸福人生与模拟人生都使用15+表现。画廊、特殊职业、角色丧志房间、黄金、圣水、特殊药剂和私密道具收藏不开放；相关旧剧情只以文字方式表现。</p>
         <h2>永久选择规则</h2>
         <p>18+模式可以在游戏中随时永久切换为15+模式。15+模式一经保存，当前存档不能切换回18+模式，也不会出现升级入口。</p>
         <h2>重新选择方式</h2>
@@ -244,11 +244,11 @@
       <div class="content-mode-options">
         <button type="button" data-content-mode="15" disabled>
           <strong>选择 15+</strong>
-          <span>不开放画廊，成人动画改为文字；保存后不能升级为18+。</span>
+          <span>幸福人生与模拟人生均为15+；成人场景改为文字。</span>
         </button>
         <button type="button" data-content-mode="18" disabled>
           <strong>选择 18+</strong>
-          <span>仅限已满18周岁；可随时永久降级为15+。</span>
+          <span>幸福人生仍为15+；模拟人生开放成人IF内容。</span>
         </button>
       </div>
       <p id="contentModeStatus" class="content-mode-status" role="status">
@@ -262,15 +262,32 @@
       <span class="event-type">新的人生</span>
       <h1 id="genderTitle">选择主角性别</h1>
       <div class="gender-options">
-        <button type="button" data-gender="male">
+        <button type="button" data-gender="male" aria-pressed="false">
           <strong>男主角</strong>
           <span>进入男性人生结局</span>
         </button>
-        <button type="button" data-gender="female">
+        <button type="button" data-gender="female" aria-pressed="false">
           <strong>女主角</strong>
           <span>进入女性人生结局</span>
         </button>
       </div>
+      <div class="game-mode-group">
+        <span class="game-mode-label">玩法模式</span>
+        <div class="game-mode-options" role="group" aria-label="玩法模式">
+          <button type="button" data-game-mode="simulation" aria-pressed="true">
+            <strong>模拟人生</strong>
+            <span>先走过两段人生，看看第二个结局之后会发生什么。</span>
+          </button>
+          <button type="button" data-game-mode="endgame" aria-pressed="false">
+            <strong>终局玩法</strong>
+            <span>进入冒险者公会，备战反攻深渊。</span>
+          </button>
+        </div>
+        <p id="gameModeProgress" class="game-mode-progress"></p>
+      </div>
+      <button id="startLifeButton" class="start-life-button" type="button" disabled>
+        开始人生
+      </button>
       <button id="recoveryGateButton" class="quiet-button recovery-gate-button"
         type="button">打开人生电影院</button>
       <p id="genderStatus" class="gender-status" role="status"></p>
@@ -293,10 +310,6 @@
         <button id="goldenHorizonButton" class="quiet-button" type="button">金色地平线</button>
         <button id="roomsButton" class="quiet-button" type="button">世界</button>
         <button id="recoveryButton" class="quiet-button" type="button">人生电影院</button>
-        <button id="contentModeButton" class="quiet-button danger" type="button" hidden>
-          永久切换15+
-        </button>
-        <button id="restartButton" class="quiet-button danger" type="button">重新出生</button>
       </div>
       <div class="life-progress" aria-label="人生进度">
         <span id="progressFill"></span>
@@ -323,6 +336,7 @@
           <span id="routeLabel" class="route-label">尚未分流</span>
         </div>
         <h1 id="eventTitle">正在载入人生</h1>
+        <p id="eventSpeaker" class="event-speaker" hidden></p>
         <p id="eventText" class="event-text"></p>
         <button id="talkButton" class="location-button" type="button" hidden></button>
         <section id="chatPanel" class="chat-panel" hidden>
@@ -350,6 +364,30 @@
       </section>
     </main>
   </div>
+
+  <dialog id="endgameUnlockDialog" class="system-dialog endgame-unlock-dialog">
+    <div class="endgame-unlock-heading">
+      <span id="endgameUnlockEyebrow" class="event-type">人生回响</span>
+      <h2 id="endgameUnlockTitle">第一段人生已被记住</h2>
+    </div>
+    <p id="endgameUnlockCopy" class="endgame-unlock-copy"></p>
+    <div class="endgame-unlock-progress" aria-label="终局解锁进度">
+      <div class="endgame-unlock-track">
+        <span id="endgameUnlockBar"></span>
+      </div>
+      <strong id="endgameUnlockProgress">1/2</strong>
+    </div>
+    <div class="endgame-unlock-actions">
+      <button id="endgameUnlockPrimary" class="choice-button primary" type="button">
+        <span id="endgameUnlockPrimaryText">再活一次</span>
+        <small id="endgameUnlockPrimaryHint">看看另一条路通向哪里</small>
+      </button>
+      <button id="endgameUnlockSecondary" class="quiet-button" type="button">
+        留在这个结局
+      </button>
+    </div>
+    <p id="endgameUnlockStatus" class="system-status" role="status"></p>
+  </dialog>
 
   <dialog id="archiveDialog" class="archive-dialog">
     <div class="dialog-heading">
@@ -966,16 +1004,26 @@
       <button id="closeTraitsButton" class="quiet-button" type="button">关闭</button>
     </div>
     <div class="traits-pages" role="tablist" aria-label="主角面板页面">
-      <button type="button" role="tab" data-traits-page="traits"
-        aria-controls="traitsPage">性癖属性</button>
-      <button type="button" role="tab" data-traits-page="equipment"
-        aria-controls="equipmentPage">主角装备</button>
-      <button type="button" role="tab" data-traits-page="vehicle"
-        aria-controls="vehiclePage">乘骑载具</button>
+      <button type="button" role="tab" data-traits-page="identity"
+        aria-controls="traitsPage soulPage">人格体现</button>
       <button type="button" role="tab" data-traits-page="collection"
-        aria-controls="collectionPage">角色收藏</button>
-      <button type="button" role="tab" data-traits-page="soul"
+        aria-controls="collectionPage infernalTitlePage equipmentPage">角色收藏</button>
+    </div>
+    <div id="identityPages" class="panel-subpages" role="tablist"
+      aria-label="人格体现页面">
+      <button type="button" role="tab" data-identity-page="traits"
+        aria-controls="traitsPage">性癖属性</button>
+      <button type="button" role="tab" data-identity-page="soul"
         aria-controls="soulPage">灵魂之火</button>
+    </div>
+    <div id="collectionPages" class="panel-subpages" role="tablist"
+      aria-label="角色收藏页面" hidden>
+      <button type="button" role="tab" data-collection-page="collection"
+        aria-controls="collectionPage">收藏图鉴</button>
+      <button type="button" role="tab" data-collection-page="infernalTitle"
+        aria-controls="infernalTitlePage">异界称号</button>
+      <button type="button" role="tab" data-collection-page="equipment"
+        aria-controls="equipmentPage">主角装备</button>
     </div>
     <section id="traitsPage">
       <div class="traits-summary">
@@ -988,6 +1036,15 @@
         <span class="traits-save-hint">加减结果仅为暂存，点击按钮后保存。</span>
         <button id="commitTraitsButton" type="button">调整后点击保存</button>
       </div>
+    </section>
+    <section id="infernalTitlePage" class="infernal-title-page" hidden>
+      <div class="infernal-title-summary">
+        <div><span>当前异界称号</span><strong id="activeInfernalTitle">未装备</strong></div>
+        <div><span>异界礼仪</span><strong>酒馆居民初次招呼时会使用已装备称号</strong></div>
+      </div>
+      <p id="infernalTitleStatus" class="traits-status"></p>
+      <p id="infernalTitleEmpty" class="system-status" hidden>尚无异界称号记录。</p>
+      <div id="infernalTitleList" class="infernal-title-list"></div>
     </section>
     <section id="equipmentPage" hidden>
       <div class="special-outfit-picker">
@@ -1011,42 +1068,51 @@
     </section>
     <section id="vehiclePage" class="vehicle-profile-page" hidden>
       <div class="vehicle-profile-summary">
-        <div><span>当前乘骑</span><strong id="vehicleCurrent">未选择载具</strong></div>
-        <div><span>博览会会员</span><strong id="vehicleProfileVip">访客</strong></div>
+        <div><span>当前战斗伙伴</span><strong id="vehicleCurrent">未选择伙伴</strong></div>
+        <div><span>伙伴公会会员</span><strong id="vehicleProfileVip">访客</strong></div>
       </div>
-      <div class="vehicle-mode-switch" role="group" aria-label="载具展示方式">
-        <button id="vehicleRideModeButton" type="button" aria-pressed="true">骑乘</button>
-        <button id="vehicleFollowModeButton" type="button" aria-pressed="false">跟随</button>
+      <div class="vehicle-mode-switch" role="group" aria-label="战斗伙伴协同方式">
+        <button id="vehicleRideModeButton" type="button"
+          aria-pressed="true">先锋协同</button>
+        <button id="vehicleFollowModeButton" type="button"
+          aria-pressed="false">跟随支援</button>
       </div>
       <div id="vehicleEffect" class="vehicle-profile-effect" data-active="false">
         <div class="vehicle-effect-heading">
-          <span>坐骑效果</span>
+          <span>伙伴效果</span>
           <strong id="vehicleEffectState">未激活</strong>
         </div>
-        <p id="vehicleEffectTitle">选择载具后显示当前乘骑加成</p>
+        <p id="vehicleEffectTitle">选择伙伴后显示当前协同加成</p>
         <ul id="vehicleEffectBonuses">
-          <li>普通载具仅更换乘骑立绘，不提供特殊加成。</li>
+          <li>普通伙伴仅更换同行立绘，不提供特殊加成。</li>
         </ul>
       </div>
       <p id="vehicleProfileStatus" class="traits-status">
-        在万界载具博览会馆购买后，可从任意已拥有载具中选择乘骑。
+        在万界战斗伙伴公会馆签约后，可从任意已签约伙伴中选择同行。
       </p>
       <div id="vehicleProfileStage" class="vehicle-profile-stage">
         <figure id="vehicleRiderFigure" hidden>
           <img id="vehicleRiderArt" alt="">
-          <figcaption id="vehicleRiderCaption">固定身份套装立绘</figcaption>
+          <figcaption id="vehicleRiderCaption">主角职业立绘</figcaption>
         </figure>
         <figure id="vehicleMountFigure" hidden>
           <img id="vehicleMountArt" class="vehicle-profile-mount" alt="">
-          <figcaption id="vehicleMountCaption">当前载具立绘</figcaption>
+          <figcaption id="vehicleMountCaption">当前伙伴立绘</figcaption>
         </figure>
         <p id="vehicleProfileEmpty" class="vehicle-profile-empty">
-          尚未选择载具。前往博览会馆购买后即可乘骑。
+          尚未选择战斗伙伴。前往伙伴公会馆签约后即可同行。
         </p>
       </div>
+      <section class="vehicle-achievement-gallery">
+        <div class="vehicle-achievement-gallery-heading">
+          <strong>声望战斗伙伴成就CG</strong>
+          <span>随异界魔境累计声望自动解锁</span>
+        </div>
+        <div id="vehicleAchievementCgList" class="vehicle-achievement-cg-list"></div>
+      </section>
       <div class="vehicle-profile-controls">
-        <select id="vehicleSelect" aria-label="选择乘骑载具"></select>
-        <button id="openVehicleHallButton" type="button">前往博览会馆</button>
+        <select id="vehicleSelect" aria-label="选择战斗伙伴"></select>
+        <button id="openVehicleHallButton" type="button">前往伙伴公会馆</button>
       </div>
     </section>
     <section id="collectionPage" hidden>
@@ -1092,9 +1158,29 @@
         </div>
         <h3>凡世灵魂</h3>
         <div id="soulTierGuide" class="soul-guide-grid"></div>
+        <div id="soulDarkline" class="soul-archive-intro soul-darkline" hidden>
+          <strong>古神手札·黑魂</strong>
+          黑色灵魂并不是七大欲留下的残渣。
+
+          它们是祂们的食粮。
+
+          黑色灵魂汇入魔界，供养七大欲；
+          七大欲因众生之恶而壮大，又将欲望重新投向人间。
+
+          欲望催生新的堕落。
+          堕落孕育新的黑色灵魂。
+          黑色灵魂再次回归祂们。
+
+          循循相生。
+
+          而某些在人间被尊称为“教会”的人，早已学会如何让这个循环变得更加高效。
+
+          ——他们并不满足于等待灵魂自行堕落。
+        </div>
         <div class="soul-archive-intro">
           <strong>古籍中的彩色灵魂</strong>
-          神明拥有彩色灵魂；金色也只是拥有善良人格的存在而已。
+          神明拥有彩色灵魂；金色灵魂则是凡人在欲望、苦难与诱惑后，
+          依旧主动选择善而抵达的高贵之魂。
           十万人格以上的灵魂每局重新抽取颜色，并在本轮人生中获得对应临时增益。
         </div>
         <h3>彩虹七色池</h3>
@@ -1115,13 +1201,26 @@
       <button type="button" role="tab" data-career-view="stats">职业属性</button>
       <button type="button" role="tab" data-career-view="loadout">职业装备</button>
       <button type="button" role="tab" data-career-view="factions">选择阵营</button>
-      <button type="button" role="tab" data-career-view="benefits">聘用与菜单</button>
+      <button type="button" role="tab" data-career-view="companions">战斗伙伴</button>
     </div>
     <p id="careerStatus" class="system-status" role="status"></p>
     <section id="careerStatsView" class="career-view"></section>
     <section id="careerLoadoutView" class="career-view" hidden></section>
     <section id="careerFactionsView" class="career-view" hidden></section>
-    <section id="careerBenefitsView" class="career-view" hidden></section>
+    <section id="careerCompanionsView" class="career-view" hidden></section>
+  </dialog>
+
+  <dialog id="careerBenefitsDialog" class="system-dialog career-benefits-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span id="careerBenefitsEyebrow" class="event-type">夫妻店铺</span>
+        <h2 id="careerBenefitsTitle">店铺服务</h2>
+      </div>
+      <button id="closeCareerBenefitsButton" class="quiet-button"
+        type="button">关闭</button>
+    </div>
+    <p id="careerBenefitsStatus" class="system-status" role="status"></p>
+    <section id="careerBenefitsContent"></section>
   </dialog>
 
   <dialog id="factionStoreDialog" class="system-dialog faction-store-dialog">
@@ -1166,7 +1265,7 @@
   <dialog id="infernalDialog" class="infernal-dialog">
     <div class="dialog-heading">
       <div>
-        <span class="event-type">异界魔境 · 地狱的入口“终局玩法”</span>
+        <span class="event-type">异界魔境 · 幸福人生RPG</span>
         <h2>临时阵地的任务大厅</h2>
       </div>
       <button id="closeInfernalButton" class="quiet-button" type="button">关闭</button>
@@ -1248,6 +1347,7 @@
       <div><span>可用属性点</span><strong id="adventureGuildPoints">0</strong></div>
       <div><span>付费刷新</span><strong id="adventureGuildRefreshCount">0/3</strong></div>
       <div><span>战利品宝箱</span><strong id="adventureGuildChestCount">0</strong></div>
+      <div><span>深渊凭证</span><strong id="adventureGuildShareCount">0/5</strong></div>
     </div>
     <div class="adventure-guild-actions">
       <button id="adventureGuildRefreshButton" type="button">刷新库存</button>
@@ -1258,6 +1358,7 @@
       <button type="button" role="tab" data-guild-view="equipment">一阶装备</button>
       <button type="button" role="tab" data-guild-view="corrupted">堕落藏品</button>
       <button type="button" role="tab" data-guild-view="inventory">公会仓库</button>
+      <button type="button" role="tab" data-guild-view="rewards">远征授勋</button>
     </nav>
     <p id="adventureGuildStatus" class="system-status" role="status">
       正在同步公会库存。
@@ -1284,6 +1385,19 @@
       <button type="button" data-abyss-view="run">无尽深渊</button>
     </nav>
     <p id="abyssStatus" class="infernal-status" role="status"></p>
+    <section class="abyss-party-panel" aria-label="五人远征队">
+      <div class="abyss-party-heading">
+        <div>
+          <span class="event-type">五人远征 · 队长制</span>
+          <h3>赫克托远征队</h3>
+        </div>
+        <span>玩家席位：第五席队员</span>
+      </div>
+      <p id="abyssCaptainCopy" class="abyss-captain-copy"></p>
+      <div id="abyssPartyTeam" class="abyss-party-team"></div>
+      <div id="abyssAssignments" class="abyss-assignments"
+        aria-label="选择负责区段"></div>
+    </section>
     <section id="abyssHall" class="infernal-scroll infernal-hall-view">
       <div class="infernal-hall-heading">
         <h3>深渊悬赏</h3>
@@ -1403,14 +1517,14 @@
     <div class="vehicle-dialog-shell">
       <div class="dialog-heading">
         <div>
-          <span class="event-type">异界人联合终产者们成立的神秘销金窟</span>
-          <h2>万界载具博览会馆</h2>
+          <span class="event-type">跨世界契约 · 战斗伙伴</span>
+          <h2>万界战斗伙伴公会馆</h2>
         </div>
         <button id="closeVehicleButton" class="quiet-button" type="button">关闭</button>
       </div>
       <div class="vehicle-catalog-scroll">
         <div class="otherworld-section-heading">
-          <div><span class="event-type">异界商行</span><h3>博览会角色房间</h3></div>
+          <div><span class="event-type">异界商行</span><h3>伙伴公会角色房间</h3></div>
           <p>进入个人商店与图鉴</p>
         </div>
         <div id="otherworldExpoCharacter" class="otherworld-character-strip"></div>
@@ -1426,7 +1540,7 @@
           <span>青铜至璀璨会员按累计实际消费提升，折扣依次为5%至40%。</span>
           <strong id="vehicleVipNext"></strong>
         </div>
-        <nav class="vehicle-tabs" role="tablist" aria-label="载具商城货币">
+        <nav class="vehicle-tabs" role="tablist" aria-label="伙伴签约货币">
           <button class="active" type="button" role="tab"
             data-vehicle-store="points">属性点</button>
           <button type="button" role="tab"
@@ -1548,6 +1662,16 @@
       <button id="closeRecoveryButton" class="quiet-button" type="button">关闭</button>
     </div>
     <div class="life-cinema-options" aria-label="人生电影院功能">
+      <button id="cinemaSimulationButton" class="life-cinema-option narrator-entry"
+        type="button">
+        <strong>模拟人生 · IF轮回</strong>
+        <span id="cinemaSimulationText">从0岁开始一段独立人生</span>
+      </button>
+      <button id="cinemaLeaveSimulationButton" class="life-cinema-option"
+        type="button" hidden>
+        <strong>返回幸福人生</strong>
+        <span>保存当前轮回进度，只带回结算属性点</span>
+      </button>
       <button id="cinemaNarratorButton" class="life-cinema-option narrator-entry"
         type="button">
         <strong>场外旁白</strong>
@@ -1574,10 +1698,19 @@
         <strong>爽文人生</strong>
         <span>人生重开 0/1000 次后解锁</span>
       </button>
+      <button id="restartButton" class="life-cinema-option" type="button">
+        <strong>重新出生</strong>
+        <span>放弃当前人生，从降生重新选择道路</span>
+      </button>
+      <button id="contentModeButton" class="life-cinema-option" type="button" hidden>
+        <strong>自律人生</strong>
+        <span>永久切换为15+表现，隐藏成人内容且无法恢复</span>
+      </button>
     </div>
     <p id="cinemaStatus" class="system-status cinema-status" role="status">
       选择一段人生回想。
     </p>
+    <p id="cinemaSimulationProgress" class="system-status cinema-status"></p>
     <section id="cinemaNarratorPanel" class="cinema-narrator-panel" hidden>
       <div class="life-achievement-summary">
         <strong>场外旁白</strong>
@@ -1674,6 +1807,9 @@
   <script src="./career-roster-identities.js"></script>
   <script src="./career-university-data.js"></script>
   <script src="./career-data.js"></script>
+  <script src="./career-path-data.js"></script>
+  <script src="./golden-horizon-residents.js"></script>
+  <script src="./golden-arena-data.js"></script>
   <script src="./golden-horizon-data.js"></script>
   <script src="./vehicle-assets.js"></script>
   <script src="./vehicle-data.js"></script>
@@ -1700,11 +1836,13 @@
   <script src="./saint-items.js"></script>
   <script src="./equipment.js"></script>
   <script src="./collectibles-data.js"></script>
+  <script src="./lore-collection-data.js"></script>
   <script src="./cg-assets.js"></script>
   <script src="./event-scene-assets.js"></script>
   <script src="./foot-impact-achievement-assets.js"></script>
   <script src="./contribution-showcase-achievement-assets.js"></script>
   <script src="./parental-cg-assets.js"></script>
+  <script src="./vehicle-achievement-cg.js"></script>
   <script src="./ending-gender-assets.js"></script>
   <script src="./career-roster-assets.js"></script>
   <script src="./career-advancement-data.js"></script>
@@ -1719,6 +1857,10 @@
   <script src="./world-areas.js"></script>
   <script src="./faction-rooms.js"></script>
   <script src="./room-entry-copy.js"></script>
+  <script src="./player-runtime-story.js"></script>
+  <script src="./player-runtime-endgame.js"></script>
+  <script src="./player-runtime-data.js"></script>
+  <script src="./player-runtime.js"></script>
   <script src="./storage-chat.js"></script>
   <script src="./storage.js"></script>
   <script src="./save-recovery-data.js"></script>
@@ -1788,8 +1930,13 @@
   <script src="./authority.js"></script>
   <script src="./daily-clock.js"></script>
   <script src="./vehicle-store.js"></script>
+  <script src="./vehicle-career-combinations.js"></script>
+  <script src="./vehicle-career-combination-atlases.js"></script>
+  <script src="./vehicle-career-portraits.js"></script>
   <script src="./life-cinema.js"></script>
+  <script src="./life-cinema-simulation.js"></script>
   <script src="./engine.js"></script>
+  <script src="./character-demographics.js"></script>
   <script src="./casino-access.js"></script>
   <script src="./asset-recovery.js"></script>
   <script src="./loading-ui.js"></script>
@@ -1815,6 +1962,7 @@
   <script src="./black-market-ui.js"></script>
   <script src="./holy-light-purification-cinema.js"></script>
   <script src="./holy-light-ui.js"></script>
+  <script src="./fallen-saint-room.js"></script>
   <script src="./priestess-trial-ui.js"></script>
   <script src="./saint-trial-cinema.js"></script>
   <script src="./saint-trial-ui.js"></script>
@@ -1846,6 +1994,7 @@
   <script src="./room-cards.js"></script>
   <script src="./adventure-guild-cards.js"></script>
   <script src="./infernal-ui.js"></script>
+  <script src="./abyss-party-ui.js"></script>
   <script src="./abyss-ui.js"></script>
   <script src="./infernal-club-item-ui.js"></script>
   <script src="./infernal-stomp-popup.js"></script>
@@ -1854,20 +2003,30 @@
   <script src="./infernal-club-ui.js"></script>
   <script src="./vehicle-ui.js"></script>
   <script src="./golden-horizon-panels.js"></script>
+  <script src="./golden-horizon-arena.js"></script>
   <script src="./golden-horizon-extra-panels.js"></script>
+  <script src="./golden-horizon-endgame.js"></script>
   <script src="./golden-horizon-reports.js"></script>
+  <script src="./golden-horizon-tavern-roster.js"></script>
+  <script src="./golden-horizon-tavern-support.js"></script>
   <script src="./golden-horizon-tavern.js"></script>
   <script src="./golden-horizon-ui.js"></script>
+  <script src="./guild-onboarding-data.js"></script>
+  <script src="./guild-onboarding-expedition-data.js"></script>
+  <script src="./guild-onboarding.js"></script>
+  <script src="./golden-horizon-entry.js"></script>
   <script src="./room-lobby-ui.js"></script>
   <script src="./rooms-ui.js"></script>
   <script src="./tribute-ui.js"></script>
   <script src="./rooms.js"></script>
   <script src="./trait-hold-controls.js"></script>
   <script src="./traits-ui.js"></script>
+  <script src="./infernal-title-ui.js"></script>
   <script src="./special-outfit-ui.js"></script>
   <script src="./equipment-ui.js"></script>
   <script src="./vehicle-profile-ui.js"></script>
   <script src="./protagonist-portrait.js"></script>
+  <script src="./restricted-career-portraits.js"></script>
   <script src="./career-main-portrait.js"></script>
   <script src="./career-art-ui.js"></script>
   <script src="./faction-consumables-ui.js"></script>
@@ -1877,13 +2036,17 @@
   <script src="./collection-filters.js"></script>
   <script src="./corrupted-collection-ui.js"></script>
   <script src="./collectibles-ui.js"></script>
+  <script src="./adventure-guild-rewards-ui.js"></script>
   <script src="./adventure-guild-ui.js"></script>
   <script src="./career-stat-input.js"></script>
   <script src="./career-benefits-ui.js"></script>
+  <script src="./career-faction-card.js"></script>
   <script src="./career-ui.js"></script>
   <script src="./daily-tasks-ui.js"></script>
   <script src="./fallen-seven-cg.js"></script>
   <script src="./cg-ui.js"></script>
+  <script src="./endgame-home.js"></script>
+  <script src="./endgame-unlock-ui.js"></script>
   <script src="./ui.js"></script>
   <script src="./game.js"></script>
 </body>

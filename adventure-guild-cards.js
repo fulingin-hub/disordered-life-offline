@@ -13,7 +13,8 @@
     image.loading = "lazy";
     image.decoding = "async";
     const copy = node("div");
-    copy.append(node("span", "event-type", character.role),
+    copy.append(node("span", "event-type",
+      `${character.role} · ${character.age}岁`),
       node("strong", "", character.name), node("p", "", character.copy));
     card.append(image, copy);
     return card;

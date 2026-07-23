@@ -82,6 +82,7 @@
 .gallery-animation-thumb-art[data-animation-model] {
   --model-primary: var(--character-model-primary, #d6b85e);
   --model-secondary: var(--character-model-secondary, #6e8fa4);
+  isolation: isolate;
   background:
     linear-gradient(145deg,
       color-mix(in srgb, var(--model-secondary) 30%, transparent),
@@ -97,13 +98,17 @@
   background: var(--animation-portrait) center bottom / contain no-repeat;
   filter: drop-shadow(0 12px 18px #000);
   opacity: .74;
+  pointer-events: none;
 }
 
 .gallery-animation-preview[data-animation-model] > div,
-.gallery-animation-preview[data-animation-model] > button,
 .gallery-animation-thumb-art[data-animation-model] i {
   position: relative;
   z-index: 1;
+}
+
+.gallery-animation-preview[data-animation-model] > button {
+  z-index: 2;
 }
 
 .gallery-animation-thumb-art[data-animation-model] {

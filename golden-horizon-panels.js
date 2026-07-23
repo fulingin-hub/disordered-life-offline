@@ -17,9 +17,11 @@
     Object.entries(D().characters).forEach(([id, item]) => {
       const card = node("article", `golden-companion${guide === id ? " selected" : ""}`);
       const image = node("img"); image.src = LG.CONFIG.assets[item.image];
-      image.alt = `${item.name} · ${item.role}`; image.loading = "lazy";
+      image.alt = LG.characterDemographics.label(
+        item.id, item.name, item.role); image.loading = "lazy";
       const body = node("div");
-      body.append(node("span", "event-type", item.role),
+      body.append(node("span", "event-type", LG.characterDemographics.label(
+        item.id, "", item.role)),
         node("h3", "", item.name), node("p", "", item.copy),
         button(guide === id ? "当前同行" : `与${item.name}同行`,
           () => choose(id), busy, "golden-guide-button"));
@@ -30,7 +32,7 @@
   function weekly(data) {
     const section = node("section", "golden-panel");
     const heading = node("div", "golden-panel-heading");
-    heading.append(node("div", "", "萨卢卡斯七日通行印记"),
+    heading.append(node("div", "", "萨卢卡斯七日全胜周奖励"),
       node("strong", "", `${data.clearedDays.length}/7`));
     const track = node("div", "golden-week-track");
     for (let index = 0; index < 7; index += 1) {
@@ -38,7 +40,7 @@
         String(index + 1)));
     }
     section.append(heading, track, node("p", "",
-      data.weekFailed ? "本周完整通关资格已中止，但每日内容仍可继续。"
+      data.weekFailed ? "本周全胜奖励已中止；失败仍计入永久入城见证。"
         : "连续七日通过全部地图，可获得【萨卢卡斯的馈赠】。"));
     return section;
   }
@@ -52,7 +54,10 @@
     node("h3", "", known ? map.name : "变换的萨卢卡斯"),
     node("p", "", known
       ? `${map.gate}：${map.text}`
-      : "卡没有替你标出答案。根据七日规律，自己选择今天的门。"));
+      : "卡没有替你标出答案。根据七日规律，自己选择今天的门。"),
+    node("strong", "golden-entry-progress",
+      `入城见证 ${Math.min(7, Number(data.entryDays) || 0)}/7 · ${
+        data.cityUnlocked ? "黄金都城已开放" : "成功或失败都记录当天见证"}`));
     const grid = node("div", "golden-gates");
     D().gates.forEach((gate) => {
       const safe = known && gate.id === data.today.gate;
@@ -66,10 +71,20 @@
     }
     section.append(grid); return section;
   }
+  function cityGate(data) {
+    const section = node("section", "golden-panel golden-city-gate");
+    section.append(node("span", "event-type", "黄金都城 · 城门外"),
+      node("h3", "", "七日见证尚未完成"),
+      node("p", "",
+        "斯与卡要求你实际走过七个不同日期的萨卢卡斯试炼。无需七日全胜，失败也会留下见证；但少一天都不会开城门。"),
+      node("strong", "", `当前见证 ${Math.min(7,
+        Number(data.entryDays) || 0)}/7`));
+    return section;
+  }
   function arenas(data, act, busy) {
     const section = node("section", "golden-panel");
     section.append(node("h3", "", "六大势力角斗场"),
-      node("p", "", "无入场要求，每座角斗场每日可完成一次。"));
+      node("p", "", "完成七日见证入城后，每座角斗场每日可完成一次。"));
     const grid = node("div", "golden-arena-grid");
     D().arenas.forEach((arena) => {
       const done = data.arenas.completed.includes(arena.id);
@@ -136,6 +151,6 @@
     return section;
   }
   LG.goldenHorizonPanels = {
-    companions, weekly, trial, arenas, inventory, exchange, hidden, node,
+    companions, weekly, trial, cityGate, arenas, inventory, exchange, hidden, node,
   };
 })(window.LifeGame);

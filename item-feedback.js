@@ -50,9 +50,15 @@
     const top = target.tagName === "DIALOG"
       ? target.getBoundingClientRect().top + 68 : 18;
     banner.style.top = `${Math.max(18, top)}px`;
-    const privateTone = ["private", "special"].includes(tone);
-    banner.dataset.tone = privateTone ? "private" : "normal";
-    if (privateTone) randomizeFeet();
+    const teenMode = LG.contentMode?.isTeen?.() === true;
+    const privateTone = !teenMode && ["private", "special"].includes(tone);
+    banner.dataset.tone = teenMode ? "teen"
+      : privateTone ? "private" : "normal";
+    if (teenMode) {
+      delete banner.dataset.variant;
+      leftFoot.className = "item-use-foot left";
+      rightFoot.className = "item-use-foot right";
+    } else if (privateTone) randomizeFeet();
     textNode.textContent = text;
     window.clearTimeout(timer);
     banner.classList.remove("show");

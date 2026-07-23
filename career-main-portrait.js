@@ -20,6 +20,7 @@
       delete wrap.dataset.vehicleFamily;
       delete wrap.dataset.vehicleTone;
       delete wrap.dataset.vehicleMode;
+      delete wrap.dataset.vehicleCombination;
       wrap.classList.remove("mounted", "following");
       wrap.hidden = false;
     },

@@ -17,6 +17,12 @@
       await OfflineDB.put("authority", key, value);
       return true;
     },
+    async putIfAbsent(key, value) {
+      const current = await OfflineDB.get("authority", key);
+      if (current !== null) return false;
+      await OfflineDB.put("authority", key, value);
+      return true;
+    },
     async delete(key) {
       await OfflineDB.delete("authority", key);
       return true;
@@ -26,7 +32,6 @@
   function context(body) {
     return {
       kv,
-      lifeCinemaTestMode: window.LifeGame?.TEST_MODE?.lifeCinemaCheats === true,
       completions: {
         async *stream() {
           const reply = localReply(body);

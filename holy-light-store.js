@@ -4,6 +4,7 @@
     "spared-priestess": "放过女司祭",
     "priestess-trick": "女祭司的小把戏",
     "seven-desires-pet": "七大欲的宠奴",
+    they: "祂们",
   };
 
   LG.holyLight = {

@@ -3,6 +3,10 @@
     stock: [], supplies: {}, equipment: {}, corruptedInventory: {},
     catalog: [], lootBoxes: 0, refreshesUsed: 0, refreshesRemaining: 3,
     refreshCost: 1, points: 0, bonuses: {},
+    rewards: {
+      firstExpedition: {}, professionSet: { options: [] },
+      abyssShares: 0, expeditionUnlocked: false,
+    },
   });
   function data() {
     return LG.authority?.snapshot?.()?.economy?.adventureGuild || empty();

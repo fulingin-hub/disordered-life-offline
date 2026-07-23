@@ -1,8 +1,6 @@
 (function (LG) {
   const el = {};
-  let buying = false;
-  let activeCharacter = null;
-  let archivePrivacy = "private";
+  let buying = false, activeCharacter = null, archivePrivacy = "private";
   function node(tag, className, text) {
     const item = document.createElement(tag);
     if (className) item.className = className;
@@ -81,24 +79,25 @@
         String(button.dataset.collectionPrivacy === archivePrivacy)));
       return;
     }
-    el.ownedLabel.textContent = "已获得角色道具";
+    el.ownedLabel.textContent = "已获得收藏";
     const regular = Object.values(LG.COLLECTIBLE_CATALOG).flat()
       .filter((item) => LG.collectibles.owns(item.id)
         && (item.privacy || "private") === archivePrivacy);
     const saint = LG.collectionFilters.ownedSaintItems();
     const visibleSaint = archivePrivacy === "normal" ? saint : [];
     const careerItems = LG.factionStoreUI?.ownedItems?.(archivePrivacy) || [];
+    const loreItems = archivePrivacy === "normal" ? LG.collectibles.loreItems() : [];
+    const ownedLore = loreItems.filter((item) => LG.collectibles.owns(item.id));
     const all = Object.values(LG.COLLECTIBLE_CATALOG).flat()
       .filter((item) => (item.privacy || "private") === archivePrivacy);
-    const total = all.length + (archivePrivacy === "normal" ? 5 : 0);
+    const total = all.length + (archivePrivacy === "normal" ? 5 : 0) + loreItems.length;
     const careerTotal = (LG.CAREER_DATA?.roster?.length || 0) * 5;
     const entries = LG.collectionFilters.entries(
-      regular, visibleSaint, careerItems);
+      regular, visibleSaint, careerItems, ownedLore);
     LG.collectionFilters.updateCharacters(entries);
     const visible = LG.collectionFilters.apply(entries);
-    el.ownedCount.textContent = `${regular.length + visibleSaint.length + careerItems.length}/${
-      total + careerTotal}`;
-    el.status.textContent = regular.length || visibleSaint.length || careerItems.length
+    el.ownedCount.textContent = `${regular.length + visibleSaint.length + careerItems.length + ownedLore.length}/${total + careerTotal}`;
+    el.status.textContent = regular.length || visibleSaint.length || careerItems.length || ownedLore.length
       ? `${archivePrivacy === "private" ? "私密" : "普通"}收藏仅供查看，不能在角色收藏页面使用道具。`
       : `尚未获得${archivePrivacy === "private" ? "私密" : "普通"}角色道具。`;
     el.items.replaceChildren(...visible.map((entry) => {

@@ -37,6 +37,8 @@
       "normal-life": `${base}cg-ending-normal-life-male.43ebf8e1.webp`,
       "restaurant-household": `${base}cg-ending-restaurant-household.608c166d.webp`,
       "agency-household": `${base}cg-ending-agency-household.057f48fe.webp`,
+      "calamity-together": `${base}cg-calamity-together.673a9f43.webp`,
+      "calamity-alone": `${base}cg-calamity-alone-male.23db0d33.webp`,
       "japan-corporate-success": `${base}cg-ending-japan-corporate-success.4597424c.webp`,
       "japan-spy-controlled": `${base}cg-ending-japan-spy-controlled.69499dd0.webp`,
       "usa-corporate-success": `${base}cg-ending-usa-corporate-success.71bc538d.webp`,

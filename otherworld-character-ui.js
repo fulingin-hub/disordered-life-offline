@@ -15,7 +15,8 @@
     image.loading = "lazy";
     const body = node("div");
     body.append(
-      node("span", "event-type", character.role),
+      node("span", "event-type", LG.characterDemographics.label(
+        character.id, "", character.role)),
       node("strong", "", character.name),
       node("p", "", `个人图鉴 ${LG.otherworldCharacters.progress(character.id).count}/5`),
     );
@@ -65,7 +66,8 @@
     const progress = LG.otherworldCharacters.progress(selected);
     el.portrait.src = character.portrait;
     el.portrait.alt = character.role;
-    el.role.textContent = `${character.location} · ${character.role}`;
+    el.role.textContent = `${character.location} · ${
+      LG.characterDemographics.label(character.id, "", character.role)}`;
     el.name.textContent = character.name;
     el.points.textContent = LG.traits.points().toLocaleString("zh-CN");
     el.progress.textContent = `基础收藏 ${regular.count}/4 · 特殊道具 ${

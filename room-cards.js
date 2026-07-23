@@ -25,7 +25,8 @@
     const status = document.createElement("p");
     status.textContent = progress.special
       ? (progress.unlocked ? "角色贡金值跨周目累计，无上限" : `贡金属性 ${progress.count}/100`)
-      : `${scene.name}路线 ${progress.count}/${progress.threshold}`;
+      : `${LG.characterDemographics.label(progress.id, scene.name)}路线 ${
+        progress.count}/${progress.threshold}`;
     const button = document.createElement("button");
     button.type = "button";
     button.disabled = !progress.unlocked;

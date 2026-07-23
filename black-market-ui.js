@@ -1,8 +1,7 @@
 (function (LG) {
   const el = {};
   let getState;
-  let activeCharacter = null;
-  let busy = false;
+  let activeCharacter = null, busy = false;
   function node(tag, className, text) {
     const item = document.createElement(tag);
     if (className) item.className = className;
@@ -16,9 +15,10 @@
     const card = node("article", `room-card black-market-card${unlocked ? " unlocked" : ""}`);
     const image = node("img");
     image.src = LG.CONFIG.assets[character.id];
-    image.alt = `${character.name} · ${character.role}`;
+    image.alt = LG.characterDemographics.label(character.id, character.name, character.role);
     const body = node("div", "room-card-body");
-    const label = node("span", "event-type", unlocked ? "神秘黑市已解锁" : "媚外属性未达标");
+    const label = node("span", "event-type", LG.characterDemographics.label(
+      character.id, character.name, character.role));
     const title = node("h3", "", character.location);
     const track = node("div", "room-progress");
     const fill = node("span");
@@ -77,7 +77,7 @@
     const potions = LG.blackMarket.potions().filter((item) => item.country === country);
     const totals = LG.blackMarket.usageTotals();
     const rows = [node("p", "market-owned-note",
-      `已购装备 ${equipment.length} 件，可在“主角面板 → 主角装备”中使用。`),
+      `已购装备 ${equipment.length} 件，可在“主角面板 → 角色收藏 → 主角装备”中使用。`),
     node("p", "market-owned-note", `累计饮用：美味圣水 ${totals.holyWater} 次 · 黄金圣餐 ${totals.goldenSacrament} 次 · 健康归零 ${totals.healthZeroFromSpecials || 0}/500 次`)];
     potions.forEach((item) => {
       const row = node("article", "market-potion");

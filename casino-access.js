@@ -23,7 +23,9 @@
       }
       const lives = LG.casino.completedLives();
       const age = currentAge();
-      const lifeReady = LG.casino.accessUnlocked();
+      const cinemaAccess = LG.authority.snapshot()?.life?.gameMode === "simulation"
+        && LG.authority.snapshot()?.lifeCinema?.simulationMaps?.allUnlocked === true;
+      const lifeReady = cinemaAccess || LG.casino.accessUnlocked();
       const ageReady = age >= 18;
       if (!lifeReady) {
         return {
@@ -44,7 +46,8 @@
       return {
         allowed: true,
         progress: 100,
-        detail: `${age}岁 · 累计 ${LG.casino.wins()}胜 / ${LG.casino.losses()}负`,
+        detail: cinemaAccess ? "人生电影院IF线已开放"
+          : `${age}岁 · 累计 ${LG.casino.wins()}胜 / ${LG.casino.losses()}负`,
         button: "进入赌场",
       };
     },
