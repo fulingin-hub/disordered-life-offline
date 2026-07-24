@@ -115,6 +115,8 @@
           && LG.holyLight?.priestessGalleryUnlocked())
         || (character === "mia"
           && LG.contentMode?.adultSimulation?.())
+        || (character === "xiaosi"
+          && LG.contentMode?.adultSimulation?.())
         || (LG.infernalClub?.isCharacter(character)
           && LG.infernalClub.access().allowed)
         || infernalWitch
@@ -123,7 +125,7 @@
       if (!gallery?.items.length || !unlocked) return false;
       currentCharacter = character;
       const animations = LG.galleryAnimationTemplates.entries(character);
-      currentItems = character === "mia"
+      currentItems = character === "mia" || character === "xiaosi"
         ? [...gallery.items, ...animations]
         : [...animations, ...gallery.items];
       el.title.textContent = `${gallery.name} · 角色画廊`;

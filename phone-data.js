@@ -100,7 +100,8 @@
         || LG.edenCharacters?.galleryUnlocked?.(id)
         || LG.penitentiary?.galleryUnlocked?.(id)
         || LG.otherworldCharacters?.galleryUnlocked?.(id)
-        || (id === "mia" && LG.contentMode?.adultSimulation?.());
+        || (["mia", "xiaosi"].includes(id)
+          && LG.contentMode?.adultSimulation?.());
       if (!unlocked || !gallery?.items?.length) return null;
       const item = gallery.items.find((entry) => validAsset(entry.src));
       return item ? {
@@ -120,9 +121,12 @@
   }
 
   function adultVideos() {
-    return unlockedCharacters().flatMap((character) =>
-      (LG.galleryAnimationTemplates?.entries?.(character.characterId) || [])
-        .slice(0, 2).map((item) => ({
+    return unlockedCharacters().flatMap((character) => {
+      const entries = LG.galleryAnimationTemplates
+        ?.entries?.(character.characterId) || [];
+      const visible = character.characterId === "xiaosi"
+        ? entries : entries.slice(0, 2);
+      return visible.map((item) => ({
           id: `video-${character.characterId}-${item.template}`,
           title: `${character.title} · ${item.title}`,
           subtitle: "角色视频动画",
@@ -130,7 +134,8 @@
           characterId: character.characterId,
           template: item.template,
           portrait: item.portrait || character.src,
-        })));
+        }));
+    });
   }
 
   function counts() {

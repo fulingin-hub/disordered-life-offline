@@ -188,6 +188,14 @@
   color: #fff1c7;
 }
 
+.phone-gallery-button {
+  grid-column: 1 / -1;
+  min-height: 38px;
+  border-color: rgba(137, 108, 184, .58);
+  background: #29213b;
+  color: #f0e7ff;
+}
+
 @media (max-width: 520px) {
   .phone-adult-grid {
     grid-template-columns: 1fr;

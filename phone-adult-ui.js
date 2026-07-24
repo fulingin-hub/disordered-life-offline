@@ -55,6 +55,15 @@
     const footer = node("div", "phone-adult-card-footer");
     footer.append(node("strong", "", item.title),
       node("small", "", item.subtitle), likeButton(item, render));
+    if (item.kind === "character") {
+      const gallery = node("button", "phone-gallery-button", "查看画廊");
+      gallery.type = "button";
+      gallery.addEventListener("click", () => {
+        LG.phoneUI.close();
+        LG.galleryUI.open(item.characterId);
+      });
+      footer.append(gallery);
+    }
     card.append(footer);
     return card;
   }

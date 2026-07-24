@@ -10,6 +10,7 @@
     paradise: ["#d9b75c", "#a84f6b", "乐园首领模型"],
     domain: ["#d76088", "#6e63b5", "异域首领模型"],
     otherworld: ["#6ec5c8", "#8468c6", "异界首领模型"],
+    ai: ["#a77be0", "#d6ad62", "AI管理员模型"],
     japanMarket: ["#d8d9e0", "#b34d65", "岛国黑市模型"],
     usaMarket: ["#d6b568", "#9c4050", "米国黑市模型"],
     privateShop: ["#d3b35d", "#568f98", "个人商城角色模型"],
@@ -22,6 +23,7 @@
   function group(meta) {
     const id = meta?.id;
     if (!id) return null;
+    if (id === "xiaosi") return "ai";
     if (LG.PENITENTIARY_DATA?.byId?.[id]) return "shadow";
     if (LG.CASINO_DATA?.byId?.[id]) return "casino";
     const other = LG.OTHERWORLD_CHARACTER_DATA?.byId?.[id];
