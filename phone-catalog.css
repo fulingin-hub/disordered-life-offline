@@ -1,0 +1,194 @@
+.phone-app-icon {
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #26313b;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14),
+    0 7px 18px rgba(0, 0, 0, .28);
+}
+
+.phone-app-icon[data-app-icon="simulation"] { background: #35647c; }
+.phone-app-icon[data-app-icon="movies"] { background: #84404b; }
+.phone-app-icon[data-app-icon="contacts"] { background: #426a8a; }
+.phone-app-icon[data-app-icon="music"] { background: #6d4c84; }
+.phone-app-icon[data-app-icon="gallery"] { background: #a16a36; }
+.phone-app-icon[data-app-icon="news"] { background: #47755e; }
+.phone-app-icon[data-app-icon="onlineCasino"] { background: #875c26; }
+.phone-app-icon[data-app-icon="adultSite"] { background: #7d3d51; }
+.phone-app-icon[data-app-icon="system"] { background: #46535f; }
+
+.phone-app-glyph {
+  color: #fff8df;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, .32);
+}
+
+.phone-app-icon[data-app-icon="adultSite"] .phone-app-glyph {
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+.phone-online-casino {
+  display: grid;
+  gap: 14px;
+}
+
+.phone-online-casino-scene {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  border: 1px solid rgba(216, 168, 78, .5);
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.phone-online-casino-copy {
+  display: grid;
+  gap: 8px;
+  padding: 2px;
+}
+
+.phone-online-casino-copy h3,
+.phone-online-casino-copy p {
+  margin: 0;
+}
+
+.phone-online-casino-copy p,
+.phone-online-casino-copy small {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.phone-adult-site {
+  display: grid;
+  gap: 10px;
+}
+
+.phone-like-summary {
+  display: grid;
+  gap: 5px;
+  border-left: 3px solid #c99254;
+  padding: 8px 12px;
+  background: rgba(201, 146, 84, .08);
+}
+
+.phone-global-summary {
+  display: grid;
+  gap: 5px;
+  border-left: 3px solid #6f91a8;
+  padding: 8px 12px;
+  background: rgba(111, 145, 168, .08);
+}
+
+.phone-global-summary span,
+.phone-global-summary small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.phone-global-summary.is-error {
+  border-left-color: #a96a6a;
+}
+
+.phone-like-summary small,
+.phone-like-summary span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.phone-adult-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.phone-adult-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #11171d;
+}
+
+.phone-adult-card > img,
+.phone-adult-video-preview {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: contain;
+  background: #080d12;
+}
+
+.phone-adult-video-preview {
+  position: relative;
+  background-position: center;
+  background-size: cover;
+}
+
+.phone-adult-video-preview::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(transparent 45%, rgba(0, 0, 0, .72));
+}
+
+.phone-adult-video-preview span {
+  position: absolute;
+  z-index: 1;
+  left: 9px;
+  bottom: 9px;
+  color: #fff3d2;
+  font-size: 11px;
+}
+
+.phone-adult-video-preview button {
+  position: absolute;
+  z-index: 2;
+  top: 8px;
+  right: 8px;
+  min-height: 34px;
+}
+
+.phone-adult-card-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 8px;
+  align-items: center;
+  padding: 8px;
+}
+
+.phone-adult-card-footer strong,
+.phone-adult-card-footer small {
+  min-width: 0;
+  overflow: hidden;
+  grid-column: 1 / 2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.phone-adult-card-footer small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.phone-like-button {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  min-height: 38px;
+  padding-inline: 9px;
+  border-color: rgba(201, 146, 84, .5);
+}
+
+.phone-like-button[aria-pressed="true"] {
+  border-color: #e2ae61;
+  background: #4d3823;
+  color: #fff1c7;
+}
+
+@media (max-width: 520px) {
+  .phone-adult-grid {
+    grid-template-columns: 1fr;
+  }
+}

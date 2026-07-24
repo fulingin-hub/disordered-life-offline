@@ -9,6 +9,7 @@
     "world-(?:xia|island|rice|sanctuary)-",
     "room-flag-",
     "airship-jiefang",
+    "gray-zone-scene",
     "golden-horizon-capital",
     "player-room-protagonists"
   ],

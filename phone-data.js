@@ -6,14 +6,16 @@
     ? "female" : "male";
 
   const apps = [
-    ["simulation", "模拟人生", "background"],
-    ["movies", "电影播放器", "playerRoom"],
-    ["contacts", "通讯录", "infernalChurchPriestess"],
-    ["music", "音乐播放器", "goldenHorizonSi"],
-    ["gallery", "相册", "careerFallenSaintMindlessFemale"],
-    ["news", "新闻资讯", "goldenHorizonCapital"],
-    ["system", "系统", null],
-  ].map(([id, label, asset]) => ({ id, label, asset }));
+    ["simulation", "模拟人生", false],
+    ["movies", "电影播放器", false],
+    ["contacts", "通讯录", false],
+    ["music", "音乐播放器", false],
+    ["gallery", "相册", false],
+    ["news", "新闻资讯", false],
+    ["onlineCasino", "线上赌场", true],
+    ["adultSite", "成人网站", true],
+    ["system", "系统", false],
+  ].map(([id, label, adultOnly]) => ({ id, label, adultOnly }));
 
   const tracks = [
     ["story", "城市夜话", "故事"],
@@ -89,6 +91,46 @@
     return [...items, ...specialEventGallery()];
   }
 
+  function unlockedCharacters() {
+    return Object.entries(LG.GALLERY_ASSETS || {}).map(([id, gallery]) => {
+      const unlocked = LG.collectibles?.galleryUnlocked?.(id)
+        || LG.career?.galleryUnlocked?.(id)
+        || LG.casino?.galleryUnlocked?.(id)
+        || LG.edenCharacters?.galleryUnlocked?.(id)
+        || LG.penitentiary?.galleryUnlocked?.(id)
+        || LG.otherworldCharacters?.galleryUnlocked?.(id);
+      if (!unlocked || !gallery?.items?.length) return null;
+      const item = gallery.items.find((entry) => validAsset(entry.src));
+      return item ? {
+        id: `character-${id}`,
+        characterId: id,
+        title: gallery.name || id,
+        subtitle: "18+角色",
+        src: item.src,
+        kind: "character",
+      } : null;
+    }).filter(Boolean);
+  }
+
+  function adultImages() {
+    return [...careerGallery(), ...companionGallery(), ...eventGallery()]
+      .map((item) => ({ ...item, kind: "image" }));
+  }
+
+  function adultVideos() {
+    return unlockedCharacters().flatMap((character) =>
+      (LG.galleryAnimationTemplates?.entries?.(character.characterId) || [])
+        .slice(0, 2).map((item) => ({
+          id: `video-${character.characterId}-${item.template}`,
+          title: `${character.title} · ${item.title}`,
+          subtitle: "角色视频动画",
+          kind: "video",
+          characterId: character.characterId,
+          template: item.template,
+          portrait: item.portrait || character.src,
+        })));
+  }
+
   function counts() {
     const simulation = LG.authority.lifeCinemaProgress().simulation || {};
     if (LG.contentMode?.strictTeen?.()) {
@@ -107,10 +149,20 @@
 
   LG.phoneData = {
     apps, tracks, counts, validAsset,
+    visibleApps() {
+      return apps.filter((app) => !app.adultOnly
+        || LG.contentMode?.adultSimulation?.());
+    },
     gallery(category) {
       if (category === "companions") return companionGallery();
       if (category === "events") return eventGallery();
       return careerGallery();
+    },
+    adultContent(category) {
+      if (!LG.contentMode?.adultSimulation?.()) return [];
+      if (category === "videos") return adultVideos();
+      if (category === "characters") return unlockedCharacters();
+      return adultImages();
     },
   };
 })(window.LifeGame);

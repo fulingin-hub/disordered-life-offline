@@ -153,6 +153,12 @@
     saveCasino(data) {
       return put(LG.CONFIG.casinoKey, data);
     },
+    loadPhonePreferences() {
+      return get(LG.CONFIG.phonePreferencesKey);
+    },
+    savePhonePreferences(data) {
+      return put(LG.CONFIG.phonePreferencesKey, data);
+    },
     loadBlackPrison() {
       return get(LG.CONFIG.blackPrisonKey);
     },

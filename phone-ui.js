@@ -9,6 +9,8 @@
     music: "音乐播放器",
     gallery: "相册",
     news: "新闻资讯",
+    onlineCasino: "线上赌场",
+    adultSite: "成人网站",
     system: "系统",
   };
   const node = (tag, className, text) => {
@@ -17,11 +19,9 @@
     if (text !== undefined) item.textContent = text;
     return item;
   };
-
   function contact(id, label, location, portrait, action) {
     return { id, label, location, portrait, action };
   }
-
   function standardContacts() {
     return LG.achievements.all().filter((item) => item.unlocked).map((item) => {
       const scene = LG.dialogueScenes.room(item.id);
@@ -31,7 +31,6 @@
         () => LG.roomsUI.openChat(item.id));
     });
   }
-
   function marketContacts() {
     return LG.blackMarket.characters()
       .filter((item) => LG.blackMarket.roomUnlocked(item.id))
@@ -105,15 +104,15 @@
     button.type = "button";
     button.dataset.phoneView = app.id;
     const icon = node("span", "phone-app-icon");
-    const source = LG.CONFIG.assets[app.asset];
-    if (LG.phoneData.validAsset(source)) {
-      icon.style.backgroundImage = `url("${source}")`;
-    }
-    if (app.id === "system") {
-      const glyph = node("span", "phone-system-glyph", "⚙");
-      glyph.setAttribute("aria-hidden", "true");
-      icon.append(glyph);
-    }
+    const glyphs = {
+      simulation: "▣", movies: "▶", contacts: "●", music: "♪",
+      gallery: "▧", news: "≡", onlineCasino: "♠",
+      adultSite: "18", system: "⚙",
+    };
+    const glyph = node("span", "phone-app-glyph", glyphs[app.id] || "•");
+    glyph.setAttribute("aria-hidden", "true");
+    icon.dataset.appIcon = app.id;
+    icon.append(glyph);
     const badge = counts[app.id];
     if (badge !== undefined && badge !== 0) {
       icon.append(node("small", "phone-app-badge", String(badge)));
@@ -125,7 +124,7 @@
 
   function renderHome() {
     const grid = node("div", "phone-app-grid");
-    grid.append(...LG.phoneData.apps.map((app) =>
+    grid.append(...LG.phoneData.visibleApps().map((app) =>
       appCard(app, LG.phoneData.counts())));
     el.status.textContent = "随身终端";
     el.content.replaceChildren(grid);
@@ -147,6 +146,10 @@
       LG.phoneGalleryUI.render(el.content, el.status);
     } else if (currentView === "news") {
       LG.phoneNewsUI.open(el.content, el.status);
+    } else if (currentView === "onlineCasino") {
+      LG.phoneCasinoUI.render(el.content, el.status);
+    } else if (currentView === "adultSite") {
+      LG.phoneAdultUI.render(el.content, el.status);
     } else if (currentView === "system") {
       LG.phoneSystemUI.render(el.content, el.status);
     } else renderHome();
@@ -154,9 +157,16 @@
 
   function open(view = "home") {
     if (LG.contentMode?.strictTeen?.()
-      && ["contacts", "movies", "gallery", "news"].includes(view)) {
+      && ["contacts", "movies", "gallery", "news", "onlineCasino", "adultSite"]
+        .includes(view)) {
       LG.contentMode.showTextScene("15+安全模式",
         "该应用可能包含角色影像、剧情影片或高风险资讯，已在15+模式中关闭。");
+      return;
+    }
+    if (["onlineCasino", "adultSite"].includes(view)
+      && !LG.contentMode?.adultSimulation?.()) {
+      LG.contentMode?.showTextScene?.("应用未开放",
+        "该手机应用只在18+模拟人生时间线中提供。");
       return;
     }
     currentView = titles[view] ? view : "home";

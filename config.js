@@ -1,8 +1,6 @@
 window.LifeGame = window.LifeGame || {};
-
 window.LifeGame.CONFIG = {
-  buildId: "20260724-system-app-1",
-  version: 7,
+  buildId: "20260724-phone-catalog-1", version: 8,
   eventRevision: 2026072302,
   stateKey: "disordered-life-state-v1",
   archiveKey: "disordered-life-archive-v1",
@@ -13,7 +11,8 @@ window.LifeGame.CONFIG = {
   dailyTaskKey: "disordered-life-daily-tasks-v1",
   hiddenEndingKey: "disordered-life-hidden-ending-v1",
   blackMarketKey: "disordered-life-black-market-v1",
-  casinoKey: "disordered-life-casino-v1",
+  casinoKey: "disordered-life-casino-v1", phonePreferencesKey:
+    "disordered-life-phone-preferences-v1",
   blackPrisonKey: "disordered-life-black-prison-v1",
   penitentiaryKey: "disordered-life-penitentiary-v1",
   assets: {
@@ -123,7 +122,8 @@ window.LifeGame.CONFIG = {
     worldIslandSociety: "./assets/generated/world-island-society.9a6dcf0a.webp",
     worldRiceCampus: "./assets/generated/world-rice-campus.2373d278.webp",
     worldRiceSociety: "./assets/generated/world-rice-society.16bf897a.webp",
-    worldBlackStreet: "./assets/generated/world-black-street.3ff8a76e.webp",
+    worldBlackStreet: "./assets/generated/gray-zone-scene.ca1e1a33.webp",
+    casinoScene: "./assets/generated/casino-scene.910512e0.webp",
     worldSanctuaryCampus: "./assets/generated/world-sanctuary-campus.266a5199.webp",
     worldMapBackground: "./assets/images/world-map.webp",
     worldAirshipBoarding: "./assets/images/airship-jiefang.webp",

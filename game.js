@@ -141,7 +141,7 @@
     LG.loader.stage("正在检查存档完整性"); await LG.saveRecoveryData.rollbackPending();
     await LG.loader.preload(); LG.authority.subscribe(adopt);
     LG.loader.stage("正在连接权威存档"); const result = await LG.authority.sync({ retries: 1 }); adopt(result);
-    await LG.loader.preloadState(state);
+    await LG.loader.preloadState(state); await LG.phonePreferences?.init?.();
     LG.ui.init({
       onChoice: choose,
       onRestart: restart,

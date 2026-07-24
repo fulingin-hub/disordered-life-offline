@@ -4,8 +4,8 @@ plugins {
 
 val webRoot = rootProject.projectDir.parentFile
 val generatedWebAssets = layout.buildDirectory.dir("generated/web-assets").get().asFile
-val releaseVersionCode = System.getenv("ANDROID_VERSION_CODE")?.toIntOrNull() ?: 12
-val releaseVersionName = System.getenv("ANDROID_VERSION_NAME") ?: "1.0.12"
+val releaseVersionCode = 13
+val releaseVersionName = "1.0.13"
 val keystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
 val keystorePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
 val keyAliasValue = System.getenv("ANDROID_KEY_ALIAS")

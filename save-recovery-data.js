@@ -5,6 +5,7 @@
     ["collectibleKey", "收藏道具"], ["tributeKey", "贡金记录"],
     ["dailyTaskKey", "每日任务"], ["hiddenEndingKey", "隐藏结局"],
     ["blackMarketKey", "黑市进度"], ["casinoKey", "赌场进度"],
+    ["phonePreferencesKey", "手机偏好"],
   ];
   const RETRYABLE = new Set([
     "NETWORK_ERROR", "TIMEOUT", "INTERNAL_ERROR", "SERVICE_UNAVAILABLE", "RATE_LIMITED",

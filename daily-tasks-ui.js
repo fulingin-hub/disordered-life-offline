@@ -75,6 +75,7 @@
 
   function render() {
     const career = LG.career.data();
+    if (LG.contentMode?.strictTeen?.() && view === "despair") view = "career";
     if (view === "career") {
       const tasks = career.daily?.tasks || [];
       el.status.textContent = career.equippedProfession
@@ -89,6 +90,8 @@
         : `丧志属性达到50后解锁（当前${LG.traits.value("despair")}）。`;
       el.list.replaceChildren(...(unlocked ? LG.dailyTasks.all().map(despairCard) : []));
     }
+    el.tabs.find((button) => button.dataset.taskView === "despair")
+      ?.toggleAttribute("hidden", LG.contentMode?.strictTeen?.());
     el.tabs.forEach((button) => button.setAttribute("aria-selected",
       String(button.dataset.taskView === view)));
   }
@@ -110,12 +113,14 @@
       this.refresh();
     },
     open() {
+      if (LG.contentMode?.strictTeen?.()) view = "career";
       render();
       el.dialog.showModal();
     },
     refresh() {
       if (!el.button) return;
-      const despairReady = LG.traits.value("despair") >= 50
+      const despairReady = !LG.contentMode?.strictTeen?.()
+        && LG.traits.value("despair") >= 50
         ? LG.dailyTasks.all().filter((task) =>
           !task.claimed && task.progress >= task.target).length : 0;
       const ready = despairReady + LG.career.taskReadyCount();

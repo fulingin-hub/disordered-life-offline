@@ -51,7 +51,7 @@
       LG.CONFIG.stateKey, LG.CONFIG.archiveKey, LG.CONFIG.achievementKey,
       LG.CONFIG.traitKey, LG.CONFIG.collectibleKey, LG.CONFIG.tributeKey,
       LG.CONFIG.dailyTaskKey, LG.CONFIG.hiddenEndingKey,
-      LG.CONFIG.blackMarketKey, LG.CONFIG.casinoKey,
+      LG.CONFIG.blackMarketKey, LG.CONFIG.casinoKey, LG.CONFIG.phonePreferencesKey,
     ]);
     const firstIndex = Math.max(0, messages.length - MAX_SCAN_MESSAGES);
     let snapshotCount = 0;
