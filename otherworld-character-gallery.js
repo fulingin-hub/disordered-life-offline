@@ -4,7 +4,7 @@
       name: character.name,
       items: [
         {
-          title: "异界角色档案",
+          title: "异界联盟角色档案",
           caption: `${character.role}在${character.location}的正式立绘。`,
           src: character.portrait,
           alt: `${character.name}角色立绘`,

@@ -169,6 +169,7 @@
   function bonus(job) {
     if (!job) return "尚未装备职业。";
     if (job.id === "second-king-of-kings") return "二阶职业：黄金都城角斗胜利获得的冠军奖状×50；重甲构装无法乘骑，所有坐骑自动切换为跟随模式。";
+    if (job.pilotFaction) return `二阶职业：${job.mastery}；构装机甲无法乘骑战斗伙伴，只能让伙伴跟随。机师辅助系统等级决定七项属性成长与势力专属能力。`;
     if (job.id === "sigil-thrall") {
       return "堕落职业：完成魔纹教会入教洗礼后解锁；继续累计十万羞耻可晋升魔纹使徒。";
     }

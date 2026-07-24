@@ -28,8 +28,8 @@
       outfit: "重甲骑士 / 皮甲骑士",
     },
     reputation: {
-      label: "异界声望", short: "声望奖励",
-      copy: "达到异界魔境声望里程碑后自动获得。",
+      label: "异界联盟声望", short: "声望奖励",
+      copy: "达到异界联盟魔境声望里程碑后自动获得。",
       rider: { male: "protagonistMaleInfernalSet", female: "protagonistFemaleInfernalSet" },
       outfit: "恶魔的神秘套装",
     },
@@ -55,7 +55,7 @@
     bonuses: [rideSkipBonus],
   };
   const achievementMountEffect = {
-    title: "异界魔境祝福",
+    title: "异界联盟魔境祝福",
     bonuses: [
       "七层地狱/深渊事件胜利：属性点 +500、人格值 +1000",
       "每完成一轮挑战：属性点 +500、人格值 +500",
@@ -64,7 +64,7 @@
     ],
   };
   const otherworldMountEffect = {
-    title: "异界通行",
+    title: "异界联盟通行",
     bonuses: [rideSkipBonus],
   };
   const reputationMountEffects = {
@@ -116,14 +116,14 @@
   items.push(
     {
       id: "points-otherworld-male", store: "points", family: "otherworld",
-      tone: "base", name: "异界公畜", price: 0, rewardOnly: true,
+      tone: "base", name: "异界联盟公畜", price: 0, rewardOnly: true,
       asset: "vehicleOtherworldMale", tier: 4, effect: otherworldMountEffect, skipMobsOnRide: true,
       note: "魔气入脑过度产生的特殊产物，但很意外的深受贵族与上层人士们的喜欢，供不应求。",
       unlockText: "完成魔纹教会周常或成功攻打圣光教团1次后获得。",
     },
     {
       id: "points-otherworld-female", store: "points", family: "otherworld",
-      tone: "base", name: "异界母畜", price: 0, rewardOnly: true,
+      tone: "base", name: "异界联盟母畜", price: 0, rewardOnly: true,
       asset: "vehicleOtherworldFemale", tier: 4, effect: otherworldMountEffect, skipMobsOnRide: true,
       note: "魔气入脑过度产生的特殊产物，但很意外的深受贵族与上层人士们的喜欢，供不应求。",
       unlockText: "成功攻打圣光教团累计10次后获得。",
@@ -133,14 +133,14 @@
       tone: "base", name: "迷失方向的狮鹫", price: 500,
       asset: "vehicleLostGriffin", tier: 1,
       effect: achievementMountEffect, skipMobsOnRide: true,
-      note: "异界奖励与任务奖励×3；先锋协同时可跳过小怪直面Boss。",
+      note: "异界联盟奖励与任务奖励×3；先锋协同时可跳过小怪直面Boss。",
     },
     {
       id: "achievement-reborn-phoenix", store: "achievement", family: "phoenix",
       tone: "base", name: "涅槃重生的玄凤", price: 500,
       asset: "vehicleRebornPhoenix", tier: 1,
       effect: achievementMountEffect, skipMobsOnRide: true,
-      note: "异界奖励与任务奖励×3；先锋协同时可跳过小怪直面Boss。",
+      note: "异界联盟奖励与任务奖励×3；先锋协同时可跳过小怪直面Boss。",
     },
     {
       id: "reputation-blood-wolf", store: "reputation", family: "blood-wolf",

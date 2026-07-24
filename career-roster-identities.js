@@ -32,22 +32,22 @@
     ],
     domain: [
       {
-        male: { name: "韩道允", role: "异域·海外招募宣讲员" },
-        female: { name: "雨宫凛", role: "异域·组织联络专员" },
+        male: { name: "韩道允", role: "异域联邦·海外招募宣讲员" },
+        female: { name: "雨宫凛", role: "异域联邦·组织联络专员" },
       },
       {
-        male: { name: "维克托·奥尔洛夫", role: "异域·跨境事务高级干事" },
-        female: { name: "苏绯", role: "异域·区域组织高级干事" },
+        male: { name: "维克托·奥尔洛夫", role: "异域联邦·跨境事务高级干事" },
+        female: { name: "苏绯", role: "异域联邦·区域组织高级干事" },
       },
     ],
     otherworld: [
       {
-        male: { name: "凯尔·夜风", role: "异界·游侠剑队长" },
-        female: { name: "莉拉·白枝", role: "异界·边境游侠队长" },
+        male: { name: "凯尔·夜风", role: "异界联盟·游侠剑队长" },
+        female: { name: "莉拉·白枝", role: "异界联盟·边境游侠队长" },
       },
       {
-        male: { name: "瓦伦·烬痕", role: "异界·战斗法术管理官" },
-        female: { name: "塞琳·幽幕", role: "异界·秘法战团管理官" },
+        male: { name: "瓦伦·烬痕", role: "异界联盟·战斗法术管理官" },
+        female: { name: "塞琳·幽幕", role: "异界联盟·秘法战团管理官" },
       },
     ],
   };
@@ -85,21 +85,21 @@
     domain: {
       male: {
         name: "九条玄真",
-        role: "异域·四境宗亲议会总领袖",
+        role: "异域联邦·四境宗亲议会总领袖",
       },
       female: {
         name: "叶卡捷琳娜·沃尔科娃",
-        role: "异域·跨境家族议会总领袖",
+        role: "异域联邦·跨境家族议会总领袖",
       },
     },
     otherworld: {
       male: {
         name: "阿尔德里克·黑曜",
-        role: "异界·黑曜战团界域大统领",
+        role: "异界联盟·黑曜战团界域大统领",
       },
       female: {
         name: "塞蕾娜·星渊",
-        role: "异界·星渊议会界域大统领",
+        role: "异界联盟·星渊议会界域大统领",
       },
     },
   };

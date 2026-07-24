@@ -102,7 +102,7 @@
       "room-card area-room-card adventure-guild-room unlocked");
     const image = cards.node("img");
     image.src = LG.ADVENTURE_GUILD_DATA.headquartersScene;
-    image.alt = "异界冒险者公会总部大厅";
+    image.alt = "异界联盟冒险者公会总部大厅";
     image.loading = "lazy";
     image.decoding = "async";
     const body = cards.node("div", "room-card-body");
@@ -110,7 +110,7 @@
     button.type = "button";
     button.addEventListener("click", open);
     body.append(cards.node("span", "event-type", "社会区域 · 每日供应"),
-      cards.node("h3", "", "异界冒险者公会"),
+      cards.node("h3", "", "异界联盟冒险者公会"),
       cards.node("p", "", `战利品箱 ${data.lootBoxes || 0} · 今日刷新 ${
         data.refreshesUsed || 0}/3`), button);
     card.append(image, body);

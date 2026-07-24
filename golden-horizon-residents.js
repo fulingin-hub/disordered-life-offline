@@ -12,8 +12,8 @@
     ["tavernPilgrim", "露西亚", "园区巡礼者", "往返机构园区与都城，关注仪式纪律和普通人的选择。", ["morning", "evening"], ["cultivator", "doctor"], 44],
     ["tavernQuartermaster", "露丝·卡特", "牧场补给官", "负责饲料、护具与远征口粮，对浪费物资的人毫不客气。", ["day", "evening"], ["mercenary", "gene"], 57],
     ["tavernBuyer", "阿黛尔", "乐园采购员", "替餐厅和时装店寻找稀有货源，擅长判断一笔交易是否体面。", ["evening", "night"], ["agent", "engineer"], 39],
-    ["tavernBroker", "马可", "异域掮客", "替家族商队撮合临时护送，不碰来路不明的违禁货物。", ["evening", "night"], ["assassin", "agent"], 53],
-    ["tavernScout", "凯恩", "异界斥候", "只在深夜现身，带来灰色地带外缘与深渊入口的可靠见闻。", ["night"], ["adventurer", "mechanic"], 48],
+    ["tavernBroker", "马可", "异域联邦掮客", "替家族商队撮合临时护送，不碰来路不明的违禁货物。", ["evening", "night"], ["assassin", "agent"], 53],
+    ["tavernScout", "凯恩", "异界联盟斥候", "只在深夜现身，带来灰色地带外缘与深渊入口的可靠见闻。", ["night"], ["adventurer", "mechanic"], 48],
     ["tavernPrinter", "艾琳", "日报印刷工", "清晨交完报纸后短暂停留，知道哪些标题刚被撤下。", ["morning", "day"], ["scholar", "engineer"], 36],
   ].map(([id, name, role, intro, slots, professions, baseAge]) => ({
     id, name, role, intro, slots, professions, baseAge,
@@ -52,7 +52,7 @@
     },
     {
       min: 1000, label: "可靠远征者",
-      intro: "知道你在异界魔境的战绩，交谈时明显多了敬意。",
+      intro: "知道你在异界联盟魔境的战绩，交谈时明显多了敬意。",
       welcome: "主动挪开身边的椅子：“是你啊，远征者，今天想听什么？”",
       slogan: "不少居民已经认得这位可靠的远征者。",
       reply: "认真回应你的问题，并把你的判断当作前线见闻记下。",
@@ -123,7 +123,7 @@
     welcome(item, reputation, title) {
       const greeting = `${item.name}${reputationTier(reputation).welcome}`;
       return typeof title === "string" && title.trim()
-        ? `${item.name}依照异界礼仪先称你为“${title.trim()}阁下”，随后${
+        ? `${item.name}依照异界联盟礼仪先称你为“${title.trim()}阁下”，随后${
           reputationTier(reputation).welcome}`
         : greeting;
     },
@@ -134,7 +134,7 @@
       const score = Math.max(0, Math.floor(Number(reputation) || 0));
       const tier = reputationTier(score);
       return `${this.slotLabel(schedule.slot)}到访 · ${schedule.count}位居民正在交换消息`
-        + ` · 异界声望 ${score} · ${tier.label}。${tier.slogan}`;
+        + ` · 异界联盟声望 ${score} · ${tier.label}。${tier.slogan}`;
     },
     slotLabel(slot) {
       return { morning: "清晨", day: "白昼", evening: "傍晚", night: "深夜" }[slot]

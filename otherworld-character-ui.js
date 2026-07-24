@@ -89,7 +89,7 @@
   async function purchase(item) {
     if (buying) return;
     buying = true;
-    renderDetail("正在提交异界商行账单…");
+    renderDetail("正在提交异界联盟商行账单…");
     try {
       const result = await LG.authority.mutate("buyOtherworldItem", {
         character: selected, itemId: item.id,
@@ -100,7 +100,7 @@
       renderDetail(result.message);
       LG.vehicleUI.render();
     } catch (err) {
-      console.error("异界角色商品购买失败:", err?.code, err?.message, err?.stack);
+      console.error("异界联盟角色商品购买失败:", err?.code, err?.message, err?.stack);
       renderDetail(err?.message || "购买失败，请稍后重试。");
     } finally {
       buying = false;

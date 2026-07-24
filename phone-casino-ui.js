@@ -10,13 +10,13 @@
     const shell = node("section", "phone-online-casino");
     const image = node("img", "phone-online-casino-scene");
     image.src = LG.CONFIG.assets.casinoScene;
-    image.alt = "异域赌场大厅";
+    image.alt = "异域联邦赌场大厅";
     image.loading = "lazy";
     const copy = node("div", "phone-online-casino-copy");
     const access = LG.casinoAccess.status();
     copy.append(
       node("span", "event-type", "线上赌场"),
-      node("h3", "", "异域赌场"),
+      node("h3", "", "异域联邦赌场"),
       node("p", "", "赌场入口、十轮赌局、角色商店和 AI 对话统一从这里进入。"),
       node("small", "", access.detail),
     );

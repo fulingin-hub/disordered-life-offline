@@ -7,7 +7,7 @@
   ];
   const raw = [
     {
-      id: "expoSaleswoman", name: "莉泽尔", role: "异界商行女销售",
+      id: "expoSaleswoman", name: "莉泽尔", role: "异界联盟商行女销售",
       location: "万界商会", host: "expo",
       portrait: "./assets/generated/otherworld-saleswoman-portrait.d11f23d3.webp",
       gallery: "./assets/generated/gallery-otherworld-saleswoman.cc3f0533.webp",
@@ -16,7 +16,7 @@
       fee: "技术指导",
     },
     {
-      id: "guildReceptionist", name: "米蕾娅", role: "异界冒险公会女接待",
+      id: "guildReceptionist", name: "米蕾娅", role: "异界联盟冒险公会女接待",
       location: "临时阵地任务大厅", host: "infernal",
       portrait: "./assets/generated/otherworld-receptionist-portrait.ebc9209d.webp",
       gallery: "./assets/generated/gallery-otherworld-receptionist.945c408a.webp",
@@ -25,7 +25,7 @@
       fee: "购买情报",
     },
     {
-      id: "guildManager", name: "维奥拉", role: "异界冒险公会女管理者",
+      id: "guildManager", name: "维奥拉", role: "异界联盟冒险公会女管理者",
       location: "临时阵地任务大厅", host: "infernal",
       portrait: "./assets/generated/otherworld-manager-portrait.2e5b5abd.webp",
       gallery: "./assets/generated/gallery-otherworld-manager.34ac9c78.webp",
@@ -68,7 +68,7 @@
     },
     rooms: {
       expoSaleswoman: {
-        character: "expoSaleswoman", location: "万界商会 · 异界商行",
+        character: "expoSaleswoman", location: "万界商会 · 异界联盟商行",
         title: "密室账单之外",
         opener: "莉泽尔合上载具账册：“房卡已经生效，现在说说你还想购买什么指导。”",
       },

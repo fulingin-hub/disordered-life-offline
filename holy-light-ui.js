@@ -175,7 +175,7 @@
     const body = node("div", "room-card-body");
     body.append(node("span", "event-type", "无势力限制"),
       node("h3", "", "圣光教团据点"),
-      node("p", "", `圣徒在${areaId === "blackStreet" ? "异域魔境" : "本区域"}设立的祝福与净化房间。`),
+      node("p", "", `圣徒在${areaId === "blackStreet" ? "异域联邦魔境" : "本区域"}设立的祝福与净化房间。`),
       button("请求圣光的祝福", open));
     card.append(image, body); return card;
   }

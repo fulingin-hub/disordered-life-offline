@@ -29,7 +29,7 @@
         [id, document.getElementById(id)]));
     }
     el.app.dataset.chapter = event.chapter;
-    el.chapterLabel.textContent = "冒险者公会 · 异界魔境 · 黄金都城";
+    el.chapterLabel.textContent = "冒险者公会 · 异界联盟魔境 · 黄金都城";
     el.eventType.textContent = "世界征途 · 15+ RPG";
     el.routeLabel.textContent = "世界征途起点";
     el.eventTitle.textContent = event.title;
@@ -43,7 +43,7 @@
     el.choiceList.replaceChildren(
       action("看看第一份悬赏", "从公会认识远征、整备与战利品循环",
         () => LG.guildOnboarding?.open?.("intro"), true),
-      action("进入异界魔境", "已自动开放，接悬赏并推进七层地狱",
+      action("进入异界联盟魔境", "已自动开放，接悬赏并推进七层地狱",
         () => LG.infernalUI?.open?.()),
       action("完成今日入城见证", "七个不同日期，胜负都计入",
         () => LG.goldenHorizonUI?.open?.()),

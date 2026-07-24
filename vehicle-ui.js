@@ -123,7 +123,7 @@
       node("p", "", access.allowed
         ? `已签约 ${LG.vehicleStore.data().owned.length}/${LG.VEHICLE_DATA.items.length} 位伙伴`
         : `当前最高资源 ${format(access.best)} 点`),
-      node("p", "room-entry-hook", "异界人联合终产者们成立的神秘销金窟，签约战斗伙伴并管理同行方式。"),
+      node("p", "room-entry-hook", "异界联盟人联合终产者们成立的神秘销金窟，签约战斗伙伴并管理同行方式。"),
       button,
     );
     card.append(image, body);

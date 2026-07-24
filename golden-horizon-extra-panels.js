@@ -44,7 +44,7 @@
       const eligible = progress.clears >= progress.target && progress.tokenOwned;
       const card = P().node("article", equipped ? "equipped" : "");
       const portrait = P().node("img", "golden-profession-portrait");
-      portrait.src = item.portrait;
+      portrait.src = D().professionPortrait(item, LG.authority.state()?.gender);
       portrait.alt = `${item.name}专属职业装备与坐骑立绘`;
       portrait.loading = "lazy";
       card.append(portrait, P().node("span", "event-type", `${item.guide}路线`),

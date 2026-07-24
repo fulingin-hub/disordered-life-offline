@@ -22,14 +22,14 @@
       title: "血色龙王 · 深渊传奇",
       threshold: 3000,
       family: "blood-dragon",
-      text: "声望达到3000点后，血色龙王与你一同接受异界冒险者们的致意。",
+      text: "声望达到3000点后，血色龙王与你一同接受异界联盟冒险者们的致意。",
     },
   ];
 
   entries.forEach((entry) => {
     LG.CG_ASSETS.specialMeta[entry.cgId] = {
       title: entry.title,
-      label: "异界声望战斗伙伴成就CG",
+      label: "异界联盟声望战斗伙伴成就CG",
       text: entry.text,
       fixedNarration: false,
     };
@@ -66,7 +66,7 @@
     } else {
       item.append(node("p", "", owned
         ? "15+模式不显示画廊CG。"
-        : `异界声望达到${entry.threshold}点后自动获得战斗伙伴并解锁。`));
+        : `异界联盟声望达到${entry.threshold}点后自动获得战斗伙伴并解锁。`));
     }
     const button = node("button", "quiet-button",
       available ? "查看成就CG" : owned ? "当前模式不可查看" : "尚未解锁");

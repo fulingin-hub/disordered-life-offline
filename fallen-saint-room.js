@@ -41,7 +41,7 @@
       [store, chat, gallery].forEach((button) => { button.type = "button"; });
       store.addEventListener("click", () => {
         dialog.close();
-        LG.fallenSaintStore.open();
+        window.setTimeout(() => LG.fallenSaintStore.open(), 0);
       });
       chat.addEventListener("click", () => {
         if (LG.careerCharacterChatUI.open("fallenSaint")) dialog.close();

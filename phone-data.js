@@ -23,7 +23,7 @@
     ["world", "界舟航线", "世界"],
     ["xia", "夏国街景", "城市"],
     ["sanctuary", "圣光回廊", "圣域"],
-    ["infernal", "魔境低语", "异界"],
+    ["infernal", "魔境低语", "异界联盟"],
     ["eden", "黄金乐园", "乐园"],
   ].map(([id, title, album]) => ({ id, title, album }));
 
@@ -92,17 +92,33 @@
     return [...items, ...specialEventGallery()];
   }
 
+  function characterAccess(id) {
+    if (id === "fallenSaint" && LG.fallenSaintRoom?.unlocked?.()) {
+      return {
+        visible: true,
+        galleryUnlocked: LG.career.privateComplete("holy-light-saint"),
+        storeId: "fallen-saint",
+      };
+    }
+    const galleryUnlocked = LG.collectibles?.galleryUnlocked?.(id)
+      || LG.career?.galleryUnlocked?.(id)
+      || LG.casino?.galleryUnlocked?.(id)
+      || LG.edenCharacters?.galleryUnlocked?.(id)
+      || LG.penitentiary?.galleryUnlocked?.(id)
+      || LG.otherworldCharacters?.galleryUnlocked?.(id)
+      || (["mia", "xiaosi"].includes(id)
+        && LG.contentMode?.adultSimulation?.());
+    return {
+      visible: Boolean(galleryUnlocked),
+      galleryUnlocked: Boolean(galleryUnlocked),
+      storeId: null,
+    };
+  }
+
   function unlockedCharacters() {
     return Object.entries(LG.GALLERY_ASSETS || {}).map(([id, gallery]) => {
-      const unlocked = LG.collectibles?.galleryUnlocked?.(id)
-        || LG.career?.galleryUnlocked?.(id)
-        || LG.casino?.galleryUnlocked?.(id)
-        || LG.edenCharacters?.galleryUnlocked?.(id)
-        || LG.penitentiary?.galleryUnlocked?.(id)
-        || LG.otherworldCharacters?.galleryUnlocked?.(id)
-        || (["mia", "xiaosi"].includes(id)
-          && LG.contentMode?.adultSimulation?.());
-      if (!unlocked || !gallery?.items?.length) return null;
+      const access = characterAccess(id);
+      if (!access.visible || !gallery?.items?.length) return null;
       const item = gallery.items.find((entry) => validAsset(entry.src));
       return item ? {
         id: `character-${id}`,
@@ -111,6 +127,8 @@
         subtitle: "18+角色",
         src: item.src,
         kind: "character",
+        galleryUnlocked: access.galleryUnlocked,
+        storeId: access.storeId,
       } : null;
     }).filter(Boolean);
   }
@@ -121,7 +139,8 @@
   }
 
   function adultVideos() {
-    return unlockedCharacters().flatMap((character) => {
+    return unlockedCharacters().filter((character) =>
+      character.galleryUnlocked).flatMap((character) => {
       const entries = LG.galleryAnimationTemplates
         ?.entries?.(character.characterId) || [];
       const visible = character.characterId === "xiaosi"

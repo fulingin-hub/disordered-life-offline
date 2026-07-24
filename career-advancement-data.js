@@ -103,9 +103,16 @@
   "second-sigil-lord": "second-sigil-lord",
   "second-king-of-kings": "second-king-of-kings"
 };
+  const pilotAssets = {
+    black: "./assets/generated/career-mech-black-shark.1ab12ef8.webp",
+    white: "./assets/generated/career-mech-white-shark.665aee6b.webp",
+  };
 
   LG.careerAdvancements = {
     source(id, gender) {
+      const pilot = /^second-(?:university|sanctuary|ranch|paradise|domain|otherworld)-(black|white)-shark$/
+        .exec(id);
+      if (pilot) return pilotAssets[pilot[1]];
       const key = professionAssets[id];
       return assets[key]?.[gender === "female" ? "female" : "male"] || null;
     },

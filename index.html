@@ -205,7 +205,7 @@
       report();
     })();
   </script>
-  <link rel="stylesheet" href="./app.bundle.css?v=1c197ef71475">
+  <link rel="stylesheet" href="./app.bundle.css?v=fdf26131fc16">
   <link rel="stylesheet" href="./offline.css">
 </head>
 <body>
@@ -536,14 +536,14 @@
     <div class="dialog-heading">
       <div>
         <span class="event-type">功能场所</span>
-        <h2>异域赌场</h2>
+        <h2>异域联邦赌场</h2>
       </div>
       <button id="closeCasinoButton" class="quiet-button" type="button">离开赌场</button>
     </div>
     <div id="casinoTabs" class="casino-tabs" role="tablist">
       <button id="casinoGameTab" class="active" type="button" role="tab">大小赌桌</button>
       <button id="casinoShopTab" type="button" role="tab">赌场商城</button>
-      <button id="casinoFactionTab" type="button" role="tab">异域势力</button>
+      <button id="casinoFactionTab" type="button" role="tab">异域联邦势力</button>
     </div>
     <section id="casinoGameView">
       <div class="casino-summary">
@@ -609,7 +609,7 @@
     </section>
     <section id="casinoFactionView" hidden>
       <p class="casino-game-status">
-        异域赌场内的势力独立区域。加入异域后可进入十二间职业角色房间。
+        异域联邦赌场内的势力独立区域。加入异域联邦后可进入十二间职业角色房间。
       </p>
       <div id="casinoFactionRooms" class="casino-faction-rooms"></div>
     </section>
@@ -1048,7 +1048,7 @@
       <button type="button" role="tab" data-collection-page="collection"
         aria-controls="collectionPage">收藏图鉴</button>
       <button type="button" role="tab" data-collection-page="infernalTitle"
-        aria-controls="infernalTitlePage">异界称号</button>
+        aria-controls="infernalTitlePage">异界联盟称号</button>
       <button type="button" role="tab" data-collection-page="equipment"
         aria-controls="equipmentPage">主角装备</button>
     </div>
@@ -1066,11 +1066,11 @@
     </section>
     <section id="infernalTitlePage" class="infernal-title-page" hidden>
       <div class="infernal-title-summary">
-        <div><span>当前异界称号</span><strong id="activeInfernalTitle">未装备</strong></div>
-        <div><span>异界礼仪</span><strong>酒馆居民初次招呼时会使用已装备称号</strong></div>
+        <div><span>当前异界联盟称号</span><strong id="activeInfernalTitle">未装备</strong></div>
+        <div><span>异界联盟礼仪</span><strong>酒馆居民初次招呼时会使用已装备称号</strong></div>
       </div>
       <p id="infernalTitleStatus" class="traits-status"></p>
-      <p id="infernalTitleEmpty" class="system-status" hidden>尚无异界称号记录。</p>
+      <p id="infernalTitleEmpty" class="system-status" hidden>尚无异界联盟称号记录。</p>
       <div id="infernalTitleList" class="infernal-title-list"></div>
     </section>
     <section id="equipmentPage" hidden>
@@ -1133,7 +1133,7 @@
       <section class="vehicle-achievement-gallery">
         <div class="vehicle-achievement-gallery-heading">
           <strong>声望战斗伙伴成就CG</strong>
-          <span>随异界魔境累计声望自动解锁</span>
+          <span>随异界联盟魔境累计声望自动解锁</span>
         </div>
         <div id="vehicleAchievementCgList" class="vehicle-achievement-cg-list"></div>
       </section>
@@ -1227,12 +1227,14 @@
     <div class="career-tabs" role="tablist" aria-label="职业系统页面">
       <button type="button" role="tab" data-career-view="stats">职业属性</button>
       <button type="button" role="tab" data-career-view="loadout">职业装备</button>
+      <button type="button" role="tab" data-career-view="abilities">职业能力</button>
       <button type="button" role="tab" data-career-view="factions">选择阵营</button>
       <button type="button" role="tab" data-career-view="companions">战斗伙伴</button>
     </div>
     <p id="careerStatus" class="system-status" role="status"></p>
     <section id="careerStatsView" class="career-view"></section>
     <section id="careerLoadoutView" class="career-view" hidden></section>
+    <section id="careerAbilitiesView" class="career-view" hidden></section>
     <section id="careerFactionsView" class="career-view" hidden></section>
     <section id="careerCompanionsView" class="career-view" hidden></section>
   </dialog>
@@ -1292,7 +1294,7 @@
   <dialog id="infernalDialog" class="infernal-dialog">
     <div class="dialog-heading">
       <div>
-        <span class="event-type">异界魔境 · 世界征途RPG</span>
+        <span class="event-type">异界联盟魔境 · 世界征途RPG</span>
         <h2>临时阵地的任务大厅</h2>
       </div>
       <button id="closeInfernalButton" class="quiet-button" type="button">关闭</button>
@@ -1303,7 +1305,7 @@
       <div><span>声望值</span><strong id="infernalReputation">0</strong></div>
       <div><span>七层通关</span><strong id="infernalClears">0</strong></div>
     </div>
-    <nav class="infernal-tabs" aria-label="异界魔境功能">
+    <nav class="infernal-tabs" aria-label="异界联盟魔境功能">
       <button class="active" type="button" data-infernal-view="hall">悬赏大厅</button>
       <button type="button" data-infernal-view="run">七层地狱</button>
     </nav>
@@ -1385,8 +1387,8 @@
   <dialog id="adventureGuildDialog" class="adventure-guild-dialog">
     <div class="dialog-heading">
       <div>
-        <span class="event-type">异界魔境 · 各地图社会区域</span>
-        <h2>异界冒险者公会</h2>
+        <span class="event-type">异界联盟魔境 · 各地图社会区域</span>
+        <h2>异界联盟冒险者公会</h2>
       </div>
       <button id="closeAdventureGuildButton" class="quiet-button"
         type="button">关闭</button>
@@ -1426,7 +1428,7 @@
   <dialog id="abyssDialog" class="infernal-dialog abyss-dialog">
     <div class="dialog-heading">
       <div>
-        <span class="event-type">异界魔境 · 公共场景2</span>
+        <span class="event-type">异界联盟魔境 · 公共场景2</span>
         <h2>驻扎在深渊防线的任务大厅</h2>
       </div>
       <button id="closeAbyssButton" class="quiet-button" type="button">关闭</button>
@@ -1617,7 +1619,7 @@
       </div>
       <div class="vehicle-catalog-scroll">
         <div class="otherworld-section-heading">
-          <div><span class="event-type">异界商行</span><h3>伙伴公会角色房间</h3></div>
+          <div><span class="event-type">异界联盟商行</span><h3>伙伴公会角色房间</h3></div>
           <p>进入个人商店与图鉴</p>
         </div>
         <div id="otherworldExpoCharacter" class="otherworld-character-strip"></div>
@@ -1655,7 +1657,7 @@
     <div class="otherworld-character-shell">
       <div class="dialog-heading">
         <div>
-          <span class="event-type">异界角色房间</span>
+          <span class="event-type">异界联盟角色房间</span>
           <h2>个人商行与图鉴</h2>
         </div>
         <button id="closeOtherworldCharacterButton" class="quiet-button"
@@ -1922,6 +1924,7 @@
   <script src="./career-roster-identities.js"></script>
   <script src="./career-university-data.js"></script>
   <script src="./career-data.js"></script>
+  <script src="./career-ability-data.js"></script>
   <script src="./career-path-data.js"></script>
   <script src="./golden-horizon-residents.js"></script>
   <script src="./golden-arena-data.js"></script>
@@ -2054,6 +2057,7 @@
   <script src="./vehicle-store.js"></script>
   <script src="./vehicle-career-combinations.js"></script>
   <script src="./vehicle-career-combination-atlases.js"></script>
+  <script src="./vehicle-career-combination-pairs.js"></script>
   <script src="./vehicle-career-portraits.js"></script>
   <script src="./life-cinema.js"></script>
   <script src="./life-cinema-films.js"></script>
@@ -2175,6 +2179,7 @@
   <script src="./career-art-ui.js"></script>
   <script src="./faction-consumables-ui.js"></script>
   <script src="./faction-leader-sacrifice-popup.js"></script>
+  <script src="./faction-pilot-ui.js"></script>
   <script src="./faction-store-ui.js"></script>
   <script src="./casino-faction-ui.js"></script>
   <script src="./collection-filters.js"></script>
@@ -2185,6 +2190,7 @@
   <script src="./career-stat-input.js"></script>
   <script src="./career-benefits-ui.js"></script>
   <script src="./career-faction-card.js"></script>
+  <script src="./career-ability-ui.js"></script>
   <script src="./career-ui.js"></script>
   <script src="./daily-tasks-ui.js"></script>
   <script src="./fallen-seven-cg.js"></script>

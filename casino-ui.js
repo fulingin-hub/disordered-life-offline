@@ -162,11 +162,11 @@
       const access = LG.casinoAccess.status();
       const card = node("article", `room-card casino-room-card${access.allowed ? " unlocked" : ""}`);
       const image = node("img");
-      image.src = LG.CONFIG.assets.roomCasino; image.alt = "异域赌场角色群像";
+      image.src = LG.CONFIG.assets.roomCasino; image.alt = "异域联邦赌场角色群像";
       const body = node("div", "room-card-body");
       body.append(
         node("span", "event-type", access.allowed ? "功能场所 · 可进入" : "功能场所 · 尚不可进入"),
-        node("h3", "", "异域赌场"),
+        node("h3", "", "异域联邦赌场"),
         node("p", "", access.detail),
         LG.roomEntryCopy.node("casino"),
       );

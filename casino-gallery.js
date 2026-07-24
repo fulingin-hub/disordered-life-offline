@@ -33,7 +33,7 @@
       items: [
         {
           title: "赌场角色档案",
-          caption: `${character.role}在异域赌场的角色档案。`,
+          caption: `${character.role}在异域联邦赌场的角色档案。`,
           src: character.portrait,
           alt: `${character.name}赌场角色档案`,
           fit: "contain",

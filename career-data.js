@@ -26,13 +26,13 @@
       ranks: LG.careerRosterIdentity.rankLabels.paradise, asset: "edenGoldenDistrict",
     },
     domain: {
-      name: "异域", proof: "异域的宣传手册", location: "异域赌场",
+      name: "异域联邦", proof: "异域联邦的宣传手册", location: "异域联邦赌场",
       copy: "初来者都会茫然。想加入就来找我们，这里用家人的默契接纳新的成员。",
       ranks: LG.careerRosterIdentity.rankLabels.domain, asset: "roomCasino",
     },
     otherworld: {
-      name: "异界", proof: "异界的宣传手册", location: "灰色地带",
-      copy: "想前往我们的故乡吗？加入后可免费学习异界知识，更快融入当地。",
+      name: "异界联盟", proof: "异界联盟的宣传手册", location: "灰色地带",
+      copy: "想前往我们的故乡吗？加入后可免费学习异界联盟知识，更快融入当地。",
       ranks: LG.careerRosterIdentity.rankLabels.otherworld, asset: "roomBlackStreet",
     },
     church: {

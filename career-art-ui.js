@@ -80,6 +80,9 @@
             : mode === "advanced" ? "一阶职业全身立绘预览"
               : "普通职业全身立绘预览"}`);
       figure.append(image, caption);
+      if (chosen.pilotFaction) {
+        figure.append(LG.careerAbilityData.plate(chosen.pilotFaction));
+      }
     } else {
       figure.append(node("p", "career-portrait-empty", locked
         ? "完成该职业的解锁条件后才可查看立绘。"

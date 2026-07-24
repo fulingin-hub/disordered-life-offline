@@ -125,7 +125,7 @@
   }
   function exchange(data, act, busy) {
     const section = node("section", "golden-panel");
-    section.append(node("h3", "", "异界商行兑换"),
+    section.append(node("h3", "", "异界联盟商行兑换"),
       node("p", "", `当前点数 ${data.currency}`));
     const grid = node("div", "golden-shop-grid");
     D().exchanges.forEach((item) => {

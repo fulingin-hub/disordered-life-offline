@@ -13,7 +13,7 @@
   function hub() {
     const complete = data.topics.every((topic) => seen.has(topic.id));
     return {
-      location: "异界魔境 · 冒险者公会",
+      location: "异界联盟魔境 · 冒险者公会",
       speaker: complete ? "guildManager" : "guildReceptionist",
       cast: ["guildReceptionist", "guildManager"],
       title: complete ? "你已经重新认清这座城" : "你想先问哪件事？",

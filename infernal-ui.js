@@ -120,7 +120,7 @@
       LG.roomsUI.refresh();
     } catch (err) {
       if (requestId !== latest) return;
-      console.error("异界魔境结算失败:", err?.code, err?.message, err?.stack);
+      console.error("异界联盟魔境结算失败:", err?.code, err?.message, err?.stack);
       el.status.textContent = err?.code === "runtime_unavailable"
         ? "权威服务暂时繁忙，本次未扣除资源，请再次点击当前操作。"
         : err?.message || "结算失败，请稍后重试。";
@@ -141,7 +141,7 @@
     image.loading = "lazy";
     const body = node("div", "room-card-body");
     body.append(node("span", "event-type", "地狱的入口 · 世界征途RPG"),
-    node("h3", "", "异界魔境"),
+    node("h3", "", "异界联盟魔境"),
     node("p", "", access.allowed
       ? `人格 ${stats.personality} · 声望 ${stats.reputation} · 通关 ${stats.clears}`
       : `模拟人生 ${access.simulationCompletions}/${access.required}`));

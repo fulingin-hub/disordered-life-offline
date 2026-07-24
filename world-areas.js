@@ -136,9 +136,9 @@
         characters: ["japanOfficial", "usaOfficial", "streetThug", "beggar"],
       }, {
         id: "otherworld",
-        label: "异界",
+        label: "异界联盟",
         image: "worldBlackStreet",
-        description: "异界公会在灰色地带设置的职业角色区域，设有十二间正常与丧志个人房间。",
+        description: "异界联盟公会在灰色地带设置的职业角色区域，设有十二间正常与丧志个人房间。",
         characters: [],
         faction: "otherworld", guild: true,
       }, {
@@ -150,9 +150,9 @@
         church: true,
       }, {
         id: "holy-light",
-        label: "圣光教团·异域魔境据点",
+        label: "圣光教团·异域联邦魔境据点",
         image: "worldSanctuaryCampus",
-        description: "圣光教团为援助异域魔境设立的前线据点。",
+        description: "圣光教团为援助异域联邦魔境设立的前线据点。",
         characters: [],
         holyLight: true,
       }],

@@ -98,15 +98,17 @@
       ? `${LG.vehicleStore.tier().name}会员 · ${LG.vehicleStore.discount()}%折扣`
       : "访客";
     const mode = LG.vehicleStore.displayMode();
-    const kingEquipped = LG.career.data().equippedProfession
-      === "second-king-of-kings";
+    const equippedProfession = LG.career.data().equippedProfession || "";
+    const constructEquipped = equippedProfession === "second-king-of-kings"
+      || /^second-(university|sanctuary|ranch|paradise|domain|otherworld)-(black|white)-shark$/
+        .test(equippedProfession);
     el.ride.setAttribute("aria-pressed", String(mode === "ride"));
     el.follow.setAttribute("aria-pressed", String(mode === "follow"));
-    el.ride.disabled = busy || !equipped || equipped.followOnly || kingEquipped;
+    el.ride.disabled = busy || !equipped || equipped.followOnly || constructEquipped;
     el.follow.disabled = busy || !equipped;
     el.ride.title = equipped?.followOnly
       ? "该伙伴只能跟随支援"
-      : kingEquipped ? "万王之王只能让伙伴跟随支援" : "切换为先锋协同";
+      : constructEquipped ? "构装机甲职业只能让伙伴跟随支援" : "切换为先锋协同";
     el.stage.dataset.mode = mode;
     renderEffect(equipped, mode);
     LG.vehicleAchievementCG?.render?.(el.achievementCgs, state.gender);
@@ -121,18 +123,28 @@
     const gender = state.gender === "female" ? "female" : "male";
     const resolved = LG.vehicleCareerPortraits.resolve(equipped, gender, mode);
     el.stage.dataset.combination = resolved.match;
+    const paired = resolved.match === "career-pair";
     el.riderWrap.classList.toggle(
-      "vehicle-profile-composite", mode === "ride");
+      "vehicle-profile-composite", mode === "ride" && !paired);
     if (mode === "ride") {
       el.rider.src = resolved.primarySrc;
       el.rider.alt = `${gender === "female" ? "女" : "男"}主角·${resolved.label}`;
-      el.rider.className = `vehicle-profile-mounted${
-        resolved.applyTone ? ` tone-${equipped.tone}` : " career-vehicle-composite"}`;
+      el.rider.className = paired ? "career-main-portrait"
+        : `vehicle-profile-mounted${resolved.applyTone
+          ? ` tone-${equipped.tone}` : " career-vehicle-composite"}`;
       applySprite(el.rider, resolved.sprite);
-      el.riderCaption.textContent = ["exact", "career-database"].includes(resolved.match)
-        ? "先锋协同·职业专属立绘" : "先锋协同·伙伴立绘";
-      el.mount.removeAttribute("src");
-      el.mountWrap.hidden = true;
+      el.riderCaption.textContent = paired ? "先锋协同·职业立绘"
+        : ["exact", "career-database"].includes(resolved.match)
+          ? "先锋协同·职业专属立绘" : "先锋协同·伙伴立绘";
+      if (paired) {
+        el.mount.src = resolved.mountSrc;
+        el.mount.alt = equipped.name;
+        el.mount.className = `vehicle-profile-mount tone-${equipped.tone}`;
+        el.mountCaption.textContent = "先锋协同·坐骑立绘";
+      } else {
+        el.mount.removeAttribute("src");
+      }
+      el.mountWrap.hidden = !paired;
       el.riderWrap.hidden = false;
       el.empty.hidden = true;
       return;

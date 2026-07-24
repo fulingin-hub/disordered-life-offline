@@ -1,6 +1,6 @@
 window.LifeGame = window.LifeGame || {};
 window.LifeGame.CONFIG = {
-  buildId: "20260724-mia-1", version: 8,
+  buildId: "20260724-pilot-careers-1", version: 8,
   eventRevision: 2026072302,
   stateKey: "disordered-life-state-v1",
   archiveKey: "disordered-life-archive-v1",

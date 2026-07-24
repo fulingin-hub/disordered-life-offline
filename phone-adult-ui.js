@@ -56,13 +56,27 @@
     footer.append(node("strong", "", item.title),
       node("small", "", item.subtitle), likeButton(item, render));
     if (item.kind === "character") {
-      const gallery = node("button", "phone-gallery-button", "查看画廊");
-      gallery.type = "button";
-      gallery.addEventListener("click", () => {
-        LG.phoneUI.close();
-        LG.galleryUI.open(item.characterId);
-      });
-      footer.append(gallery);
+      if (item.storeId === "fallen-saint") {
+        const store = node("button", "phone-gallery-button", "进入商城");
+        store.type = "button";
+        store.addEventListener("click", () => {
+          LG.phoneUI.close();
+          window.setTimeout(() => LG.fallenSaintStore.open(), 0);
+        });
+        footer.append(store);
+      }
+      if (item.galleryUnlocked) {
+        const gallery = node("button", "phone-gallery-button", "查看画廊");
+        gallery.type = "button";
+        gallery.addEventListener("click", () => {
+          LG.phoneUI.close();
+          window.setTimeout(() => LG.galleryUI.open(item.characterId), 0);
+        });
+        footer.append(gallery);
+      } else {
+        footer.append(node("small", "phone-gallery-lock",
+          "集齐丧志商城五件私密道具后开放画廊"));
+      }
     }
     card.append(footer);
     return card;

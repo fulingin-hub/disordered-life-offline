@@ -40,6 +40,25 @@
     const exactSrc = assetKey ? LG.CONFIG.assets[assetKey] : "";
     const generated = LG.vehicleCareerCombinations?.resolve?.(
       professionId, vehicle, genderKey(gender));
+    const paired = generated?.pair;
+    if (paired) {
+      return {
+        mode: "ride", career, match: "career-pair",
+        primarySrc: paired.careerSrc,
+        mountSrc: paired.mountSrc,
+        sprite: null,
+        label: `${career.name} · ${vehicle.name}`,
+        applyTone: false,
+      };
+    }
+    if (career?.exclusiveVehicle) {
+      return {
+        mode: "ride", career, match: "career-database",
+        primarySrc: career.src, mountSrc: "", sprite: null,
+        label: `${career.name} · 专属坐骑`,
+        applyTone: false,
+      };
+    }
     return {
       mode: "ride", career,
       match: generated?.src ? "career-database" : exactSrc ? "exact" : "vehicle",

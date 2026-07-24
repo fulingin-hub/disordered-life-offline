@@ -167,7 +167,7 @@
         case "INSUFFICIENT_COUPONS":
           return err?.message || "赎罪卷不足，完成影狱任务后再开启对话。";
         case "INSUFFICIENT_PERSONALITY":
-          return err?.message || "人格值不足，完成异界任务后再开启对话。";
+          return err?.message || "人格值不足，完成异界联盟任务后再开启对话。";
         case "AUTHORITY_READ_ONLY":
         case "AUTHORITY_RESULT_UNKNOWN":
         case "DIALOGUE_NOT_AUTHORIZED":

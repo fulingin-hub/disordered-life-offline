@@ -136,7 +136,7 @@
       node("h3", "", `阵营职业角色 · ${LG.CAREER_DATA.roster.length}人`), roster);
   }
   function open(nextView = view) {
-    view = ["stats", "loadout", "factions", "companions"].includes(nextView)
+    view = ["stats", "loadout", "abilities", "factions", "companions"].includes(nextView)
       ? nextView : "stats";
     render();
     if (!el.dialog.open) el.dialog.showModal();
@@ -144,9 +144,10 @@
   function render() {
     renderStats();
     renderLoadout();
+    LG.careerAbilityUI.render();
     renderFactions();
     if (view === "companions") LG.vehicleProfileUI?.render?.();
-    Object.entries({ stats: el.stats, loadout: el.loadout,
+    Object.entries({ stats: el.stats, loadout: el.loadout, abilities: el.abilities,
       factions: el.factions, companions: el.companions })
       .forEach(([id, section]) => { section.hidden = id !== view; });
     el.tabs.forEach((button) =>
@@ -159,6 +160,7 @@
       el.status = document.getElementById("careerStatus");
       el.stats = document.getElementById("careerStatsView");
       el.loadout = document.getElementById("careerLoadoutView");
+      el.abilities = document.getElementById("careerAbilitiesView");
       el.factions = document.getElementById("careerFactionsView");
       el.companions = document.getElementById("careerCompanionsView");
       const vehiclePage = document.getElementById("vehiclePage");

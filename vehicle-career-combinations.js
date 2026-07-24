@@ -9,8 +9,15 @@
     "reputation:blood-wolf", "reputation:blood-tiger",
     "reputation:blood-dragon",
   ];
+  const pairedVisuals = new Set([
+    "points:otherworld-male", "points:otherworld-female",
+    "achievement:lost-griffin", "achievement:reborn-phoenix",
+    "reputation:blood-wolf", "reputation:blood-tiger",
+    "reputation:blood-dragon",
+  ]);
   const atlases = {};
   const exact = {};
+  const paired = {};
 
   function visualKey(vehicle) {
     const aliases = {
@@ -24,11 +31,15 @@
 
   LG.vehicleCareerCombinations = {
     visualOrder,
+    pairedVisuals: [...pairedVisuals],
     registerExact(professionId, gender, visual, src) {
       exact[`${professionId}:${gender}:${visual}`] = src;
     },
     register(professionId, gender, src) {
       atlases[`${professionId}:${gender}`] = src;
+    },
+    registerPaired(professionId, gender, careerSrc) {
+      paired[`${professionId}:${gender}`] = careerSrc;
     },
     resolve(professionId, vehicle, gender) {
       const visual = visualKey(vehicle);
@@ -36,15 +47,20 @@
       if (exactSrc) return { src: exactSrc, sprite: null };
       const src = atlases[`${professionId}:${gender}`];
       const index = visualOrder.indexOf(visual);
-      if (!src || index < 0) return null;
-      return {
-        src,
-        sprite: {
-          columns: 6, rows: 3,
-          column: index % 6,
-          row: Math.floor(index / 6),
-        },
-      };
+      if (src && index >= 0) {
+        return {
+          src,
+          sprite: {
+            columns: 6, rows: 3,
+            column: index % 6,
+            row: Math.floor(index / 6),
+          },
+        };
+      }
+      const careerSrc = paired[`${professionId}:${gender}`];
+      const mountSrc = LG.CONFIG.assets[vehicle?.asset] || "";
+      return careerSrc && mountSrc && pairedVisuals.has(visual)
+        ? { pair: { careerSrc, mountSrc }, sprite: null } : null;
     },
   };
 })(window.LifeGame);

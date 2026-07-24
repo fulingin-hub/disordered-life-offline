@@ -26,7 +26,7 @@
     },
     {
       id: "infernalRealm",
-      name: "异界魔境",
+      name: "异界联盟魔境",
       image: "infernalRealmGate",
       cardImage: "infernalRealmGate",
       description: "位于两片大陆之间的魔境入口，七层地狱与无尽深渊在此展开。",
@@ -62,7 +62,7 @@
     },
     {
       id: "casino",
-      name: "异域赌场",
+      name: "异域联邦赌场",
       image: "roomCasino",
       cardImage: "roomCasino",
       description: "异世界大陆的赌局场所，资格、筹码与诱惑挑战在此结算。",

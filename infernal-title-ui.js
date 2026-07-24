@@ -18,7 +18,7 @@
     if (busy || !item.unlocked) return;
     busy = true;
     el.status.textContent = item.equipped
-      ? "正在卸下异界礼仪称号…" : `正在登记“${item.title}”…`;
+      ? "正在卸下异界联盟礼仪称号…" : `正在登记“${item.title}”…`;
     render();
     try {
       const result = await LG.authority.mutate("equipInfernalTitle", {
@@ -27,9 +27,9 @@
       el.status.textContent = result.message;
       LG.audio?.choose?.();
     } catch (err) {
-      console.error("异界称号装备失败:",
+      console.error("异界联盟称号装备失败:",
         err?.code, err?.message, err?.stack);
-      el.status.textContent = err?.message || "异界称号装备失败，请稍后重试。";
+      el.status.textContent = err?.message || "异界联盟称号装备失败，请稍后重试。";
     } finally {
       busy = false;
       render();
@@ -42,7 +42,7 @@
         item.equipped ? " equipped" : ""}`);
     const heading = node("div", "infernal-title-heading");
     heading.append(node("strong", "", item.title),
-      node("span", "", item.equipped ? "异界礼仪生效" : item.source));
+      node("span", "", item.equipped ? "异界联盟礼仪生效" : item.source));
     const action = node("button", "",
       item.equipped ? "卸下称号" : item.unlocked ? "装备称号" : "尚未获得");
     action.type = "button";

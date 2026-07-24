@@ -50,7 +50,7 @@
       release();
     } catch (err) {
       if (current !== requestId) return;
-      console.error("异界角色对话失败:", err?.code, err?.message, err?.stack);
+      console.error("异界联盟角色对话失败:", err?.code, err?.message, err?.stack);
       pending.textContent = LG.dialogueAI.errorMessage(err);
       pending.className = "chat-message assistant error";
       el.status.textContent = "发送失败，本轮次数不会消耗；首次扣费会自动退款。";

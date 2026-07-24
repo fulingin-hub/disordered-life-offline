@@ -1,14 +1,12 @@
-(function (LG) {
-  const el = {};
-  let active = null, view = "normal", busy = false;
-  let store = null, presentation = {}, latestStoreRequest = 0;
+(function (LG) { const el = {};
+  let active = null, view = "normal", busy = false,
+    store = null, presentation = {}, latestStoreRequest = 0;
   const node = (tag, cls, text) => {
     const item = document.createElement(tag);
     if (cls) item.className = cls;
     if (text !== undefined) item.textContent = text;
     return item;
-  };
-  const owned = (id) => LG.career.data().characterItems?.includes(id);
+  }; const owned = (id) => LG.career.data().characterItems?.includes(id);
   async function refreshStore() {
     const requestId = ++latestStoreRequest;
     const result = await LG.authority.inspect("viewFactionStore", {
@@ -145,10 +143,13 @@
         item.id === active.faction)?.stat] || "势力主属性"}；集齐五件后免费领取职业大师部件。`
       : "消耗属性点与羞耻值；集齐五件后免费领取职业耗材部件，并开放特殊道具使用权。";
     const profession = professionPanel();
+    const pilot = view === "normal" ? LG.factionPilotUI
+      .panel(active, store.pilotShop, busy, mutate) : null;
     const characterActions = LG.careerCharacterActions.panel(
       active, view, busy, presentation);
     el.items.replaceChildren(
       ...(profession ? [profession] : []),
+      ...(pilot ? [pilot] : []),
       ...(characterActions ? [characterActions] : []),
       ...LG.CAREER_DATA.items(active, view).map(itemCard),
       ...(view === "private"
@@ -196,5 +197,4 @@
       return LG.CAREER_DATA.roster.flatMap((character) => LG.CAREER_DATA
         .items(character, privacy)).filter((item) => ids.has(item.id));
     },
-  };
-})(window.LifeGame);
+  }; })(window.LifeGame);

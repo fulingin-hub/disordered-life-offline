@@ -1,6 +1,18 @@
 (function (LG) {
   LG.careerMainPortrait = {
     get(gender) {
+      const goldenId = LG.goldenHorizon?.data?.()?.professions?.equipped;
+      const golden = LG.GOLDEN_HORIZON_DATA?.professions?.find(
+        (item) => item.id === goldenId);
+      if (golden) {
+        return {
+          id: golden.id,
+          src: LG.GOLDEN_HORIZON_DATA.professionPortrait(golden, gender),
+          name: golden.name,
+          category: "second",
+          exclusiveVehicle: true,
+        };
+      }
       const data = LG.career?.data?.();
       const id = data?.equippedProfession;
       if (!id) return null;

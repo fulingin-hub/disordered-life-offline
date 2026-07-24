@@ -75,7 +75,7 @@
     open(ending, gender = "male") {
       if (LG.contentMode?.guardGallery?.()) return false;
       const label = ending.specialLabel || (ending.specialCg
-        ? "异界魔境特殊CG"
+        ? "异界联盟魔境特殊CG"
         : ending.universal ? "通用结局" : LG.endingArchive.label(gender));
       el.title.textContent = `${label} · ${ending.title}`;
       el.image.src = ending.cg || LG.CG_ASSETS.endingSrc(ending.id, gender);

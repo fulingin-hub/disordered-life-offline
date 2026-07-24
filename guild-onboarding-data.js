@@ -6,12 +6,12 @@
   const guides = {
     guildReceptionist: {
       id: "guildReceptionist", name: "米蕾娅",
-      role: "异界冒险公会女接待",
+      role: "异界联盟冒险公会女接待",
       scene: "./assets/generated/gallery-otherworld-receptionist.945c408a.webp",
     },
     guildManager: {
       id: "guildManager", name: "维奥拉",
-      role: "异界冒险公会女管理者",
+      role: "异界联盟冒险公会女管理者",
       scene: "./assets/generated/gallery-otherworld-manager.34ac9c78.webp",
     },
     expoSaleswoman: {
@@ -57,15 +57,15 @@
   const tour = (label, next) => ({ label, next });
   const scenes = {
     intro: {
-      location: "异界魔境 · 冒险者公会",
+      location: "异界联盟魔境 · 冒险者公会",
       speaker: "guildReceptionist", cast: ["guildReceptionist", "guildManager"],
       title: "新远征者，先从一张悬赏开始",
-      copy: "米蕾娅没有递来说明书，只把今天的悬赏登记册推到你面前。终局已经为你打开异界魔境，接下来带什么、和谁同行、能否活着带回战利品，都由你亲手决定。",
+      copy: "米蕾娅没有递来说明书，只把今天的悬赏登记册推到你面前。终局已经为你打开异界联盟魔境，接下来带什么、和谁同行、能否活着带回战利品，都由你亲手决定。",
       tips: ["先认清悬赏、整备、伙伴与战利品如何连成一次远征。", "黄金都城要在七个不同日期留下萨卢卡斯见证，成功或失败都算。"],
       choices: [{ label: "先看今天的悬赏怎么运转", next: "cycle" }],
     },
     cycle: {
-      topic: "cycle", location: "异界魔境 · 冒险者公会任务墙",
+      topic: "cycle", location: "异界联盟魔境 · 冒险者公会任务墙",
       speaker: "guildManager", cast: ["guildReceptionist", "guildManager"],
       title: "公会只认可活着带回来的结果",
       copy: "远征者先从任务墙接下悬赏，带着补给和伙伴进入深渊。击败目标只是第一步；把遗物带回鉴定、换成下一次远征的力量，才算完成一次循环。",
@@ -73,7 +73,7 @@
       choices: [tour("先去看看公会为远征准备了什么", "shop"), back],
     },
     shop: {
-      topic: "shop", location: "异界魔境 · 冒险者公会",
+      topic: "shop", location: "异界联盟魔境 · 冒险者公会",
       speaker: "guildReceptionist", cast: ["guildReceptionist", "guildManager"],
       title: "出发的人不能空着手",
       copy: "公会每天从各界商路调来食物、药剂和基础装备。远征者用过去积累的功绩换取物资；需求突然增加时，商队也能额外送来几批货。",
@@ -83,7 +83,7 @@
         tour("维奥拉说，回来时还有另一道手续", "corrupted"), back],
     },
     corrupted: {
-      topic: "corrupted", location: "异界魔境 · 公会鉴定室",
+      topic: "corrupted", location: "异界联盟魔境 · 公会鉴定室",
       speaker: "guildManager", cast: ["guildReceptionist", "guildManager"],
       title: "深渊里的东西不会自己变成财富",
       copy: "魔物遗物会留下欲望、诅咒和战斗记忆。鉴定师把这些痕迹称为词缀。适合你的可以收藏，不适合的交给公会回收，换来的功绩会继续供养远征。",
@@ -93,28 +93,28 @@
         tour("接着去检查我还能不能上战场", "growth"), back],
     },
     frontline: {
-      topic: "frontline", location: "异界魔境 · 反攻作战室",
+      topic: "frontline", location: "异界联盟魔境 · 反攻作战室",
       speaker: "guildManager", cast: ["guildReceptionist", "guildManager"],
       title: "反攻不是一次冲锋，而是一条补给线",
       copy: "七层地狱是通往无尽深渊的前哨。每完成一批悬赏，公会就能把人员和物资往下推进一层；金色地平线负责把五界的道路接到同一条战线上。",
-      tips: ["异界魔境进入终局后自动开放。", "黄金都城需七个不同日期见证，试炼失败也计数，但一天不能重复。"],
-      choices: [{ label: "进入异界魔境接第一份悬赏", action: "infernal" },
+      tips: ["异界联盟魔境进入终局后自动开放。", "黄金都城需七个不同日期见证，试炼失败也计数，但一天不能重复。"],
+      choices: [{ label: "进入异界联盟魔境接第一份悬赏", action: "infernal" },
         { label: "跟斯与卡留下今日见证", action: "golden" },
         tour("我明白了，准备开始第一场远征", "ready"), back],
     },
     reputation: {
-      topic: "reputation", location: "异界魔境 · 冒险者公会荣誉墙",
+      topic: "reputation", location: "异界联盟魔境 · 冒险者公会荣誉墙",
       speaker: "guildManager", cast: ["guildReceptionist", "guildManager"],
       title: "公会记录会变成别人眼里的你",
-      copy: "维奥拉见你和搭档仍一脸茫然，接过话头：异界声望会把每次悬赏、首领战和深渊推进累计下来。声望越高，酒馆居民越热情；完成魔境成就后，公会还会自动授予独立的异界礼仪称号。",
-      tips: ["装备礼仪称号后，酒馆居民第一次招呼会按异界礼仪称你为“称号阁下”。", "声望1500 / 2000 / 3000点时，血色狼王、虎王与龙王会认可你，并留下三段英雄影像。"],
+      copy: "维奥拉见你和搭档仍一脸茫然，接过话头：异界联盟声望会把每次悬赏、首领战和深渊推进累计下来。声望越高，酒馆居民越热情；完成魔境成就后，公会还会自动授予独立的异界联盟礼仪称号。",
+      tips: ["装备礼仪称号后，酒馆居民第一次招呼会按异界联盟礼仪称你为“称号阁下”。", "声望1500 / 2000 / 3000点时，血色狼王、虎王与龙王会认可你，并留下三段英雄影像。"],
       choices: [{ label: "请维奥拉念出我的公会记录", action: "achievements" },
-        { label: "请维奥拉核对我的异界礼仪称号", action: "infernalTitles" },
+        { label: "请维奥拉核对我的异界联盟礼仪称号", action: "infernalTitles" },
         { label: "看看三位伙伴留下的英雄影像", action: "vehicleCgs" },
         tour("最后带我去看看真正的战线", "frontline"), back],
     },
     growth: {
-      topic: "growth", location: "异界魔境 · 备战登记台",
+      topic: "growth", location: "异界联盟魔境 · 备战登记台",
       speaker: "guildReceptionist", cast: ["guildReceptionist", "guildManager"],
       title: "活着回来，靠的不是英雄称号",
       copy: "远征前，接待员会核对身体、意志、装备、灵魂和同行伙伴。职业顾问则确认你的战斗方式是否与阵营、勋章和套装匹配。",
@@ -124,7 +124,7 @@
         tour("接下来去找一位可靠的同行伙伴", "vehicleLead"), back],
     },
     vehicleLead: {
-      topic: "vehicle", location: "异界魔境 · 冒险者公会门厅",
+      topic: "vehicle", location: "异界联盟魔境 · 冒险者公会门厅",
       speaker: "guildReceptionist", cast: ["guildReceptionist", "guildManager"],
       title: "拿好传单，去万界商会",
       copy: "深渊里不能只靠两条腿，靠谱的伙伴能陪你赶路，也能改变战斗方式。拿着公会传单去找莉泽尔，她会替你登记访客优惠和后续会员折扣。",
@@ -136,7 +136,7 @@
       speaker: "expoSaleswoman", cast: ["expoSaleswoman", "guildReceptionist"],
       title: "先锋协同与跟随支援，由你决定",
       copy: "欢迎，英雄。普通伙伴负责同行，高阶伙伴还会提供终局效果。签约后去职业系统选择战斗伙伴，再在“先锋协同 / 跟随支援”之间切换；深渊出发前记得检查当前模式。",
-      tips: ["先锋协同：部分异界伙伴可越过小怪直面首领。", "跟随支援：主角与伙伴并肩显示，通常不触发先锋专属效果。"],
+      tips: ["先锋协同：部分异界联盟伙伴可越过小怪直面首领。", "跟随支援：主角与伙伴并肩显示，通常不触发先锋专属效果。"],
       choices: [{ label: "请莉泽尔替我登记同行方式", action: "vehicleProfile" },
         { label: "看看伙伴公会通往哪些世界", action: "world" },
         tour("伙伴选好了，去听听灵魂的旧故事", "soul"), back],
@@ -186,12 +186,12 @@
         tour("回公会看看大家还记不记得我", "reputation"), back],
     },
     ready: {
-      location: "异界魔境 · 冒险者公会任务墙",
+      location: "异界联盟魔境 · 冒险者公会任务墙",
       speaker: "guildManager", cast: ["guildReceptionist", "guildManager"],
       title: "从今天起，记录由你自己写",
       copy: "维奥拉把第一张空白远征记录递给你。公会只记录你接下了什么、带回了什么；黄金都城则记录你是否真正走过七个不同日期。",
       tips: ["接悬赏 → 检查职业、装备与战斗伙伴 → 进入深渊 → 带回战利品。", "每天可做一次萨卢卡斯见证；第七个日期结束后，无论胜负都开放都城内部。"],
-      choices: [{ label: "进入异界魔境接下悬赏", action: "infernal" },
+      choices: [{ label: "进入异界联盟魔境接下悬赏", action: "infernal" },
         { label: "前往萨卢卡斯完成今日见证", action: "golden" }, back],
     },
   };

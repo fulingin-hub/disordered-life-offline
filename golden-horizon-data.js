@@ -70,6 +70,8 @@
       id: "gate-arbiter", name: "界门裁定官", guide: "斯",
       portrait:
         "./assets/generated/career-gate-arbiter-mounted.f6a73b2d.webp",
+      femalePortrait:
+        "./assets/generated/career-gate-arbiter-mounted-female.e50a0f70.webp",
       equipment: "界律裁定甲 · 七门罗盘冠 · 折界裁决杖",
       vehicle: "专属坐骑：折光獬豸 · 可沿七道界门进行短距折跃巡航。",
       requirement: "与斯成功通过7次试炼，并持有两界航路图。",
@@ -79,6 +81,8 @@
       id: "golden-frontier-lord", name: "黄金开拓领主", guide: "卡",
       portrait:
         "./assets/generated/career-golden-frontier-lord-mounted.d7c6440a.webp",
+      femalePortrait:
+        "./assets/generated/career-golden-frontier-lord-mounted-female.b39b18b6.webp",
       equipment: "黄金开拓大衣 · 商旅领主护臂 · 地平线旗枪",
       vehicle: "专属载具：黄金陆行舰“开拓一号” · 携带移动商栈与勘路仪。",
       requirement: "与卡成功通过7次试炼，并持有和平贸易勋章。",
@@ -105,6 +109,10 @@
   LG.GOLDEN_HORIZON_DATA = {
     gates, maps, arenas, setPieces, collectibles, exchanges, professions,
     socialChoices, characters, tavernResidents,
+    professionPortrait(item, gender) {
+      return gender === "female" && item.femalePortrait
+        ? item.femalePortrait : item.portrait;
+    },
     gate(id) { return gates.find((item) => item.id === id); },
     map(id) {
       const item = maps[id] || ["未知地图", "未知门", "道路仍未被记录。"];

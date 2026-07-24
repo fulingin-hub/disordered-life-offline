@@ -119,25 +119,25 @@
     rooms: {
       casinoBunny: {
         character: "casinoBunny",
-        location: "异域赌场侧厅",
+        location: "异域联邦赌场侧厅",
         title: "兔女郎的休息时间",
         opener: "伊琳娜靠在空赌桌边：“商店都买光了，现在你想问什么？”",
       },
       casinoLead: {
         character: "casinoLead",
-        location: "异域赌场领班室",
+        location: "异域联邦赌场领班室",
         title: "巡场记录之外",
         opener: "叶卡捷琳娜合上巡场记录：“没有赌局打断你了，开口吧。”",
       },
       casinoManager: {
         character: "casinoManager",
-        location: "异域赌场经理室",
+        location: "异域联邦赌场经理室",
         title: "闭店后的盘问",
         opener: "韩智妍把签名名片压在桌面：“你集齐了权限，现在说出目的。”",
       },
       casinoOwner: {
         character: "casinoOwner",
-        location: "异域赌场顶层套间",
+        location: "异域联邦赌场顶层套间",
         title: "老板的私人会面",
         opener: "尹瑞英关闭账本：“联系方式不是承诺，但我可以听完这句话。”",
       },

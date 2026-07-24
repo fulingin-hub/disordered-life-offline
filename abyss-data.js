@@ -71,7 +71,7 @@
         duty: "负责破除楼层封锁与装备维护",
       },
       {
-        id: "tavernScout", name: "凯恩", role: "异界斥候",
+        id: "tavernScout", name: "凯恩", role: "异界联盟斥候",
         duty: "负责侦察下一层的欲望集合体",
       },
       {

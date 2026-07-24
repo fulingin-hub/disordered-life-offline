@@ -34,7 +34,7 @@
     },
     {
       id: "foreign",
-      prefix: "异域",
+      prefix: "异域联邦",
       trait: "foreign",
       names: {
         head: "身份发饰",
@@ -58,7 +58,7 @@
     },
     {
       id: "realm-hunter",
-      prefix: "异界的",
+      prefix: "异界联盟的",
       separator: "",
       unlockReputation: {
         head: 100, body: 200, hands: 300, crotch: 400, feet: 500,

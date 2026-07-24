@@ -6,7 +6,7 @@
       {
         id: "guildReceptionist",
         name: "米蕾娅",
-        role: "异界冒险公会女接待",
+        role: "异界联盟冒险公会女接待",
         age: 28,
         portrait: "./assets/generated/otherworld-receptionist-portrait.ebc9209d.webp",
         scene: "./assets/generated/gallery-otherworld-receptionist.945c408a.webp",
@@ -15,7 +15,7 @@
       {
         id: "guildManager",
         name: "维奥拉",
-        role: "异界冒险公会女管理者",
+        role: "异界联盟冒险公会女管理者",
         age: 36,
         portrait: "./assets/generated/otherworld-manager-portrait.2e5b5abd.webp",
         scene: "./assets/generated/gallery-otherworld-manager.34ac9c78.webp",
@@ -39,7 +39,7 @@
       rewards: "远征授勋",
     },
     supplies: {
-      "field-ration": { name: "异界野战口粮", type: "food" },
+      "field-ration": { name: "异界联盟野战口粮", type: "food" },
       "monster-stew": { name: "魔境炖肉罐头", type: "food" },
       "recovery-potion": { name: "公会恢复药剂", type: "potion" },
       "focus-potion": { name: "公会专注药剂", type: "potion" },

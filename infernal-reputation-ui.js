@@ -31,7 +31,7 @@
     if (!container) return;
     const reputation = LG.infernalRealm.stats().reputation;
     const heading = node("div", "reputation-board-heading");
-    heading.append(node("div", "", "异界魔境声望奖励"),
+    heading.append(node("div", "", "异界联盟魔境声望奖励"),
       node("strong", "", `${reputation} / 3000`));
     const progress = node("progress", "reputation-total-progress");
     progress.max = 3000;
