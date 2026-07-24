@@ -7,7 +7,7 @@
   };
 
   LG.careerCharacterActions = {
-    panel(character, view, busy) {
+    panel(character, view, busy, presentation = {}) {
       if (view !== "private") return null;
       const unlocked = LG.career.privateComplete(character.id);
       const panel = node("section", "faction-character-actions");
@@ -24,8 +24,9 @@
       chat.disabled = busy || !unlocked;
       gallery.disabled = busy || !unlocked;
       chat.addEventListener("click", () =>
-        LG.careerCharacterChatUI.open(character.id));
-      gallery.addEventListener("click", () => LG.galleryUI.open(character.id));
+        LG.careerCharacterChatUI.open(presentation.chatId || character.id));
+      gallery.addEventListener("click", () =>
+        LG.galleryUI.open(presentation.galleryId || character.id));
       actions.append(chat, gallery);
       if (character.rankIndex === 2) {
         [["献上灵魂", "offerLeader"], ["灵魂支配", "showcaseLeader"]]

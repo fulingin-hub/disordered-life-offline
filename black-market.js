@@ -83,7 +83,8 @@
 
   function currentAge(state) {
     const active = LG.engine?.current?.(state);
-    return active?.age ?? state?.lastEventAge ?? 0;
+    return Math.max(Number(active?.age) || 0,
+      Number(state?.lastEventAge) || 0);
   }
 
   Object.assign(LG.blackMarket, {

@@ -1,0 +1,172 @@
+.phone-mia-assistant {
+  display: grid;
+  grid-template-rows: auto minmax(140px, 1fr) auto;
+  gap: 10px;
+  min-height: 100%;
+}
+
+.mia-assistant-hero,
+.cinema-owner {
+  display: grid;
+  grid-template-columns: 124px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  border: 1px solid rgba(213, 176, 104, .38);
+  border-radius: 6px;
+  padding: 10px;
+  background: #151b21;
+}
+
+.mia-assistant-portrait,
+.cinema-owner-portrait {
+  display: block;
+  width: 124px;
+  aspect-ratio: 13 / 11;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.mia-assistant-identity {
+  min-width: 0;
+}
+
+.mia-gallery-button {
+  min-height: 40px;
+  margin-top: 9px;
+}
+
+.mia-assistant-identity h3,
+.mia-assistant-identity p,
+.cinema-owner-copy h3,
+.cinema-owner-copy p {
+  margin: 5px 0 0;
+}
+
+.mia-assistant-identity p,
+.cinema-owner-copy p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.mia-messages {
+  min-height: 140px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-block: 1px solid var(--line);
+  padding: 10px 2px;
+}
+
+.mia-message {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mia-message-label {
+  padding-top: 8px;
+  color: #c9a963;
+  font-size: 11px;
+  text-align: right;
+}
+
+.mia-message p {
+  width: fit-content;
+  max-width: min(92%, 520px);
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 10px;
+  background: #202830;
+  line-height: 1.55;
+}
+
+.mia-message.user p {
+  justify-self: end;
+  border-color: rgba(99, 151, 178, .52);
+  background: #183346;
+}
+
+.mia-message.loading p {
+  color: var(--muted);
+}
+
+.mia-message.error p {
+  border-color: rgba(185, 80, 80, .6);
+  color: #f0b4b4;
+}
+
+.mia-composer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px;
+  gap: 8px;
+}
+
+.mia-input,
+.mia-send {
+  min-height: 44px;
+}
+
+.mia-input {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 0 12px;
+  background: #0f1419;
+  color: var(--paper);
+}
+
+.cinema-owner {
+  grid-template-columns: 112px minmax(0, 1fr) auto;
+  margin-top: 14px;
+}
+
+.cinema-owner-portrait {
+  width: 112px;
+}
+
+.cinema-owner-action {
+  min-height: 44px;
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .mia-assistant-hero {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  .mia-assistant-portrait {
+    width: 96px;
+  }
+
+  .cinema-owner {
+    grid-template-columns: 86px minmax(0, 1fr);
+  }
+
+  .cinema-owner-portrait {
+    width: 86px;
+  }
+
+  .cinema-owner-action {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .phone-mia-assistant {
+    grid-template-columns: 180px minmax(0, 1fr);
+    grid-template-rows: minmax(120px, 1fr) auto;
+  }
+
+  .mia-assistant-hero {
+    grid-row: 1 / -1;
+    grid-template-columns: 1fr;
+    align-content: start;
+  }
+
+  .mia-assistant-portrait {
+    width: 100%;
+  }
+}

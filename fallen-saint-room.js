@@ -31,11 +31,33 @@
       image.alt = "身穿黑色仪典袍的堕落圣徒";
       const copy = node("p", "trial-copy",
         "圣光教团覆灭后，这里只剩被改写的祷词与绿色魔纹。"
+        + "真正的堕落圣徒早已被七大欲共同夺舍，成为七大欲在人间的统一化身。"
         + "她提醒你：隐藏成就“七大欲的宠奴”已让地狱教会任务可以直接完成，"
-        + "并解锁特殊职业“堕落圣徒的无脑奴”。");
-      dialog.append(heading, image, copy);
+        + "并解锁特殊职业“堕落圣徒的无脑奴”。原圣徒丧志商城现由她管理。");
+      const actions = node("div", "fallen-saint-actions");
+      const store = node("button", "", "堕落圣徒丧志商城");
+      const chat = node("button", "", "AI 对话");
+      const gallery = node("button", "", "角色画廊");
+      [store, chat, gallery].forEach((button) => { button.type = "button"; });
+      store.addEventListener("click", () => {
+        dialog.close();
+        LG.fallenSaintStore.open();
+      });
+      chat.addEventListener("click", () => {
+        if (LG.careerCharacterChatUI.open("fallenSaint")) dialog.close();
+      });
+      gallery.dataset.adultGallery = "true";
+      gallery.addEventListener("click", () => LG.galleryUI.open("fallenSaint"));
+      actions.append(store, chat, gallery);
+      dialog.append(heading, image, copy, actions);
       document.body.append(dialog);
     }
+    const complete = LG.career.privateComplete("holy-light-saint");
+    const buttons = dialog.querySelectorAll(".fallen-saint-actions button");
+    buttons[1].disabled = !complete;
+    buttons[2].disabled = !complete;
+    buttons[1].title = complete ? "" : "集齐堕落圣徒丧志商城五件私密道具后开放";
+    buttons[2].title = buttons[1].title;
     dialog.showModal();
   }
 

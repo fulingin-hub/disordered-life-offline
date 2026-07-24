@@ -10,6 +10,8 @@
     ...(LG.penitentiary?.equipmentItems?.() || []),
   ];
   const itemMap = () => new Map(allItems().map((item) => [item.id, item]));
+  const adultSimulation = () => LG.contentMode?.adultSimulation?.() === true;
+  const currentAge = (state) => LG.blackMarket?.currentAge?.(state) || 0;
   const acquired = (item) => {
     if (item?.unlockProfession) {
       const career = LG.career?.data?.();
@@ -107,6 +109,7 @@
       return allItems().filter((item) =>
         (item.slot === slot || item.slot === "any")
         && acquired(item)
+        && (!item.adult || adultSimulation())
         && (item.id === current || !usedElsewhere.has(item.id)));
     },
     item(id) {
@@ -114,7 +117,8 @@
     },
     canEquip(state, item) {
       return acquired(item)
-        && (!item?.adult || (LG.blackMarket?.currentAge?.(state) || 0) >= 18);
+        && (!item?.adult
+          || (adultSimulation() && currentAge(state) >= 18));
     },
     equip(state, slot, itemId) {
       if (!slotIds().includes(slot)) return false;

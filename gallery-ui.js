@@ -108,8 +108,13 @@
         || LG.penitentiary?.galleryUnlocked(character)
         || LG.otherworldCharacters?.galleryUnlocked(character)
         || LG.career?.galleryUnlocked(character)
+        || (character === "fallenSaint"
+          && LG.fallenSaintRoom?.unlocked?.()
+          && LG.career.privateComplete("holy-light-saint"))
         || (character === "priestess"
           && LG.holyLight?.priestessGalleryUnlocked())
+        || (character === "mia"
+          && LG.contentMode?.adultSimulation?.())
         || (LG.infernalClub?.isCharacter(character)
           && LG.infernalClub.access().allowed)
         || infernalWitch
@@ -117,10 +122,10 @@
           ? LG.casino.galleryUnlocked(character) : LG.collectibles.galleryUnlocked(character));
       if (!gallery?.items.length || !unlocked) return false;
       currentCharacter = character;
-      currentItems = [
-        ...LG.galleryAnimationTemplates.entries(character),
-        ...gallery.items,
-      ];
+      const animations = LG.galleryAnimationTemplates.entries(character);
+      currentItems = character === "mia"
+        ? [...gallery.items, ...animations]
+        : [...animations, ...gallery.items];
       el.title.textContent = `${gallery.name} · 角色画廊`;
       el.thumbs.replaceChildren(...currentItems.map(thumbnail));
       select(0);

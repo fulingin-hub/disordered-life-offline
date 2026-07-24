@@ -1,6 +1,6 @@
 window.LifeGame = window.LifeGame || {};
 window.LifeGame.CONFIG = {
-  buildId: "20260724-phone-catalog-1", version: 8,
+  buildId: "20260724-mia-1", version: 8,
   eventRevision: 2026072302,
   stateKey: "disordered-life-state-v1",
   archiveKey: "disordered-life-archive-v1",
@@ -17,7 +17,7 @@ window.LifeGame.CONFIG = {
   penitentiaryKey: "disordered-life-penitentiary-v1",
   assets: {
     background: "./assets/generated/life-crossroads-bg.21a5a23c.webp",
-    lin: "./assets/generated/lin-lan-boss.8adf43cd.webp",
+    mia: "./assets/generated/mia-archive-assistant.9531b957.webp", lin: "./assets/generated/lin-lan-boss.8adf43cd.webp",
     qin: "./assets/generated/qin-mei-patron.e987cdd9.webp",
     su: "./assets/generated/su-fei-streamer.3233b8aa.webp",
     shen: "./assets/generated/shen-jingqiu-tutor.65ea9410.webp",

@@ -1,6 +1,8 @@
 .adventure-guild-dialog {
   width: min(980px, calc(100vw - 24px));
+  height: min(860px, calc(100dvh - 24px));
   max-height: min(860px, calc(100dvh - 24px));
+  min-height: 0;
   border: 1px solid rgba(205, 181, 125, 0.4);
   border-radius: 8px;
   padding: 20px;
@@ -155,6 +157,23 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   padding-right: 3px;
+  scrollbar-gutter: stable;
+  scrollbar-width: auto;
+  scrollbar-color: #c9a85e #10141a;
+}
+
+.adventure-guild-items::-webkit-scrollbar {
+  width: 12px;
+}
+
+.adventure-guild-items::-webkit-scrollbar-track {
+  background: #10141a;
+}
+
+.adventure-guild-items::-webkit-scrollbar-thumb {
+  border: 3px solid #10141a;
+  border-radius: 8px;
+  background: #c9a85e;
 }
 
 .adventure-guild-item {

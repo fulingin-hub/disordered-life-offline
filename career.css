@@ -365,6 +365,31 @@
   color: #ffdce5;
 }
 
+.fallen-saint-room {
+  width: min(760px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+}
+
+.fallen-saint-room > img {
+  width: 100%;
+  max-height: min(48dvh, 440px);
+  border: 1px solid rgba(132, 201, 124, .25);
+  border-radius: 6px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.fallen-saint-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.fallen-saint-actions button {
+  min-height: 44px;
+}
+
 @media (max-width: 720px) {
   .collection-filter-bar {
     grid-template-columns: 1fr;
@@ -378,5 +403,9 @@
 
   .career-roster {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .fallen-saint-actions {
+    grid-template-columns: 1fr;
   }
 }

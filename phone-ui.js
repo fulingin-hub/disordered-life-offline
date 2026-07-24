@@ -3,6 +3,7 @@
   let currentView = "home";
   const titles = {
     home: "手机",
+    assistant: "弥娅助手",
     simulation: "模拟人生",
     contacts: "通讯录",
     movies: "电影播放器",
@@ -40,32 +41,28 @@
           LG.CONFIG.assets[item.id], () => LG.roomsUI.openChat(item.id));
       });
   }
-
   function otherworldContacts() {
     return LG.otherworldCharacters.characters()
       .filter((item) => LG.otherworldCharacters.canChat(item.id))
       .map((item) => contact(item.id, item.name, item.location, item.portrait,
         () => LG.otherworldCharacterChatUI.open(item.id)));
   }
-
   function contacts() {
     const map = new Map();
     [...standardContacts(), ...marketContacts(), ...otherworldContacts()]
       .forEach((item) => map.set(item.id, item));
     return [...map.values()];
   }
-
   function close() {
     LG.phoneNewsUI?.cancel?.();
+    if (currentView === "assistant") LG.phoneAssistantUI.cancel();
     el.content.querySelectorAll("video").forEach((video) => video.pause());
     if (el.dialog.open) el.dialog.close();
   }
-
   function openContact(item) {
     close();
     item.action();
   }
-
   function contactCard(item) {
     const button = node("button", "phone-contact");
     button.type = "button";
@@ -83,7 +80,6 @@
     button.addEventListener("click", () => openContact(item));
     return button;
   }
-
   function renderContacts() {
     const items = contacts();
     el.status.textContent = `已收录 ${items.length} 位联系人`;
@@ -98,14 +94,13 @@
       node("p", "", "完成角色路线或角色收藏后自动收录。"));
     el.content.replaceChildren(empty);
   }
-
   function appCard(app, counts) {
     const button = node("button", "phone-app");
     button.type = "button";
     button.dataset.phoneView = app.id;
     const icon = node("span", "phone-app-icon");
     const glyphs = {
-      simulation: "▣", movies: "▶", contacts: "●", music: "♪",
+      assistant: "M", simulation: "▣", movies: "▶", contacts: "●", music: "♪",
       gallery: "▧", news: "≡", onlineCasino: "♠",
       adultSite: "18", system: "⚙",
     };
@@ -135,7 +130,9 @@
     el.eyebrow.textContent = currentView === "home" ? "随身终端" : "手机应用";
     el.back.hidden = currentView === "home";
     el.content.className = `phone-content phone-view-${currentView}`;
-    if (currentView === "simulation") {
+    if (currentView === "assistant") {
+      LG.phoneAssistantUI.render(el.content, el.status);
+    } else if (currentView === "simulation") {
       LG.phoneSimulationUI.render(el.content, el.status);
     } else if (currentView === "contacts") renderContacts();
     else if (currentView === "movies") {
@@ -156,6 +153,9 @@
   }
 
   function open(view = "home") {
+    if (currentView === "assistant" && view !== "assistant") {
+      LG.phoneAssistantUI.cancel();
+    }
     if (LG.contentMode?.strictTeen?.()
       && ["contacts", "movies", "gallery", "news", "onlineCasino", "adultSite"]
         .includes(view)) {

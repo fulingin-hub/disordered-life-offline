@@ -27,6 +27,20 @@
     if (el.dialog.open) el.dialog.close();
   }
 
+  function accessId(characterId) {
+    return characterId === "fallenSaint" ? "holy-light-saint" : characterId;
+  }
+
+  function characterMeta(characterId) {
+    if (characterId !== "fallenSaint") return LG.career.character(characterId);
+    return {
+      id: characterId,
+      name: "堕落圣徒",
+      role: "地狱教会 · 堕落圣徒",
+      faction: "church",
+    };
+  }
+
   async function send(text) {
     if (!active || LG.dialogueAI.isBusy()) return;
     const current = ++requestId;
@@ -78,16 +92,17 @@
       });
     },
     open(characterId) {
-      if (!LG.career.privateComplete(characterId)) return false;
-      const character = LG.career.character(characterId);
+      if (!LG.career.privateComplete(accessId(characterId))) return false;
+      const character = characterMeta(characterId);
       if (!character) return false;
       active = characterId;
       requestId += 1;
       const scene = LG.dialogueScenes.room(active);
-      el.portrait.src = LG.careerRoomPortraits.source(character, "private");
+      el.portrait.src = characterId === "fallenSaint"
+        ? LG.fallenSaintRoom.asset
+        : LG.careerRoomPortraits.source(character, "private");
       el.portrait.alt = character.role || character.name;
-      el.location.textContent = character.branchLabel
-        || LG.CAREER_DATA.factions[character.faction].name;
+      el.location.textContent = scene.location;
       el.name.textContent = character.name;
       el.messages.replaceChildren();
       message("assistant", scene.opener);

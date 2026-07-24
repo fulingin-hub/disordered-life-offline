@@ -29,7 +29,6 @@
   grid-row: 2;
 }
 
-.game-shell[data-mode="simulation"] #careerButton,
 .game-shell[data-mode="simulation"] #tasksButton,
 .game-shell[data-mode="simulation"] #goldenHorizonButton {
   display: none;

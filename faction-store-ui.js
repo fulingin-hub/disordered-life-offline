@@ -1,27 +1,21 @@
 (function (LG) {
   const el = {};
-  let active = null;
-  let view = "normal";
-  let busy = false;
-  let store = null;
-  let latestStoreRequest = 0;
+  let active = null, view = "normal", busy = false;
+  let store = null, presentation = {}, latestStoreRequest = 0;
   const node = (tag, cls, text) => {
     const item = document.createElement(tag);
     if (cls) item.className = cls;
     if (text !== undefined) item.textContent = text;
     return item;
   };
-  function owned(id) {
-    return LG.career.data().characterItems?.includes(id);
-  }
+  const owned = (id) => LG.career.data().characterItems?.includes(id);
   async function refreshStore() {
     const requestId = ++latestStoreRequest;
     const result = await LG.authority.inspect("viewFactionStore", {
       characterId: active.id,
     });
-    if (requestId !== latestStoreRequest || result.store?.characterId !== active.id) {
-      return false;
-    }
+    if (requestId !== latestStoreRequest
+      || result.store?.characterId !== active.id) return false;
     store = result.store;
     return true;
   }
@@ -132,7 +126,6 @@
     panel.append(grid);
     return panel;
   }
-
   function render() {
     if (!active) return;
     if (!store) {
@@ -142,16 +135,18 @@
     }
     const data = LG.career.data();
     const faction = LG.CAREER_DATA.factions[active.faction];
-    el.faction.textContent = `${faction.name} · ${
+    el.faction.textContent = presentation.location || `${faction.name} · ${
       active.branchLabel || faction.location}`;
-    el.title.textContent = `${LG.CAREER_DATA.characterLabel(active)}的${
+    el.title.textContent = `${presentation.name
+      || LG.CAREER_DATA.characterLabel(active)}的${
       view === "normal" ? "正常" : "丧志"}商城`;
     el.status.textContent = view === "normal"
       ? `消耗属性点与${LG.CAREER_DATA.stats[data.factions?.find((item) =>
         item.id === active.faction)?.stat] || "势力主属性"}；集齐五件后免费领取职业大师部件。`
       : "消耗属性点与羞耻值；集齐五件后免费领取职业耗材部件，并开放特殊道具使用权。";
     const profession = professionPanel();
-    const characterActions = LG.careerCharacterActions.panel(active, view, busy);
+    const characterActions = LG.careerCharacterActions.panel(
+      active, view, busy, presentation);
     el.items.replaceChildren(
       ...(profession ? [profession] : []),
       ...(characterActions ? [characterActions] : []),
@@ -163,7 +158,6 @@
     el.tabs.forEach((button) => button.setAttribute("aria-selected",
       String(button.dataset.factionStoreView === view)));
   }
-
   LG.factionStoreUI = {
     init() {
       el.dialog = document.getElementById("factionStoreDialog");
@@ -179,11 +173,17 @@
         render();
       }));
     },
-    open(characterId, initialView = "normal") {
+    open(characterId, initialView = "normal", nextPresentation = {}) {
       active = LG.CAREER_DATA.roster.find((item) => item.id === characterId);
       if (!active) return;
+      presentation = nextPresentation;
       store = null;
-      view = initialView === "private" ? "private" : "normal";
+      view = presentation.forcePrivate || initialView === "private"
+        ? "private" : "normal";
+      el.tabs.forEach((button) => {
+        button.hidden = Boolean(presentation.forcePrivate
+          && button.dataset.factionStoreView !== "private");
+      });
       render();
       el.dialog.showModal();
       refreshStore().then(() => render()).catch((err) => {
@@ -193,8 +193,8 @@
     },
     ownedItems(privacy) {
       const ids = new Set(LG.career.data().characterItems || []);
-      return LG.CAREER_DATA.roster.flatMap((character) =>
-        LG.CAREER_DATA.items(character, privacy)).filter((item) => ids.has(item.id));
+      return LG.CAREER_DATA.roster.flatMap((character) => LG.CAREER_DATA
+        .items(character, privacy)).filter((item) => ids.has(item.id));
     },
   };
 })(window.LifeGame);

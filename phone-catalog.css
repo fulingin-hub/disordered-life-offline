@@ -7,6 +7,7 @@
     0 7px 18px rgba(0, 0, 0, .28);
 }
 
+.phone-app-icon[data-app-icon="assistant"] { background: #3f6b67; }
 .phone-app-icon[data-app-icon="simulation"] { background: #35647c; }
 .phone-app-icon[data-app-icon="movies"] { background: #84404b; }
 .phone-app-icon[data-app-icon="contacts"] { background: #426a8a; }

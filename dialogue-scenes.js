@@ -137,6 +137,10 @@
   Object.assign(rooms, LG.INFERNAL_CLUB_DIALOGUE?.rooms || {});
   Object.assign(characters, LG.OTHERWORLD_CHARACTER_DIALOGUE?.characters || {});
   Object.assign(rooms, LG.OTHERWORLD_CHARACTER_DIALOGUE?.rooms || {});
+  Object.assign(characters, LG.FALLEN_SAINT_DIALOGUE?.characters || {});
+  Object.assign(rooms, LG.FALLEN_SAINT_DIALOGUE?.rooms || {});
+  Object.assign(characters, LG.MIA_DIALOGUE?.characters || {});
+  Object.assign(scenes, LG.MIA_DIALOGUE?.scenes || {});
 
   LG.dialogueScenes = {
     get(eventId) {

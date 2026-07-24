@@ -205,7 +205,7 @@
       report();
     })();
   </script>
-  <link rel="stylesheet" href="./app.bundle.css?v=8c2e8c07fb11">
+  <link rel="stylesheet" href="./app.bundle.css?v=c8eaa03e8a77">
   <link rel="stylesheet" href="./offline.css">
 </head>
 <body>
@@ -1754,6 +1754,16 @@
       </div>
       <button id="closeRecoveryButton" class="quiet-button" type="button">关闭</button>
     </div>
+    <section class="cinema-owner" aria-label="人生电影院馆主">
+      <img id="cinemaMiaPortrait" class="cinema-owner-portrait" alt="弥娅">
+      <div class="cinema-owner-copy">
+        <span class="event-type">馆主</span>
+        <h3>弥娅</h3>
+        <p>万界档案馆智能记录官，负责整理公开档案与放映记录。</p>
+      </div>
+      <button id="cinemaMiaButton" class="quiet-button cinema-owner-action"
+        type="button">和弥娅聊聊</button>
+    </section>
     <div class="life-cinema-options" aria-label="人生电影院功能">
       <button id="cinemaSimulationButton" class="life-cinema-option narrator-entry"
         type="button">
@@ -1954,10 +1964,13 @@
   <script src="./career-portrait-data.js"></script>
   <script src="./career-room-portraits.js"></script>
   <script src="./ending-archive.js"></script>
+  <script src="./mia-data.js"></script>
   <script src="./dialogue-usa.js"></script>
   <script src="./dialogue-sanctuary.js"></script>
   <script src="./dialogue-corporate.js"></script>
   <script src="./dialogue-tribute.js"></script>
+  <script src="./fallen-saint-dialogue.js"></script>
+  <script src="./mia-dialogue.js"></script>
   <script src="./dialogue-scenes.js"></script>
   <script src="./world-facility-areas.js"></script>
   <script src="./world-areas.js"></script>
@@ -2057,6 +2070,7 @@
   <script src="./dialogue-ai.js"></script>
   <script src="./dialogue-ui.js"></script>
   <script src="./gallery-assets.js"></script>
+  <script src="./mia-gallery.js"></script>
   <script src="./priestess-gallery.js"></script>
   <script src="./infernal-gallery.js"></script>
   <script src="./casino-gallery.js"></script>
@@ -2064,6 +2078,7 @@
   <script src="./penitentiary-gallery.js"></script>
   <script src="./otherworld-character-gallery.js"></script>
   <script src="./career-character-gallery.js"></script>
+  <script src="./fallen-saint-gallery.js"></script>
   <script src="./gallery-animation-templates.js"></script>
   <script src="./gallery-ui.js"></script>
   <script src="./content-mode-ui.js"></script>
@@ -2092,6 +2107,7 @@
   <script src="./otherworld-character-ui.js"></script>
   <script src="./career-character-chat-ui.js"></script>
   <script src="./career-character-actions.js"></script>
+  <script src="./fallen-saint-store.js"></script>
   <script src="./black-prison-outfit-ui.js"></script>
   <script src="./eden-character-chat-ui.js"></script>
   <script src="./eden-character-ui.js"></script>
@@ -2142,6 +2158,7 @@
   <script src="./phone-news-ui.js"></script>
   <script src="./phone-simulation-ui.js"></script>
   <script src="./phone-system-ui.js"></script>
+  <script src="./phone-assistant-ui.js"></script>
   <script src="./phone-ui.js"></script>
   <script src="./tribute-ui.js"></script>
   <script src="./rooms.js"></script>

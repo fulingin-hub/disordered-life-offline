@@ -12,6 +12,16 @@
   const atlases = {};
   const exact = {};
 
+  function visualKey(vehicle) {
+    const aliases = {
+      "points-otherworld-male": "otherworld-male",
+      "points-otherworld-female": "otherworld-female",
+      "achievement-lost-griffin": "lost-griffin",
+      "achievement-reborn-phoenix": "reborn-phoenix",
+    };
+    return `${vehicle?.store}:${aliases[vehicle?.id] || vehicle?.family}`;
+  }
+
   LG.vehicleCareerCombinations = {
     visualOrder,
     registerExact(professionId, gender, visual, src) {
@@ -21,7 +31,7 @@
       atlases[`${professionId}:${gender}`] = src;
     },
     resolve(professionId, vehicle, gender) {
-      const visual = `${vehicle?.store}:${vehicle?.family}`;
+      const visual = visualKey(vehicle);
       const exactSrc = exact[`${professionId}:${gender}:${visual}`];
       if (exactSrc) return { src: exactSrc, sprite: null };
       const src = atlases[`${professionId}:${gender}`];
@@ -30,9 +40,9 @@
       return {
         src,
         sprite: {
-          columns: 3, rows: 6,
-          column: index % 3,
-          row: Math.floor(index / 3),
+          columns: 6, rows: 3,
+          column: index % 6,
+          row: Math.floor(index / 6),
         },
       };
     },

@@ -88,6 +88,14 @@
     return act("adventureGuildUseSupply", { itemId },
       "正在向职业任务提交补给...");
   }
+  function handleWheel(event) {
+    if (!el.dialog?.open || !el.items
+      || el.items.scrollHeight <= el.items.clientHeight) return;
+    const insideItems = event.target.closest?.("#adventureGuildItems");
+    if (insideItems) return;
+    el.items.scrollTop += event.deltaY;
+    event.preventDefault();
+  }
   function roomCard() {
     const data = LG.adventureGuild.data();
     const card = cards.node("article",
@@ -142,6 +150,7 @@
       event.preventDefault();
       document.getElementById("closeAdventureGuildButton").click();
     });
+    el.dialog.addEventListener("wheel", handleWheel, { passive: false });
     document.getElementById("infernalGuildButton")
       ?.addEventListener("click", open);
     LG.authority.subscribe(() => { if (el.dialog.open) render(); });

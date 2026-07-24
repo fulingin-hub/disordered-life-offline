@@ -71,6 +71,7 @@
       const requestId = LG.dialogueRequestLock.begin();
       if (!requestId) return null;
       const room = String(event?.id || "").startsWith("room-");
+      const assistant = event?.kind === "assistant";
       const transaction = room ? LG.dialogueAuthority.create(scene.character) : null;
       let cancelTask = null;
       const cancelRoom = () => {
@@ -82,7 +83,7 @@
       };
       if (room) cancelActiveRoom = cancelRoom;
       const body = {
-        kind: room ? "room" : "event",
+        kind: room ? "room" : assistant ? "assistant" : "event",
         sceneId: event?.id,
         characterId: scene.character,
         userText,
@@ -93,7 +94,8 @@
       let authorized = false;
       let settled = false;
       try {
-        if (!LG.playerRuntime.active() && !window.dzmm?.fn?.invokeStream) {
+        if (!assistant && !LG.playerRuntime.active()
+          && !window.dzmm?.fn?.invokeStream) {
           const error = new Error("权威对话服务不可用。");
           error.code = "FUNCTION_UNAVAILABLE";
           throw error;

@@ -13,6 +13,7 @@
     busy = next;
     [el.past, el.endings, el.achievements, el.narrator]
       .forEach((button) => { button.disabled = next; });
+    el.assistant.disabled = next;
     refreshUnlocks();
   }
 
@@ -158,6 +159,8 @@
     el.endings = document.getElementById("cinemaEndingsButton");
     el.achievements = document.getElementById("lifeAchievementsButton");
     el.narrator = document.getElementById("cinemaNarratorButton");
+    el.assistant = document.getElementById("cinemaMiaButton");
+    el.miaPortrait = document.getElementById("cinemaMiaPortrait");
     el.taste = document.getElementById("tasteLifeButton");
     el.power = document.getElementById("powerLifeButton");
     el.tasteText = el.taste.querySelector("span");
@@ -166,6 +169,12 @@
     el.endings.addEventListener("click", showEndings);
     el.achievements.addEventListener("click", showAchievements);
     el.narrator.addEventListener("click", showNarrator);
+    el.assistant.addEventListener("click", () => {
+      if (busy) return;
+      el.dialog.close();
+      LG.phoneUI.open("assistant");
+    });
+    el.miaPortrait.src = LG.MIA_CHARACTER.portrait;
     el.taste.addEventListener("click", () => unlock(
       "unlockAllEndings",
       LG.TEST_MODE?.lifeCinemaCheats === true

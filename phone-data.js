@@ -6,6 +6,7 @@
     ? "female" : "male";
 
   const apps = [
+    ["assistant", "弥娅助手", false],
     ["simulation", "模拟人生", false],
     ["movies", "电影播放器", false],
     ["contacts", "通讯录", false],
@@ -98,7 +99,8 @@
         || LG.casino?.galleryUnlocked?.(id)
         || LG.edenCharacters?.galleryUnlocked?.(id)
         || LG.penitentiary?.galleryUnlocked?.(id)
-        || LG.otherworldCharacters?.galleryUnlocked?.(id);
+        || LG.otherworldCharacters?.galleryUnlocked?.(id)
+        || (id === "mia" && LG.contentMode?.adultSimulation?.());
       if (!unlocked || !gallery?.items?.length) return null;
       const item = gallery.items.find((entry) => validAsset(entry.src));
       return item ? {
