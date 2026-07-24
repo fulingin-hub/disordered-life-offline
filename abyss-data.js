@@ -1,4 +1,15 @@
 (function (LG) {
+  const guildPortraits = Object.fromEntries(
+    (LG.ADVENTURE_GUILD_DATA?.characters || [])
+      .map((item) => [item.id, item.portrait]));
+  function portraitFor(id, asset) {
+    return asset ? LG.CONFIG.assets[asset]
+      : LG.CASINO_DATA.byId[id]?.portrait
+        || LG.OTHERWORLD_CHARACTER_DATA?.byId[id]?.portrait
+        || guildPortraits[id]
+        || LG.ADVENTURE_GUILD_DATA?.headquartersScene
+        || LG.CONFIG.assets.infernalRealmGate;
+  }
   const entries = [
     ["qin", "秦玫", "qin"], ["lin", "林岚", "lin"], ["su", "苏绯", "su"],
     ["shen", "沈静秋", "shen"], ["reina", "高桥玲奈", "reina"],
@@ -35,7 +46,7 @@
     ["protagonistFemaleBase", "女主角", "protagonistFemaleBase"],
   ].map(([id, name, asset]) => ({
     id, name,
-    portrait: asset ? LG.CONFIG.assets[asset] : LG.CASINO_DATA.byId[id]?.portrait,
+    portrait: portraitFor(id, asset),
   }));
 
   LG.ABYSS_DATA = {

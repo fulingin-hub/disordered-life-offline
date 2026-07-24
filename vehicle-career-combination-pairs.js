@@ -17,18 +17,11 @@
   ];
   const professionIds = [...normal, ...firstTier];
 
-  professionIds.forEach((professionId) => {
-    ["male", "female"].forEach((gender) => {
-      const src = LG.careerPortraits.mainSource(professionId, gender);
-      if (src) {
-        LG.vehicleCareerCombinations.registerPaired(
-          professionId, gender, src);
-      }
-    });
-  });
+  professionIds.forEach((professionId) =>
+    LG.vehicleCareerCombinations.registerPaired(professionId));
 
-  LG.vehicleCareerCombinationPairs = {
-    normal: [...normal],
-    firstTier: [...firstTier],
-  };
+  LG.vehicleCareerCombinationPairs = Object.freeze({
+    normal: Object.freeze(normal),
+    firstTier: Object.freeze(firstTier),
+  });
 })(window.LifeGame);

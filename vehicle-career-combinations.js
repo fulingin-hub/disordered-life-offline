@@ -1,5 +1,5 @@
 (function (LG) {
-  const visualOrder = [
+  const visualOrder = Object.freeze([
     "points:horse", "points:wolf", "points:tiger",
     "points:otherworld-male", "points:otherworld-female",
     "achievement:lost-griffin", "achievement:reborn-phoenix",
@@ -8,16 +8,11 @@
     "personality:heaven-dragon", "personality:xuanwu",
     "reputation:blood-wolf", "reputation:blood-tiger",
     "reputation:blood-dragon",
-  ];
-  const pairedVisuals = new Set([
-    "points:otherworld-male", "points:otherworld-female",
-    "achievement:lost-griffin", "achievement:reborn-phoenix",
-    "reputation:blood-wolf", "reputation:blood-tiger",
-    "reputation:blood-dragon",
   ]);
+  const pairedVisuals = new Set(visualOrder);
   const atlases = {};
   const exact = {};
-  const paired = {};
+  const pairedProfessions = new Set();
 
   function visualKey(vehicle) {
     const aliases = {
@@ -38,8 +33,8 @@
     register(professionId, gender, src) {
       atlases[`${professionId}:${gender}`] = src;
     },
-    registerPaired(professionId, gender, careerSrc) {
-      paired[`${professionId}:${gender}`] = careerSrc;
+    registerPaired(professionId) {
+      pairedProfessions.add(professionId);
     },
     resolve(professionId, vehicle, gender) {
       const visual = visualKey(vehicle);
@@ -57,7 +52,8 @@
           },
         };
       }
-      const careerSrc = paired[`${professionId}:${gender}`];
+      const careerSrc = pairedProfessions.has(professionId)
+        ? LG.careerPortraits.mainSource(professionId, gender) : "";
       const mountSrc = LG.CONFIG.assets[vehicle?.asset] || "";
       return careerSrc && mountSrc && pairedVisuals.has(visual)
         ? { pair: { careerSrc, mountSrc }, sprite: null } : null;

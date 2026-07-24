@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">失序人生</string>
+    <string name="export_complete">存档导出完成</string>
+    <string name="export_failed">存档导出失败</string>
+    <string name="no_browser">没有可打开链接的应用</string>
+    <string name="no_file_picker">没有可选择存档文件的应用</string>
+</resources>

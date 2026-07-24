@@ -38,6 +38,14 @@
     const entry = exactMatch(professionId, vehicle);
     const assetKey = entry?.assets?.[genderKey(gender)];
     const exactSrc = assetKey ? LG.CONFIG.assets[assetKey] : "";
+    if (exactSrc) {
+      return {
+        mode: "ride", career, match: "exact",
+        primarySrc: exactSrc, mountSrc: "", sprite: null,
+        label: entry.label,
+        applyTone: false,
+      };
+    }
     const generated = LG.vehicleCareerCombinations?.resolve?.(
       professionId, vehicle, genderKey(gender));
     const paired = generated?.pair;
@@ -61,15 +69,14 @@
     }
     return {
       mode: "ride", career,
-      match: generated?.src ? "career-database" : exactSrc ? "exact" : "vehicle",
-      primarySrc: generated?.src || exactSrc
+      match: generated?.src ? "career-database" : "vehicle",
+      primarySrc: generated?.src
         || LG.vehicleStore.mountedAsset(vehicle, gender)
         || LG.vehicleStore.riderAsset(vehicle.store, gender),
       sprite: generated?.sprite || null,
       mountSrc: "",
-      label: entry?.label
-        || `${career?.name ? `${career.name} · ` : ""}${vehicle.name}`,
-      applyTone: !generated?.src && !exactSrc,
+      label: `${career?.name ? `${career.name} · ` : ""}${vehicle.name}`,
+      applyTone: !generated?.src,
     };
   }
 
