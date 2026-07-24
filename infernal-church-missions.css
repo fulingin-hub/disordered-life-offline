@@ -38,6 +38,36 @@
   border-left-color: #bd416b;
 }
 
+.church-upgrade-card {
+  grid-template-columns: 1fr;
+}
+
+.church-upgrade-progress {
+  display: grid;
+  gap: 5px;
+}
+
+.church-upgrade-progress span {
+  color: #e5d9e4;
+  font-size: .88rem;
+}
+
+.church-upgrade-progress progress {
+  width: 100%;
+  height: 8px;
+  accent-color: #d25d85;
+}
+
+.church-upgrade-card .holy-actions {
+  grid-column: 1 / -1;
+  grid-row: auto;
+}
+
+.church-upgrade-card .holy-actions button {
+  grid-column: auto;
+  grid-row: auto;
+}
+
 @media (max-width: 620px) {
   .infernal-mission-heading {
     align-items: stretch;

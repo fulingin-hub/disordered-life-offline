@@ -21,6 +21,16 @@
     ["penitentiaryInstructor", "维拉·科瓦奇", "shadowPrisonInstructor"],
     ["penitentiaryWarden", "塞西莉亚·格兰特", "shadowPrisonWarden"],
     ["penitentiaryOwner", "伊莎贝拉·诺克斯", "shadowPrisonOwner"],
+    ["expoSaleswoman", "莉泽尔", null], ["guildReceptionist", "米蕾娅", null],
+    ["guildManager", "维奥拉", null],
+    ["tavernKeeper", "奥伦老板", null], ["tavernCourier", "米娅", null],
+    ["tavernExplorer", "赫克托", null], ["tavernGateClerk", "伊莱亚斯", null],
+    ["tavernAccountant", "诺拉", null], ["tavernMedic", "赛琳", null],
+    ["tavernHandler", "布兰", null], ["tavernRuneSmith", "塔维", null],
+    ["tavernArchivist", "闻溪", null], ["tavernPilgrim", "露西亚", null],
+    ["tavernQuartermaster", "露丝·卡特", null], ["tavernBuyer", "阿黛尔", null],
+    ["tavernBroker", "马可", null], ["tavernScout", "凯恩", null],
+    ["tavernPrinter", "艾琳", null],
     ["protagonistMaleBase", "男主角", "protagonistMaleBase"],
     ["protagonistFemaleBase", "女主角", "protagonistFemaleBase"],
   ].map(([id, name, asset]) => ({
@@ -32,6 +42,20 @@
     bosses: entries,
     byId: Object.fromEntries(entries.map((item) => [item.id, item])),
     unlockClears: 2,
+    blessings: [
+      {
+        id: "resonance", name: "深渊共鸣",
+        description: "本次探索的人格消耗降低8%。",
+      },
+      {
+        id: "ward", name: "坚壁回响",
+        description: "每层突破额外获得50点人格值平衡。",
+      },
+      {
+        id: "momentum", name: "猎层印记",
+        description: "每次突破额外推进当前深渊悬赏1次。",
+      },
+    ],
     segments: [1, 21, 41, 61, 81],
     expeditionTeam: [
       {
@@ -48,7 +72,7 @@
       },
       {
         id: "tavernScout", name: "凯恩", role: "异界斥候",
-        duty: "负责侦察下一层的欲望集成体",
+        duty: "负责侦察下一层的欲望集合体",
       },
       {
         id: "player", name: "你", role: "第五席队员",

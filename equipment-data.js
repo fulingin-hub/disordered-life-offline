@@ -110,6 +110,18 @@
         feet: "隐秘长靴",
       },
     },
+    {
+      id: "fallen-saint",
+      prefix: "堕落圣徒",
+      unlockProfession: "fallen-saint-mindless",
+      names: {
+        head: "紫缎蒙眼",
+        body: "护魂高领礼装",
+        crotch: "灵魂导流腰封",
+        hands: "反缚仪式护腕",
+        feet: "同步腿环长靴",
+      },
+    },
   ];
 
   LG.EQUIPMENT_ITEMS = LG.EQUIPMENT_SETS.flatMap((set) =>
@@ -119,9 +131,10 @@
       prefix: set.prefix,
       slot: slot.id,
       name: `${set.prefix}${set.separator ?? "·"}${set.names[slot.id]}`,
-      shame: 20,
+      shame: set.id === "fallen-saint" ? 40 : 20,
       unlockTrait: set.trait,
       unlockCareerMode: set.unlockCareerMode,
+      unlockProfession: set.unlockProfession,
       unlockAt: set.unlockCareerMode
         ? index + 1 : set.unlockReputation?.[slot.id] || (index + 1) * 20,
       unlockReputation: set.unlockReputation?.[slot.id] || 0,

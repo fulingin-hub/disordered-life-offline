@@ -1,5 +1,7 @@
 (function (LG) {
   LG.ADVENTURE_GUILD_DATA = {
+    headquartersScene:
+      "./assets/generated/adventure-guild-headquarters.7b0e1c32.webp",
     characters: [
       {
         id: "guildReceptionist",
@@ -7,7 +9,7 @@
         role: "异界冒险公会女接待",
         age: 28,
         portrait: "./assets/generated/otherworld-receptionist-portrait.ebc9209d.webp",
-        scene: "./assets/generated/gallery-otherworld-receptionist.692fafe9.webp",
+        scene: "./assets/generated/gallery-otherworld-receptionist.945c408a.webp",
         copy: "负责登记社会区域委托、每日补给和战利品宝箱。",
       },
       {
@@ -16,7 +18,7 @@
         role: "异界冒险公会女管理者",
         age: 36,
         portrait: "./assets/generated/otherworld-manager-portrait.2e5b5abd.webp",
-        scene: "./assets/generated/gallery-otherworld-manager.16d2f277.webp",
+        scene: "./assets/generated/gallery-otherworld-manager.34ac9c78.webp",
         copy: "负责一阶职业装备、堕落收藏鉴定和公会回收。",
       },
       {
@@ -24,8 +26,8 @@
         name: "赫克托",
         role: "百层深渊五人远征队长",
         age: 67,
-        portrait: "./assets/generated/career-adventurer-male.1b5ba1e3.webp",
-        scene: "./assets/generated/career-adventurer-male.1b5ba1e3.webp",
+        portrait: "./assets/generated/career-adventurer-male.a6e78beb.webp",
+        scene: "./assets/generated/career-adventurer-male.a6e78beb.webp",
         copy: "老冒险者，负责给五名队员分配二十层区段；玩家固定为第五席队员。",
       },
     ],

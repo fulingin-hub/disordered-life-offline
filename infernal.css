@@ -236,89 +236,6 @@
   color: #9dc7ad;
 }
 
-.infernal-encounter {
-  display: grid;
-  grid-template-columns: minmax(180px, 34%) minmax(0, 1fr);
-  gap: 16px;
-  min-height: 390px;
-  border: 1px solid var(--line);
-  background: #0d1015;
-}
-
-.infernal-encounter > img {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  max-height: 470px;
-  object-fit: contain;
-  object-position: center bottom;
-  background: #090b0f;
-}
-
-.infernal-encounter-copy {
-  display: flex;
-  min-width: 0;
-  min-height: 0;
-  flex-direction: column;
-  padding: 20px 18px 18px 0;
-  overflow: hidden;
-}
-
-.infernal-encounter-text {
-  flex: 1 1 auto;
-  min-height: 0;
-  padding-right: 4px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-.infernal-encounter-copy h3 {
-  margin: 7px 0 10px;
-  font-family: Georgia, "Songti SC", serif;
-  font-size: 25px;
-}
-
-.infernal-encounter-copy p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.65;
-}
-
-.infernal-desire-detail {
-  border-left: 2px solid #d8a84e;
-  padding-left: 10px;
-  color: #e3d4b2 !important;
-}
-
-.infernal-actions {
-  flex: 0 0 auto;
-  display: grid;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.infernal-actions button {
-  min-height: 46px;
-}
-
-#infernalDesireButton {
-  background: #654b72;
-}
-
-#infernalBreakButton,
-#infernalMobButton {
-  background: #9f3442;
-}
-
-#infernalSkipButton {
-  background: #3f765b;
-}
-
-#infernalRetreatButton {
-  border: 1px solid var(--line);
-  background: #262a31;
-}
-
 .infernal-area-card > img {
   object-fit: contain;
   background: #0b0d12;
@@ -363,17 +280,6 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .infernal-encounter {
-    grid-template-columns: minmax(108px, 34%) minmax(0, 1fr);
-  }
-
-  .infernal-encounter-copy {
-    padding: 14px 12px 12px 0;
-  }
-
-  .infernal-encounter-copy h3 {
-    font-size: 19px;
-  }
 }
 
 @media (max-height: 620px) {
@@ -388,50 +294,49 @@
   }
 
   .infernal-summary {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
     margin: 5px 0;
   }
 
   .infernal-summary div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
     padding: 4px 7px;
   }
 
+  .infernal-summary span,
   .infernal-summary strong {
-    font-size: 15px;
+    display: inline;
+    margin: 0;
+  }
+
+  .infernal-summary strong {
+    font-size: 14px;
+  }
+
+  .infernal-tabs {
+    padding-bottom: 5px;
+  }
+
+  .infernal-tabs button {
+    min-height: 36px;
   }
 
   .infernal-status {
     margin: 3px 0;
+    font-size: 10px;
+    line-height: 1.25;
   }
 
   .infernal-floors {
     margin-bottom: 5px;
   }
 
-  .infernal-encounter {
-    min-height: 0;
-  }
-
-  .infernal-encounter-copy {
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
-
-  .infernal-encounter-copy h3 {
-    margin: 3px 0 5px;
-  }
-
-  .infernal-encounter-copy p {
-    margin: 4px 0;
-    line-height: 1.4;
-  }
-
-  .infernal-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 5px;
-    margin-top: 5px;
-  }
-
-  .infernal-actions button {
-    min-height: 38px;
+  .infernal-floors span {
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
 }

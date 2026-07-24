@@ -1,7 +1,7 @@
 window.LifeGame = window.LifeGame || {};
 
 window.LifeGame.CONFIG = {
-  buildId: "20260723-panel-reorganization-1",
+  buildId: "20260724-system-app-1",
   version: 7,
   eventRevision: 2026072302,
   stateKey: "disordered-life-state-v1",
@@ -17,7 +17,7 @@ window.LifeGame.CONFIG = {
   blackPrisonKey: "disordered-life-black-prison-v1",
   penitentiaryKey: "disordered-life-penitentiary-v1",
   assets: {
-    background: "./assets/generated/life-crossroads-bg.6dc93a1f.webp",
+    background: "./assets/generated/life-crossroads-bg.21a5a23c.webp",
     lin: "./assets/generated/lin-lan-boss.8adf43cd.webp",
     qin: "./assets/generated/qin-mei-patron.e987cdd9.webp",
     su: "./assets/generated/su-fei-streamer.3233b8aa.webp",
@@ -40,33 +40,31 @@ window.LifeGame.CONFIG = {
     japanOfficial: "./assets/generated/japanese-female-official.12246494.webp",
     usaOfficial: "./assets/generated/american-female-official.1091ce78.webp",
     playerRoom: "./assets/generated/player-room-protagonists.8e05e60f.webp",
-    roomXiaFlag: "./assets/generated/room-flag-xia.dae44deb.webp",
-    roomIslandFlag: "./assets/generated/room-flag-island.a99422fd.webp",
-    roomRiceFlag: "./assets/generated/room-flag-rice.d41a6d65.webp",
+    roomXiaFlag: "./assets/generated/room-flag-xia.0102c1b6.webp",
+    roomIslandFlag: "./assets/generated/room-flag-island.97644cf9.webp",
+    roomRiceFlag: "./assets/generated/room-flag-rice.28b02f23.webp",
     roomCasino: "./assets/generated/room-casino-ensemble.2fce8260.webp",
     paradiseGate: "./assets/generated/paradise-gate-scene.c092d499.webp",
-    paradiseDistantView:
-      "./assets/generated/paradise-distant-view.d681e1f7.webp",
+    paradiseDistantView: "./assets/generated/paradise-distant-view.fa965259.webp",
     edenGoldenDistrict: "./assets/generated/eden-golden-district.bf85038f.webp",
     goldenHorizonCapital: "./assets/generated/golden-horizon-capital.75d9c1d7.webp",
-    goldenHorizonSi: "./assets/generated/golden-horizon-si.aad4a261.webp",
-    goldenHorizonKa: "./assets/generated/golden-horizon-ka.d9a3ca8e.webp",
-    edenRestaurantDistantEntry: "./assets/generated/eden-restaurant-distant-entry.b37a620a.webp",
-    edenFashionDistantEntry:
-      "./assets/generated/eden-fashion-distant-entry.29028c6c.webp",
-    shadowPrisonComplex: "./assets/generated/shadow-prison-complex.4913e4d3.webp",
+    goldenHorizonSi: "./assets/generated/golden-horizon-si.6d2212f2.webp",
+    goldenHorizonKa: "./assets/generated/golden-horizon-ka.0a74d88d.webp",
+    edenRestaurantDistantEntry: "./assets/generated/eden-restaurant-distant-entry.8a7fb0ac.webp",
+    edenFashionDistantEntry: "./assets/generated/eden-fashion-distant-entry.29028c6c.webp",
+    shadowPrisonComplex: "./assets/generated/shadow-prison-complex.5241d140.webp",
     shadowPrisonGateGuards:
-      "./assets/generated/shadow-prison-gate-guards.76106af5.webp",
+      "./assets/generated/shadow-prison-gate-guards.68a651c9.webp",
     edenChefClerk: "./assets/generated/eden-chef-clerk.f59b33c6.webp",
     edenFashionClerk: "./assets/generated/eden-fashion-clerk.fc8fbee9.webp",
     galleryEdenChefBarefoot:
-      "./assets/generated/gallery-eden-chef-barefoot-command.14eec5e7.webp",
+      "./assets/generated/gallery-eden-chef-barefoot-command.2a81939d.webp",
     galleryEdenChefKneeling:
       "./assets/generated/gallery-eden-chef-tights-kneeling.44ff3014.webp",
     galleryEdenFashionBarefoot:
       "./assets/generated/gallery-eden-fashion-barefoot-command.7fced8e0.webp",
     galleryEdenFashionKneeling:
-      "./assets/generated/gallery-eden-fashion-tights-kneeling.04db8001.webp",
+      "./assets/generated/gallery-eden-fashion-tights-kneeling.0dab5cf5.webp",
     shadowPrisonSupervisor:
       "./assets/generated/shadow-prison-supervisor-whitehair.85f59176.webp",
     shadowPrisonManager:
@@ -78,63 +76,65 @@ window.LifeGame.CONFIG = {
     shadowPrisonOwner:
       "./assets/generated/shadow-prison-owner-whitehair.b4147a48.webp",
     infernalGreedWitch:
-      "./assets/generated/infernal-greed-witch.e96b484b.webp",
+      "./assets/generated/infernal-greed-witch.aaac0b6b.webp",
     infernalGreedQueen:
       "./assets/generated/infernal-greed-queen.b1fe0bbe.webp",
     infernalLustWitch:
-      "./assets/generated/infernal-lust-witch.b0cca260.webp",
+      "./assets/generated/infernal-lust-witch.b9cf85d1.webp",
     infernalLustQueen:
-      "./assets/generated/infernal-lust-queen.2615449c.webp",
+      "./assets/generated/infernal-lust-queen.60199b66.webp",
     infernalWrathWitch:
-      "./assets/generated/infernal-wrath-witch.ecb5a75d.webp",
+      "./assets/generated/infernal-wrath-witch.3655665d.webp",
     infernalWrathQueen:
-      "./assets/generated/infernal-wrath-queen.4c30d462.webp",
+      "./assets/generated/infernal-wrath-queen.329da73a.webp",
     infernalSlothWitch:
-      "./assets/generated/infernal-sloth-witch.498780fd.webp",
+      "./assets/generated/infernal-sloth-witch.5437e387.webp",
     infernalSlothQueen:
-      "./assets/generated/infernal-sloth-queen.b37c1fe2.webp",
+      "./assets/generated/infernal-sloth-queen.4943ba79.webp",
     infernalPrideWitch:
-      "./assets/generated/infernal-pride-witch.4d5cdf77.webp",
+      "./assets/generated/infernal-pride-witch.069785ba.webp",
     infernalPrideQueen:
-      "./assets/generated/infernal-pride-queen.93ae231c.webp",
+      "./assets/generated/infernal-pride-queen.69a653bc.webp",
     infernalEnvyWitch:
-      "./assets/generated/infernal-envy-witch.f5d61b05.webp",
+      "./assets/generated/infernal-envy-witch.b4f0b883.webp",
     infernalEnvyQueen:
-      "./assets/generated/infernal-envy-queen.472cbd62.webp",
+      "./assets/generated/infernal-envy-queen.e97367d1.webp",
     infernalGluttonyWitch:
-      "./assets/generated/infernal-gluttony-witch.2a84b936.webp",
+      "./assets/generated/infernal-gluttony-witch.cbefcebc.webp",
     infernalGluttonyQueen:
-      "./assets/generated/infernal-gluttony-queen.bc32922e.webp",
+      "./assets/generated/infernal-gluttony-queen.27e408bb.webp",
     galleryShadowPrisonSupervisor:
-      "./assets/generated/gallery-shadow-prison-supervisor-patrol.ba0374ec.webp",
+      "./assets/generated/gallery-shadow-prison-supervisor-patrol.b887b768.webp",
     galleryShadowPrisonManager:
-      "./assets/generated/gallery-shadow-prison-manager-patrol.0b476cb4.webp",
+      "./assets/generated/gallery-shadow-prison-manager-patrol.698f1853.webp",
     galleryShadowPrisonInstructor:
-      "./assets/generated/gallery-shadow-prison-instructor-patrol.a99ea6f6.webp",
+      "./assets/generated/gallery-shadow-prison-instructor-patrol.b3c2ab66.webp",
     galleryShadowPrisonWarden:
-      "./assets/generated/gallery-shadow-prison-warden-patrol.42c1bb09.webp",
+      "./assets/generated/gallery-shadow-prison-warden-patrol.c368973f.webp",
     galleryShadowPrisonOwner:
-      "./assets/generated/gallery-shadow-prison-owner-office-rest.1ece4a88.webp",
+      "./assets/generated/gallery-shadow-prison-owner-office-rest.aadbefd7.webp",
     edenWelcomeGate: "./assets/generated/eden-welcome-gate.ae8736ea.webp",
     blackPrisonStreet: "./assets/generated/black-prison-golden-street.44404b6c.webp",
     roomBlackStreet: "./assets/generated/room-black-street.e37ab187.webp",
     roomSanctuaryCampus: "./assets/generated/room-sanctuary-campus.87998322.webp",
-    worldXiaCampus: "./assets/generated/world-xia-campus.6dd7254d.webp",
-    worldXiaSociety: "./assets/generated/world-xia-society.acf667d0.webp",
-    worldIslandCampus: "./assets/generated/world-island-campus.9ecfa4fb.webp",
-    worldIslandSociety: "./assets/generated/world-island-society.7209ea71.webp",
-    worldRiceCampus: "./assets/generated/world-rice-campus.3ca0f342.webp",
-    worldRiceSociety: "./assets/generated/world-rice-society.a4eae2dd.webp",
-    worldBlackStreet: "./assets/generated/world-black-street.a63aa792.webp",
-    worldSanctuaryCampus: "./assets/generated/world-sanctuary-campus.e27d12b4.webp",
-    infernalChurchSanctuary:
-      "./assets/generated/infernal-church-sanctuary.550ab617.webp",
-    infernalChurchPriestess:
-      "./assets/generated/infernal-church-priestess.a0c2cd06.webp",
-    careerSigilApostleMale:
-      "./assets/generated/magic-gas-protagonist-male-haired.9022a9ae.webp",
-    careerSigilApostleFemale:
-      "./assets/generated/career-sigil-apostle-female.c7443a44.webp",
+    worldXiaCampus: "./assets/generated/world-xia-campus.2237e60c.webp",
+    worldXiaSociety: "./assets/generated/world-xia-society.1258bf7d.webp",
+    worldIslandCampus: "./assets/generated/world-island-campus.50ce78b6.webp",
+    worldIslandSociety: "./assets/generated/world-island-society.9a6dcf0a.webp",
+    worldRiceCampus: "./assets/generated/world-rice-campus.2373d278.webp",
+    worldRiceSociety: "./assets/generated/world-rice-society.16bf897a.webp",
+    worldBlackStreet: "./assets/generated/world-black-street.3ff8a76e.webp",
+    worldSanctuaryCampus: "./assets/generated/world-sanctuary-campus.266a5199.webp",
+    worldMapBackground: "./assets/images/world-map.webp",
+    worldAirshipBoarding: "./assets/images/airship-jiefang.webp",
+    infernalChurchSanctuary: "./assets/generated/infernal-church-sanctuary.550ab617.webp",
+    infernalChurchPriestess: "./assets/generated/infernal-church-priestess.a0c2cd06.webp",
+    careerSigilApostleMale: "./assets/generated/magic-gas-protagonist-male-haired.9022a9ae.webp",
+    careerSigilApostleFemale: "./assets/generated/career-sigil-apostle-female.c7443a44.webp",
+    careerFallenSaintMindlessMale:
+      "./assets/generated/career-fallen-saint-mindless-male.673883ca.webp",
+    careerFallenSaintMindlessFemale:
+      "./assets/generated/career-fallen-saint-mindless-female.0d486d78.webp",
     magicGasProtagonistMale:
       "./assets/generated/magic-gas-protagonist-male-haired.9022a9ae.webp",
     magicGasProtagonistFemale:
@@ -155,18 +155,18 @@ window.LifeGame.CONFIG = {
     protagonistFemaleUSASet: "./assets/generated/protagonist-female-usa-set-v2.7fe713d6.webp",
     protagonistMaleTraitSet: "./assets/generated/protagonist-male-trait-set-v2.32aa0a2c.webp",
     protagonistFemaleTraitSet: "./assets/generated/protagonist-female-trait-set-v2.e173c78c.webp",
-    protagonistMaleLuxurySet: "./assets/generated/protagonist-male-luxury-set.31723302.webp",
-    protagonistFemaleLuxurySet: "./assets/generated/protagonist-female-luxury-set.22e88363.webp",
-    protagonistMaleInfernalSet: "./assets/generated/protagonist-male-infernal-set.00703f80.webp",
-    protagonistFemaleInfernalSet: "./assets/generated/protagonist-female-infernal-set.77399fe3.webp",
+    protagonistMaleLuxurySet: "./assets/generated/protagonist-male-luxury-set.82b44376.webp",
+    protagonistFemaleLuxurySet: "./assets/generated/protagonist-female-luxury-set.b6595e4c.webp",
+    protagonistMaleInfernalSet: "./assets/generated/protagonist-male-infernal-set.1455ea81.webp",
+    protagonistFemaleInfernalSet: "./assets/generated/protagonist-female-infernal-set.c01bbac3.webp",
     protagonistMalePenitentiarySet:
-      "./assets/generated/protagonist-male-penitentiary-set.6822ef9d.webp",
+      "./assets/generated/protagonist-male-penitentiary-set.bb7acad0.webp",
     protagonistFemalePenitentiarySet:
-      "./assets/generated/protagonist-female-penitentiary-set.e547b5ea.webp",
+      "./assets/generated/protagonist-female-penitentiary-set.80ca64cd.webp",
     protagonistMaleSaintSet:
-      "./assets/generated/protagonist-male-saint-set.1bfaf541.webp",
+      "./assets/generated/protagonist-male-saint-set.c5f5f57b.webp",
     protagonistFemaleSaintSet:
-      "./assets/generated/protagonist-female-saint-set.7178996a.webp",
+      "./assets/generated/protagonist-female-saint-set.13b0dc6f.webp",
     protagonistMaleEdenSet:
       "./assets/generated/protagonist-male-eden-set.ae6a7df5.webp",
     protagonistFemaleEdenSet:

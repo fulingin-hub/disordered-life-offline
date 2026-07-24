@@ -1,6 +1,6 @@
 (function (LG) {
   const sources = {
-    bare: "./assets/generated/gallery-victoria-barefoot-press-v2.93457ae8.webp",
+    bare: "./assets/generated/gallery-victoria-barefoot-press-v2.e4734b94.webp",
     stocking:
       "./assets/generated/gallery-restaurant-couple-female-tights-stomp.456bcb2a.webp",
   };

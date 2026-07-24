@@ -1,6 +1,6 @@
 (function (LG) {
   const src =
-    "./assets/generated/cg-special-foot-impact-milestones.b1742732.webp";
+    "./assets/generated/cg-special-foot-impact-milestones.224c4ed1.webp";
   const items = {
     "foot-impact-10000": {
       title: "傻逼废狗",

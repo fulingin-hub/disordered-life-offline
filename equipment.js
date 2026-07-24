@@ -11,6 +11,12 @@
   ];
   const itemMap = () => new Map(allItems().map((item) => [item.id, item]));
   const acquired = (item) => {
+    if (item?.unlockProfession) {
+      const career = LG.career?.data?.();
+      return career?.professions?.includes(item.unlockProfession)
+        && career?.professionDefinitions?.some((job) =>
+          job.id === item.unlockProfession && job.unlocked);
+    }
     if (item?.unlockCareerMode) {
       return Math.max(0, Number(LG.career?.data?.()
         ?.setPieces?.[item.unlockCareerMode]) || 0) >= item.unlockAt;
@@ -57,6 +63,7 @@
       realmBlackKnightSet,
       careerMasterSet,
       careerConsumableSet,
+      fallenSaintSet: set?.id === "fallen-saint",
       total: itemShame + setBonus,
       set,
       reduction: Math.floor((itemShame + setBonus) / 20) * 5,

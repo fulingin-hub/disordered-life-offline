@@ -1,9 +1,12 @@
 (function (LG) {
   const fallback = {
-    joined: false, selectedThisRun: false, faith: null,
+    joined: false, selectedThisRun: false, canJoin: true,
+    churchLockRemaining: 0, faith: null,
     activeBooks: [], ownedBooks: [], books: [], baptized: false,
     roomCastCount: 0,
     resistedMagic: 0, achievements: [],
+    bookLevel: 0, bookExperience: 0,
+    soulFlameLevel: 0, soulFlameExperience: 0, upgrades: {},
     daily: { tasks: [] }, weekly: {}, saintTrial: null,
     promotion: { label: "完成入教洗礼", canPromote: false, requirement: "" },
     soul: { tier: "black", name: "黑色", total: 0, colors: ["black"], effects: [] },

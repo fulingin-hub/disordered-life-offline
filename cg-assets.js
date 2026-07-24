@@ -35,11 +35,11 @@
       "temple-servant": `${base}cg-ending-temple-servant.c1e65728.webp`,
       "convent-servant": `${base}cg-ending-convent-servant.64b03011.webp`,
       "normal-life": `${base}cg-ending-normal-life-male.43ebf8e1.webp`,
-      "restaurant-household": `${base}cg-ending-restaurant-household.608c166d.webp`,
+      "restaurant-household": `${base}cg-ending-restaurant-household.128fe772.webp`,
       "agency-household": `${base}cg-ending-agency-household.057f48fe.webp`,
       "calamity-together": `${base}cg-calamity-together.673a9f43.webp`,
-      "calamity-alone": `${base}cg-calamity-alone-male.23db0d33.webp`,
-      "japan-corporate-success": `${base}cg-ending-japan-corporate-success.4597424c.webp`,
+      "calamity-alone": `${base}cg-calamity-alone-male.49ddbff4.webp`,
+      "japan-corporate-success": `${base}cg-ending-japan-corporate-success.a7489733.webp`,
       "japan-spy-controlled": `${base}cg-ending-japan-spy-controlled.69499dd0.webp`,
       "usa-corporate-success": `${base}cg-ending-usa-corporate-success.71bc538d.webp`,
       "usa-spy-controlled": `${base}cg-ending-usa-spy-controlled.32a75eea.webp`,
@@ -91,24 +91,24 @@
   };
   LG.CG_ASSETS.special = {
     "battlefield-hero": {
-      male: `${base}cg-special-battlefield-hero-male.579b86cd.webp`,
-      female: `${base}cg-special-battlefield-hero-female.5203e6ca.webp`,
+      male: `${base}cg-special-battlefield-hero-male.b7a4914d.webp`,
+      female: `${base}cg-special-battlefield-hero-female.1baebdef.webp`,
     },
     "border-watch": {
-      male: `${base}cg-special-border-watch-male.eaaa9ea2.webp`,
-      female: `${base}cg-special-border-watch-female.9ac37e45.webp`,
+      male: `${base}cg-special-border-watch-male.b9ecd1ad.webp`,
+      female: `${base}cg-special-border-watch-female.b5e3b2a7.webp`,
     },
     "you-have-fallen": {
-      male: `${base}cg-special-you-have-fallen-male.da53e4ee.webp`,
-      female: `${base}cg-special-you-have-fallen-female.1c5711e0.webp`,
+      male: `${base}cg-special-you-have-fallen-male.5810c437.webp`,
+      female: `${base}cg-special-you-have-fallen-female.0b6ac513.webp`,
     },
     "taste-good-too-weak": {
-      male: `${base}cg-special-taste-good-too-weak.965a4655.webp`,
-      female: `${base}cg-special-taste-good-too-weak.965a4655.webp`,
+      male: `${base}cg-special-taste-good-too-weak.597e11af.webp`,
+      female: `${base}cg-special-taste-good-too-weak.597e11af.webp`,
     },
     "gold-servant": {
-      male: `${base}cg-special-gold-servant.ae399612.webp`,
-      female: `${base}cg-special-gold-servant.ae399612.webp`,
+      male: `${base}cg-special-gold-servant.025ed41f.webp`,
+      female: `${base}cg-special-gold-servant.025ed41f.webp`,
     },
   };
   const infernalSpecials = {

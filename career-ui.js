@@ -114,7 +114,9 @@
     (data.factions || []).forEach((item) =>
       grid.append(LG.careerFactionCard.create(item, data.joinedThisRun, {
         busy, node,
-        onJoin: (factionId) => mutate("joinFaction", { factionId }),
+        onJoin: (factionId) => factionId === "holy-light"
+          ? mutate("joinHolyLight")
+          : mutate("joinFaction", { factionId }),
       })));
     const roster = node("div", "career-roster");
     LG.CAREER_DATA.roster.forEach((item) => {

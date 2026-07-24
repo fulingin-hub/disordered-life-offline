@@ -116,15 +116,17 @@
   items.push(
     {
       id: "points-otherworld-male", store: "points", family: "otherworld",
-      tone: "base", name: "异界公畜", price: 5000, asset: "vehicleOtherworldMale", tier: 4,
-      effect: otherworldMountEffect, skipMobsOnRide: true,
-      note: "异界常见战斗伙伴；先锋协同时可跳过小怪直面Boss。",
+      tone: "base", name: "异界公畜", price: 0, rewardOnly: true,
+      asset: "vehicleOtherworldMale", tier: 4, effect: otherworldMountEffect, skipMobsOnRide: true,
+      note: "魔气入脑过度产生的特殊产物，但很意外的深受贵族与上层人士们的喜欢，供不应求。",
+      unlockText: "完成魔纹教会周常或成功攻打圣光教团1次后获得。",
     },
     {
       id: "points-otherworld-female", store: "points", family: "otherworld",
-      tone: "base", name: "异界母畜", price: 5000, asset: "vehicleOtherworldFemale", tier: 4,
-      effect: otherworldMountEffect, skipMobsOnRide: true,
-      note: "异界常见战斗伙伴；先锋协同时可跳过小怪直面Boss。",
+      tone: "base", name: "异界母畜", price: 0, rewardOnly: true,
+      asset: "vehicleOtherworldFemale", tier: 4, effect: otherworldMountEffect, skipMobsOnRide: true,
+      note: "魔气入脑过度产生的特殊产物，但很意外的深受贵族与上层人士们的喜欢，供不应求。",
+      unlockText: "成功攻打圣光教团累计10次后获得。",
     },
     {
       id: "achievement-lost-griffin", store: "achievement", family: "griffin",

@@ -34,6 +34,7 @@
         ["button", "roomsButton"],
       ].forEach(([key, id]) => { el[key] = document.getElementById(id); });
       LG.roomLobbyUI.init({
+        dialog: el.dialog,
         cards: el.cards,
         title: el.title,
         intro: el.intro,
@@ -85,10 +86,20 @@
       if (!el.dialog.open) el.dialog.showModal();
     },
     close() {
+      if (LG.worldMapUI?.isTraveling?.()) {
+        LG.worldMapUI.lockNotice();
+        return false;
+      }
       callbacks.onLeave();
       el.dialog.close();
       activeCharacter = null;
       LG.audio.scene("story");
+      return true;
+    },
+    openChat(character) {
+      this.refresh();
+      if (!el.dialog.open) el.dialog.showModal();
+      this.enter(character);
     },
     enter(character) {
       const market = LG.blackMarket.isCharacter(character);
@@ -166,7 +177,7 @@
     refresh() {
       if (!el.button) return;
       const unlocked = LG.achievements.all().filter((item) => item.unlocked).length, markets = LG.blackMarket.characters().filter((item) => LG.blackMarket.roomUnlocked(item.id)).length;
-      el.button.textContent = `世界·${unlocked + markets + 1
+      el.button.textContent = `世界地图·${unlocked + markets + 1
         + Number(LG.casino.accessUnlocked()) + Number(LG.blackPrison.access().allowed)
         + Number(LG.penitentiary.access().allowed)
         + Number(LG.vehicleStore.access().allowed)

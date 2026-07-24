@@ -17,10 +17,10 @@
   <link rel="apple-touch-icon" sizes="192x192"
     href="./assets/generated/app-icon-golden-horizon-192.0441af8a.png">
   <link rel="preload" as="image"
-    href="./assets/generated/loading-golden-horizon-portrait.feecfb5f.webp"
+    href="./assets/generated/loading-golden-horizon-portrait.bf39fb5d.webp"
     media="(orientation: portrait)">
   <link rel="preload" as="image"
-    href="./assets/generated/loading-golden-horizon-landscape.8dc51091.webp"
+    href="./assets/generated/loading-golden-horizon-landscape.932f8ecf.webp"
     media="(orientation: landscape)">
   <title>失序人生 · 离线版</title>
   <style>
@@ -45,7 +45,7 @@
       background-image:
         linear-gradient(to bottom, rgba(5, 7, 13, 0.08) 38%,
           rgba(5, 7, 13, 0.5) 68%, rgba(5, 7, 13, 0.94) 100%),
-        url("./assets/generated/loading-golden-horizon-portrait.feecfb5f.webp");
+        url("./assets/generated/loading-golden-horizon-portrait.bf39fb5d.webp");
       background-position: center, center top;
       background-size: 100% 100%, 100% auto;
       background-repeat: no-repeat;
@@ -122,7 +122,7 @@
         background-image:
           linear-gradient(to bottom, rgba(5, 7, 13, 0.02) 45%,
             rgba(5, 7, 13, 0.55) 76%, rgba(5, 7, 13, 0.96) 100%),
-          url("./assets/generated/loading-golden-horizon-landscape.8dc51091.webp");
+          url("./assets/generated/loading-golden-horizon-landscape.932f8ecf.webp");
         background-position: center;
         background-size: cover;
       }
@@ -154,12 +154,13 @@
         );
       };
       const stop = () => {
-        if (settled) return;
         settled = true;
         window.clearTimeout(idleTimer);
         window.clearTimeout(hardTimer);
         window.clearInterval(heartbeat);
         document.getElementById("bootSplash")?.remove();
+        const panel = document.getElementById("bootError");
+        if (panel) panel.hidden = true;
       };
       const fail = (message) => {
         if (settled) return;
@@ -192,12 +193,19 @@
         }
       }, true);
       window.addEventListener("unhandledrejection", (event) => {
-        if (!settled) fail(event.reason?.message || "启动任务执行失败。");
+        if (settled) return;
+        const reason = event.reason;
+        console.warn(
+          "Unhandled async error during startup:",
+          reason?.code,
+          reason?.message || reason,
+          reason?.stack,
+        );
       });
       report();
     })();
   </script>
-  <link rel="stylesheet" href="./app.bundle.css?v=55bee5d69cb7">
+  <link rel="stylesheet" href="./app.bundle.css?v=c29253c7013c">
   <link rel="stylesheet" href="./offline.css">
 </head>
 <body>
@@ -226,9 +234,9 @@
         <h2>虚构内容声明</h2>
         <p>本游戏中的人物、组织、地点与事件均为虚构创作。部分剧情包含强烈情绪、压迫关系、黑暗幻想与成人向主题，请根据自己的年龄、接受程度和现实处境谨慎选择。</p>
         <h2>18+ 模式年龄提醒</h2>
-        <p>18+只作用于人生电影院中的模拟人生，包含旧版成人IF线、画廊、特殊职业、私密收藏及相关CG与动画，仅适合已年满18周岁的玩家。幸福人生始终使用15+表现。</p>
+        <p>18+只作用于人生电影院中的模拟人生，包含旧版成人IF线、画廊、特殊职业、私密收藏及相关CG与动画，仅适合已年满18周岁的玩家。世界征途始终使用15+表现。</p>
         <h2>15+ 模式内容范围</h2>
-        <p>15+模式下，幸福人生与模拟人生都使用15+表现。画廊、特殊职业、角色丧志房间、黄金、圣水、特殊药剂和私密道具收藏不开放；相关旧剧情只以文字方式表现。</p>
+        <p>15+模式下，世界征途与模拟人生都使用15+表现。画廊、特殊职业、角色丧志房间、黄金、圣水、特殊药剂和私密道具收藏不开放；相关旧剧情只以文字方式表现。</p>
         <h2>永久选择规则</h2>
         <p>18+模式可以在游戏中随时永久切换为15+模式。15+模式一经保存，当前存档不能切换回18+模式，也不会出现升级入口。</p>
         <h2>重新选择方式</h2>
@@ -244,11 +252,11 @@
       <div class="content-mode-options">
         <button type="button" data-content-mode="15" disabled>
           <strong>选择 15+</strong>
-          <span>幸福人生与模拟人生均为15+；成人场景改为文字。</span>
+          <span>世界征途与模拟人生均为15+；成人场景改为文字。</span>
         </button>
         <button type="button" data-content-mode="18" disabled>
           <strong>选择 18+</strong>
-          <span>幸福人生仍为15+；模拟人生开放成人IF内容。</span>
+          <span>世界征途仍为15+；模拟人生开放成人IF内容。</span>
         </button>
       </div>
       <p id="contentModeStatus" class="content-mode-status" role="status">
@@ -272,15 +280,15 @@
         </button>
       </div>
       <div class="game-mode-group">
-        <span class="game-mode-label">玩法模式</span>
-        <div class="game-mode-options" role="group" aria-label="玩法模式">
+        <span class="game-mode-label">模拟人生/世界征途</span>
+        <div class="game-mode-options" role="group" aria-label="模拟人生/世界征途">
           <button type="button" data-game-mode="simulation" aria-pressed="true">
-            <strong>模拟人生</strong>
-            <span>先走过两段人生，看看第二个结局之后会发生什么。</span>
+            <strong>模拟人生·IF轮回</strong>
+            <span>体验未曾发生的人生。</span>
           </button>
           <button type="button" data-game-mode="endgame" aria-pressed="false">
-            <strong>终局玩法</strong>
-            <span>进入冒险者公会，备战反攻深渊。</span>
+            <strong>超凡人生·世界征途</strong>
+            <span>踏上正在发生的世界。</span>
           </button>
         </div>
         <p id="gameModeProgress" class="game-mode-progress"></p>
@@ -308,7 +316,8 @@
         <button id="careerButton" class="quiet-button" type="button">职业</button>
         <button id="tasksButton" class="quiet-button" type="button">任务</button>
         <button id="goldenHorizonButton" class="quiet-button" type="button">金色地平线</button>
-        <button id="roomsButton" class="quiet-button" type="button">世界</button>
+        <button id="roomsButton" class="quiet-button" type="button">世界地图</button>
+        <button id="phoneButton" class="quiet-button" type="button">手机</button>
         <button id="recoveryButton" class="quiet-button" type="button">人生电影院</button>
       </div>
       <div class="life-progress" aria-label="人生进度">
@@ -371,7 +380,7 @@
       <h2 id="endgameUnlockTitle">第一段人生已被记住</h2>
     </div>
     <p id="endgameUnlockCopy" class="endgame-unlock-copy"></p>
-    <div class="endgame-unlock-progress" aria-label="终局解锁进度">
+    <div class="endgame-unlock-progress" aria-label="世界征途解锁进度">
       <div class="endgame-unlock-track">
         <span id="endgameUnlockBar"></span>
       </div>
@@ -424,7 +433,7 @@
     <div class="dialog-heading">
       <div>
         <span class="event-type">跨周目成就</span>
-        <h2 id="roomsTitle">世界区域</h2>
+        <h2 id="roomsTitle">世界地图</h2>
       </div>
       <button id="closeRoomsButton" class="quiet-button" type="button">关闭</button>
     </div>
@@ -445,7 +454,7 @@
             data-adult-gallery="true">CG画廊</button>
           <button id="roomCareerSpecialButton" class="quiet-button"
             type="button" hidden>职业福利</button>
-          <button id="backRoomsButton" class="quiet-button" type="button">返回世界区域</button>
+          <button id="backRoomsButton" class="quiet-button" type="button">返回世界地图</button>
         </div>
       </div>
       <p id="roomStatus" class="chat-status dialogue-tribute-rule" role="status"
@@ -506,6 +515,21 @@
         <button id="roomSendButton" type="submit">服侍</button>
       </form>
     </section>
+  </dialog>
+
+  <dialog id="phoneDialog" class="system-dialog phone-dialog">
+    <div class="dialog-heading">
+      <div>
+        <span id="phoneEyebrow" class="event-type">随身终端</span>
+        <h2 id="phoneTitle">手机</h2>
+      </div>
+      <div class="phone-heading-actions">
+        <button id="phoneBackButton" class="quiet-button" type="button" hidden>返回</button>
+        <button id="closePhoneButton" class="quiet-button" type="button">关闭</button>
+      </div>
+    </div>
+    <p id="phoneStatus" class="system-status" role="status"></p>
+    <div id="phoneContent" class="phone-content"></div>
   </dialog>
 
   <dialog id="casinoDialog" class="casino-dialog">
@@ -910,7 +934,7 @@
   <dialog id="infernalChurchDialog" class="infernal-church-dialog">
     <div class="dialog-heading">
       <div>
-        <span class="event-type">黑街 · 魔纹教会</span>
+        <span class="event-type">灰色地带 · 魔纹教会</span>
         <h2>七大欲女祭司的祭祀所</h2>
       </div>
       <button id="closeInfernalChurchButton" class="quiet-button"
@@ -947,6 +971,9 @@
           <button id="infernalPromotionButton" type="button">检查晋升</button>
         </div>
         <p id="infernalPromotionRequirement"></p>
+      </section>
+      <section id="infernalChurchUpgradePanel" class="infernal-mission-panel">
+        <p class="system-status">升级数据正在同步。</p>
       </section>
       <section class="infernal-mission-panel">
         <div class="infernal-mission-heading">
@@ -1088,7 +1115,7 @@
         </ul>
       </div>
       <p id="vehicleProfileStatus" class="traits-status">
-        在万界战斗伙伴公会馆签约后，可从任意已签约伙伴中选择同行。
+        在万界商会签约后，可从任意已签约伙伴中选择同行。
       </p>
       <div id="vehicleProfileStage" class="vehicle-profile-stage">
         <figure id="vehicleRiderFigure" hidden>
@@ -1100,7 +1127,7 @@
           <figcaption id="vehicleMountCaption">当前伙伴立绘</figcaption>
         </figure>
         <p id="vehicleProfileEmpty" class="vehicle-profile-empty">
-          尚未选择战斗伙伴。前往伙伴公会馆签约后即可同行。
+          尚未选择战斗伙伴。前往万界商会签约后即可同行。
         </p>
       </div>
       <section class="vehicle-achievement-gallery">
@@ -1112,7 +1139,7 @@
       </section>
       <div class="vehicle-profile-controls">
         <select id="vehicleSelect" aria-label="选择战斗伙伴"></select>
-        <button id="openVehicleHallButton" type="button">前往伙伴公会馆</button>
+        <button id="openVehicleHallButton" type="button">前往万界商会</button>
       </div>
     </section>
     <section id="collectionPage" hidden>
@@ -1265,7 +1292,7 @@
   <dialog id="infernalDialog" class="infernal-dialog">
     <div class="dialog-heading">
       <div>
-        <span class="event-type">异界魔境 · 幸福人生RPG</span>
+        <span class="event-type">异界魔境 · 世界征途RPG</span>
         <h2>临时阵地的任务大厅</h2>
       </div>
       <button id="closeInfernalButton" class="quiet-button" type="button">关闭</button>
@@ -1308,7 +1335,30 @@
     <section id="infernalRun" class="infernal-scroll infernal-run-view" hidden>
       <div id="infernalFloors" class="infernal-floors" aria-label="本局地狱顺序"></div>
       <article class="infernal-encounter">
-        <img id="infernalPortrait" alt="">
+        <div id="infernalBattleStage" class="infernal-battle-stage">
+          <div class="infernal-battle-side infernal-battle-allies">
+            <span class="infernal-battle-side-label">我方阵型</span>
+            <div class="infernal-battle-figures">
+              <figure id="infernalPlayerFigure" class="infernal-battle-figure">
+                <img id="infernalPlayerPortrait" alt="">
+                <figcaption id="infernalPlayerLabel">主角</figcaption>
+              </figure>
+              <figure id="infernalCompanionFigure"
+                class="infernal-battle-figure companion" hidden>
+                <img id="infernalCompanionPortrait" alt="">
+                <figcaption id="infernalCompanionLabel">战斗伙伴</figcaption>
+              </figure>
+            </div>
+          </div>
+          <span class="infernal-battle-versus" aria-hidden="true">VS</span>
+          <div class="infernal-battle-side infernal-battle-enemy">
+            <span class="infernal-battle-side-label">当前敌人</span>
+            <figure class="infernal-battle-figure enemy">
+              <img id="infernalPortrait" alt="">
+              <figcaption>七层地狱</figcaption>
+            </figure>
+          </div>
+        </div>
         <div class="infernal-encounter-copy">
           <div class="infernal-encounter-text">
             <span id="infernalEventType" class="event-type"></span>
@@ -1341,6 +1391,13 @@
       <button id="closeAdventureGuildButton" class="quiet-button"
         type="button">关闭</button>
     </div>
+    <section class="adventure-guild-scene" aria-label="冒险者总部场景">
+      <img id="adventureGuildScene" alt="冒险者总部的委托大厅、补给柜台与远征门">
+      <div class="adventure-guild-scene-copy">
+        <span class="event-type">总部大厅 · 远征集结地</span>
+        <strong>委托、补给与战利品在这里统一结算</strong>
+      </div>
+    </section>
     <div id="adventureGuildCharacters"
       class="adventure-guild-characters"></div>
     <div class="adventure-guild-summary">
@@ -1385,13 +1442,24 @@
       <button type="button" data-abyss-view="run">无尽深渊</button>
     </nav>
     <p id="abyssStatus" class="infernal-status" role="status"></p>
-    <section class="abyss-party-panel" aria-label="五人远征队">
+    <section class="abyss-party-panel" aria-label="无尽深渊探索模式">
+      <div id="abyssModeChoices" class="abyss-mode-choices"
+        aria-label="选择探索模式">
+        <button type="button" data-abyss-mode="solo">
+          <strong>独狼探索</strong>
+          <small>真无尽推进 · 每25层保存检查点</small>
+        </button>
+        <button type="button" data-abyss-mode="party">
+          <strong>团队远征</strong>
+          <small>五人各负责20层</small>
+        </button>
+      </div>
       <div class="abyss-party-heading">
         <div>
-          <span class="event-type">五人远征 · 队长制</span>
-          <h3>赫克托远征队</h3>
+          <span id="abyssModeEyebrow" class="event-type"></span>
+          <h3 id="abyssModeTitle"></h3>
         </div>
-        <span>玩家席位：第五席队员</span>
+        <span id="abyssModeSeat"></span>
       </div>
       <p id="abyssCaptainCopy" class="abyss-captain-copy"></p>
       <div id="abyssPartyTeam" class="abyss-party-team"></div>
@@ -1417,14 +1485,39 @@
     </section>
     <section id="abyssRun" class="infernal-scroll infernal-run-view" hidden>
       <div class="abyss-progress-heading">
-        <span id="abyssFloorLabel">第1层 / 100层</span>
-        <span id="abyssClearCount">完整通关 0次</span>
+        <span id="abyssFloorLabel">第1层 · 真无尽</span>
+        <span id="abyssClearCount">团队远征完成 0次</span>
       </div>
       <progress id="abyssFloorProgress" class="abyss-floor-progress"
         max="100" value="1"></progress>
       <div id="abyssMilestones" class="abyss-milestones"></div>
+      <section id="abyssBlessings" class="abyss-blessings" hidden
+        aria-label="选择深渊祝福"></section>
       <article class="infernal-encounter abyss-encounter">
-        <img id="abyssPortrait" alt="">
+        <div id="abyssBattleStage" class="infernal-battle-stage">
+          <div class="infernal-battle-side infernal-battle-allies">
+            <span class="infernal-battle-side-label">远征阵型</span>
+            <div class="infernal-battle-figures">
+              <figure id="abyssPlayerFigure" class="infernal-battle-figure">
+                <img id="abyssPlayerPortrait" alt="">
+                <figcaption id="abyssPlayerLabel">主角</figcaption>
+              </figure>
+              <figure id="abyssCompanionFigure"
+                class="infernal-battle-figure companion" hidden>
+                <img id="abyssCompanionPortrait" alt="">
+                <figcaption id="abyssCompanionLabel">战斗伙伴</figcaption>
+              </figure>
+            </div>
+          </div>
+          <span class="infernal-battle-versus" aria-hidden="true">VS</span>
+          <div class="infernal-battle-side infernal-battle-enemy">
+            <span class="infernal-battle-side-label">深渊敌人</span>
+            <figure class="infernal-battle-figure enemy">
+              <img id="abyssPortrait" alt="">
+              <figcaption>无尽深渊</figcaption>
+            </figure>
+          </div>
+        </div>
         <div class="infernal-encounter-copy">
           <div class="infernal-encounter-text">
             <span id="abyssEventType" class="event-type"></span>
@@ -1518,7 +1611,7 @@
       <div class="dialog-heading">
         <div>
           <span class="event-type">跨世界契约 · 战斗伙伴</span>
-          <h2>万界战斗伙伴公会馆</h2>
+          <h2>万界商会</h2>
         </div>
         <button id="closeVehicleButton" class="quiet-button" type="button">关闭</button>
       </div>
@@ -1664,12 +1757,12 @@
     <div class="life-cinema-options" aria-label="人生电影院功能">
       <button id="cinemaSimulationButton" class="life-cinema-option narrator-entry"
         type="button">
-        <strong>模拟人生 · IF轮回</strong>
+        <strong>模拟人生·IF轮回</strong>
         <span id="cinemaSimulationText">从0岁开始一段独立人生</span>
       </button>
       <button id="cinemaLeaveSimulationButton" class="life-cinema-option"
         type="button" hidden>
-        <strong>返回幸福人生</strong>
+        <strong>超凡人生·世界征途</strong>
         <span>保存当前轮回进度，只带回结算属性点</span>
       </button>
       <button id="cinemaNarratorButton" class="life-cinema-option narrator-entry"
@@ -1689,6 +1782,10 @@
       <button id="lifeAchievementsButton" class="life-cinema-option" type="button">
         <strong>人生成就</strong>
         <span>查看隐藏结局与全图鉴收集进度</span>
+      </button>
+      <button id="cinemaFilmsButton" class="life-cinema-option" type="button">
+        <strong>放映人生电影</strong>
+        <span>观看已经解锁的剧情动画</span>
       </button>
       <button id="tasteLifeButton" class="life-cinema-option" type="button">
         <strong>品味人生</strong>
@@ -1732,6 +1829,13 @@
         <span id="lifeAchievementCount">正在同步成就档案...</span>
       </div>
       <div id="lifeAchievementList" class="life-achievement-list"></div>
+    </section>
+    <section id="lifeFilmPanel" class="life-film-panel" hidden>
+      <div class="life-achievement-summary">
+        <strong>人生电影</strong>
+        <span id="lifeFilmCount">已解锁 0 部</span>
+      </div>
+      <div id="lifeFilmList" class="life-film-list"></div>
     </section>
     <section id="recoveryPanel" class="recovery-panel" hidden>
       <p class="recovery-copy">
@@ -1802,6 +1906,7 @@
   <script src="./offline-tools.js"></script>
   <script src="./offline-pwa.js"></script>
   <script src="./config.js"></script>
+  <script src="./content-safety-rules.js"></script>
   <script src="./content-mode.js"></script>
   <script src="./potion-effects.js"></script>
   <script src="./career-roster-identities.js"></script>
@@ -1854,7 +1959,11 @@
   <script src="./dialogue-corporate.js"></script>
   <script src="./dialogue-tribute.js"></script>
   <script src="./dialogue-scenes.js"></script>
+  <script src="./world-facility-areas.js"></script>
   <script src="./world-areas.js"></script>
+  <script src="./world-map-data.js"></script>
+  <script src="./world-route-planner.js"></script>
+  <script src="./world-map-actions.js"></script>
   <script src="./faction-rooms.js"></script>
   <script src="./room-entry-copy.js"></script>
   <script src="./player-runtime-story.js"></script>
@@ -1934,12 +2043,14 @@
   <script src="./vehicle-career-combination-atlases.js"></script>
   <script src="./vehicle-career-portraits.js"></script>
   <script src="./life-cinema.js"></script>
+  <script src="./life-cinema-films.js"></script>
   <script src="./life-cinema-simulation.js"></script>
   <script src="./engine.js"></script>
   <script src="./character-demographics.js"></script>
   <script src="./casino-access.js"></script>
   <script src="./asset-recovery.js"></script>
   <script src="./loading-ui.js"></script>
+  <script src="./loader-policy.js"></script>
   <script src="./loader.js"></script>
   <script src="./dialogue-request-lock.js"></script>
   <script src="./dialogue-authority.js"></script>
@@ -1970,6 +2081,7 @@
   <script src="./infernal-church-baptism.js"></script>
   <script src="./soul-flame-guide-ui.js"></script>
   <script src="./infernal-church-ui.js"></script>
+  <script src="./infernal-church-upgrade-ui.js"></script>
   <script src="./infernal-church-missions-ui.js"></script>
   <script src="./collection-use-ui.js"></script>
   <script src="./room-consumables-ui.js"></script>
@@ -1993,8 +2105,10 @@
   <script src="./penitentiary-ui.js"></script>
   <script src="./room-cards.js"></script>
   <script src="./adventure-guild-cards.js"></script>
+  <script src="./infernal-battle-party-ui.js"></script>
   <script src="./infernal-ui.js"></script>
   <script src="./abyss-party-ui.js"></script>
+  <script src="./abyss-blessing-ui.js"></script>
   <script src="./abyss-ui.js"></script>
   <script src="./infernal-club-item-ui.js"></script>
   <script src="./infernal-stomp-popup.js"></script>
@@ -2015,8 +2129,17 @@
   <script src="./guild-onboarding-expedition-data.js"></script>
   <script src="./guild-onboarding.js"></script>
   <script src="./golden-horizon-entry.js"></script>
+  <script src="./world-facility-ui.js"></script>
+  <script src="./world-map-ui.js"></script>
   <script src="./room-lobby-ui.js"></script>
   <script src="./rooms-ui.js"></script>
+  <script src="./phone-data.js"></script>
+  <script src="./phone-media-ui.js"></script>
+  <script src="./phone-gallery-ui.js"></script>
+  <script src="./phone-news-ui.js"></script>
+  <script src="./phone-simulation-ui.js"></script>
+  <script src="./phone-system-ui.js"></script>
+  <script src="./phone-ui.js"></script>
   <script src="./tribute-ui.js"></script>
   <script src="./rooms.js"></script>
   <script src="./trait-hold-controls.js"></script>
@@ -2045,6 +2168,7 @@
   <script src="./daily-tasks-ui.js"></script>
   <script src="./fallen-seven-cg.js"></script>
   <script src="./cg-ui.js"></script>
+  <script src="./endgame-home-data.js"></script>
   <script src="./endgame-home.js"></script>
   <script src="./endgame-unlock-ui.js"></script>
   <script src="./ui.js"></script>

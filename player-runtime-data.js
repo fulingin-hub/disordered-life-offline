@@ -1,9 +1,8 @@
 (function (LG) {
   const { endings, events } = LG.PLAYER_FALLBACK_STORY;
-  const runId = () => window.crypto?.randomUUID?.()
-    || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  const today = () => new Date().toISOString().slice(0, 10);
-  const clone = (value) => JSON.parse(JSON.stringify(value));
+  const runId = () => window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const today = () => new Date().toISOString().slice(0, 10), clone =
+    (value) => JSON.parse(JSON.stringify(value));
 
   function life() {
     return {
@@ -24,18 +23,16 @@
     };
   }
 
-  function current(item) {
-    return item.life.endingId ? null : events[item.life.step] || null;
-  }
+  function current(item) { return item.life.endingId ? null : events[item.life.step] || null; }
 
-  function visibleEvent(event) {
-    return event ? {
+  function visibleEvent(event, safe = false) { return event ? {
       id: event.id, chapter: event.chapter, age: event.age,
-      title: event.title, text: event.text, quote: "", speaker: "",
-      choices: event.choices.map((choice) => ({ label: choice.label,
+      title: safe ? "生活边界选择" : event.title, text: safe
+        ? "请根据属性变化选择健康、清晰的生活边界。" : event.text,
+      quote: "", speaker: "", choices: event.choices.map((choice, index) => ({
+        label: safe ? `选择方案${index + 1}` : choice.label,
         hint: choice.hint, locked: false })),
-    } : null;
-  }
+    } : null; }
 
   function economy(points) {
     const values = Object.fromEntries(["feet", "humiliation", "control",
@@ -91,8 +88,10 @@
       life: {
         ...clone(item.life),
         timeline: { ageYears: event?.age || 33 },
-        currentEvent: visibleEvent(event),
-        currentEnding: ending ? clone(ending) : null,
+        currentEvent: visibleEvent(event, item.contentMode === "15"),
+        currentEnding: ending ? item.contentMode === "15" ? { ...clone(ending),
+          title: "人生记录", text: "这段人生已经结束，你可以重新开始。" }
+          : clone(ending) : null,
       },
       economy: economy(simulation ? Number(item.simulationPoints) || 0
         : Number(item.endgamePoints) || 0), archive,
@@ -157,7 +156,7 @@
       item.life = item.endgameLife || life();
       item.life.gender = item.life.gender || gender; item.life.gameMode = "endgame";
       item.endgameLife = null;
-      return snapshot(await save(store, item), "幸福人生进度已恢复。");
+      return snapshot(await save(store, item), "世界征途进度已恢复。");
     }
     if (method === "restart") {
       const simulation = item.life.gameMode === "simulation";

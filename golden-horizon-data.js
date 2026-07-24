@@ -69,7 +69,7 @@
     {
       id: "gate-arbiter", name: "界门裁定官", guide: "斯",
       portrait:
-        "./assets/generated/career-gate-arbiter-mounted.a82be395.webp",
+        "./assets/generated/career-gate-arbiter-mounted.f6a73b2d.webp",
       equipment: "界律裁定甲 · 七门罗盘冠 · 折界裁决杖",
       vehicle: "专属坐骑：折光獬豸 · 可沿七道界门进行短距折跃巡航。",
       requirement: "与斯成功通过7次试炼，并持有两界航路图。",
@@ -78,7 +78,7 @@
     {
       id: "golden-frontier-lord", name: "黄金开拓领主", guide: "卡",
       portrait:
-        "./assets/generated/career-golden-frontier-lord-mounted.4d82d11f.webp",
+        "./assets/generated/career-golden-frontier-lord-mounted.d7c6440a.webp",
       equipment: "黄金开拓大衣 · 商旅领主护臂 · 地平线旗枪",
       vehicle: "专属载具：黄金陆行舰“开拓一号” · 携带移动商栈与勘路仪。",
       requirement: "与卡成功通过7次试炼，并持有和平贸易勋章。",

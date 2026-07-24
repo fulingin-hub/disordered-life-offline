@@ -2,10 +2,11 @@
   const empty = () => ({
     unlocked: false, defeat: 0, reputation: 0, clears: 0, bossVictories: 0,
     bossDesireCompletions: 0, bossChallenges: 0, bountyCompletions: 0,
-    personalityEarned: 0,
+    personalityEarned: 0, defeatEarned: 0,
     board: { round: 0, tasks: [] }, run: null, abyssAttempts: 0,
     abyssBossVictories: 0, abyssHighest: 0, abyssClears: 0,
-    abyssRewardedMilestones: [], abyssBoard: { round: 0, tasks: [] },
+    abyssRewardedMilestones: [], abyssCheckpoint: 0,
+    abyssBoard: { round: 0, tasks: [] },
     abyssRun: null,
   });
 
@@ -50,6 +51,7 @@
         bountyCompletions: Math.max(0, Number(realm.bountyCompletions) || 0),
         abyssHighest: Math.max(0, Number(realm.abyssHighest) || 0),
         abyssClears: Math.max(0, Number(realm.abyssClears) || 0),
+        abyssCheckpoint: Math.max(0, Number(realm.abyssCheckpoint) || 0),
         abyssBossVictories: Math.max(0, Number(realm.abyssBossVictories) || 0),
       };
     },
@@ -95,6 +97,9 @@
     abyssRun() {
       const run = data().abyssRun;
       return run && Number.isFinite(Number(run.floor)) ? run : null;
+    },
+    abyssCheckpoint() {
+      return Math.max(0, Number(data().abyssCheckpoint) || 0);
     },
     achievements() {
       return LG.authority.cinemaAchievements()

@@ -1,6 +1,6 @@
 (function (LG) {
   const soleSource =
-    "./assets/generated/cg-special-foot-impact-milestones.b1742732.webp";
+    "./assets/generated/cg-special-foot-impact-milestones.224c4ed1.webp";
   const kneelingAssets = {
     male: "magicGasProtagonistMale",
     female: "magicGasProtagonistFemale",

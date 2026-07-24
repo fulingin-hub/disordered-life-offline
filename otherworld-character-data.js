@@ -8,9 +8,9 @@
   const raw = [
     {
       id: "expoSaleswoman", name: "莉泽尔", role: "异界商行女销售",
-      location: "万界战斗伙伴公会馆", host: "expo",
-      portrait: "./assets/generated/otherworld-saleswoman-portrait.67e99d46.webp",
-      gallery: "./assets/generated/gallery-otherworld-saleswoman.0cf54a9f.webp",
+      location: "万界商会", host: "expo",
+      portrait: "./assets/generated/otherworld-saleswoman-portrait.d11f23d3.webp",
+      gallery: "./assets/generated/gallery-otherworld-saleswoman.cc3f0533.webp",
       special: ["private-room-card", "女销售的密室房卡",
         "体验一次女销售的特殊按摩。获得后坐骑成交价上涨10%。"],
       fee: "技术指导",
@@ -19,7 +19,7 @@
       id: "guildReceptionist", name: "米蕾娅", role: "异界冒险公会女接待",
       location: "临时阵地任务大厅", host: "infernal",
       portrait: "./assets/generated/otherworld-receptionist-portrait.ebc9209d.webp",
-      gallery: "./assets/generated/gallery-otherworld-receptionist.692fafe9.webp",
+      gallery: "./assets/generated/gallery-otherworld-receptionist.945c408a.webp",
       special: ["reception-basement-key", "女接待的地下室钥匙",
         "体验一次女接待的特殊按摩。获得后七层地狱悬赏击杀次数增加50%，奖励不变。"],
       fee: "购买情报",
@@ -28,7 +28,7 @@
       id: "guildManager", name: "维奥拉", role: "异界冒险公会女管理者",
       location: "临时阵地任务大厅", host: "infernal",
       portrait: "./assets/generated/otherworld-manager-portrait.2e5b5abd.webp",
-      gallery: "./assets/generated/gallery-otherworld-manager.16d2f277.webp",
+      gallery: "./assets/generated/gallery-otherworld-manager.34ac9c78.webp",
       special: ["manager-basement-key", "女管理者的地下室钥匙",
         "体验一次女管理者的特殊按摩。获得后无尽深渊悬赏击杀次数增加50%，奖励不变。"],
       fee: "装备保养",
@@ -68,7 +68,7 @@
     },
     rooms: {
       expoSaleswoman: {
-        character: "expoSaleswoman", location: "万界博览会馆 · 异界商行",
+        character: "expoSaleswoman", location: "万界商会 · 异界商行",
         title: "密室账单之外",
         opener: "莉泽尔合上载具账册：“房卡已经生效，现在说说你还想购买什么指导。”",
       },

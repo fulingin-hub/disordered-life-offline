@@ -93,8 +93,8 @@
     const card = cards.node("article",
       "room-card area-room-card adventure-guild-room unlocked");
     const image = cards.node("img");
-    image.src = LG.ADVENTURE_GUILD_DATA.characters[0].portrait;
-    image.alt = "异界冒险者公会接待柜台";
+    image.src = LG.ADVENTURE_GUILD_DATA.headquartersScene;
+    image.alt = "异界冒险者公会总部大厅";
     image.loading = "lazy";
     image.decoding = "async";
     const body = cards.node("div", "room-card-body");
@@ -123,9 +123,11 @@
       ["shareCount", "adventureGuildShareCount"],
       ["refresh", "adventureGuildRefreshButton"],
       ["chest", "adventureGuildChestButton"],
-      ["characters", "adventureGuildCharacters"]]
+      ["characters", "adventureGuildCharacters"],
+      ["scene", "adventureGuildScene"]]
       .forEach(([key, id]) => { el[key] = document.getElementById(id); });
     el.tabs = [...document.querySelectorAll("[data-guild-view]")];
+    el.scene.src = LG.ADVENTURE_GUILD_DATA.headquartersScene;
     el.characters.replaceChildren(...LG.ADVENTURE_GUILD_DATA.characters
       .map(cards.characterCard));
     el.tabs.forEach((button) => button.addEventListener("click", () =>

@@ -26,7 +26,7 @@
     el.primary.disabled = true;
     el.secondary.disabled = true;
     el.status.textContent = unlocked
-      ? "正在保存人生记忆并进入终局..."
+      ? "正在保存人生记忆并进入世界征途..."
       : "正在开始第二段人生...";
     try {
       if (!unlocked) {
@@ -39,7 +39,7 @@
       LG.ui.render(result.life);
       LG.roomsUI?.refresh?.();
       LG.goldenHorizonEntry?.queue?.(result.life);
-      window.dzmm?.toast?.success?.("终局玩法已开启：欢迎来到冒险者公会");
+      window.dzmm?.toast?.success?.("世界征途已开启：欢迎来到冒险者公会");
     } catch (err) {
       console.error("终局引导操作失败:", err?.code, err?.message, err?.stack);
       el.status.textContent = err?.message || "暂时无法继续，请稍后重试。";
@@ -59,7 +59,7 @@
     if (!count || key === shownKey) return;
     shownKey = key;
     const unlocked = modes.endgameUnlocked === true;
-    el.eyebrow.textContent = unlocked ? "终局来信" : "人生回响";
+    el.eyebrow.textContent = unlocked ? "世界征途来信" : "人生回响";
     el.title.textContent = unlocked
       ? "冒险者公会的大门开了" : "第一段人生已被记住";
     el.copy.textContent = unlocked

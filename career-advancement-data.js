@@ -9,59 +9,59 @@
     "female": "./assets/generated/career-first-island-modern-mage-female.3050ee35.webp"
   },
   "rice-modern-mage": {
-    "male": "./assets/generated/career-first-rice-modern-mage-male.000ff74d.webp",
-    "female": "./assets/generated/career-first-rice-modern-mage-female.14411cdb.webp"
+    "male": "./assets/generated/career-first-rice-modern-mage-male.94a86b2d.webp",
+    "female": "./assets/generated/career-first-rice-modern-mage-female.efb56fff.webp"
   },
   "element-scholar": {
-    "male": "./assets/generated/career-first-element-scholar-male.f02dce9b.webp",
-    "female": "./assets/generated/career-first-element-scholar-female.a098dc1e.webp"
+    "male": "./assets/generated/career-first-element-scholar-male.4e8bb3ae.webp",
+    "female": "./assets/generated/career-first-element-scholar-female.91ca612e.webp"
   },
   "special-force": {
-    "male": "./assets/generated/career-first-special-force-male.204176e1.webp",
+    "male": "./assets/generated/career-first-special-force-male.75e49206.webp",
     "female": "./assets/generated/career-first-special-force-female.a88f2ce4.webp"
   },
   "xia-special-force": {
-    "male": "./assets/generated/career-first-xia-special-force-male.4cafe074.webp",
-    "female": "./assets/generated/career-first-xia-special-force-female.46668875.webp"
+    "male": "./assets/generated/career-first-xia-special-force-male.74d4c7c8.webp",
+    "female": "./assets/generated/career-first-xia-special-force-female.7fdaee1a.webp"
   },
   "island-special-force": {
-    "male": "./assets/generated/career-first-island-special-force-male.454410de.webp",
-    "female": "./assets/generated/career-first-island-special-force-female.e53d36b2.webp"
+    "male": "./assets/generated/career-first-island-special-force-male.eb641cb2.webp",
+    "female": "./assets/generated/career-first-island-special-force-female.28e3ca6b.webp"
   },
   "rice-special-force": {
-    "male": "./assets/generated/career-first-rice-special-force-male.480435be.webp",
-    "female": "./assets/generated/career-first-rice-special-force-female.2a34c542.webp"
+    "male": "./assets/generated/career-first-rice-special-force-male.42d3f839.webp",
+    "female": "./assets/generated/career-first-rice-special-force-female.f9e8ab97.webp"
   },
   "imperial-guard": {
-    "male": "./assets/generated/career-first-imperial-guard-male.dc134eb5.webp",
-    "female": "./assets/generated/career-first-imperial-guard-female.fde8c7e0.webp"
+    "male": "./assets/generated/career-first-imperial-guard-male.fba994bf.webp",
+    "female": "./assets/generated/career-first-imperial-guard-female.b6f9c0dc.webp"
   },
   "soldier-king": {
     "male": "./assets/generated/career-first-soldier-king-male.82fceeea.webp",
-    "female": "./assets/generated/career-first-soldier-king-female.a5b3d1f3.webp"
+    "female": "./assets/generated/career-first-soldier-king-female.9495081c.webp"
   },
   "commander": {
-    "male": "./assets/generated/career-first-commander-male.7ca8ab76.webp",
-    "female": "./assets/generated/career-first-commander-female.feb90e56.webp"
+    "male": "./assets/generated/career-first-commander-male.3fb5e22b.webp",
+    "female": "./assets/generated/career-first-commander-female.6f93df5b.webp"
   },
   "war-master": {
-    "male": "./assets/generated/career-first-war-master-male.7c1ba10f.webp",
-    "female": "./assets/generated/career-first-war-master-female.38bc1128.webp"
+    "male": "./assets/generated/career-first-war-master-male.43d1d6b5.webp",
+    "female": "./assets/generated/career-first-war-master-female.dc43a901.webp"
   },
   "mecha-master": {
-    "male": "./assets/generated/career-first-mecha-master-male.bc4f3fe0.webp",
-    "female": "./assets/generated/career-first-mecha-master-female.19dd89f3.webp"
+    "male": "./assets/generated/career-first-mecha-master-male.0152b66d.webp",
+    "female": "./assets/generated/career-first-mecha-master-female.9ac355d8.webp"
   },
   "extreme-evolution": {
     "male": "./assets/generated/career-first-extreme-evolution-male.952db905.webp",
-    "female": "./assets/generated/career-first-extreme-evolution-female.7ef29a22.webp"
+    "female": "./assets/generated/career-first-extreme-evolution-female.88ab3607.webp"
   },
   "immortal-cultivator": {
-    "male": "./assets/generated/career-first-immortal-cultivator-male.1ac9ffbf.webp",
+    "male": "./assets/generated/career-first-immortal-cultivator-male.37715b2d.webp",
     "female": "./assets/generated/career-first-immortal-cultivator-female.ed244c6f.webp"
   },
   "holy-emissary": {
-    "male": "./assets/generated/career-holy-emissary-male.576e0b44.webp",
+    "male": "./assets/generated/career-holy-emissary-male.fff8c07d.webp",
     "female": "./assets/generated/career-holy-emissary-female.64678489.webp"
   },
   "sigil-apostle": {
@@ -77,8 +77,8 @@
     "female": "./assets/generated/career-second-sigil-lord-female.1353bde6.webp"
   },
   "second-king-of-kings": {
-    "male": "./assets/generated/career-second-king-of-kings-male.2a1aa754.webp",
-    "female": "./assets/generated/career-second-king-of-kings-female.b60c8f9e.webp"
+    "male": "./assets/generated/career-second-king-of-kings-male.07d8f3fc.webp",
+    "female": "./assets/generated/career-second-king-of-kings-female.1bd30d23.webp"
   }
 };
   const professionAssets = {

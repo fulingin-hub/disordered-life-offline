@@ -166,7 +166,7 @@
     LG.penitentiaryUI.init(() => state);
     LG.infernalUI.init();
     LG.abyssUI.init();
-    LG.infernalStompPopup.init(); LG.factionLeaderSacrifice.init(); LG.infernalChurchUI.init(); LG.infernalChurchMissionsUI.init(); LG.buttImpactPopup.init();
+    LG.infernalStompPopup.init(); LG.factionLeaderSacrifice.init(); LG.infernalChurchUI.init(); LG.infernalChurchUpgradeUI.init(); LG.infernalChurchMissionsUI.init(); LG.buttImpactPopup.init();
     LG.infernalClubChatUI.init(); LG.infernalClubUI.init();
     LG.vehicleUI.init(); LG.otherworldCharacterUI.init(); LG.goldenHorizonUI.init(); LG.goldenHorizonEntry.init();
     LG.rooms.init(() => state);

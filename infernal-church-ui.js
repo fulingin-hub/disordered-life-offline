@@ -49,8 +49,8 @@
   }
   function renderChurch() {
     const data = LG.infernalChurch.data();
-    el.churchState.textContent = !data.joined
-      ? "尚未加入魔纹教会。"
+    el.churchState.textContent = !data.joined ? data.churchLockRemaining
+      ? `背叛限制：还需完成 ${data.churchLockRemaining} 次模拟人生结局，期间不能重新加入魔纹教会。` : "尚未加入魔纹教会。"
       : !data.selectedThisRun ? "本轮尚未选择魔纹教会阵营。"
         : data.activeBooks.length ? `本轮信仰：${
           LG.infernalChurch.faith(data.faith)?.name || "无"}`
@@ -69,8 +69,7 @@
       return button;
     }));
     el.noFaith.disabled = busy || !data.selectedThisRun || data.activeBooks.length > 0;
-  }
-  async function choose(faithId) {
+  } async function choose(faithId) {
     if (busy) return;
     busy = true;
     renderChurch();
@@ -133,9 +132,10 @@
       renderChurch();
       if (!el.dialog.open) el.dialog.showModal();
     });
-    body.append(node("span", "event-type", data.joined ? "教会成员" : "阵营可加入"),
+    body.append(node("span", "event-type", data.joined ? "教会成员" : data.churchLockRemaining ? "背叛锁定" : "阵营可加入"),
       node("h3", "", "七大欲女祭司的祭祀所"),
-      node("p", "", "七大欲的人间体，降临凡间，如果想成为魔纹贱畜就快点爬来跪好，接受教主的踩脸洗礼，成为光荣的魔纹贱畜吧！"),
+      node("p", "", data.churchLockRemaining ? `背叛限制仍在生效，还需完成 ${data.churchLockRemaining} 次模拟人生结局。`
+        : "七大欲的人间体，降临凡间，如果想成为魔纹贱畜就快点爬来跪好，接受教主的踩脸洗礼，成为光荣的魔纹贱畜吧！"),
       button);
     card.append(image, body);
     return card;

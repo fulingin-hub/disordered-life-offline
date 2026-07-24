@@ -10,7 +10,7 @@
     max(14px, env(safe-area-inset-left));
   background:
     linear-gradient(rgba(8, 10, 14, 0.84), rgba(8, 10, 14, 0.96)),
-    url("./assets/generated/life-crossroads-bg.6dc93a1f.webp") center / cover;
+    url("./assets/generated/life-crossroads-bg.21a5a23c.webp") center / cover;
 }
 
 .content-mode-panel {
@@ -162,7 +162,11 @@
   gap: 10px;
 }
 
-html[data-content-mode="15"] [data-adult-gallery="true"] {
+html[data-adult-simulation="false"] [data-adult-gallery="true"],
+html[data-content-mode="15"] [data-content-hidden="true"],
+html[data-content-mode="15"] #careerButton,
+html[data-content-mode="15"] #tasksButton,
+html[data-content-mode="15"] #goldenHorizonButton {
   display: none !important;
 }
 

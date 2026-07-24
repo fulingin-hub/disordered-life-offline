@@ -20,6 +20,7 @@
     el.recovery.hidden = name !== "recovery";
     el.achievementPanel.hidden = name !== "achievements";
     el.narratorPanel.hidden = name !== "narrator";
+    LG.lifeCinemaFilms?.hide?.();
   }
 
   function showRecovery() {

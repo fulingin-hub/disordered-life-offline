@@ -1,12 +1,12 @@
 (function (LG) {
   const throneCg = {
     greed: "./assets/generated/infernal-gallery-greed-throne.0f2c7615.webp",
-    lust: "./assets/generated/infernal-gallery-lust-throne.42772a0a.webp",
-    wrath: "./assets/generated/infernal-gallery-wrath-throne.ea814b13.webp",
+    lust: "./assets/generated/infernal-gallery-lust-throne.83ab5492.webp",
+    wrath: "./assets/generated/infernal-gallery-wrath-throne.4c0ddf72.webp",
     sloth: "./assets/generated/infernal-gallery-sloth-throne.a53dc46b.webp",
     pride: "./assets/generated/infernal-gallery-pride-throne.a22eb384.webp",
     envy: "./assets/generated/infernal-gallery-envy-throne.c8251574.webp",
-    gluttony: "./assets/generated/infernal-gallery-gluttony-throne.d235ffe4.webp",
+    gluttony: "./assets/generated/infernal-gallery-gluttony-throne.ec815a5d.webp",
   };
   const throneCaptions = {
     lust: "紫晶王座上的女魔王独自休息，完整礼装与王座构成单人仪式场景。",
@@ -15,13 +15,13 @@
     gluttony: "翠宴王座上的女魔王独自休息，宴会宫殿中没有其他侍从。",
   };
   const apostlePose = {
-    greed: "./assets/generated/infernal-greed-queen-apostle-pose.10236ffb.webp",
-    lust: "./assets/generated/infernal-lust-queen-apostle-pose.10b8f3e7.webp",
-    wrath: "./assets/generated/infernal-wrath-queen-apostle-pose.bab74f8a.webp",
-    sloth: "./assets/generated/infernal-sloth-queen-apostle-pose.e0a47b23.webp",
-    pride: "./assets/generated/infernal-pride-queen-apostle-pose.c6d9f718.webp",
-    envy: "./assets/generated/infernal-envy-queen-apostle-pose.b03bb16b.webp",
-    gluttony: "./assets/generated/infernal-gluttony-queen-apostle-pose.cfd71635.webp",
+    greed: "./assets/generated/infernal-greed-queen-apostle-pose.e6f0947b.webp",
+    lust: "./assets/generated/infernal-lust-queen-apostle-pose.caac3da8.webp",
+    wrath: "./assets/generated/infernal-wrath-queen-apostle-pose.2d52a172.webp",
+    sloth: "./assets/generated/infernal-sloth-queen-apostle-pose.9eb02fd6.webp",
+    pride: "./assets/generated/infernal-pride-queen-apostle-pose.923b684a.webp",
+    envy: "./assets/generated/infernal-envy-queen-apostle-pose.8ec77fa1.webp",
+    gluttony: "./assets/generated/infernal-gluttony-queen-apostle-pose.6d5d15e3.webp",
   };
   LG.INFERNAL_CLUB_DATA.queens.forEach((queen) => {
     const layer = LG.INFERNAL_DATA.byId[queen.id];
@@ -91,7 +91,7 @@
       items.push({
         title: "色欲王室足部理疗",
         caption: "紫晶女王在王座上接受丝袜女侍的正式足部按摩服务。",
-        src: "./assets/generated/infernal-gallery-lust-foot-massage.a6c6077a.webp",
+        src: "./assets/generated/infernal-gallery-lust-foot-massage.4a1ef20c.webp",
         alt: "色欲地狱女魔王足部理疗CG",
         fit: "contain",
         position: "center",
@@ -99,7 +99,7 @@
       items.push({
         title: "色欲紫晶夜憩",
         caption: "紫晶女王在月夜包间中以黑丝王室礼装独自休息。",
-        src: "./assets/generated/infernal-gallery-lust-amethyst-rest.c5d4abd2.webp",
+        src: "./assets/generated/infernal-gallery-lust-amethyst-rest.5dbc55c8.webp",
         alt: "色欲地狱女魔王紫晶夜憩CG",
         fit: "contain",
         position: "center",

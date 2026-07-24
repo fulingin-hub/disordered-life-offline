@@ -78,14 +78,17 @@
   LG.GOLDEN_ARENA_DATA = {
     arenas,
     setPieces,
+    medal: {
+      id: "champion-career-medal", name: "冠军职业勋章", cost: 500,
+    },
     king: {
       id: "king-of-kings", name: "二阶职业·万王之王", cost: 50000,
-      male: "./assets/generated/career-second-king-of-kings-male.2a1aa754.webp",
-      female: "./assets/generated/career-second-king-of-kings-female.b60c8f9e.webp",
+      male: "./assets/generated/career-second-king-of-kings-male.07d8f3fc.webp",
+      female: "./assets/generated/career-second-king-of-kings-female.1bd30d23.webp",
     },
     dragon: {
       id: "salukas-sky-dragon", name: "萨卢卡斯的天空龙", cost: 100000,
-      image: "./assets/generated/mount-salukas-sky-dragon.5f25fa8a.webp",
+      image: "./assets/generated/mount-salukas-sky-dragon.6dac5dcf.webp",
     },
   };
 })(window.LifeGame);

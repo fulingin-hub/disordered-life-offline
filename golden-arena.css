@@ -190,9 +190,15 @@
 }
 
 .golden-champion-set,
-.golden-champion-showcase {
+.golden-champion-showcase,
+.golden-champion-medal {
   display: grid;
   gap: 8px;
+}
+
+.golden-champion-medal {
+  grid-template-columns: minmax(220px, 360px);
+  margin-bottom: 10px;
 }
 
 .golden-champion-set {
@@ -258,6 +264,10 @@
 }
 
 @media (max-width: 760px) {
+  .golden-champion-medal {
+    grid-template-columns: 1fr;
+  }
+
   .golden-champion-set,
   .golden-champion-showcase {
     grid-template-columns: 1fr;

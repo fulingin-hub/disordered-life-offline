@@ -1,0 +1,199 @@
+@media (min-width: 1200px) and (min-height: 700px) {
+  .golden-horizon-dialog[open] {
+    display: flex;
+    flex-direction: column;
+    width: min(1440px, calc(100vw - 24px));
+    height: min(960px, calc(100dvh - 24px));
+    max-height: calc(100dvh - 24px);
+  }
+
+  .golden-dialog-heading,
+  .golden-status {
+    flex: 0 0 auto;
+  }
+
+  .golden-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 620px) {
+  .game-shell {
+    grid-template-rows: auto auto minmax(0, 1fr);
+  }
+
+  .topbar {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    gap: 8px;
+    padding: max(4px, env(safe-area-inset-top))
+      max(8px, env(safe-area-inset-right)) 4px
+      max(8px, env(safe-area-inset-left));
+  }
+
+  .brand {
+    display: flex;
+    flex: 0 1 auto;
+    gap: 6px;
+  }
+
+  .brand strong {
+    font-size: 16px;
+  }
+
+  .brand span {
+    font-size: 10px;
+  }
+
+  .top-actions {
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    max-width: none;
+  }
+
+  .top-actions button {
+    min-height: 38px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(8, minmax(58px, 1fr));
+  }
+
+  .stat {
+    padding: 3px 6px 5px;
+  }
+
+  .stat-heading {
+    font-size: 9px;
+  }
+
+  .event-panel {
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    width: min(760px, calc(100% - 20px));
+    max-height: calc(100% - 12px);
+    transform: translate(-50%, -50%);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--red);
+    border-radius: 6px;
+    padding: 12px 16px;
+  }
+
+  .event-panel.switching {
+    transform: translate(-50%, -48%);
+  }
+
+  .event-panel h1 {
+    margin: 5px 0 7px;
+    font-size: 24px;
+  }
+
+  .event-text {
+    margin-bottom: 9px;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .choice-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .choice-button {
+    min-height: 44px;
+    padding: 6px 9px;
+  }
+
+  .golden-horizon-dialog[open] {
+    display: flex;
+    flex-direction: column;
+    width: calc(100vw - 8px);
+    height: calc(100dvh - 8px);
+    max-height: calc(100dvh - 8px);
+  }
+
+  .golden-dialog-heading {
+    flex: 0 0 auto;
+    padding: 6px 12px;
+  }
+
+  .golden-dialog-heading h2 {
+    font-size: 18px;
+  }
+
+  .golden-status {
+    flex: 0 0 auto;
+    min-height: 0;
+    padding: 5px 12px;
+    font-size: 11px;
+  }
+
+  .golden-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .golden-hero {
+    min-height: 220px;
+  }
+
+  .golden-hero > img {
+    height: 220px;
+  }
+
+  .golden-hero > div {
+    max-width: 58%;
+    padding: 12px 16px;
+  }
+
+  .golden-hero h2 {
+    font-size: 24px;
+  }
+
+  .golden-panel {
+    padding: 12px;
+  }
+
+  .golden-companion {
+    grid-template-columns: 100px minmax(0, 1fr);
+  }
+
+  .golden-companion img {
+    width: 100px;
+    height: 150px;
+  }
+
+  .golden-companion > div {
+    padding: 10px;
+  }
+
+  .golden-arenas {
+    display: grid;
+    grid-template-columns: minmax(270px, 0.8fr) minmax(0, 1.2fr);
+    gap: 12px;
+  }
+
+  .golden-arenas > .event-type,
+  .golden-arenas > h3,
+  .golden-arenas > p,
+  .golden-arenas > .golden-arena-summary,
+  .golden-arenas > .golden-arena-grid {
+    grid-column: 1 / -1;
+  }
+
+  .golden-champion-store {
+    margin-top: 0;
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .golden-champion-item img {
+    height: 150px;
+  }
+}

@@ -15,7 +15,7 @@
     el.progress.dataset.state = endgameUnlocked ? "unlocked"
       : count > 0 ? "progress" : "new";
     el.progress.textContent = endgameUnlocked
-      ? `${count}/${target} · 两段人生已经汇合，终局之门正在等你。`
+      ? `${count}/${target} · 两段人生已经汇合，世界征途正在等你。`
       : count > 0
         ? `${count}/${target} · 第一段人生留下了回声，再走一次就会听见回应。`
         : `0/${target} · 先经历两段不同的人生，第二个结局之后会有一扇门打开。`;

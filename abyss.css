@@ -40,6 +40,42 @@
   background: #0a141b;
 }
 
+.abyss-dialog[data-view="run"] .abyss-party-panel {
+  display: none;
+}
+
+.abyss-mode-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+.abyss-mode-choices button {
+  min-height: 54px;
+  border: 1px solid #355c6c;
+  padding: 7px 10px;
+  background: #14232b;
+  text-align: left;
+}
+
+.abyss-mode-choices button strong,
+.abyss-mode-choices button small {
+  display: block;
+}
+
+.abyss-mode-choices button small {
+  margin-top: 3px;
+  color: #9eb7c2;
+  font-size: 11px;
+}
+
+.abyss-mode-choices button[aria-pressed="true"] {
+  border-color: #d0a85d;
+  background: #3d321f;
+  color: #fff0c8;
+}
+
 .abyss-party-heading,
 .abyss-party-member-heading {
   display: flex;
@@ -159,11 +195,44 @@
   background: #173442;
 }
 
+.abyss-blessings {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+
+.abyss-blessing-choice {
+  min-height: 76px;
+  border: 1px solid #5b7391;
+  padding: 9px;
+  background: #17263a;
+  text-align: left;
+}
+
+.abyss-blessing-choice strong,
+.abyss-blessing-choice small {
+  display: block;
+}
+
+.abyss-blessing-choice small {
+  margin-top: 5px;
+  color: #b8c9d7;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
 .abyss-encounter {
   border-color: #294651;
 }
 
-.abyss-encounter > img {
+.abyss-encounter .infernal-battle-stage {
+  border-right-color: #294651;
+  background: #071016;
+}
+
+.abyss-encounter .infernal-battle-enemy {
+  border-left-color: #294651;
   background: #071016;
 }
 
@@ -172,7 +241,8 @@
   box-shadow: inset 0 0 24px rgba(126, 67, 118, .16);
 }
 
-.infernal-run-view[data-encounter="witch"] .abyss-encounter > img {
+.infernal-run-view[data-encounter="witch"] .abyss-encounter
+  .infernal-battle-enemy {
   background: #160b17;
 }
 
@@ -192,6 +262,10 @@
 @media (max-width: 700px) {
   .abyss-milestones {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .abyss-blessings {
+    grid-template-columns: 1fr;
   }
 
   .abyss-party-team {
@@ -214,5 +288,45 @@
 
   .abyss-assignments button {
     flex: 0 0 116px;
+  }
+}
+
+@media (max-height: 620px) {
+  .abyss-party-panel {
+    flex: 0 1 86px;
+    min-height: 62px;
+    margin: 4px 0 6px;
+    padding: 6px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .abyss-mode-choices {
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+
+  .abyss-mode-choices button {
+    min-height: 38px;
+    padding: 4px 8px;
+  }
+
+  .abyss-captain-copy {
+    margin: 4px 0;
+    line-height: 1.3;
+  }
+
+  .abyss-floor-progress {
+    height: 6px;
+    margin: 4px 0 5px;
+  }
+
+  .abyss-milestones {
+    margin-bottom: 5px;
+  }
+
+  .abyss-milestones span {
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
 }

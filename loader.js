@@ -129,17 +129,24 @@
     },
     async warm() {
       await waitForIdle();
-      const entries = Object.entries(LG.CONFIG.assets)
-        .filter(([key]) => !key.endsWith("Set"));
+      const unique = [...new Map(Object.entries(LG.CONFIG.assets)
+        .filter(([key, src]) => !key.endsWith("Set") && src
+          && !loadedSources.has(src))
+        .map(([key, src]) => [src, [key, src]])).values()];
+      const plan = LG.loaderPolicy.warmPlan(unique.length);
+      const entries = unique.slice(0, plan.limit);
+      if (!entries.length) return { ...plan, loaded: 0 };
       let next = 0;
+      let loaded = 0;
       async function worker() {
         while (next < entries.length) {
           const index = next;
           next += 1;
-          await loadImage(entries[index][1]);
+          if (await loadImage(entries[index][1])) loaded += 1;
         }
       }
-      await Promise.all(Array.from({ length: 2 }, worker));
+      await Promise.all(Array.from({ length: plan.workers }, worker));
+      return { ...plan, loaded };
     },
     syncRetry(attempt, retries, delay) {
       const text = `权威存档连接繁忙，${Math.round(delay / 100) / 10}秒后重试`

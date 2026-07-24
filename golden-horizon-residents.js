@@ -13,7 +13,7 @@
     ["tavernQuartermaster", "露丝·卡特", "牧场补给官", "负责饲料、护具与远征口粮，对浪费物资的人毫不客气。", ["day", "evening"], ["mercenary", "gene"], 57],
     ["tavernBuyer", "阿黛尔", "乐园采购员", "替餐厅和时装店寻找稀有货源，擅长判断一笔交易是否体面。", ["evening", "night"], ["agent", "engineer"], 39],
     ["tavernBroker", "马可", "异域掮客", "替家族商队撮合临时护送，不碰来路不明的违禁货物。", ["evening", "night"], ["assassin", "agent"], 53],
-    ["tavernScout", "凯恩", "异界斥候", "只在深夜现身，带来黑街外缘与深渊入口的可靠见闻。", ["night"], ["adventurer", "mechanic"], 48],
+    ["tavernScout", "凯恩", "异界斥候", "只在深夜现身，带来灰色地带外缘与深渊入口的可靠见闻。", ["night"], ["adventurer", "mechanic"], 48],
     ["tavernPrinter", "艾琳", "日报印刷工", "清晨交完报纸后短暂停留，知道哪些标题刚被撤下。", ["morning", "day"], ["scholar", "engineer"], 36],
   ].map(([id, name, role, intro, slots, professions, baseAge]) => ({
     id, name, role, intro, slots, professions, baseAge,

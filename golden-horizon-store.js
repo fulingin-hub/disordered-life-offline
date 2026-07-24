@@ -3,6 +3,7 @@
     week: "", weekFailed: false, clearedDays: [], gifts: 0, currency: 0,
     setPieces: [], collectibles: [], mysteries: [],
     arenas: { date: "", completed: [] },
+    arenaVictories: {},
     trialClears: 0, entryDays: 0, cityUnlocked: false,
     guideClears: { si: 0, ka: 0 },
     professions: { unlocked: [], equipped: null, guardWeek: "" },

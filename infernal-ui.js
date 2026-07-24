@@ -64,7 +64,7 @@
     const boss = encounter.type === "boss", saint = LG.infernalRealm.saintActive(), firstClear = encounter.firstClear === true;
     el.floors.replaceChildren(...floorTrack(run));
     el.portrait.src = LG.CONFIG.assets[boss ? layer.queen : layer.witch];
-    el.portrait.alt = boss ? layer.bossTitle : layer.mobTitle;
+    el.portrait.alt = boss ? layer.bossTitle : layer.mobTitle; LG.infernalBattlePartyUI?.render?.("infernal");
     el.eventType.textContent = boss
       ? `第${run.floor + 1}层 · 关底女魔王`
       : `第${run.floor + 1}层 · 魔女 ${encounter.index}/${encounter.mobTarget || 6}`;
@@ -96,7 +96,7 @@
   }
   async function act(action) {
     if (busy) return;
-    const run = LG.infernalRealm.run();
+    const previousEndingId = LG.authority.state()?.endingId || null, run = LG.infernalRealm.run();
     const encounter = run?.encounter;
     const staleMob = ["mob", "skip-mobs"].includes(action)
       && encounter?.type !== "mob";
@@ -112,7 +112,7 @@
     try {
       const result = await LG.authority.mutate("infernalAction", { action });
       if (requestId !== latest) return;
-      if (result.life?.endingId) {
+      if (result.life?.endingId && result.life.endingId !== previousEndingId) {
         el.dialog.close(); LG.ui.render(result.life);
       }
       setView(LG.infernalRealm.run() ? "run" : "hall");
@@ -140,7 +140,7 @@
     image.alt = "群魔环绕的地狱大门";
     image.loading = "lazy";
     const body = node("div", "room-card-body");
-    body.append(node("span", "event-type", "地狱的入口 · 幸福人生RPG"),
+    body.append(node("span", "event-type", "地狱的入口 · 世界征途RPG"),
     node("h3", "", "异界魔境"),
     node("p", "", access.allowed
       ? `人格 ${stats.personality} · 声望 ${stats.reputation} · 通关 ${stats.clears}`

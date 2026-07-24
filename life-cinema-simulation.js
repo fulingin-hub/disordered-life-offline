@@ -15,7 +15,7 @@
     el.start.disabled = busy;
     el.leave.disabled = busy || !endgameUnlocked;
     el.leave.querySelector("span").textContent = endgameUnlocked
-      ? "保存当前放映进度，进入已解锁的终局"
+      ? "保存当前放映进度，进入已解锁的世界征途"
       : `完成${Number(modes.endgameTarget) || 2}个模拟人生结局后开放`;
     el.copy.textContent = simulation.resumable
       ? `继续上次IF轮回 · 已完成${simulation.completions || 0}场`
@@ -32,13 +32,13 @@
   async function switchMode(leave) {
     if (busy) return;
     if (leave && LG.authority.snapshot()?.gameModes?.endgameUnlocked !== true) {
-      el.status.textContent = "完成2个模拟人生结局后才能进入终局。";
+      el.status.textContent = "完成2个模拟人生结局后才能进入世界征途。";
       return;
     }
     busy = true;
     refresh();
     el.status.textContent = leave
-      ? "正在结算奖励并恢复幸福人生..." : "人生电影院正在准备独立IF轮回...";
+      ? "正在结算奖励并恢复世界征途..." : "人生电影院正在准备独立IF轮回...";
     try {
       const simulation = LG.authority.lifeCinemaProgress().simulation || {};
       const result = await LG.authority.mutate(

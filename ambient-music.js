@@ -36,9 +36,9 @@
     evelyn: "rice", claire: "rice", ruth: "rice", victoria: "rice",
     qinghe: "sanctuary", ciyun: "sanctuary", agnes: "sanctuary",
   };
-  let context, master, filter, timer, scene = "story", enabled = true;
+  let context, master, filter, timer, scene = "story", requestedScene = "story";
+  let enabled = true, automatic = true, volume = 75, drones = [];
   let unavailable = false, warned = false;
-  let drones = [];
 
   function sceneKey(value) {
     const raw = String(value || "story");
@@ -125,7 +125,7 @@
     stopLayer();
     const preset = presets[scene];
     filter.frequency.setTargetAtTime(preset.filter, context.currentTime, 0.4);
-    master.gain.setTargetAtTime(0.75, context.currentTime, 0.6);
+    master.gain.setTargetAtTime(volume / 100, context.currentTime, 0.6);
     preset.drone.forEach((frequency, index) => {
       const oscillator = context.createOscillator();
       const gain = context.createGain();
@@ -158,10 +158,28 @@
       document.addEventListener("keydown", unlock, { once: true });
     },
     setScene(value) {
-      const next = sceneKey(value);
+      const next = sceneKey(value); requestedScene = next;
+      if (!automatic || next === scene) return;
+      scene = next;
+      startLayer();
+    },
+    selectTrack(value) {
+      const next = sceneKey(value); automatic = false;
       if (next === scene) return;
       scene = next;
       startLayer();
+    },
+    useAutomatic() {
+      automatic = true; if (scene === requestedScene) return;
+      scene = requestedScene;
+      startLayer();
+    },
+    setVolume(value) {
+      volume = Math.max(0, Math.min(100, Math.round(Number(value) || 0)));
+      if (master && context) {
+        master.gain.setTargetAtTime(
+          enabled ? volume / 100 : 0.0001, context.currentTime, 0.1);
+      }
     },
     setEnabled(value) {
       enabled = Boolean(value);
@@ -176,6 +194,7 @@
       unlock().then(() => note(frequency, duration, volume, "sine"));
     },
     currentScene() { return scene; },
+    playerState() { return { scene, automatic, enabled, volume }; },
     sceneKey,
   };
 })(window.LifeGame);

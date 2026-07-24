@@ -43,6 +43,7 @@
       });
     },
     showEvent(event) {
+      if (LG.contentMode?.strictTeen?.()) return setBackdrop(null);
       const scene = LG.eventSceneAssets.resolve(event, {
         safeOnly: LG.contentMode?.isTeen?.() === true,
       });

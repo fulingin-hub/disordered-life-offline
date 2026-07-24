@@ -37,6 +37,12 @@
     scene(value) {
       LG.music?.setScene?.(value);
     },
+    setMusicEnabled(value) {
+      LG.music?.setEnabled?.(Boolean(value));
+    },
+    isMusicEnabled() {
+      return LG.music?.playerState?.().enabled === true;
+    },
     isEnabled() {
       return enabled;
     },

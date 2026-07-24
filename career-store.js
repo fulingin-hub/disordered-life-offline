@@ -32,6 +32,7 @@
       const names = {
         "holy-cleric": "圣职者职业勋章",
         "infernal-believer": "教徒职业勋章",
+        champion: "冠军职业勋章",
       };
       const faction = (data.factionMedals || []).map((id) => ({
         id: `faction:${id}`, name: names[id] || id,

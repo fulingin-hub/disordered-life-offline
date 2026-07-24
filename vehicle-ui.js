@@ -31,17 +31,21 @@
       node("strong", "", item.name),
     );
     const price = node("p", "vehicle-price");
-    price.textContent = owned ? "已签约"
+    price.textContent = owned ? "已获得"
+      : item.rewardOnly ? "剧情奖励 · 不可购买"
       : actual === item.price ? `${format(actual)} ${LG.VEHICLE_DATA.stores[item.store].label}`
         : `${format(actual)} ${LG.VEHICLE_DATA.stores[item.store].label} · 原价 ${format(item.price)}`;
-    const fee = LG.otherworldCharacters?.vehicleMarkup?.() > 1
+    const fee = !owned && !item.rewardOnly
+      && LG.otherworldCharacters?.vehicleMarkup?.() > 1
       ? " 女销售额外手续费 +10% · 账单明细：技术指导。" : "";
     const note = node("p", "vehicle-note",
-      `${item.note || "公会认证战斗伙伴，可在职业系统调整协同方式。"}${fee}`);
+      `${item.note || "公会认证战斗伙伴，可在职业系统调整协同方式。"}${
+        item.unlockText ? ` ${item.unlockText}` : ""}${fee}`);
     const button = node("button", "", equipped
-      ? "当前战斗伙伴" : owned ? "管理战斗伙伴" : "签约");
+      ? "当前战斗伙伴" : owned ? "管理战斗伙伴"
+        : item.rewardOnly ? "等待解锁" : "签约");
     button.type = "button";
-    button.disabled = busy || equipped;
+    button.disabled = busy || equipped || item.rewardOnly;
     button.addEventListener("click", () => owned ? openProfile() : buy(item));
     body.append(heading, price, note, button);
     card.append(image, body);
@@ -86,7 +90,7 @@
       LG.vehicleProfileUI?.render?.();
       LG.roomsUI?.refresh?.();
     } catch (err) {
-      console.error("载具购买失败:", err?.code, err?.message, err?.stack);
+      console.error("伙伴签约失败:", err?.code, err?.message, err?.stack);
       el.status.textContent = err?.message || "交易失败，请稍后重试。";
     } finally {
       busy = false;
@@ -105,21 +109,21 @@
       access.allowed ? " unlocked" : ""}`);
     const image = node("img");
     image.src = LG.CONFIG.assets.vehicleExpoHall;
-    image.alt = "万界战斗伙伴公会馆";
+    image.alt = "万界商会";
     image.loading = "lazy";
     image.decoding = "async";
     const body = node("div", "room-card-body");
-    const button = node("button", "", access.allowed ? "进入伙伴公会馆" : "尚未达到解锁条件");
+    const button = node("button", "", access.allowed ? "进入万界商会" : "尚未达到解锁条件");
     button.type = "button";
     button.disabled = !access.allowed;
     button.addEventListener("click", onEnter);
     body.append(
       node("span", "event-type", access.allowed ? "神秘销金窟 · 已开放" : "任一资源超过1000点"),
-      node("h3", "", "万界战斗伙伴公会馆"),
+      node("h3", "", "万界商会"),
       node("p", "", access.allowed
         ? `已签约 ${LG.vehicleStore.data().owned.length}/${LG.VEHICLE_DATA.items.length} 位伙伴`
         : `当前最高资源 ${format(access.best)} 点`),
-      node("p", "room-entry-hook", "异界人联合终产者们成立的神秘销金窟。"),
+      node("p", "room-entry-hook", "异界人联合终产者们成立的神秘销金窟，签约战斗伙伴并管理同行方式。"),
       button,
     );
     card.append(image, body);

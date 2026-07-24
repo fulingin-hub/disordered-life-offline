@@ -43,8 +43,8 @@
       button("退出教团", () => mutate("leaveHolyLight")));
     else actions.append(node("strong", "holy-blessing", "圣者的祝福正在守护你"));
     section.append(actions);
-    if (data.holyLockRemaining) section.append(node("small", "",
-      `圣光教团锁定剩余 ${data.holyLockRemaining} 次重生`));
+    if (data.holyLockRemaining) section.append(node("small", "church-lock-warning",
+      `背叛限制：还需完成 ${data.holyLockRemaining} 次模拟人生结局，期间不能重新加入圣光教团。`));
     return section;
   }
   function purification() {
@@ -104,7 +104,7 @@
     const section = node("section", "holy-panel");
     section.append(node("h3", "", task.title || "攻打魔纹教会"),
       node("p", "", task.description || "击败一次魔纹教会的女主教。"),
-      node("small", "", `${task.rewardText || "人格值+100000"} · 本周通关 ${
+      node("small", "", `${task.rewardText || "人格值平衡+100000"} · 本周通关 ${
         task.clears || 0}次 · 首次胜利获得圣职者职业勋章`));
     const actions = node("div", "holy-actions");
     actions.append(button(task.completed ? "再次攻打魔纹教会"

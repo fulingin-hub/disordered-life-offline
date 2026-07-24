@@ -80,7 +80,7 @@
     el.chat.textContent = progress.complete ? "AI对话" : "集齐五件后开放";
     el.gallery.textContent = progress.complete ? "角色画廊" : "集齐五件后开放";
     el.status.textContent = message || (progress.complete
-      ? `账单明细：${character.fee}。图鉴使用：消耗10000属性点、增加100败北、降低100人格。`
+      ? `账单明细：${character.fee}。图鉴使用：消耗10000属性点、败北值平衡+100。`
       : regular.complete
         ? "特殊道具购买资格已解锁。"
         : `当前每件${LG.infernalChurch.price(10000)}属性点；还需${

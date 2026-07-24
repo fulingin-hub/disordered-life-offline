@@ -31,12 +31,12 @@
       ranks: LG.careerRosterIdentity.rankLabels.domain, asset: "roomCasino",
     },
     otherworld: {
-      name: "异界", proof: "异界的宣传手册", location: "黑街",
+      name: "异界", proof: "异界的宣传手册", location: "灰色地带",
       copy: "想前往我们的故乡吗？加入后可免费学习异界知识，更快融入当地。",
       ranks: LG.careerRosterIdentity.rankLabels.otherworld, asset: "roomBlackStreet",
     },
     church: {
-      name: "魔纹教会", proof: "七大欲的信仰契约", location: "黑街 · 魔纹教会",
+      name: "魔纹教会", proof: "七大欲的信仰契约", location: "灰色地带 · 魔纹教会",
       copy: "接受魔纹洗礼解锁魔纹贱畜，十万羞耻晋升魔纹使徒，再以七层地狱战绩成为魔纹领主。",
       ranks: [], asset: "infernalChurchSanctuary",
     },

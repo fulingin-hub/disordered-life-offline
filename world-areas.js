@@ -124,13 +124,13 @@
     },
     {
       id: "blackStreet",
-      name: "黑街",
+      name: "灰色地带",
       image: "worldBlackStreet",
       cardImage: "roomBlackStreet",
       description: "后室、车站角落与地下仓库组成了没有公开招牌的交易街区。",
       sections: [{
         id: "street",
-        label: "黑街房间",
+        label: "灰色地带房间",
         image: "worldBlackStreet",
         description: "地下陈列室、封闭仓库与车站后室共享一条湿冷暗巷，每扇门都有自己的价码。",
         characters: ["japanOfficial", "usaOfficial", "streetThug", "beggar"],
@@ -138,7 +138,7 @@
         id: "otherworld",
         label: "异界",
         image: "worldBlackStreet",
-        description: "异界公会在黑街设置的职业角色区域，设有十二间正常与丧志个人房间。",
+        description: "异界公会在灰色地带设置的职业角色区域，设有十二间正常与丧志个人房间。",
         characters: [],
         faction: "otherworld", guild: true,
       }, {
@@ -178,8 +178,8 @@
         faction: "sanctuary",
       }],
     },
+    ...(LG.worldFacilityAreas || []),
   ];
-
   function unlocked(id) {
     return LG.blackMarket.isCharacter(id)
       ? LG.blackMarket.roomUnlocked(id) : LG.achievements.isUnlocked(id);

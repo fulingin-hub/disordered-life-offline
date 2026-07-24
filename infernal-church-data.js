@@ -2,15 +2,15 @@
   const faiths = [
     ["lust", "色欲", "#d84b88", "所有商品价格减少50%。"],
     ["greed", "贪婪", "#d9a928", "所有任务道具奖励获得数量×2。"],
-    ["envy", "嫉妒", "#42a66b", "魔气攻击时不掉人格，每秒败北+10。"],
-    ["wrath", "愤怒", "#d54a3f", "魔气攻击时不掉人格，每秒败北+10。"],
+    ["envy", "嫉妒", "#42a66b", "魔气攻击时不掉人格，每秒败北值平衡+10。"],
+    ["wrath", "愤怒", "#d54a3f", "魔气攻击时不掉人格，每秒败北值平衡+10。"],
     ["sloth", "懒惰", "#6677c8", "任务的败北与羞耻类收益×10。"],
-    ["gluttony", "暴食", "#c06b35", "魔气攻击时不掉人格，每秒败北+10。"],
-    ["pride", "傲慢", "#8c62d4", "魔气攻击时不掉人格，每秒败北+10。"],
+    ["gluttony", "暴食", "#c06b35", "魔气攻击时不掉人格，每秒败北值平衡+10。"],
+    ["pride", "傲慢", "#8c62d4", "魔气攻击时不掉人格，每秒败北值平衡+10。"],
   ].map(([id, name, color, effect]) => ({ id, name, color, effect }));
   const common = {
     id: "common", name: "通用魔纹法术书", color: "#b8c1ca",
-    effect: "魔气攻击时不掉人格，每秒败北+100。",
+    effect: "魔气攻击时不掉人格，每秒败北值平衡+100。",
   };
   const soulLore = {
     black: "现实世界本来就存在。天生恶种、主动拥抱恶意者可以拥有，是“人性本恶”的具象体现。",
@@ -37,10 +37,10 @@
   const soulTiers = [
     { id: "black", color: "black", name: "黑色",
       title: "黑色灵魂——恶欲之魂", range: "累计人格 0-999",
-      lore: soulLore.black, effect: "重开：败北+100、羞耻+100、属性点+1000。" },
+      lore: soulLore.black, effect: "重开：败北值平衡+100、羞耻+100、属性点+1000。" },
     { id: "cyan", color: "cyan", name: "青色",
       title: "青色灵魂——凡人之魂", range: "累计人格 1000-9999",
-      lore: soulLore.cyan, effect: "重开：人格+100、尊严+100、属性点+1000。" },
+      lore: soulLore.cyan, effect: "重开：人格值平衡+100、尊严+100、属性点+1000。" },
     { id: "gold", color: "gold", name: "金色",
       title: "金色灵魂——高贵之魂", range: "累计人格 1万-99999",
       lore: soulLore.gold,

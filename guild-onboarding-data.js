@@ -7,22 +7,22 @@
     guildReceptionist: {
       id: "guildReceptionist", name: "米蕾娅",
       role: "异界冒险公会女接待",
-      scene: "./assets/generated/gallery-otherworld-receptionist.692fafe9.webp",
+      scene: "./assets/generated/gallery-otherworld-receptionist.945c408a.webp",
     },
     guildManager: {
       id: "guildManager", name: "维奥拉",
       role: "异界冒险公会女管理者",
-      scene: "./assets/generated/gallery-otherworld-manager.16d2f277.webp",
+      scene: "./assets/generated/gallery-otherworld-manager.34ac9c78.webp",
     },
     expoSaleswoman: {
       id: "expoSaleswoman", name: "莉泽尔",
       role: "万界战斗伙伴公会签约官",
-      scene: "./assets/generated/gallery-otherworld-saleswoman.0cf54a9f.webp",
+      scene: "./assets/generated/gallery-otherworld-saleswoman.cc3f0533.webp",
     },
     saint: {
       id: "saint", name: "圣徒",
       role: "圣光教团 · 上古史守望者",
-      scene: "./assets/generated/protagonist-female-saint-set.7178996a.webp",
+      scene: "./assets/generated/protagonist-female-saint-set.13b0dc6f.webp",
     },
     priestess: {
       id: "priestess", name: "七大欲女祭司",
@@ -126,13 +126,13 @@
     vehicleLead: {
       topic: "vehicle", location: "异界魔境 · 冒险者公会门厅",
       speaker: "guildReceptionist", cast: ["guildReceptionist", "guildManager"],
-      title: "拿好传单，去战斗伙伴公会馆",
+      title: "拿好传单，去万界商会",
       copy: "深渊里不能只靠两条腿，靠谱的伙伴能陪你赶路，也能改变战斗方式。拿着公会传单去找莉泽尔，她会替你登记访客优惠和后续会员折扣。",
       tips: ["先锋协同偏向战斗表现与特殊效果，跟随支援会让伙伴和主角同时出现在画面里。", "签约后可随时在职业系统的战斗伙伴页面切换。"],
       choices: [{ label: "接过传单，去见莉泽尔", next: "vehicleGuide" }, back],
     },
     vehicleGuide: {
-      topic: "vehicle", location: "万界战斗伙伴公会馆",
+      topic: "vehicle", location: "万界商会",
       speaker: "expoSaleswoman", cast: ["expoSaleswoman", "guildReceptionist"],
       title: "先锋协同与跟随支援，由你决定",
       copy: "欢迎，英雄。普通伙伴负责同行，高阶伙伴还会提供终局效果。签约后去职业系统选择战斗伙伴，再在“先锋协同 / 跟随支援”之间切换；深渊出发前记得检查当前模式。",

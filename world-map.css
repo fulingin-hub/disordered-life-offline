@@ -1,0 +1,428 @@
+.rooms-dialog.world-map-mode {
+  width: min(1120px, calc(100vw - 28px));
+}
+
+.world-map-shell {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 280px);
+  align-items: stretch;
+  gap: 12px;
+  min-width: 0;
+}
+
+.world-map-board {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid rgba(216, 168, 78, 0.58);
+  border-radius: 6px;
+  background-color: #3b474c;
+  background-position: center;
+  background-size: cover;
+  background-blend-mode: luminosity;
+  isolation: isolate;
+}
+
+.world-reveals {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.world-reveal {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  filter: saturate(1.05) brightness(0.9) contrast(1.05);
+}
+
+.world-map-board::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(4, 9, 13, 0.28);
+  content: "";
+  pointer-events: none;
+}
+
+.world-routes,
+.world-nodes {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.world-route {
+  position: absolute;
+  z-index: 1;
+  height: 2px;
+  border-top: 1px dashed rgba(215, 224, 228, 0.28);
+  transform-origin: left center;
+}
+
+.world-route.explored {
+  border-color: rgba(238, 190, 91, 0.86);
+  border-top-style: solid;
+  box-shadow: 0 0 8px rgba(238, 190, 91, 0.28);
+}
+
+.world-node {
+  position: absolute;
+  z-index: 3;
+  width: 62px;
+  min-height: 52px;
+  border: 1px solid rgba(221, 229, 232, 0.36);
+  border-radius: 6px;
+  padding: 5px;
+  background: rgba(7, 15, 21, 0.92);
+  color: #edf2f2;
+  transform: translate(-50%, -50%);
+}
+
+.world-node img {
+  display: none;
+}
+
+.world-node span {
+  display: block;
+  overflow: hidden;
+  margin-top: 4px;
+  font-size: 10px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.world-node.unknown {
+  width: 42px;
+  min-height: 42px;
+  border-style: dashed;
+  border-radius: 50%;
+  padding: 7px;
+  background: rgba(7, 15, 21, 0.68);
+  color: #9da9ad;
+  backdrop-filter: blur(3px);
+}
+
+.world-node.unknown span {
+  margin-top: 3px;
+  font-size: 8px;
+  white-space: normal;
+}
+
+.world-node-beacon {
+  display: block;
+  width: 13px;
+  aspect-ratio: 1;
+  margin: 3px auto 0;
+  border: 2px solid rgba(194, 210, 215, 0.68);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px rgba(194, 210, 215, 0.08);
+}
+
+.world-node.visited {
+  border-color: rgba(92, 180, 181, 0.78);
+  background: rgba(8, 21, 27, 0.96);
+}
+
+.world-node.current {
+  border-color: #e8b958;
+  box-shadow: 0 0 0 3px rgba(232, 185, 88, 0.2), 0 0 18px rgba(232, 185, 88, 0.3);
+}
+
+.world-node.selected {
+  background: #193039;
+  box-shadow: 0 0 0 3px rgba(92, 180, 181, 0.2);
+}
+
+.world-node:active {
+  transform: translate(-50%, -50%) scale(0.96);
+}
+
+.world-party {
+  position: absolute;
+  z-index: 7;
+  width: clamp(46px, 10%, 88px);
+  aspect-ratio: 4 / 3;
+  transform: translate(-50%, -54%);
+  transition: left 480ms linear, top 480ms linear;
+  pointer-events: none;
+}
+
+.world-party:not(.traveling) {
+  margin-left: 24px;
+}
+
+.world-current-marker {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 18px;
+  aspect-ratio: 1;
+  border: 3px solid #fff2c7;
+  border-radius: 50% 50% 50% 0;
+  background: #d59d32;
+  box-shadow: 0 0 0 4px rgba(213, 157, 50, 0.2);
+  transform: translate(-50%, -70%) rotate(-45deg);
+}
+
+.world-airship {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  overflow: hidden;
+  border: 1px solid rgba(232, 185, 88, 0.8);
+  border-radius: 5px;
+  background-image: url("./assets/images/airship-jiefang.webp");
+  background-position: 48% 45%;
+  background-size: 150%;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+}
+
+.world-sky-dragon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 7px rgba(0, 0, 0, 0.62));
+}
+
+.world-map-panel {
+  position: static;
+  z-index: 10;
+  display: flex;
+  min-width: 0;
+  width: auto;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(216, 168, 78, 0.58);
+  border-radius: 6px;
+  padding: 14px;
+  background: #0a1219;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.38);
+}
+
+.world-map-panel h3 {
+  min-height: 0;
+  margin: 7px 0;
+  font-size: 19px;
+}
+
+.world-map-panel p {
+  margin: 0 0 12px;
+  color: #b9c2c6;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.world-area-scene {
+  width: 100%;
+  max-height: 250px;
+  aspect-ratio: 3 / 4;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.world-map-prompt {
+  min-height: 180px;
+}
+
+.world-map-panel > button {
+  width: 100%;
+  min-height: 44px;
+}
+
+.travel-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.travel-panel > button + button {
+  margin-top: 8px;
+}
+
+.world-map-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.world-map-actions button {
+  min-height: 44px;
+}
+
+.world-facilities-title {
+  grid-column: 1 / -1;
+  margin: 10px 0 0;
+  color: #d8d2c4;
+  font-size: 15px;
+}
+
+.airship-page {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(270px, 0.75fr);
+  min-height: min(520px, 68dvh);
+  overflow: hidden;
+  border: 1px solid rgba(216, 168, 78, 0.58);
+  border-radius: 6px;
+  background: #09121a;
+}
+
+.airship-visual {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  background: #071018;
+}
+
+.airship-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: saturate(0.88) contrast(1.04);
+}
+
+.airship-visual.sky-dragon-visual img {
+  padding: 18px;
+}
+
+.airship-badge {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  border-left: 3px solid #e8b958;
+  padding: 9px 12px;
+  background: rgba(5, 10, 15, 0.84);
+  color: #f1ddb0;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 15px;
+}
+
+.airship-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: 26px;
+  background: #0c151d;
+}
+
+.airship-copy h3 {
+  min-height: 0;
+  margin: 9px 0 15px;
+  color: #f0e4c8;
+  font-size: 24px;
+}
+
+.airship-copy > p:not(.system-status) {
+  margin: 0 0 12px;
+  color: #bcc6ca;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.airship-copy > .airship-fare {
+  border-left: 3px solid #d8a84e;
+  padding: 8px 10px;
+  background: rgba(216, 168, 78, 0.1);
+  color: #f0d79d;
+  font-variant-numeric: tabular-nums;
+}
+
+.airship-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.airship-actions button {
+  min-height: 48px;
+}
+
+@media (max-width: 720px) {
+  .world-map-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .world-node {
+    width: 52px;
+    min-height: 47px;
+  }
+
+  .world-node img {
+    height: 24px;
+  }
+
+  .world-node.unknown {
+    width: 38px;
+    min-height: 38px;
+    padding: 4px;
+  }
+
+  .world-node-beacon {
+    width: 14px;
+    margin-top: 1px;
+  }
+
+  .world-party {
+    width: clamp(42px, 12%, 70px);
+  }
+
+  .world-party:not(.traveling) {
+    margin-left: 18px;
+  }
+
+  .world-map-panel {
+    width: auto;
+  }
+
+  .airship-page {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .airship-visual {
+    min-height: 0;
+    max-height: min(52dvh, 480px);
+    aspect-ratio: 3 / 4;
+  }
+
+  .airship-copy {
+    padding: 19px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 620px) {
+  .world-map-shell {
+    grid-template-columns: minmax(0, 1fr) 230px;
+  }
+
+  .world-map-panel {
+    padding: 12px;
+  }
+
+  .world-map-panel h3 {
+    font-size: 16px;
+  }
+
+  .world-map-panel p {
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .world-map-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .airship-page {
+    min-height: 330px;
+  }
+}

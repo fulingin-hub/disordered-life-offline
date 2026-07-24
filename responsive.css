@@ -155,3 +155,48 @@ dialog,
     font-size: 25px;
   }
 }
+
+@media (orientation: landscape) and (max-height: 620px) {
+  .archive-dialog,
+  .rooms-dialog,
+  .casino-dialog,
+  .gallery-dialog,
+  .system-dialog,
+  .traits-dialog[open],
+  .penitentiary-control-dialog,
+  .otherworld-character-dialog,
+  .otherworld-chat-dialog {
+    max-height: calc(100dvh - 8px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .career-dialog[open] {
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - 8px);
+  }
+
+  .career-dialog > .dialog-heading,
+  .career-dialog > .career-tabs,
+  .career-dialog > .system-status {
+    flex: 0 0 auto;
+  }
+
+  .career-view:not([hidden]) {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .career-benefits-dialog #careerBenefitsContent {
+    max-height: none;
+  }
+
+  .endgame-unlock-dialog,
+  .achievement-dialog {
+    padding-block: 14px;
+  }
+}

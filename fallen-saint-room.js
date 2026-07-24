@@ -1,5 +1,5 @@
 (function (LG) {
-  const asset = "./assets/generated/fallen-saint-room.ff7bb5f1.webp";
+  const asset = "./assets/generated/fallen-saint-room.c067e465.webp";
   let dialog;
 
   function node(tag, className, text) {

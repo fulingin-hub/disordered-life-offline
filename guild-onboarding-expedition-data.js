@@ -3,7 +3,7 @@
   data.guides.tavernExplorer = {
     id: "tavernExplorer", name: "赫克托",
     role: "老冒险者 · 百层深渊远征队长",
-    scene: "./assets/generated/career-adventurer-male.1b5ba1e3.webp",
+    scene: "./assets/generated/career-adventurer-male.a6e78beb.webp",
   };
   data.topics.splice(4, 0, {
     id: "teamExpedition",

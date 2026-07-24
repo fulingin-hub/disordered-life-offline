@@ -107,6 +107,10 @@
     const section = P().node("section", "golden-champion-store");
     section.append(P().node("div", "golden-panel-heading",
       `冠军奖状商城 · 当前 ${data.championship.certificates.toLocaleString("zh-CN")} 点`));
+    const medal = P().node("div", "golden-champion-medal");
+    medal.append(rewardCard(A().medal, data.championship.medalUnlocked, null,
+      "角斗场冠军身份凭证。购买后可在职业系统的职业勋章栏装备。",
+      act, data, busy));
     const set = P().node("div", "golden-champion-set");
     A().setPieces.forEach((item) => set.append(rewardCard(
       item, data.championship.setPieces.includes(item.id), null,
@@ -123,7 +127,7 @@
         "黑金机甲构筑的西方巨龙。无视地形，萨卢卡斯挑战进错门也不会失败。",
         act, data, busy),
     );
-    section.append(set, showcase);
+    section.append(medal, set, showcase);
     return section;
   }
 
@@ -131,11 +135,14 @@
     const section = P().node("section", "golden-panel golden-arenas");
     const champions = A().arenas.filter((arena) =>
       data.arenas.runs?.[arena.id]?.status === "won").length;
+    const totalVictories = A().arenas.reduce((sum, arena) =>
+      sum + (Number(data.arenaVictories?.[arena.id]) || 0), 0);
     section.append(P().node("span", "event-type", "每日六场 · 每场一次"),
       P().node("h3", "", "六大势力冠军角斗场"),
       P().node("p", "", "每场共10轮。胜利进入下一轮，失败结束今日资格，平局原轮重赛。"),
       P().node("strong", "golden-arena-summary",
-        `今日已结算 ${data.arenas.completed.length}/6 · 十轮冠军 ${champions}/6`));
+        `今日已结算 ${data.arenas.completed.length}/6 · 十轮冠军 ${
+          champions}/6 · 累计胜利 ${totalVictories}`));
     const grid = P().node("div", "golden-arena-grid");
     A().arenas.forEach((arena) => {
       const done = data.arenas.completed.includes(arena.id);
@@ -148,7 +155,8 @@
         run?.status === "won" ? "arena-won" : "",
         run?.status === "lost" ? "arena-lost" : "",
       ].filter(Boolean).join(" ");
-      grid.append(button(`${arena.name} · ${state}`, () => {
+      const victories = Number(data.arenaVictories?.[arena.id]) || 0;
+      grid.append(button(`${arena.name} · ${state} · 累计${victories}次`, () => {
         selected = arena.id;
         rerender();
       }, false, classes));

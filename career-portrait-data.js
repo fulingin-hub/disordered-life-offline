@@ -21,7 +21,7 @@
       female: "./assets/generated/career-mercenary-female.d821274d.webp",
     },
     adventurer: {
-      male: "./assets/generated/career-adventurer-male.1b5ba1e3.webp",
+      male: "./assets/generated/career-adventurer-male.a6e78beb.webp",
       female: "./assets/generated/career-adventurer-female.af71003d.webp",
     },
     engineer: {
@@ -30,14 +30,14 @@
     },
     mechanic: {
       male: "./assets/generated/career-mechanic-male.606361c3.webp",
-      female: "./assets/generated/career-mechanic-female.731233e4.webp",
+      female: "./assets/generated/career-mechanic-female.efa3a7d3.webp",
     },
     gene: {
       male: "./assets/generated/career-gene-male.d461c690.webp",
       female: "./assets/generated/career-gene-female.fd0cf7ae.webp",
     },
     cultivator: {
-      male: "./assets/generated/career-cultivator-male.7b51144e.webp",
+      male: "./assets/generated/career-cultivator-male.5af2a9a2.webp",
       female: "./assets/generated/career-cultivator-female.91a542a2.webp",
     },
   }; const specialAssets = {
@@ -47,31 +47,31 @@
     },
     "university-island-hound": {
       male: "./assets/generated/career-special-university-island-hound-male.4ee2b2ce.webp",
-      female: "./assets/generated/career-special-university-island-hound-female.940b83fb.webp",
+      female: "./assets/generated/career-special-university-island-hound-female.b7316963.webp",
     },
     "university-rice-hound": {
-      male: "./assets/generated/career-special-university-rice-hound-male.8003edc2.webp",
-      female: "./assets/generated/career-special-university-rice-hound-female.5555a128.webp",
+      male: "./assets/generated/career-special-university-rice-hound-male.1e6f61f8.webp",
+      female: "./assets/generated/career-special-university-rice-hound-female.2d130eb5.webp",
     },
     "ranch-livestock": {
       male: "./assets/generated/career-special-ranch-livestock-respirator-male.f75386fa.webp",
-      female: "./assets/generated/career-special-ranch-livestock-respirator-female.ec106369.webp",
+      female: "./assets/generated/career-special-ranch-livestock-respirator-female.3bd8efa0.webp",
     },
     "sanctuary-essence": {
       male: "./assets/generated/career-special-sanctuary-essence-ritual-male.180f726b.webp",
       female: "./assets/generated/career-special-sanctuary-essence-ritual-female.48641d2e.webp",
     },
     "paradise-foot": {
-      male: "./assets/generated/career-special-paradise-foot-soul-male.e258c981.webp",
-      female: "./assets/generated/career-special-paradise-foot-soul-female.cd406732.webp",
+      male: "./assets/generated/career-special-paradise-foot-soul-male.90e27ed0.webp",
+      female: "./assets/generated/career-special-paradise-foot-soul-female.2100f5ad.webp",
     },
     "domain-toilet": {
       male: "./assets/generated/career-special-domain-toilet-alchemy-male.34f87e8a.webp",
-      female: "./assets/generated/career-special-domain-toilet-alchemy-female.4dd7a4d7.webp",
+      female: "./assets/generated/career-special-domain-toilet-alchemy-female.3c526b68.webp",
     },
     "otherworld-tribute": {
       male: "./assets/generated/career-special-otherworld-tribute-command-male.423dd331.webp",
-      female: "./assets/generated/career-special-otherworld-tribute-command-female.371c2d14.webp",
+      female: "./assets/generated/career-special-otherworld-tribute-command-female.7c72db3d.webp",
     },
     "sigil-thrall": { male: "./assets/generated/magic-gas-thrall-male-bald.webp",
       female: "./assets/generated/magic-gas-thrall-female-bald.webp" },

@@ -11,6 +11,7 @@
     data() {
       return LG.authority.snapshot()?.economy?.saint || {
         joined: false, baptized: false, blessing: false,
+        canJoin: true, holyLockRemaining: 0, churchLockRemaining: 0,
         priestessTalks: 0, daily: { tasks: [] }, weekly: {}, achievements: [],
       };
     },

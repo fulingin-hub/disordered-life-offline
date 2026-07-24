@@ -7,7 +7,7 @@
 
   function requireUnlocked(item) {
     if (!unlocked(item)) {
-      throw new Error(`终局玩法需要先完成${target}次模拟人生结局`);
+      throw new Error(`世界征途需要先完成${target}次模拟人生结局`);
     }
   }
 

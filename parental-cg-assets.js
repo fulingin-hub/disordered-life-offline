@@ -1,5 +1,5 @@
 (function (LG) {
-  const src = "./assets/generated/cg-special-parental-heart.4951724d.webp";
+  const src = "./assets/generated/cg-special-parental-heart.5cf92cd2.webp";
   LG.CG_ASSETS.specialMeta["parental-heart"] = {
     title: "幸福剪影",
     label: "可怜天下父母心特殊CG",

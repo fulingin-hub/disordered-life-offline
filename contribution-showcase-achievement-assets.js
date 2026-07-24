@@ -1,6 +1,6 @@
 (function (LG) {
   const src =
-    "./assets/generated/cg-special-foot-impact-milestones.b1742732.webp";
+    "./assets/generated/cg-special-foot-impact-milestones.224c4ed1.webp";
   const entries = {
     "tribute-showcase-20000": {
       title: "无脑傻逼",

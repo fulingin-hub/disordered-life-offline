@@ -20,9 +20,14 @@
       const { busy, node, onJoin } = options;
       const meta = LG.CAREER_DATA.factions[item.id];
       const selected = joinedThisRun === item.id;
+      const lockRemaining = Math.max(0, Number(item.lockRemaining) || 0);
       const card = node("article", `faction-card${item.joined ? " joined" : ""}${
         selected ? " selected" : ""}`);
-      const requirement = item.id === "church"
+      const requirement = lockRemaining
+        ? `背叛限制：还需完成${lockRemaining}次模拟人生结局。`
+        : item.id === "holy-light"
+        ? "加入条件：无条件加入，立即获得圣光使者。"
+        : item.id === "church"
         ? "加入条件：无偿开放。"
         : item.threshold > 0
           ? `加入条件：累计${item.threshold}${LG.CAREER_DATA.stats[item.stat]}。`
@@ -31,12 +36,16 @@
         node("strong", "", item.name), node("p", "", meta.copy),
         routePanel(item.id, node), node("small", "", requirement));
       const label = selected ? "本轮已选择"
+        : lockRemaining ? `锁定剩余${lockRemaining}次`
+        : item.id === "holy-light" && item.joined ? "已加入圣光教团"
+          : item.id === "holy-light" ? "加入圣光教团"
         : item.joined ? "选择此阵营"
           : item.id === "church" ? "无偿加入教会" : "递交聘用证明";
       const button = node("button", "",
         window.OfflineI18n?.translate?.(label) || label);
       button.type = "button";
-      button.disabled = busy || Boolean(joinedThisRun);
+      button.disabled = busy || Boolean(joinedThisRun)
+        || lockRemaining > 0 || (item.id === "holy-light" && item.joined);
       button.addEventListener("click", () => onJoin(item.id));
       card.append(button);
       return card;

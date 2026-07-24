@@ -1,0 +1,273 @@
+.infernal-encounter {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  min-height: 390px;
+  border: 1px solid var(--line);
+  background: #0d1015;
+  overflow: hidden;
+}
+
+.infernal-battle-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34px minmax(116px, .72fr);
+  min-width: 0;
+  min-height: 0;
+  border-right: 1px solid var(--line);
+  background: #090c11;
+}
+
+.infernal-battle-side {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  padding: 11px 8px 8px;
+}
+
+.infernal-battle-side-label {
+  flex: 0 0 auto;
+  color: #9ba1aa;
+  font-size: 10px;
+  text-align: center;
+}
+
+.infernal-battle-figures {
+  display: grid;
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.infernal-battle-stage[data-party-size="1"] .infernal-battle-figures {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.infernal-battle-figure {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr) auto;
+  margin: 0;
+  overflow: hidden;
+}
+
+.infernal-battle-figure img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.infernal-battle-figure figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 32px;
+  padding: 6px 4px;
+  overflow: hidden;
+  color: #e7ddc7;
+  background: #171a20;
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.infernal-battle-figure.companion figcaption {
+  color: #e6c97f;
+}
+
+.infernal-battle-versus {
+  align-self: center;
+  color: #b13d4a;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.infernal-battle-enemy {
+  border-left: 1px solid #3b252b;
+  background: #100c10;
+}
+
+.infernal-battle-enemy .infernal-battle-figure {
+  flex: 1 1 auto;
+}
+
+.infernal-battle-enemy figcaption {
+  color: #e2a7ae;
+  background: #241318;
+}
+
+.infernal-encounter-copy {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  padding: 18px;
+  overflow: hidden;
+}
+
+.infernal-encounter-text {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-right: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.infernal-encounter-copy h3 {
+  margin: 7px 0 10px;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 25px;
+}
+
+.infernal-encounter-copy p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.infernal-desire-detail {
+  border-left: 2px solid #d8a84e;
+  padding-left: 10px;
+  color: #e3d4b2 !important;
+}
+
+.infernal-actions {
+  flex: 0 0 auto;
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.infernal-actions button {
+  min-height: 46px;
+}
+
+#infernalDesireButton {
+  background: #654b72;
+}
+
+#infernalBreakButton,
+#infernalMobButton {
+  background: #9f3442;
+}
+
+#infernalSkipButton {
+  background: #3f765b;
+}
+
+#infernalRetreatButton {
+  border: 1px solid var(--line);
+  background: #262a31;
+}
+
+@media (max-width: 700px) {
+  .infernal-encounter {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(164px, 38%) minmax(0, 1fr);
+  }
+
+  .infernal-encounter-copy {
+    padding: 12px;
+  }
+
+  .infernal-encounter-copy h3 {
+    font-size: 19px;
+  }
+
+  .infernal-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .infernal-battle-stage {
+    grid-template-columns: minmax(0, 1fr) 30px minmax(105px, .68fr);
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .infernal-battle-side {
+    padding: 7px 5px 5px;
+  }
+
+  .infernal-battle-figure figcaption {
+    min-height: 28px;
+    padding: 4px 3px;
+    font-size: 9px;
+  }
+}
+
+@media (max-height: 620px) {
+  .infernal-encounter {
+    min-height: 0;
+  }
+
+  .infernal-encounter-copy {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .infernal-encounter-copy h3 {
+    margin: 3px 0 5px;
+  }
+
+  .infernal-encounter-copy p {
+    margin: 4px 0;
+    line-height: 1.4;
+  }
+
+  .infernal-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+    margin-top: 5px;
+  }
+
+  .infernal-actions button {
+    min-height: 38px;
+  }
+}
+
+@media (min-width: 701px) and (max-height: 620px) {
+  .infernal-encounter-copy h3 {
+    margin: 2px 0 4px;
+    font-size: 18px;
+    line-height: 1.15;
+  }
+
+  .infernal-encounter-copy p {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .infernal-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .infernal-actions button {
+    min-height: 36px;
+    padding: 4px 6px;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 700px) and (max-height: 620px) {
+  .infernal-encounter {
+    grid-template-rows: minmax(112px, 34%) minmax(0, 1fr);
+  }
+
+  .infernal-battle-side-label {
+    display: none;
+  }
+
+  .infernal-battle-figure figcaption {
+    min-height: 20px;
+    padding: 3px;
+    font-size: 9px;
+  }
+}

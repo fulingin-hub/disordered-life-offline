@@ -1,0 +1,122 @@
+.world-route-planner {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 4px;
+}
+
+.world-route-field {
+  display: grid;
+  grid-template-columns: minmax(92px, auto) minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  color: #d9e0e2;
+  font-size: 12px;
+}
+
+.world-route-field select,
+.world-route-waypoint-row select {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  border: 1px solid rgba(195, 207, 211, 0.32);
+  border-radius: 4px;
+  padding: 0 9px;
+  background: #101c24;
+  color: #eef3f4;
+}
+
+.world-route-label {
+  color: #abb6ba;
+  font-size: 11px;
+}
+
+.world-route-waypoint-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px;
+}
+
+.world-route-waypoint-row button {
+  min-height: 42px;
+}
+
+.world-route-stops {
+  display: flex;
+  min-height: 28px;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.world-route-stops:empty::before {
+  color: #7f8c91;
+  content: "当前为直达航线";
+  font-size: 11px;
+}
+
+.world-route-stop {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(91, 171, 173, 0.4);
+  border-radius: 4px;
+  padding: 3px 4px 3px 7px;
+  background: rgba(23, 65, 69, 0.38);
+  color: #d9eeee;
+  font-size: 11px;
+}
+
+.world-route-stop b {
+  overflow: hidden;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.world-route-stop button {
+  width: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #d9eeee;
+  font-size: 18px;
+}
+
+.world-route-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.world-route-modes button {
+  min-height: 42px;
+  border-color: rgba(203, 214, 218, 0.28);
+  background: #111c23;
+}
+
+.world-route-modes button.active {
+  border-color: #e3b45b;
+  background: rgba(191, 134, 40, 0.24);
+  color: #f2dca9;
+}
+
+.world-teleport-lock {
+  margin-top: 9px !important;
+  color: #d9b66c !important;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 720px) {
+  .world-route-field {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .world-route-waypoint-row {
+    grid-template-columns: 1fr;
+  }
+}

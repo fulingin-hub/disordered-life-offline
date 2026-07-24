@@ -1,7 +1,7 @@
 (function (LG) {
   const assets = {
-    bare: "./assets/generated/female-soul-offering-barefoot.32756fec.webp",
-    stocking: "./assets/generated/female-soul-offering-stockings.668cd139.webp",
+    bare: "./assets/generated/female-soul-offering-barefoot.f8533a4e.webp",
+    stocking: "./assets/generated/female-soul-offering-stockings.96bcf7c2.webp",
   };
   const queenAssets = {
     greed: "./assets/generated/infernal-greed-queen-offering-squat.ac1304b1.webp",

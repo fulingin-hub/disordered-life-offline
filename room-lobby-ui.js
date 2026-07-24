@@ -4,31 +4,6 @@
   let currentArea = null;
   let currentSection = null;
   const paradiseId = "paradise";
-  const paradiseArea = {
-    id: paradiseId,
-    name: "终产者的乐园",
-    sections: [
-      {
-        id: "eden",
-        label: "伊甸园",
-        image: "edenGoldenDistrict",
-        description: "黄金餐厅与高定服装店分列大道两侧，属性点在这里决定服务与身份。",
-      },
-      {
-        id: "shadow",
-        label: "影狱",
-        image: "shadowPrisonComplex",
-        description: "封闭任务区以赎罪卷记录服从、消费与角色认可，五级权限依次开放。",
-      },
-      {
-        id: "paradise",
-        label: "乐园",
-        image: "edenGoldenDistrict",
-        description: "乐园职业角色的独立办公区，设有十二间正常与丧志个人房间。",
-        faction: "paradise",
-      },
-    ],
-  };
 
   function standardMap() {
     return Object.fromEntries(LG.achievements.all().map((item) => [item.id, item]));
@@ -54,7 +29,7 @@
     const back = document.createElement("button");
     back.type = "button";
     back.className = "quiet-button room-area-back";
-    back.textContent = "返回世界区域";
+    back.textContent = "返回世界地图";
     back.addEventListener("click", () => renderWorld());
     bar.append(back);
     if (area.sections.length > 1) {
@@ -66,8 +41,7 @@
         button.className = item.id === section.id ? "active" : "";
         button.textContent = item.label;
         button.setAttribute("aria-pressed", String(item.id === section.id));
-        button.addEventListener("click", () => area.id === paradiseId
-          ? renderParadise(item.id) : renderArea(area.id, item.id));
+        button.addEventListener("click", () => openArea(area.id, item.id));
         tabs.append(button);
       });
       bar.append(tabs);
@@ -75,65 +49,25 @@
     return bar;
   }
 
-  function paradiseCard() {
-    const access = LG.blackPrison.access();
-    const prison = LG.penitentiary.access();
-    const card = document.createElement("article");
-    card.className = `room-card area-room-card paradise-area-card${
-      access.allowed ? " unlocked" : ""}`;
-    const image = document.createElement("img");
-    image.src = LG.CONFIG.assets.paradiseDistantView;
-    image.alt = "终产者的乐园";
-    image.loading = "lazy";
-    image.decoding = "async";
-    const body = document.createElement("div");
-    body.className = "room-card-body";
-    const button = document.createElement("button");
-    button.type = "button";
-    button.disabled = !access.allowed;
-    button.textContent = access.allowed ? "进入终产者的乐园" : "尚未获得终产者资格";
-    button.addEventListener("click", () => renderParadise("eden"));
-    body.append(
-      Object.assign(document.createElement("span"), {
-        className: "event-type",
-        textContent: access.allowed ? "终产者专属 · 已开放" : "终产者专属 · 未达门槛",
-      }),
-      Object.assign(document.createElement("h3"), { textContent: paradiseArea.name }),
-      Object.assign(document.createElement("p"), {
-        textContent: access.allowed
-          ? `已开放场景 ${2 + Number(prison.allowed)}/3`
-          : `人生 ${access.lives}/100 · 累计属性点 ${access.points}/2000`,
-      }),
-      LG.roomEntryCopy.node("area-paradise"),
-      button,
-    );
-    card.append(image, body);
-    return card;
-  }
-
   function renderWorld() {
     LG.audio.scene("world");
-    const simulation = LG.authority.state()?.gameMode === "simulation";
-    const adultSimulation = LG.contentMode?.adultSimulation?.() === true;
+    el.dialog.classList.add("world-map-mode");
     currentArea = null;
     currentSection = null;
-    el.title.textContent = "世界区域";
-    el.intro.textContent = "选择场景区域或特殊功能场所。战斗伙伴已归入职业系统。";
-    const areaCards = LG.worldAreas.all()
-      .map((area) => LG.roomCards.area(area, renderArea));
-    el.cards.replaceChildren(
-      LG.roomCards.player(callbacks.onEnterPlayer),
-      ...(simulation ? [LG.casinoUI.roomCard(callbacks.onEnterCasino)] : []),
-      ...(simulation ? [] : [LG.goldenHorizonUI.roomCard()]),
-      ...(simulation ? [paradiseCard()] : []),
-      LG.infernalUI.roomCard(),
-      ...(adultSimulation ? [LG.infernalClubUI.roomCard()] : []),
-      ...areaCards,
-    );
+    LG.worldMapUI.resetSelection();
+    LG.worldMapUI.render({
+      elements: el,
+      extras: LG.contentMode?.strictTeen?.() ? [] : [
+        LG.roomCards.player(callbacks.onEnterPlayer),
+        LG.vehicleUI.roomCard(callbacks.onEnterVehicle),
+      ],
+    });
   }
 
   function renderParadise(sectionId = "eden") {
     if (!LG.blackPrison.access().allowed) return renderWorld();
+    const paradiseArea = LG.worldAreas.get(paradiseId);
+    el.dialog.classList.remove("world-map-mode");
     const section = paradiseArea.sections.find((item) => item.id === sectionId)
       || paradiseArea.sections[0];
     LG.audio.scene(section.id);
@@ -153,8 +87,11 @@
   }
 
   function renderArea(areaId, sectionId) {
+    if (LG.contentMode?.strictTeen?.()
+      && !LG.worldMapData.safeArea(areaId)) return renderWorld();
     const area = LG.worldAreas.get(areaId);
     if (!area) return renderWorld();
+    el.dialog.classList.remove("world-map-mode");
     const section = area.sections.find((item) => item.id === sectionId)
       || area.sections[0];
     LG.audio.scene(`area:${area.id}:${section.id}`);
@@ -162,20 +99,32 @@
     currentSection = section.id;
     el.title.textContent = `${area.name} · ${section.label}`;
     el.intro.textContent = area.description;
+    const safeNotice = document.createElement("p");
+    safeNotice.className = "system-status";
+    safeNotice.textContent =
+      "15+安全模式仅展示公共地区场景，不开放角色房间和高风险设施。";
     el.cards.replaceChildren(
       toolbar(area, section),
       LG.roomCards.scene(area, section),
+      ...(LG.contentMode?.strictTeen?.() ? [safeNotice] : [
       ...(section.guild ? [LG.adventureGuildUI.roomCard()] : []),
       ...(section.faction
         ? LG.factionRooms.cards(section.faction, section.branch)
-        : section.church ? [LG.infernalChurchUI.roomCard()]
+        : section.facility ? LG.worldFacilityUI.cards(section, callbacks)
+          : section.church ? [LG.infernalChurchUI.roomCard()]
           : section.holyLight ? [
             LG.holyLightUI.roomCard(area.id),
             ...(LG.contentMode?.adultSimulation?.()
               ? [LG.fallenSaintRoom.roomCard()] : []),
           ]
           : characterCards(section.characters)),
+      ]),
     );
+  }
+
+  function openArea(areaId, sectionId) {
+    if (areaId === paradiseId) return renderParadise(sectionId);
+    return renderArea(areaId, sectionId);
   }
 
   LG.roomLobbyUI = {
@@ -184,7 +133,9 @@
       callbacks = nextCallbacks;
     },
     renderWorld,
+    renderArea,
     renderParadise,
+    openArea,
     restore() {
       if (currentArea === paradiseId) renderParadise(currentSection);
       else if (currentArea) renderArea(currentArea, currentSection);

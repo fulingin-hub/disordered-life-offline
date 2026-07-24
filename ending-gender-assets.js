@@ -32,6 +32,6 @@
     "agency-household": "./assets/generated/cg-ending-agency-household.057f48fe.webp",
     "usa-spy-controlled": "./assets/generated/cg-ending-usa-spy-controlled-female-v2.73614f1c.webp",
     "corporate-setback": "./assets/generated/cg-ending-office-shadow-female.99f2cec7.webp",
-    "calamity-alone": "./assets/generated/cg-calamity-alone-female.304086a6.webp",
+    "calamity-alone": "./assets/generated/cg-calamity-alone-female.bea399a9.webp",
   });
 })(window.LifeGame);

@@ -3,13 +3,13 @@
     casinoBunny: {
       title: "兔女郎的服侍",
       caption: "伊琳娜在休息室保持一贯的冷淡，以正式跪坐姿态完成私人服侍。",
-      src: "./assets/generated/gallery-casino-bunny-service.f6c93c9b.webp",
+      src: "./assets/generated/gallery-casino-bunny-service.7756c633.webp",
       alt: "伊琳娜兔女郎的服侍",
     },
     casinoLead: {
       title: "女领班的鄙夷",
       caption: "叶卡捷琳娜抬起鞋跟，以毫不掩饰的嘲讽宣告领班的威严。",
-      src: "./assets/generated/gallery-casino-lead-scorn.ac4ac8a0.webp",
+      src: "./assets/generated/gallery-casino-lead-scorn.2349d1fb.webp",
       alt: "叶卡捷琳娜女领班的鄙夷",
     },
     casinoManager: {
@@ -21,7 +21,7 @@
     casinoOwner: {
       title: "女老板的私密生活",
       caption: "闭店之后，尹瑞英换上睡袍，在私人沙发上享受难得的独处时刻。",
-      src: "./assets/generated/gallery-casino-owner-private-life.79d0acb1.webp",
+      src: "./assets/generated/gallery-casino-owner-private-life.92e0f270.webp",
       alt: "尹瑞英女老板的私密生活",
     },
   };

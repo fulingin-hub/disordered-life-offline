@@ -1,7 +1,7 @@
 (function (LG) {
   const poses = {
-    bare: "./assets/generated/female-soul-offering-barefoot.32756fec.webp",
-    stocking: "./assets/generated/female-soul-offering-stockings.668cd139.webp",
+    bare: "./assets/generated/female-soul-offering-barefoot.f8533a4e.webp",
+    stocking: "./assets/generated/female-soul-offering-stockings.96bcf7c2.webp",
     male: "./assets/generated/low-angle-male-pose.98edae6f.webp",
   };
   const queenPoses = {

@@ -12,9 +12,9 @@
     LG.CONFIG.assets.worldXiaCampus);
   assign(["shen-company"], LG.CONFIG.assets.worldXiaSociety);
   assign(["magic-calamity-year-one"],
-    "./assets/generated/cg-calamity-global-news.f24b554b.webp");
+    "./assets/generated/cg-calamity-global-news.0fc4908b.webp");
   assign(["endgame-guild-hub"],
-    "./assets/generated/gallery-otherworld-receptionist.692fafe9.webp");
+    "./assets/generated/gallery-otherworld-receptionist.945c408a.webp");
   assign(["reina-guidance", "reina-exam", "reina-final"],
     LG.CONFIG.assets.worldIslandCampus);
   assign(["miki-house", "miki-theft", "miki-final"],

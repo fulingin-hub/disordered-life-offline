@@ -1,0 +1,59 @@
+.phone-simulation {
+  display: grid;
+  gap: 14px;
+}
+
+.phone-simulation-heading {
+  border-left: 3px solid var(--gold);
+  padding: 4px 12px;
+}
+
+.phone-simulation-heading h3,
+.phone-simulation-heading p {
+  margin: 6px 0;
+}
+
+.phone-simulation-heading p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.phone-simulation-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.phone-simulation-metric {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px;
+  background: #131a20;
+}
+
+.phone-simulation-metric span {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.phone-simulation-metric strong {
+  overflow: hidden;
+  font-size: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.phone-simulation-open {
+  width: 100%;
+  min-height: 48px;
+}
+
+@media (max-width: 520px) {
+  .phone-simulation-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

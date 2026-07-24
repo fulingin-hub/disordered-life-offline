@@ -59,7 +59,7 @@
     el.weeklyTitle.textContent = weekly.title || "攻打圣光教团";
     el.weeklyDescription.textContent = weekly.description || "";
     el.weeklyReward.textContent = `${
-      weekly.rewardText || "人格值+100000"} · 本周通关 ${
+      weekly.rewardText || "败北值平衡+100000"} · 本周通关 ${
       weekly.clears || 0}次 · 首次胜利获得教徒职业勋章`;
     el.weekly.disabled = busy || !data.baptized;
     el.weekly.textContent = weekly.completed

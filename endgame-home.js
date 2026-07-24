@@ -22,22 +22,21 @@
     return button;
   }
 
-  function render() {
+  function render(state) {
+    const event = LG.ENDGAME_HOME_EVENT;
     if (!el) {
       el = Object.fromEntries(ids.map((id) =>
         [id, document.getElementById(id)]));
     }
-    el.app.dataset.chapter = "幸福人生";
+    el.app.dataset.chapter = event.chapter;
     el.chapterLabel.textContent = "冒险者公会 · 异界魔境 · 黄金都城";
-    el.eventType.textContent = "幸福人生 · 15+ RPG";
-    el.routeLabel.textContent = "终局远征起点";
-    el.eventTitle.textContent = "第一份远征记录";
-    el.eventSpeaker.textContent = "米蕾娅与维奥拉";
+    el.eventType.textContent = "世界征途 · 15+ RPG";
+    el.routeLabel.textContent = "世界征途起点";
+    el.eventTitle.textContent = event.title;
+    el.eventSpeaker.textContent = event.speaker;
     el.eventSpeaker.hidden = false;
-    el.eventText.textContent =
-      "异界魔境已经随终局开放。米蕾娅把悬赏登记册推到你面前，斯与卡则在另一侧等待你完成今日的萨卢卡斯见证。";
-    el.eventQuote.textContent =
-      "不用先学会所有规矩。选一件现在想做的事，世界会用结果告诉你下一步。";
+    el.eventText.textContent = event.text;
+    el.eventQuote.textContent = event.quote;
     el.eventQuote.hidden = false;
     el.progressFill.style.width = "100%";
     el.portraitWrap.hidden = true;
@@ -52,8 +51,9 @@
         () => LG.traitsUI?.open?.()),
     );
     LG.dialogueUI?.reset?.();
-    LG.cgUI?.showEvent?.({ id: "endgame-guild-hub" });
+    LG.cgUI?.showEvent?.(event);
     LG.audio?.scene?.("world");
+    requestAnimationFrame(() => LG.narration?.speakEvent?.(event, state));
   }
 
   LG.endgameHome = { render };

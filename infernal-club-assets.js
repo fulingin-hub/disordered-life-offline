@@ -3,57 +3,57 @@
     infernalRealmGate:
       "./assets/generated/infernal-realm-gate.27815c33.webp",
     infernalClubEntrance:
-      "./assets/generated/infernal-club-border-outpost.65d08432.webp",
+      "./assets/generated/infernal-club-border-outpost.ab9a0240.webp",
     infernalClubGreedMale:
       "./assets/generated/infernal-club-greed-male-apostle-v2.961062b6.webp",
     infernalClubGreedFemale:
-      "./assets/generated/infernal-club-greed-female-apostle-v2.3746b921.webp",
+      "./assets/generated/infernal-club-greed-female-apostle-v2.a448cc03.webp",
     infernalClubLustMale:
       "./assets/generated/infernal-club-lust-male-apostle.10fdcb22.webp",
     infernalClubLustFemale:
-      "./assets/generated/infernal-club-lust-female-apostle.133f591a.webp",
+      "./assets/generated/infernal-club-lust-female-apostle.0f65caf5.webp",
     infernalClubWrathMale:
-      "./assets/generated/infernal-club-wrath-male-apostle.4d32cc2c.webp",
+      "./assets/generated/infernal-club-wrath-male-apostle.6fbbb592.webp",
     infernalClubWrathFemale:
-      "./assets/generated/infernal-club-wrath-female-apostle.042bf791.webp",
+      "./assets/generated/infernal-club-wrath-female-apostle.14713c80.webp",
     infernalClubSlothMale:
       "./assets/generated/infernal-club-sloth-male-apostle.a8abbb64.webp",
     infernalClubSlothFemale:
-      "./assets/generated/infernal-club-sloth-female-apostle.b771caf9.webp",
+      "./assets/generated/infernal-club-sloth-female-apostle.7a437767.webp",
     infernalClubPrideMale:
       "./assets/generated/infernal-club-pride-male-apostle.51614219.webp",
     infernalClubPrideFemale:
-      "./assets/generated/infernal-club-pride-female-apostle.f77d1b58.webp",
+      "./assets/generated/infernal-club-pride-female-apostle.375e0a90.webp",
     infernalClubEnvyMale:
       "./assets/generated/infernal-club-envy-male-apostle.bf3a5ef8.webp",
     infernalClubEnvyFemale:
-      "./assets/generated/infernal-club-envy-female-apostle.2f5a4d13.webp",
+      "./assets/generated/infernal-club-envy-female-apostle.f1b5754f.webp",
     infernalClubGluttonyMale:
       "./assets/generated/infernal-club-gluttony-male-apostle.560d0b76.webp",
     infernalClubGluttonyFemale:
-      "./assets/generated/infernal-club-gluttony-female-apostle.ab5ba08b.webp",
+      "./assets/generated/infernal-club-gluttony-female-apostle.d3414b51.webp",
     infernalClubGreedSeatedMale:
-      "./assets/generated/infernal-club-greed-male-seated-apostle.22d2a57f.webp",
+      "./assets/generated/infernal-club-greed-male-seated-apostle.596f7feb.webp",
     infernalClubGreedSeatedFemale:
-      "./assets/generated/infernal-club-greed-female-seated-apostle.b97de630.webp",
+      "./assets/generated/infernal-club-greed-female-seated-apostle.cc737a07.webp",
     infernalClubLustSeatedMale:
       "./assets/generated/infernal-club-lust-male-seated-apostle.09169631.webp",
     infernalClubLustSeatedFemale:
-      "./assets/generated/infernal-club-lust-female-seated-apostle.fbbe2113.webp",
+      "./assets/generated/infernal-club-lust-female-seated-apostle.dc9a50f0.webp",
     infernalClubWrathSeatedMale:
-      "./assets/generated/infernal-club-wrath-male-seated-apostle.44e58828.webp",
+      "./assets/generated/infernal-club-wrath-male-seated-apostle.47768c7d.webp",
     infernalClubWrathSeatedFemale:
-      "./assets/generated/infernal-club-wrath-female-seated-apostle.da1db579.webp",
+      "./assets/generated/infernal-club-wrath-female-seated-apostle.82253ed8.webp",
     infernalClubSlothSeatedMale:
-      "./assets/generated/infernal-club-sloth-male-seated-apostle.936a28f0.webp",
+      "./assets/generated/infernal-club-sloth-male-seated-apostle.9e853a38.webp",
     infernalClubSlothSeatedFemale:
-      "./assets/generated/infernal-club-sloth-female-apostle.b771caf9.webp",
+      "./assets/generated/infernal-club-sloth-female-apostle.7a437767.webp",
     infernalClubPrideSeatedMale:
-      "./assets/generated/infernal-club-pride-male-seated-apostle.1ebaf486.webp",
+      "./assets/generated/infernal-club-pride-male-seated-apostle.3e75d0aa.webp",
     infernalClubPrideSeatedFemale:
-      "./assets/generated/infernal-club-pride-female-apostle.f77d1b58.webp",
+      "./assets/generated/infernal-club-pride-female-apostle.375e0a90.webp",
     infernalClubEnvySeatedMale:
-      "./assets/generated/infernal-club-envy-male-seated-apostle.e73ada88.webp",
+      "./assets/generated/infernal-club-envy-male-seated-apostle.2271a560.webp",
     infernalClubEnvySeatedFemale:
       "./assets/generated/infernal-club-envy-female-seated-apostle.7bb4b2b9.webp",
     infernalClubGluttonySeatedMale:
@@ -61,18 +61,18 @@
     infernalClubGluttonySeatedFemale:
       "./assets/generated/infernal-club-gluttony-female-seated-apostle.1d2dd087.webp",
     infernalStompGreed:
-      "./assets/generated/infernal-greed-queen-apostle-pose.10236ffb.webp",
+      "./assets/generated/infernal-greed-queen-apostle-pose.e6f0947b.webp",
     infernalStompLust:
-      "./assets/generated/infernal-lust-queen-apostle-pose.10b8f3e7.webp",
+      "./assets/generated/infernal-lust-queen-apostle-pose.caac3da8.webp",
     infernalStompWrath:
-      "./assets/generated/infernal-wrath-queen-apostle-pose.bab74f8a.webp",
+      "./assets/generated/infernal-wrath-queen-apostle-pose.2d52a172.webp",
     infernalStompSloth:
-      "./assets/generated/infernal-sloth-queen-apostle-pose.e0a47b23.webp",
+      "./assets/generated/infernal-sloth-queen-apostle-pose.9eb02fd6.webp",
     infernalStompPride:
-      "./assets/generated/infernal-pride-queen-apostle-pose.c6d9f718.webp",
+      "./assets/generated/infernal-pride-queen-apostle-pose.923b684a.webp",
     infernalStompEnvy:
-      "./assets/generated/infernal-envy-queen-apostle-pose.b03bb16b.webp",
+      "./assets/generated/infernal-envy-queen-apostle-pose.8ec77fa1.webp",
     infernalStompGluttony:
-      "./assets/generated/infernal-gluttony-queen-apostle-pose.cfd71635.webp",
+      "./assets/generated/infernal-gluttony-queen-apostle-pose.6d5d15e3.webp",
   });
 })(window.LifeGame);
